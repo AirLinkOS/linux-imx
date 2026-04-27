@@ -344,6 +344,10 @@ struct lynx_28g_lane {
 struct lynx_28g_priv {
 	void __iomem *base;
 	struct device *dev;
+	/* Serialize concurrent access to registers shared between lanes,
+	 * like PCCn
+	 */
+	spinlock_t pcc_lock;
 	struct lynx_28g_pll pll[LYNX_28G_NUM_PLL];
 	struct lynx_28g_lane lane[LYNX_28G_NUM_LANE];
 
@@ -902,10 +906,46 @@ static int lynx_28g_set_lane_mode(struct phy *phy, enum lynx_28g_lane_mode lane_
 	if (powered_up)
 		lynx_28g_lane_halt(phy);
 
-	switch (lane_mode) {
-	case LANE_MODE_1000BASEX_SGMII:
-	case LANE_MODE_1000BASEKX:
-		lynx_28g_lane_set_1g(lane, lane_mode);
+    if (powered_up)
+        lynx_28g_lane_halt(phy);
+
+    spin_lock(&priv->pcc_lock);
+
+    switch (lane_mode) {
+    case LANE_MODE_1000BASEX_SGMII:
+    case LANE_MODE_1000BASEKX:
+        lynx_28g_lane_set_1g(lane, lane_mode);
+        break;
+    case LANE_MODE_10GBASER:
+    case LANE_MODE_USXGMII:
+    case LANE_MODE_10GBASEKR:
+        lynx_28g_lane_set_10g(lane, lane_mode);
+        break;
+    case LANE_MODE_25GBASER:
+    case LANE_MODE_25GBASEKR:
+        lynx_28g_lane_set_25g(lane, lane_mode);
+        break;
+    default:
+        err = -EOPNOTSUPP;
+        goto out;
+    }
+
+    /* Enable observation of SerDes status on all status registers */
+    lynx_28g_lane_rmw(lane, LNaTCSR0,
+              is_backplane ? LYNX_28G_LNaTCSR0_SD_STAT_OBS_EN : 0,
+              LYNX_28G_LNaTCSR0_SD_STAT_OBS_EN);
+
+    lane->mode = lane_mode;
+
+out:
+    spin_unlock(&priv->pcc_lock);
+
+    /* Reset the lane if necessary */
+    if (powered_up)
+        lynx_28g_lane_reset(phy);
+
+    return err;
+}
 		break;
 	case LANE_MODE_10GBASER:
 	case LANE_MODE_USXGMII:
@@ -929,7 +969,10 @@ static int lynx_28g_set_lane_mode(struct phy *phy, enum lynx_28g_lane_mode lane_
 	lane->mode = lane_mode;
 
 out:
-	/* Reset the lane if necessary */
+switch (lane_mode) {
+case LANE_MODE_1000BASEX_SGMII:
+case LANE_MODE_1000BASEKX:
+	lynx_28g_lane_set_1g(lane, lane_mode);
 	if (powered_up)
 		lynx_28g_lane_reset(phy);
 
@@ -1271,10 +1314,115 @@ static void lynx_28g_cdr_lock_check_work(struct work_struct *work)
 		if (!lane->init || !lane->powered_up) {
 			mutex_unlock(&lane->phy->mutex);
 			continue;
-		}
+        }
 
-		lynx_28g_cdr_lock_check(lane);
+        lynx_28g_cdr_lock_check(lane);
 
+        u32 rrstctl;
+
+        rrstctl = lynx_28g_lane_read(lane, LNaRRSTCTL);
+        if (!(rrstctl & LYNX_28G_LNaRRSTCTL_CDR_LOCK)) {
+                lynx_28g_lane_rmw(lane, LNaRRSTCTL, RST_REQ, RST_REQ);
+                do {
+                        rrstctl = lynx_28g_lane_read(lane, LNaRRSTCTL);
+                } while (!(rrstctl & LYNX_28G_LNaRRSTCTL_RST_DONE));
+        }
+
+        mutex_unlock(&lane->phy->mutex);
+    }
+    queue_delayed_work(system_power_efficient_wq, &priv->cdr_check,
+                       msecs_to_jiffies(1000));
+}
+
+static void lynx_28g_lane_read_configuration(struct lynx_28g_lane *lane)
+{
+    struct lynx_28g_priv *priv = lane->priv;
+    u32 pccc, pss, protocol;
+
+    pss = lynx_28g_lane_read(lane, LNaPSS);
+    protocol = LYNX_28G_LNaPSS_TYPE(pss);
+    switch (protocol) {
+    case LYNX_28G_LNaPSS_TYPE_SGMII:
+        lane->mode = LANE_MODE_1000BASEX_SGMII;
+        lane->supported_backplane_mode = LANE_MODE_1000BASEKX;
+        break;
+    case LYNX_28G_LNaPSS_TYPE_XFI:
+        pccc = lynx_28g_read(priv, LYNX_28G_PCCC);
+        if (LYNX_28G_PCCC_SXGMIInCFG_XFI_X(lane, pccc))
+            lane->mode = LANE_MODE_10GBASER;
+        else
+            lane->mode = LANE_MODE_USXGMII;
+        lane->supported_backplane_mode = LANE_MODE_10GBASEKR;
+        break;
+    case LYNX_28G_LNaPSS_TYPE_25G:
+        lane->mode = LANE_MODE_25GBASER;
+        lane->supported_backplane_mode = LANE_MODE_25GBASEKR;
+        break;
+    default:
+        lane->mode = LANE_MODE_UNKNOWN;
+    }
+}
+
+static struct phy *lynx_28g_xlate(struct device *dev,
+                                  struct of_phandle_args *args)
+{
+    struct lynx_28g_priv *priv = dev_get_drvdata(dev);
+    int idx = args->args[0];
+
+    if (WARN_ON(idx >= LYNX_28G_NUM_LANE))
+        return ERR_PTR(-EINVAL);
+
+    return priv->lane[idx].phy;
+}
+
+static int lynx_28g_probe(struct platform_device *pdev)
+{
+    struct device *dev = &pdev->dev;
+    struct phy_provider *provider;
+    struct lynx_28g_priv *priv;
+    int i;
+
+    priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
+    if (!priv)
+        return -ENOMEM;
+    priv->dev = &pdev->dev;
+
+    priv->base = devm_platform_ioremap_resource(pdev, 0);
+    if (IS_ERR(priv->base))
+        return PTR_ERR(priv->base);
+
+    lynx_28g_pll_read_configuration(priv);
+
+    for (i = 0; i < LYNX_28G_NUM_LANE; i++) {
+        struct lynx_28g_lane *lane = &priv->lane[i];
+        struct phy *phy;
+
+        memset(lane, 0, sizeof(*lane));
+
+        phy = devm_phy_create(&pdev->dev, NULL, &lynx_28g_ops);
+        if (IS_ERR(phy))
+            return PTR_ERR(phy);
+
+        lane->priv = priv;
+        lane->phy = phy;
+        lane->id = i;
+        phy_set_drvdata(phy, lane);
+        lynx_28g_lane_read_configuration(lane);
+    }
+
+    dev_set_drvdata(dev, priv);
+
+    spin_lock_init(&priv->pcc_lock);
+    INIT_DELAYED_WORK(&priv->cdr_check, lynx_28g_cdr_lock_check_work);
+
+    queue_delayed_work(system_power_efficient_wq, &priv->cdr_check,
+                       msecs_to_jiffies(1000));
+
+    dev_set_drvdata(&pdev->dev, priv);
+    provider = devm_of_phy_provider_register(&pdev->dev, lynx_28g_xlate);
+
+    return PTR_ERR_OR_ZERO(provider);
+}
 		mutex_unlock(&lane->phy->mutex);
 	}
 	queue_delayed_work(system_power_efficient_wq, &priv->cdr_check,
@@ -1359,6 +1507,7 @@ static int lynx_28g_probe(struct platform_device *pdev)
 
 	dev_set_drvdata(dev, priv);
 
+	spin_lock_init(&priv->pcc_lock);
 	INIT_DELAYED_WORK(&priv->cdr_check, lynx_28g_cdr_lock_check_work);
 
 	queue_delayed_work(system_power_efficient_wq, &priv->cdr_check,
@@ -1370,6 +1519,14 @@ static int lynx_28g_probe(struct platform_device *pdev)
 	return PTR_ERR_OR_ZERO(provider);
 }
 
+static void lynx_28g_remove(struct platform_device *pdev)
+{
+	struct device *dev = &pdev->dev;
+	struct lynx_28g_priv *priv = dev_get_drvdata(dev);
+
+	cancel_delayed_work_sync(&priv->cdr_check);
+}
+
 static const struct of_device_id lynx_28g_of_match_table[] = {
 	{ .compatible = "fsl,lynx-28g" },
 	{ },
@@ -1378,6 +1535,7 @@ MODULE_DEVICE_TABLE(of, lynx_28g_of_match_table);
 
 static struct platform_driver lynx_28g_driver = {
 	.probe	= lynx_28g_probe,
+	.remove_new = lynx_28g_remove,
 	.driver	= {
 		.name = "lynx-28g",
 		.of_match_table = lynx_28g_of_match_table,
