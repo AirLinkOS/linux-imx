@@ -1,0 +1,978 @@
+2026-04-27 15:32:40,368 [INFO] Log file: /home/osaleem/repos/linux-imx/merge-logs/merge_20260427_153240.log
+2026-04-27 15:32:40,368 [INFO] Kernel Stable Merge Tool started
+2026-04-27 15:32:40,368 [INFO] Repo: /home/osaleem/repos/linux-imx
+2026-04-27 15:32:40,368 [INFO] Target: v6.1.65
+2026-04-27 15:32:40,368 [INFO] Provider: openai
+2026-04-27 15:32:40,368 [INFO] Interactive: False
+2026-04-27 15:32:40,368 [INFO] Dry run: False
+2026-04-27 15:32:40,368 [INFO] Fetching stable tags...
+2026-04-27 15:32:41,347 [INFO] Using override start version: 6.1.60
+2026-04-27 15:32:41,347 [INFO] 
+============================================================
+Merge step: v6.1.60 -> v6.1.61
+Progress: 1/5
+============================================================
+2026-04-27 15:32:41,347 [INFO] Starting merge: v6.1.61
+2026-04-27 15:32:42,293 [INFO] Merge v6.1.61 completed cleanly — no conflicts!
+2026-04-27 15:32:42,293 [INFO] Building kernel (compile test)...
+2026-04-27 15:43:43,926 [INFO] Build succeeded.
+2026-04-27 15:43:44,527 [INFO] Merged v6.1.61 into lf-6.1.y-semtech
+2026-04-27 15:43:44,527 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.61_2026-04-27T15-32-41.348028.json
+2026-04-27 15:43:44,754 [INFO] Current kernel version: 6.1.61
+2026-04-27 15:43:44,754 [INFO] 
+============================================================
+Merge step: v6.1.61 -> v6.1.62
+Progress: 2/5
+============================================================
+2026-04-27 15:43:44,755 [INFO] Starting merge: v6.1.62
+2026-04-27 15:43:45,730 [INFO] Merge v6.1.62 has 1 conflicted files
+2026-04-27 15:43:45,730 [INFO]   drivers/misc/pci_endpoint_test.c: 1 conflict hunks
+2026-04-27 15:43:45,730 [INFO] Resolving drivers/misc/pci_endpoint_test.c hunk 1...
+2026-04-27 15:43:45,744 [DEBUG] Prompt for drivers/misc/pci_endpoint_test.c hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/misc/pci_endpoint_test.c
+
+We are merging mainline stable v6.1.62 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.61..v6.1.62):
+5c59879031ea misc: pci_endpoint_test: Add deviceID for J721S2 PCIe EP device support
+
+Context BEFORE the conflict:
+```
+// SPDX-License-Identifier: GPL-2.0-only
+/**
+ * Host side test driver to test endpoint functionality
+ *
+ * Copyright (C) 2017 Texas Instruments
+ * Author: Kishon Vijay Abraham I <kishon@ti.com>
+ */
+
+#include <linux/crc32.h>
+#include <linux/delay.h>
+#include <linux/fs.h>
+#include <linux/io.h>
+#include <linux/interrupt.h>
+#include <linux/irq.h>
+#include <linux/miscdevice.h>
+#include <linux/module.h>
+#include <linux/mutex.h>
+#include <linux/random.h>
+#include <linux/slab.h>
+#include <linux/uaccess.h>
+#include <linux/pci.h>
+#include <linux/pci_ids.h>
+
+#include <linux/pci_regs.h>
+
+#include <uapi/linux/pcitest.h>
+
+#define DRV_MODULE_NAME				"pci-endpoint-test"
+
+#define IRQ_TYPE_UNDEFINED			-1
+#define IRQ_TYPE_LEGACY				0
+#define IRQ_TYPE_MSI				1
+#define IRQ_TYPE_MSIX				2
+
+#define PCI_ENDPOINT_TEST_MAGIC			0x0
+
+#define PCI_ENDPOINT_TEST_COMMAND		0x4
+#define COMMAND_RAISE_LEGACY_IRQ		BIT(0)
+#define COMMAND_RAISE_MSI_IRQ			BIT(1)
+#define COMMAND_RAISE_MSIX_IRQ			BIT(2)
+#define COMMAND_READ				BIT(3)
+#define COMMAND_WRITE				BIT(4)
+#define COMMAND_COPY				BIT(5)
+
+#define PCI_ENDPOINT_TEST_STATUS		0x8
+#define STATUS_READ_SUCCESS			BIT(0)
+#define STATUS_READ_FAIL			BIT(1)
+#define STATUS_WRITE_SUCCESS			BIT(2)
+#define STATUS_WRITE_FAIL			BIT(3)
+#define STATUS_COPY_SUCCESS			BIT(4)
+#define STATUS_COPY_FAIL			BIT(5)
+#define STATUS_IRQ_RAISED			BIT(6)
+#define STATUS_SRC_ADDR_INVALID			BIT(7)
+#define STATUS_DST_ADDR_INVALID			BIT(8)
+
+#define PCI_ENDPOINT_TEST_LOWER_SRC_ADDR	0x0c
+#define PCI_ENDPOINT_TEST_UPPER_SRC_ADDR	0x10
+
+#define PCI_ENDPOINT_TEST_LOWER_DST_ADDR	0x14
+#define PCI_ENDPOINT_TEST_UPPER_DST_ADDR	0x18
+
+#define PCI_ENDPOINT_TEST_SIZE			0x1c
+#define PCI_ENDPOINT_TEST_CHECKSUM		0x20
+
+#define PCI_ENDPOINT_TEST_IRQ_TYPE		0x24
+#define PCI_ENDPOINT_TEST_IRQ_NUMBER		0x28
+
+#define PCI_ENDPOINT_TEST_FLAGS			0x2c
+#define FLAG_USE_DMA				BIT(0)
+
+#define PCI_DEVICE_ID_TI_AM654			0xb00c
+#define PCI_DEVICE_ID_TI_J7200			0xb00f
+#define PCI_DEVICE_ID_TI_AM64			0xb010
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+#define PCI_DEVICE_ID_LS1028A			0x82c0
+
+```
+
+THEIR side (mainline stable):
+```
+#define PCI_DEVICE_ID_TI_J721S2		0xb013
+
+```
+
+Context AFTER the conflict:
+```
+#define PCI_DEVICE_ID_LS1088A			0x80c0
+#define PCI_DEVICE_ID_LX2160A			0x8d80
+#define PCI_DEVICE_ID_LX2162A			0x8d88
+#define PCI_DEVICE_ID_IMX8			0x0808
+#define PCI_DEVICE_ID_IMX6			0x0606
+
+#define is_am654_pci_dev(pdev)		\
+		((pdev)->device == PCI_DEVICE_ID_TI_AM654)
+
+#define PCI_DEVICE_ID_RENESAS_R8A774A1		0x0028
+#define PCI_DEVICE_ID_RENESAS_R8A774B1		0x002b
+#define PCI_DEVICE_ID_RENESAS_R8A774C0		0x002d
+#define PCI_DEVICE_ID_RENESAS_R8A774E1		0x0025
+
+static DEFINE_IDA(pci_endpoint_test_ida);
+
+#define to_endpoint_test(priv) container_of((priv), struct pci_endpoint_test, \
+					    miscdev)
+
+static bool no_msi;
+module_param(no_msi, bool, 0444);
+MODULE_PARM_DESC(no_msi, "Disable MSI interrupt in pci_endpoint_test");
+
+static int irq_type = IRQ_TYPE_MSI;
+module_param(irq_type, int, 0444);
+MODULE_PARM_DESC(irq_type, "IRQ mode selection in pci_endpoint_test (0 - Legacy, 1 - MSI, 2 - MSI-X)");
+
+enum pci_barno {
+	BAR_0,
+	BAR_1,
+	BAR_2,
+	BAR_3,
+	BAR_4,
+	BAR_5,
+};
+
+struct pci_endpoint_test {
+	struct pci_dev	*pdev;
+	void __iomem	*base;
+	void __iomem	*bar[PCI_STD_NUM_BARS];
+	struct completion irq_raised;
+	int		last_irq;
+	int		num_irqs;
+	int		irq_type;
+	/* mutex to protect the ioctls */
+	struct mutex	mutex;
+	struct miscdevice miscdev;
+	enum pci_barno test_reg_bar;
+	size_t alignment;
+	const char *name;
+};
+
+struct pci_endpoint_test_data {
+	enum pci_barno test_reg_bar;
+	size_t alignment;
+	int irq_type;
+};
+
+static inline u32 pci_endpoint_test_readl(struct pci_endpoint_test *test,
+					  u32 offset)
+{
+	return readl(test->base + offset);
+}
+
+static inline void pci_endpoint_test_writel(struct pci_endpoint_test *test,
+					    u32 offset, u32 value)
+{
+	writel(value, test->base + offset);
+}
+
+static inline u32 pci_endpoint_test_bar_readl(struct pci_endpoint_test *test,
+					      int bar, int offset)
+{
+	return readl(test->bar[bar] + offset);
+}
+
+static inline void pci_endpoint_test_bar_writel(struct pci_endpoint_test *test,
+						int bar, u32 offset, u32 value)
+{
+	writel(value, test->bar[bar] + offset);
+}
+
+static irqreturn_t pci_endpoint_test_irqhandler(int irq, void *dev_id)
+{
+	struct pci_endpoint_test *test = dev_id;
+	u32 reg;
+
+	reg = pci_endpoint_test_readl(test, PCI_ENDPOINT_TEST_STATUS);
+	if (reg & STATUS_IRQ_RAISED) {
+		test->last_irq = irq;
+		complete(&test->irq_raised);
+		reg &= ~STATUS_IRQ_RAISED;
+	}
+	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_STATUS,
+				 reg);
+
+	return IRQ_HANDLED;
+}
+
+static void pci_endpoint_test_free_irq_vectors(struct pci_endpoint_test *test)
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 15:44:03,885 [INFO]   Resolved drivers/misc/pci_endpoint_test.c hunk 0: confidence=9/10 — Both sides independently add different PCI device IDs. We kept both to preserve NXP’s LS1028A additi
+2026-04-27 15:44:03,885 [DEBUG] Applied resolution to drivers/misc/pci_endpoint_test.c hunk 0
+2026-04-27 15:44:04,249 [INFO] All conflicts resolved. Confidence: min=9, avg=9.0
+2026-04-27 15:44:04,249 [INFO] Building kernel (compile test)...
+2026-04-27 15:55:06,473 [INFO] Build succeeded.
+2026-04-27 15:55:07,029 [INFO] Successfully merged v6.1.62 into lf-6.1.y-semtech
+2026-04-27 15:55:07,029 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.62_2026-04-27T15-43-44.755157.json
+2026-04-27 15:55:07,243 [INFO] Current kernel version: 6.1.62
+2026-04-27 15:55:07,243 [INFO] 
+============================================================
+Merge step: v6.1.62 -> v6.1.63
+Progress: 3/5
+============================================================
+2026-04-27 15:55:07,243 [INFO] Starting merge: v6.1.63
+2026-04-27 15:55:08,537 [INFO] Merge v6.1.63 has 1 conflicted files
+2026-04-27 15:55:08,538 [INFO]   drivers/media/i2c/ov5640.c: 3 conflict hunks
+2026-04-27 15:55:08,538 [INFO] Resolving drivers/media/i2c/ov5640.c hunk 1...
+2026-04-27 15:55:08,574 [DEBUG] Prompt for drivers/media/i2c/ov5640.c hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/media/i2c/ov5640.c
+
+We are merging mainline stable v6.1.63 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.62..v6.1.63):
+825a7a6a3a5e media: ov5640: Fix a memory leak when ov5640_probe fails
+a7a8c49dc670 media: ov5640: fix vblank unchange issue when work at dvp mode
+9b1c0aca7fbf media: ov5640: Drop dead code using frame_interval
+
+Context BEFORE the conflict:
+```
+		mode = &ov5640_mode_data[OV5640_MODE_XGA_1024_768];
+
+	fmt->width = mode->width;
+	fmt->height = mode->height;
+
+	if (new_mode)
+		*new_mode = mode;
+
+	fmt->code = pixfmt->code;
+	fmt->colorspace = pixfmt->colorspace;
+	fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(fmt->colorspace);
+	fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+	fmt->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(fmt->colorspace);
+
+	return 0;
+}
+
+static void __v4l2_ctrl_vblank_update(struct ov5640_dev *sensor, u32 vblank)
+{
+	const struct ov5640_mode_info *mode = sensor->current_mode;
+
+	__v4l2_ctrl_modify_range(sensor->ctrls.vblank, OV5640_MIN_VBLANK,
+				 OV5640_MAX_VTS - mode->height, 1, vblank);
+
+	__v4l2_ctrl_s_ctrl(sensor->ctrls.vblank, vblank);
+}
+
+static int ov5640_update_pixel_rate(struct ov5640_dev *sensor)
+{
+	const struct ov5640_mode_info *mode = sensor->current_mode;
+	enum ov5640_pixel_rate_id pixel_rate_id = mode->pixel_rate;
+	struct v4l2_mbus_framefmt *fmt = &sensor->fmt;
+	const struct ov5640_timings *timings = ov5640_timings(sensor, mode);
+	s32 exposure_val, exposure_max;
+	unsigned int hblank;
+	unsigned int i = 0;
+	u32 pixel_rate;
+	s64 link_freq;
+	u32 num_lanes;
+	u32 vblank;
+	u32 bpp;
+
+	/*
+	 * Update the pixel rate control value.
+	 *
+	 * For DVP mode, maintain the pixel rate calculation using fixed FPS.
+	 */
+	if (!ov5640_is_csi2(sensor)) {
+		__v4l2_ctrl_s_ctrl_int64(sensor->ctrls.pixel_rate,
+					 ov5640_calc_pixel_rate(sensor));
+
+		__v4l2_ctrl_vblank_update(sensor, timings->vblank_def);
+
+		return 0;
+	}
+
+	/*
+	 * The MIPI CSI-2 link frequency should comply with the CSI-2
+	 * specification and be lower than 1GHz.
+	 *
+	 * Start from the suggested pixel_rate for the current mode and
+	 * progressively slow it down if it exceeds 1GHz.
+	 */
+	num_lanes = sensor->ep.bus.mipi_csi2.num_data_lanes;
+	bpp = ov5640_code_to_bpp(sensor, fmt->code);
+	do {
+		pixel_rate = ov5640_pixel_rates[pixel_rate_id];
+		link_freq = pixel_rate * bpp / (2 * num_lanes);
+	} while (link_freq >= 1000000000U &&
+		 ++pixel_rate_id < OV5640_NUM_PIXEL_RATES);
+
+	sensor->current_link_freq = link_freq;
+
+	/*
+	 * Higher link rates require the clock tree to be programmed with
+	 * 'mipi_div' = 1; this has the effect of halving the actual output
+	 * pixel rate in the MIPI domain.
+	 *
+	 * Adjust the pixel rate and link frequency control value to report it
+	 * correctly to userspace.
+	 */
+	if (link_freq > OV5640_LINK_RATE_MAX) {
+		pixel_rate /= 2;
+		link_freq /= 2;
+	}
+
+	for (i = 0; i < ARRAY_SIZE(ov5640_csi2_link_freqs); ++i) {
+		if (ov5640_csi2_link_freqs[i] == link_freq)
+			break;
+	}
+	WARN_ON(i == ARRAY_SIZE(ov5640_csi2_link_freqs));
+
+	__v4l2_ctrl_s_ctrl_int64(sensor->ctrls.pixel_rate, pixel_rate);
+	__v4l2_ctrl_s_ctrl(sensor->ctrls.link_freq, i);
+
+	hblank = timings->htot - mode->width;
+	__v4l2_ctrl_modify_range(sensor->ctrls.hblank,
+				 hblank, hblank, 1, hblank);
+
+	vblank = timings->vblank_def;
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+
+	if (sensor->current_fr != mode->def_fps) {
+		/*
+		 * Compute the vertical blanking according to the framerate
+		 * configured with s_frame_interval.
+		 */
+		int fie_num = sensor->frame_interval.numerator;
+		int fie_denom = sensor->frame_interval.denominator;
+
+		vblank = ((fie_num * pixel_rate / fie_denom) / timings->htot) -
+			mode->height;
+	}
+
+
+```
+
+THEIR side (mainline stable):
+```
+
+```
+
+Context AFTER the conflict:
+```
+	__v4l2_ctrl_vblank_update(sensor, vblank);
+
+	exposure_max = timings->crop.height + vblank - 4;
+	exposure_val = clamp_t(s32, sensor->ctrls.exposure->val,
+			       sensor->ctrls.exposure->minimum,
+			       exposure_max);
+
+	__v4l2_ctrl_modify_range(sensor->ctrls.exposure,
+				 sensor->ctrls.exposure->minimum,
+				 exposure_max, 1, exposure_val);
+
+	return 0;
+}
+
+static int ov5640_set_fmt(struct v4l2_subdev *sd,
+			  struct v4l2_subdev_state *sd_state,
+			  struct v4l2_subdev_format *format)
+{
+	struct ov5640_dev *sensor = to_ov5640_dev(sd);
+	const struct ov5640_mode_info *new_mode;
+	struct v4l2_mbus_framefmt *mbus_fmt = &format->format;
+	int ret;
+
+	if (format->pad != 0)
+		return -EINVAL;
+
+	mutex_lock(&sensor->lock);
+
+	if (sensor->streaming) {
+		ret = -EBUSY;
+		goto out;
+	}
+
+	ret = ov5640_try_fmt_internal(sd, mbus_fmt,
+				      sensor->current_fr, &new_mode);
+	if (ret)
+		goto out;
+
+	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
+		*v4l2_subdev_get_try_format(sd, sd_state, 0) = *mbus_fmt;
+		goto out;
+	}
+
+	if (new_mode != sensor->current_mode) {
+		sensor->current_fr = new_mode->def_fps;
+		sensor->current_mode = new_mode;
+		sensor->pending_mode_change = true;
+	}
+	if (mbus_fmt->code != sensor->fmt.code)
+		sensor->pending_fmt_change = true;
+
+	/* update format even if code is unchanged, resolution might change */
+	sensor->fmt = *mbus_fmt;
+
+	ov5640_update_pixel_rate(sensor);
+
+out:
+	mutex_unlock(&sensor->lock);
+	return ret;
+}
+
+static int ov5640_get_selection(struct v4l2_subdev *sd,
+				struct v4l2_subdev_state *sd_state,
+				struct v4l2_subdev_selection *sel)
+{
+	struct ov5640_dev *sensor = to_ov5640_dev(sd);
+	const struct ov5640_mode_info *mode = sensor->current_mode;
+	const struct ov5640_timings *timings;
+
+	switch (sel->target) {
+	case V4L2_SEL_TGT_CROP: {
+		mutex_lock(&sensor->lock);
+		timings = ov5640_timings(sensor, mode);
+		sel->r = timings->analog_crop;
+		mutex_unlock(&sensor->lock);
+
+		return 0;
+	}
+
+	case V4L2_SEL_TGT_NATIVE_SIZE:
+	case V4L2_SEL_TGT_CROP_BOUNDS:
+		sel->r.top = 0;
+		sel->r.left = 0;
+		sel->r.width = OV5640_NATIVE_WIDTH;
+		sel->r.height = OV5640_NATIVE_HEIGHT;
+
+		return 0;
+
+	case V4L2_SEL_TGT_CROP_DEFAULT:
+		sel->r.top = OV5640_PIXEL_ARRAY_TOP;
+		sel->r.left = OV5640_PIXEL_ARRAY_LEFT;
+		sel->r.width = OV5640_PIXEL_ARRAY_WIDTH;
+		sel->r.height = OV5640_PIXEL_ARRAY_HEIGHT;
+
+		return 0;
+	}
+
+	return -EINVAL;
+}
+
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 15:55:25,257 [INFO]   Resolved drivers/media/i2c/ov5640.c hunk 0: confidence=9/10 — Mainline deleted frame_interval-based vblank adjustment as dead code, while NXP vendor kernel still 
+2026-04-27 15:55:25,258 [DEBUG] Applied resolution to drivers/media/i2c/ov5640.c hunk 0
+2026-04-27 15:55:25,258 [INFO] Resolving drivers/media/i2c/ov5640.c hunk 2...
+2026-04-27 15:55:25,290 [DEBUG] Prompt for drivers/media/i2c/ov5640.c hunk 1:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/media/i2c/ov5640.c
+
+We are merging mainline stable v6.1.63 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.62..v6.1.63):
+825a7a6a3a5e media: ov5640: Fix a memory leak when ov5640_probe fails
+a7a8c49dc670 media: ov5640: fix vblank unchange issue when work at dvp mode
+9b1c0aca7fbf media: ov5640: Drop dead code using frame_interval
+
+Context BEFORE the conflict:
+```
+	struct ov5640_dev *sensor;
+	int ret;
+
+	sensor = devm_kzalloc(dev, sizeof(*sensor), GFP_KERNEL);
+	if (!sensor)
+		return -ENOMEM;
+
+	sensor->i2c_client = client;
+
+	/*
+	 * default init sequence initialize sensor to
+	 * YUV422 UYVY VGA@30fps
+	 */
+	sensor->frame_interval.numerator = 1;
+	sensor->frame_interval.denominator = ov5640_framerates[OV5640_30_FPS];
+	sensor->current_fr = OV5640_30_FPS;
+	sensor->current_mode =
+		&ov5640_mode_data[OV5640_MODE_VGA_640_480];
+	sensor->last_mode = sensor->current_mode;
+	sensor->current_link_freq =
+		ov5640_csi2_link_freqs[OV5640_DEFAULT_LINK_FREQ];
+
+	sensor->ae_target = 52;
+
+	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev),
+						  NULL);
+	if (!endpoint) {
+		dev_err(dev, "endpoint node not found\n");
+		return -EINVAL;
+	}
+
+	ret = v4l2_fwnode_endpoint_parse(endpoint, &sensor->ep);
+	fwnode_handle_put(endpoint);
+	if (ret) {
+		dev_err(dev, "Could not parse endpoint\n");
+		return ret;
+	}
+
+	if (sensor->ep.bus_type != V4L2_MBUS_PARALLEL &&
+	    sensor->ep.bus_type != V4L2_MBUS_CSI2_DPHY &&
+	    sensor->ep.bus_type != V4L2_MBUS_BT656) {
+		dev_err(dev, "Unsupported bus type %d\n", sensor->ep.bus_type);
+		return -EINVAL;
+	}
+
+	sensor->fmt = ov5640_is_csi2(sensor) ? ov5640_mipi_default_fmt :
+					       ov5640_dvp_default_fmt;
+
+	/* get system clock (xclk) */
+	sensor->xclk = devm_clk_get(dev, "xclk");
+	if (IS_ERR(sensor->xclk)) {
+		dev_err(dev, "failed to get xclk\n");
+		return PTR_ERR(sensor->xclk);
+	}
+
+	sensor->xclk_freq = clk_get_rate(sensor->xclk);
+	if (sensor->xclk_freq < OV5640_XCLK_MIN ||
+	    sensor->xclk_freq > OV5640_XCLK_MAX) {
+		dev_err(dev, "xclk frequency out of range: %d Hz\n",
+			sensor->xclk_freq);
+		return -EINVAL;
+	}
+
+	/* request optional power down pin */
+	sensor->pwdn_gpio = devm_gpiod_get_optional(dev, "powerdown",
+						    GPIOD_OUT_HIGH);
+	if (IS_ERR(sensor->pwdn_gpio))
+		return PTR_ERR(sensor->pwdn_gpio);
+
+	/* request optional reset pin */
+	sensor->reset_gpio = devm_gpiod_get_optional(dev, "reset",
+						     GPIOD_OUT_HIGH);
+	if (IS_ERR(sensor->reset_gpio))
+		return PTR_ERR(sensor->reset_gpio);
+
+	v4l2_i2c_subdev_init(&sensor->sd, client, &ov5640_subdev_ops);
+
+	sensor->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
+			    V4L2_SUBDEV_FL_HAS_EVENTS;
+	sensor->pad.flags = MEDIA_PAD_FL_SOURCE;
+	sensor->sd.entity.ops = &ov5640_sd_media_ops;
+	sensor->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+	ret = media_entity_pads_init(&sensor->sd.entity, 1, &sensor->pad);
+	if (ret)
+		return ret;
+
+	ret = ov5640_get_regulators(sensor);
+	if (ret)
+		return ret;
+
+	mutex_init(&sensor->lock);
+
+	ret = ov5640_check_chip_id(sensor);
+	if (ret)
+		goto entity_cleanup;
+
+	ret = ov5640_init_controls(sensor);
+	if (ret)
+		goto entity_cleanup;
+
+
+```
+
+CONFLICT (hunk 2):
+OUR side (NXP vendor kernel):
+```
+
+```
+
+THEIR side (mainline stable):
+```
+	ret = ov5640_sensor_resume(dev);
+	if (ret) {
+		dev_err(dev, "failed to power on\n");
+		goto free_ctrls;
+	}
+
+	pm_runtime_set_active(dev);
+	pm_runtime_get_noresume(dev);
+	pm_runtime_enable(dev);
+
+	ret = ov5640_check_chip_id(sensor);
+	if (ret)
+		goto err_pm_runtime;
+
+
+```
+
+Context AFTER the conflict:
+```
+	ret = v4l2_async_register_subdev_sensor(&sensor->sd);
+	if (ret)
+		goto free_ctrls;
+
+	return 0;
+
+<<<<<<< HEAD
+=======
+err_pm_runtime:
+	pm_runtime_put_noidle(dev);
+	pm_runtime_disable(dev);
+	ov5640_sensor_suspend(dev);
+>>>>>>> v6.1.63
+free_ctrls:
+	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
+entity_cleanup:
+	media_entity_cleanup(&sensor->sd.entity);
+	mutex_destroy(&sensor->lock);
+	return ret;
+}
+
+static void ov5640_remove(struct i2c_client *client)
+{
+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+	struct ov5640_dev *sensor = to_ov5640_dev(sd);
+
+	v4l2_async_unregister_subdev(&sensor->sd);
+	media_entity_cleanup(&sensor->sd.entity);
+	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
+	mutex_destroy(&sensor->lock);
+}
+
+static const struct i2c_device_id ov5640_id[] = {
+	{"ov5640", 0},
+	{},
+};
+MODULE_DEVICE_TABLE(i2c, ov5640_id);
+
+static const struct of_device_id ov5640_dt_ids[] = {
+	{ .compatible = "ovti,ov5640" },
+	{ /* sentinel */ }
+};
+MODULE_DEVICE_TABLE(of, ov5640_dt_ids);
+
+static struct i2c_driver ov5640_i2c_driver = {
+	.driver = {
+		.name  = "ov5640",
+		.of_match_table	= ov5640_dt_ids,
+	},
+	.id_table = ov5640_id,
+	.probe_new = ov5640_probe,
+	.remove   = ov5640_remove,
+};
+
+module_i2c_driver(ov5640_i2c_driver);
+
+MODULE_DESCRIPTION("OV5640 MIPI Camera Subdev Driver");
+MODULE_LICENSE("GPL");
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 15:57:03,750 [INFO]   Resolved drivers/media/i2c/ov5640.c hunk 1: confidence=7/10 — Mainline added power-management error-handling code that NXP tree lacked. NXP made no conflicting ch
+2026-04-27 15:57:03,751 [DEBUG] Applied resolution to drivers/media/i2c/ov5640.c hunk 1
+2026-04-27 15:57:03,752 [INFO] Resolving drivers/media/i2c/ov5640.c hunk 3...
+2026-04-27 15:57:03,783 [DEBUG] Prompt for drivers/media/i2c/ov5640.c hunk 2:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/media/i2c/ov5640.c
+
+We are merging mainline stable v6.1.63 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.62..v6.1.63):
+825a7a6a3a5e media: ov5640: Fix a memory leak when ov5640_probe fails
+a7a8c49dc670 media: ov5640: fix vblank unchange issue when work at dvp mode
+9b1c0aca7fbf media: ov5640: Drop dead code using frame_interval
+
+Context BEFORE the conflict:
+```
+
+	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev),
+						  NULL);
+	if (!endpoint) {
+		dev_err(dev, "endpoint node not found\n");
+		return -EINVAL;
+	}
+
+	ret = v4l2_fwnode_endpoint_parse(endpoint, &sensor->ep);
+	fwnode_handle_put(endpoint);
+	if (ret) {
+		dev_err(dev, "Could not parse endpoint\n");
+		return ret;
+	}
+
+	if (sensor->ep.bus_type != V4L2_MBUS_PARALLEL &&
+	    sensor->ep.bus_type != V4L2_MBUS_CSI2_DPHY &&
+	    sensor->ep.bus_type != V4L2_MBUS_BT656) {
+		dev_err(dev, "Unsupported bus type %d\n", sensor->ep.bus_type);
+		return -EINVAL;
+	}
+
+	sensor->fmt = ov5640_is_csi2(sensor) ? ov5640_mipi_default_fmt :
+					       ov5640_dvp_default_fmt;
+
+	/* get system clock (xclk) */
+	sensor->xclk = devm_clk_get(dev, "xclk");
+	if (IS_ERR(sensor->xclk)) {
+		dev_err(dev, "failed to get xclk\n");
+		return PTR_ERR(sensor->xclk);
+	}
+
+	sensor->xclk_freq = clk_get_rate(sensor->xclk);
+	if (sensor->xclk_freq < OV5640_XCLK_MIN ||
+	    sensor->xclk_freq > OV5640_XCLK_MAX) {
+		dev_err(dev, "xclk frequency out of range: %d Hz\n",
+			sensor->xclk_freq);
+		return -EINVAL;
+	}
+
+	/* request optional power down pin */
+	sensor->pwdn_gpio = devm_gpiod_get_optional(dev, "powerdown",
+						    GPIOD_OUT_HIGH);
+	if (IS_ERR(sensor->pwdn_gpio))
+		return PTR_ERR(sensor->pwdn_gpio);
+
+	/* request optional reset pin */
+	sensor->reset_gpio = devm_gpiod_get_optional(dev, "reset",
+						     GPIOD_OUT_HIGH);
+	if (IS_ERR(sensor->reset_gpio))
+		return PTR_ERR(sensor->reset_gpio);
+
+	v4l2_i2c_subdev_init(&sensor->sd, client, &ov5640_subdev_ops);
+
+	sensor->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
+			    V4L2_SUBDEV_FL_HAS_EVENTS;
+	sensor->pad.flags = MEDIA_PAD_FL_SOURCE;
+	sensor->sd.entity.ops = &ov5640_sd_media_ops;
+	sensor->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+	ret = media_entity_pads_init(&sensor->sd.entity, 1, &sensor->pad);
+	if (ret)
+		return ret;
+
+	ret = ov5640_get_regulators(sensor);
+	if (ret)
+		return ret;
+
+	mutex_init(&sensor->lock);
+
+	ret = ov5640_check_chip_id(sensor);
+	if (ret)
+		goto entity_cleanup;
+
+	ret = ov5640_init_controls(sensor);
+	if (ret)
+		goto entity_cleanup;
+
+<<<<<<< HEAD
+=======
+	ret = ov5640_sensor_resume(dev);
+	if (ret) {
+		dev_err(dev, "failed to power on\n");
+		goto free_ctrls;
+	}
+
+	pm_runtime_set_active(dev);
+	pm_runtime_get_noresume(dev);
+	pm_runtime_enable(dev);
+
+	ret = ov5640_check_chip_id(sensor);
+	if (ret)
+		goto err_pm_runtime;
+
+>>>>>>> v6.1.63
+	ret = v4l2_async_register_subdev_sensor(&sensor->sd);
+	if (ret)
+		goto free_ctrls;
+
+	return 0;
+
+
+```
+
+CONFLICT (hunk 3):
+OUR side (NXP vendor kernel):
+```
+
+```
+
+THEIR side (mainline stable):
+```
+err_pm_runtime:
+	pm_runtime_put_noidle(dev);
+	pm_runtime_disable(dev);
+	ov5640_sensor_suspend(dev);
+
+```
+
+Context AFTER the conflict:
+```
+free_ctrls:
+	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
+entity_cleanup:
+	media_entity_cleanup(&sensor->sd.entity);
+	mutex_destroy(&sensor->lock);
+	return ret;
+}
+
+static void ov5640_remove(struct i2c_client *client)
+{
+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+	struct ov5640_dev *sensor = to_ov5640_dev(sd);
+
+	v4l2_async_unregister_subdev(&sensor->sd);
+	media_entity_cleanup(&sensor->sd.entity);
+	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
+	mutex_destroy(&sensor->lock);
+}
+
+static const struct i2c_device_id ov5640_id[] = {
+	{"ov5640", 0},
+	{},
+};
+MODULE_DEVICE_TABLE(i2c, ov5640_id);
+
+static const struct of_device_id ov5640_dt_ids[] = {
+	{ .compatible = "ovti,ov5640" },
+	{ /* sentinel */ }
+};
+MODULE_DEVICE_TABLE(of, ov5640_dt_ids);
+
+static struct i2c_driver ov5640_i2c_driver = {
+	.driver = {
+		.name  = "ov5640",
+		.of_match_table	= ov5640_dt_ids,
+	},
+	.id_table = ov5640_id,
+	.probe_new = ov5640_probe,
+	.remove   = ov5640_remove,
+};
+
+module_i2c_driver(ov5640_i2c_driver);
+
+MODULE_DESCRIPTION("OV5640 MIPI Camera Subdev Driver");
+MODULE_LICENSE("GPL");
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 15:57:43,408 [INFO]   Resolved drivers/media/i2c/ov5640.c hunk 2: confidence=6/10 — Mainline added runtime PM enable/disable flow and an err_pm_runtime label to fix a potential memory 
+2026-04-27 15:57:43,409 [DEBUG] Applied resolution to drivers/media/i2c/ov5640.c hunk 2
+2026-04-27 15:57:43,815 [INFO] All conflicts resolved. Confidence: min=6, avg=7.3
+2026-04-27 15:57:43,815 [INFO] Building kernel (compile test)...
+2026-04-27 16:06:48,244 [ERROR] Build failed:
+’
+ 3995 | entity_cleanup:
+      | ^~~~~~~~~~~~~~
+drivers/media/i2c/ov5640.c:4017:1: error: duplicate label ‘free_ctrls’
+ 4017 | free_ctrls:
+      | ^~~~~~~~~~
+drivers/media/i2c/ov5640.c:3993:1: note: previous definition of ‘free_ctrls’ with type ‘void’
+ 3993 | free_ctrls:
+      | ^~~~~~~~~~
+drivers/media/i2c/ov5640.c:4019:1: error: duplicate label ‘entity_cleanup’
+ 4019 | entity_cleanup:
+      | ^~~~~~~~~~~~~~
+drivers/media/i2c/ov5640.c:3995:1: note: previous definition of ‘entity_cleanup’ with type ‘void’
+ 3995 | entity_cleanup:
+      | ^~~~~~~~~~~~~~
+cc1: some warnings being treated as errors
+make[4]: *** [scripts/Makefile.build:250: drivers/media/i2c/ov5640.o] Error 1
+make[3]: *** [scripts/Makefile.build:500: drivers/media/i2c] Error 2
+make[3]: *** Waiting for unfinished jobs....
+make[2]: *** [scripts/Makefile.build:500: drivers/media] Error 2
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [scripts/Makefile.build:500: drivers] Error 2
+make: *** [Makefile:2014: .] Error 2
+
+2026-04-27 16:06:48,244 [DEBUG] Build stdout (last 2000 chars):
+d827d.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/head907d.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/head917d.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/headc37d.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/headc57d.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/wimm.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/wimmc37b.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/wndw.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/wndwc37e.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/wndwc57e.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/wndwc67e.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/base.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/base507c.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/base827c.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/base907c.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/base917c.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/curs.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/curs507a.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/curs907a.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/cursc37a.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/oimm.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/oimm507b.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/ovly.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/ovly507e.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/ovly827e.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/ovly907e.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/ovly917e.o
+  CC [M]  drivers/gpu/drm/nouveau/nouveau_abi16.o
+  CC [M]  drivers/gpu/drm/nouveau/nouveau_chan.o
+  CC [M]  drivers/gpu/drm/nouveau/nouveau_dma.o
+  CC [M]  drivers/gpu/drm/nouveau/nouveau_fence.o
+  CC [M]  drivers/gpu/drm/nouveau/nv04_fence.o
+  CC [M]  drivers/gpu/drm/nouveau/nv10_fence.o
+  CC [M]  drivers/gpu/drm/nouveau/nv17_fence.o
+  CC [M]  drivers/gpu/drm/nouveau/nv50_fence.o
+  CC [M]  drivers/gpu/drm/nouveau/nv84_fence.o
+  CC [M]  drivers/gpu/drm/nouveau/nvc0_fence.o
+  LD [M]  drivers/gpu/drm/nouveau/nouveau.o
+  AR      drivers/gpu/built-in.a
+make: Leaving directory '/home/osaleem/repos/linux-imx'
+
+2026-04-27 16:06:48,245 [ERROR] Build failed after resolving conflicts for v6.1.63. Manual intervention needed on branch merge/v6.1.63.
+2026-04-27 16:06:48,245 [INFO] To fix manually:
+  cd /home/osaleem/repos/linux-imx
+  # fix the build errors
+  git add -A && git commit --amend
+  git checkout lf-6.1.y-semtech
+  git merge merge/v6.1.63
+  # then re-run this tool with --resume
+2026-04-27 16:06:48,245 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.63_2026-04-27T15-55-07.243796.json
+2026-04-27 16:06:48,245 [ERROR] Stopping due to error at v6.1.63. Fix manually and re-run with --resume.
+2026-04-27 16:06:48,246 [INFO] Done.

@@ -1,0 +1,23 @@
+{
+  "version": "6.1.60",
+  "timestamp": "2026-04-27T15:21:20.898673",
+  "conflicts_total": 1,
+  "conflicts_resolved": 1,
+  "build_success": true,
+  "merged_to_main": true,
+  "error": null,
+  "resolutions": [
+    {
+      "file": "drivers/gpio/gpio-vf610.c",
+      "hunk_index": 0,
+      "confidence": 9,
+      "reasoning": "Vendor kept only IRQCHIP_IMMUTABLE. Mainline adds IRQCHIP_MASK_ON_SUSPEND and IRQCHIP_ENABLE_WAKEUP_ON_SUSPEND to support suspend/wakeup. Vendor has no alternative mechanism, so we keep their flag and add mainline's two new flags, preserving all functionality.",
+      "ours": "\t.flags = IRQCHIP_IMMUTABLE,\n",
+      "theirs": "\t.flags = IRQCHIP_IMMUTABLE | IRQCHIP_MASK_ON_SUSPEND\n\t\t\t| IRQCHIP_ENABLE_WAKEUP_ON_SUSPEND,\n",
+      "resolved_code": "\t.flags = IRQCHIP_IMMUTABLE | IRQCHIP_MASK_ON_SUSPEND\n\t\t\t| IRQCHIP_ENABLE_WAKEUP_ON_SUSPEND,",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"Vendor kept only IRQCHIP_IMMUTABLE. Mainline adds IRQCHIP_MASK_ON_SUSPEND and IRQCHIP_ENABLE_WAKEUP_ON_SUSPEND to support suspend/wakeup. Vendor has no alternative mechanism, so we keep their flag and add mainline's two new flags, preserving all functionality.\",\n  \"resolved_code\": \"\\t.flags = IRQCHIP_IMMUTABLE | IRQCHIP_MASK_ON_SUSPEND\\n\\t\\t\\t| IRQCHIP_ENABLE_WAKEUP_ON_SUSPEND,\"\n}",
+      "start_line": 249,
+      "end_line": 254
+    }
+  ]
+}

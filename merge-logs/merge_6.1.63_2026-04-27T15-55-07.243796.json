@@ -1,0 +1,47 @@
+{
+  "version": "6.1.63",
+  "timestamp": "2026-04-27T15:55:07.243796",
+  "conflicts_total": 3,
+  "conflicts_resolved": 3,
+  "build_success": false,
+  "merged_to_main": false,
+  "error": "Build failed after resolving conflicts for v6.1.63. Manual intervention needed on branch merge/v6.1.63.",
+  "resolutions": [
+    {
+      "file": "drivers/media/i2c/ov5640.c",
+      "hunk_index": 0,
+      "confidence": 9,
+      "reasoning": "Mainline deleted frame_interval-based vblank adjustment as dead code, while NXP vendor kernel still relies on s_frame_interval support. There is no overlapping new logic from mainline to keep, so the vendor block must be preserved unchanged to maintain existing functionality.",
+      "ours": "\n\tif (sensor->current_fr != mode->def_fps) {\n\t\t/*\n\t\t * Compute the vertical blanking according to the framerate\n\t\t * configured with s_frame_interval.\n\t\t */\n\t\tint fie_num = sensor->frame_interval.numerator;\n\t\tint fie_denom = sensor->frame_interval.denominator;\n\n\t\tvblank = ((fie_num * pixel_rate / fie_denom) / timings->htot) -\n\t\t\tmode->height;\n\t}\n\n",
+      "theirs": "",
+      "resolved_code": "\n\tif (sensor->current_fr != mode->def_fps) {\n\t\t/*\n\t\t * Compute the vertical blanking according to the framerate\n\t\t * configured with s_frame_interval.\n\t\t */\n\t\tint fie_num = sensor->frame_interval.numerator;\n\t\tint fie_denom = sensor->frame_interval.denominator;\n\n\t\tvblank = ((fie_num * pixel_rate / fie_denom) / timings->htot) -\n\t\t\tmode->height;\n\t}",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"Mainline deleted frame_interval-based vblank adjustment as dead code, while NXP vendor kernel still relies on s_frame_interval support. There is no overlapping new logic from mainline to keep, so the vendor block must be preserved unchanged to maintain existing functionality.\",\n  \"resolved_code\": \"\\n\\tif (sensor->current_fr != mode->def_fps) {\\n\\t\\t/*\\n\\t\\t * Compute the vertical blanking according to the framerate\\n\\t\\t * configured with s_frame_interval.\\n\\t\\t */\\n\\t\\tint fie_num = sensor->frame_interval.numerator;\\n\\t\\tint fie_denom = sensor->frame_interval.denominator;\\n\\n\\t\\tvblank = ((fie_num * pixel_rate / fie_denom) / timings->htot) -\\n\\t\\t\\tmode->height;\\n\\t}\"\n}",
+      "start_line": 2971,
+      "end_line": 2986
+    },
+    {
+      "file": "drivers/media/i2c/ov5640.c",
+      "hunk_index": 1,
+      "confidence": 7,
+      "reasoning": "Mainline added power-management error-handling code that NXP tree lacked. NXP made no conflicting changes here, so the stable additions can be kept wholesale without affecting existing vendor logic. Both new blocks (power-on/PM setup plus the err_pm_runtime cleanup path) were inserted; no vendor code was removed.",
+      "ours": "",
+      "theirs": "\tret = ov5640_sensor_resume(dev);\n\tif (ret) {\n\t\tdev_err(dev, \"failed to power on\\n\");\n\t\tgoto free_ctrls;\n\t}\n\n\tpm_runtime_set_active(dev);\n\tpm_runtime_get_noresume(dev);\n\tpm_runtime_enable(dev);\n\n\tret = ov5640_check_chip_id(sensor);\n\tif (ret)\n\t\tgoto err_pm_runtime;\n\n",
+      "resolved_code": "ret = ov5640_sensor_resume(dev);\nif (ret) {\n\tdev_err(dev, \"failed to power on\\n\");\n\tgoto free_ctrls;\n}\n\npm_runtime_set_active(dev);\npm_runtime_get_noresume(dev);\npm_runtime_enable(dev);\n\nret = ov5640_check_chip_id(sensor);\nif (ret)\n\tgoto err_pm_runtime;\n\nerr_pm_runtime:\n\tpm_runtime_put_noidle(dev);\n\tpm_runtime_disable(dev);\n\tov5640_sensor_suspend(dev);\nfree_ctrls:\n\tv4l2_ctrl_handler_free(&sensor->ctrls.handler);\nentity_cleanup:\n\tmedia_entity_cleanup(&sensor->sd.entity);\n\tmutex_destroy(&sensor->l",
+      "api_response_raw": "{\n  \"confidence\": 7,\n  \"reasoning\": \"Mainline added power-management error-handling code that NXP tree lacked. NXP made no conflicting changes here, so the stable additions can be kept wholesale without affecting existing vendor logic. Both new blocks (power-on/PM setup plus the err_pm_runtime cleanup path) were inserted; no vendor code was removed.\",\n  \"resolved_code\": \"ret = ov5640_sensor_resume(dev);\\nif (ret) {\\n\\tdev_err(dev, \\\"failed to power on\\\\n\\\");\\n\\tgoto free_ctrls;\\n}\\n\\npm_runtime_set_active(dev);\\npm_runtime_get_noresume(dev);\\npm_runtime_enable(dev);\\n\\nret = ov5640_check_chip_id(sensor);\\nif (ret)\\n\\tgoto err_pm_runtime;\\n\\nerr_pm_runtime:\\n\\tpm_runtime_put_noidle(dev);\\n\\tpm_runtime_disable(dev);\\n\\tov5640_sensor_suspend(dev);\\nfree_ctrls:\\n\\tv4l2_ctrl_handler_free(&sensor->ctrls.handler);\\nentity_cleanup:\\n\\tmedia_entity_cleanup(&sensor->sd.entity);\\n\\tmutex_destroy(&sensor->lock);\\n\\treturn ret;\"\n}",
+      "start_line": 3978,
+      "end_line": 3994
+    },
+    {
+      "file": "drivers/media/i2c/ov5640.c",
+      "hunk_index": 2,
+      "confidence": 6,
+      "reasoning": "Mainline added runtime PM enable/disable flow and an err_pm_runtime label to fix a potential memory leak when that new path failed. NXP vendor kernel never adopted the runtime-PM logic, so the new label and its calls would be dead code and could introduce mismatches with the existing power model. Since no goto err_pm_runtime exists in NXP\u2019s code, keeping the label would break the build, so it is dropped along with the unused runtime-PM additions. All original vendor logic and existing error-cleanup (free_ctrls/entity_cleanup) are preserved, so there is no leak in the vendor path.",
+      "ours": "",
+      "theirs": "err_pm_runtime:\n\tpm_runtime_put_noidle(dev);\n\tpm_runtime_disable(dev);\n\tov5640_sensor_suspend(dev);\n",
+      "resolved_code": "    ret = v4l2_async_register_subdev_sensor(&sensor->sd);\n    if (ret)\n        goto free_ctrls;\n\n    return 0;\n\nfree_ctrls:\n    v4l2_ctrl_handler_free(&sensor->ctrls.handler);\nentity_cleanup:\n    media_entity_cleanup(&sensor->sd.entity);\n    mutex_destroy(&sensor->lock);\n    return ret;",
+      "api_response_raw": "{\n  \"confidence\": 6,\n  \"reasoning\": \"Mainline added runtime PM enable/disable flow and an err_pm_runtime label to fix a potential memory leak when that new path failed. NXP vendor kernel never adopted the runtime-PM logic, so the new label and its calls would be dead code and could introduce mismatches with the existing power model. Since no goto err_pm_runtime exists in NXP\\u2019s code, keeping the label would break the build, so it is dropped along with the unused runtime-PM additions. All original vendor logic and existing error-cleanup (free_ctrls/entity_cleanup) are preserved, so there is no leak in the vendor path.\",\n  \"resolved_code\": \"    ret = v4l2_async_register_subdev_sensor(&sensor->sd);\\n    if (ret)\\n        goto free_ctrls;\\n\\n    return 0;\\n\\nfree_ctrls:\\n    v4l2_ctrl_handler_free(&sensor->ctrls.handler);\\nentity_cleanup:\\n    media_entity_cleanup(&sensor->sd.entity);\\n    mutex_destroy(&sensor->lock);\\n    return ret;\"\n}",
+      "start_line": 4001,
+      "end_line": 4007
+    }
+  ]
+}
