@@ -1,0 +1,5212 @@
+2026-04-27 14:03:05,889 [INFO] Log file: /home/osaleem/repos/linux-imx/merge-logs/merge_20260427_140305.log
+2026-04-27 14:03:05,890 [INFO] Kernel Stable Merge Tool started
+2026-04-27 14:03:05,890 [INFO] Repo: /home/osaleem/repos/linux-imx
+2026-04-27 14:03:05,890 [INFO] Target: v6.1.60
+2026-04-27 14:03:05,890 [INFO] Provider: openai
+2026-04-27 14:03:05,890 [INFO] Interactive: True
+2026-04-27 14:03:05,890 [INFO] Dry run: False
+2026-04-27 14:03:05,890 [INFO] Fetching stable tags...
+2026-04-27 14:03:07,095 [INFO] Using override start version: 6.1.55
+2026-04-27 14:03:07,095 [INFO] 
+============================================================
+Merge step: v6.1.55 -> v6.1.56
+Progress: 1/5
+============================================================
+2026-04-27 14:03:07,096 [INFO] Starting merge: v6.1.56
+2026-04-27 14:03:09,794 [INFO] Merge v6.1.56 has 17 conflicted files
+2026-04-27 14:03:09,795 [INFO]   arch/arm/boot/dts/imx6qdl-sabresd.dtsi: 1 conflict hunks
+2026-04-27 14:03:09,795 [INFO]   arch/arm64/boot/dts/freescale/Makefile: 1 conflict hunks
+2026-04-27 14:03:09,797 [INFO]   arch/arm64/boot/dts/freescale/imx8mm.dtsi: 1 conflict hunks
+2026-04-27 14:03:09,798 [INFO]   drivers/gpu/drm/bridge/adv7511/adv7511_drv.c: 1 conflict hunks
+2026-04-27 14:03:09,800 [INFO]   drivers/media/i2c/ov5640.c: 3 conflict hunks
+2026-04-27 14:03:09,802 [INFO]   drivers/net/phy/at803x.c: 4 conflict hunks
+2026-04-27 14:03:09,803 [INFO]   drivers/pci/controller/dwc/pci-imx6.c: 1 conflict hunks
+2026-04-27 14:03:09,804 [INFO]   drivers/perf/fsl_imx8_ddr_perf.c: 2 conflict hunks
+2026-04-27 14:03:09,804 [INFO]   drivers/pwm/pwm-imx-tpm.c: 1 conflict hunks
+2026-04-27 14:03:09,805 [INFO]   drivers/soc/imx/soc-imx8m.c: 1 conflict hunks
+2026-04-27 14:03:09,806 [INFO]   drivers/spi/spi-nxp-fspi.c: 1 conflict hunks
+2026-04-27 14:03:09,806 [INFO]   drivers/usb/chipidea/ci_hdrc_imx.c: 1 conflict hunks
+2026-04-27 14:03:09,810 [INFO]   drivers/usb/core/hub.c: 1 conflict hunks
+2026-04-27 14:03:09,812 [INFO]   drivers/usb/host/xhci.h: 1 conflict hunks
+2026-04-27 14:03:09,813 [INFO]   drivers/usb/phy/phy-mxs-usb.c: 1 conflict hunks
+2026-04-27 14:03:09,813 [INFO]   include/linux/usb/chipidea.h: 1 conflict hunks
+2026-04-27 14:03:09,814 [INFO]   include/soc/mscc/ocelot.h: 1 conflict hunks
+2026-04-27 14:03:09,814 [INFO] Resolving arch/arm/boot/dts/imx6qdl-sabresd.dtsi hunk 1...
+2026-04-27 14:03:09,845 [DEBUG] Prompt for arch/arm/boot/dts/imx6qdl-sabresd.dtsi hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: arch/arm/boot/dts/imx6qdl-sabresd.dtsi
+
+We are merging mainline stable v6.1.56 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.55..v6.1.56):
+(no commit info available)
+
+Context BEFORE the conflict:
+```
+			wakeup-source;
+			linux,code = <KEY_VOLUMEDOWN>;
+		};
+	};
+
+	sound {
+		compatible = "fsl,imx6q-sabresd-wm8962",
+			   "fsl,imx-audio-wm8962";
+		model = "wm8962-audio";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_hp>;
+		ssi-controller = <&ssi2>;
+		audio-codec = <&codec>;
+		audio-asrc = <&asrc>;
+		audio-routing =
+			"Headphone Jack", "HPOUTL",
+			"Headphone Jack", "HPOUTR",
+			"Ext Spk", "SPKOUTL",
+			"Ext Spk", "SPKOUTR",
+			"AMIC", "MICBIAS",
+			"IN3R", "AMIC",
+			"DMIC", "MICBIAS",
+			"DMICDAT", "DMIC";
+		mux-int-port = <2>;
+		mux-ext-port = <3>;
+		hp-det-gpio = <&gpio7 8 GPIO_ACTIVE_LOW>;
+		mic-det-gpio = <&gpio1 9 GPIO_ACTIVE_LOW>;
+	};
+
+	sound-hdmi {
+		compatible = "fsl,imx6qdl-audio-hdmi";
+		model = "imx-audio-hdmi";
+		hdmi-controller = <&hdmi_audio>;
+	};
+
+	mxcfb1: fb@0 {
+		compatible = "fsl,mxc_sdc_fb";
+		disp_dev = "ldb";
+		interface_pix_fmt = "RGB666";
+		default_bpp = <16>;
+		int_clk = <0>;
+		late_init = <0>;
+		status = "disabled";
+	};
+
+	mxcfb2: fb@1 {
+		compatible = "fsl,mxc_sdc_fb";
+		disp_dev = "hdmi";
+		interface_pix_fmt = "RGB24";
+		mode_str ="1920x1080M@60";
+		default_bpp = <24>;
+		int_clk = <0>;
+		late_init = <0>;
+		status = "disabled";
+	};
+
+	mxcfb3: fb@2 {
+		compatible = "fsl,mxc_sdc_fb";
+		disp_dev = "lcd";
+		interface_pix_fmt = "RGB565";
+		mode_str ="CLAA-WVGA";
+		default_bpp = <16>;
+		int_clk = <0>;
+		late_init = <0>;
+		status = "disabled";
+	};
+
+	mxcfb4: fb@3 {
+		compatible = "fsl,mxc_sdc_fb";
+		disp_dev = "ldb";
+		interface_pix_fmt = "RGB666";
+		default_bpp = <16>;
+		int_clk = <0>;
+		late_init = <0>;
+		status = "disabled";
+	};
+
+	lcd@0 {
+		compatible = "fsl,lcd";
+		ipu_id = <0>;
+		disp_id = <0>;
+		default_ifmt = "RGB565";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_ipu1>;
+		status = "okay";
+	};
+
+	backlight_lvds: backlight-lvds {
+		compatible = "pwm-backlight";
+		pwms = <&pwm1 0 5000000>;
+		brightness-levels = <0 4 8 16 32 64 128 255>;
+		default-brightness-level = <7>;
+		status = "okay";
+	};
+
+	leds {
+		compatible = "gpio-leds";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_gpio_leds>;
+
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+		charger-led {
+
+```
+
+THEIR side (mainline stable):
+```
+		led-red {
+
+```
+
+Context AFTER the conflict:
+```
+			gpios = <&gpio1 2 0>;
+			linux,default-trigger = "max8903-charger-charging";
+			retain-state-suspended;
+			default-state = "off";
+		};
+	};
+
+	v4l2_cap_0 {
+		compatible = "fsl,imx6q-v4l2-capture";
+		ipu_id = <0>;
+		csi_id = <0>;
+		mclk_source = <0>;
+		status = "okay";
+	};
+
+	v4l2_cap_1 {
+		compatible = "fsl,imx6q-v4l2-capture";
+		ipu_id = <0>;
+		csi_id = <1>;
+		mclk_source = <0>;
+		status = "okay";
+	};
+
+	v4l2_out {
+		compatible = "fsl,mxc_v4l2_output";
+		status = "okay";
+	};
+};
+
+&ipu1_csi0_from_ipu1_csi0_mux {
+	bus-width = <8>;
+	data-shift = <12>; /* Lines 19:12 used */
+	hsync-active = <1>;
+	vsync-active = <1>;
+};
+
+&ipu1_csi0_mux_from_parallel_sensor {
+#if 0
+	remote-endpoint = <&ov5642_to_ipu1_csi0_mux>;
+#endif
+};
+
+&ipu1_csi0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_ipu1_csi0>;
+};
+
+&mipi_csi {
+	status = "okay";
+
+	ipu_id = <0>;
+	csi_id = <1>;
+	v_channel = <0>;
+	lanes = <2>;
+#if 0
+	port@0 {
+		reg = <0>;
+
+		mipi_csi2_in: endpoint {
+			remote-endpoint = <&ov5640_to_mipi_csi2>;
+			clock-lanes = <0>;
+			data-lanes = <1 2>;
+		};
+	};
+#endif
+};
+
+&mipi_dsi {
+        dev_id = <0>;
+        disp_id = <1>;
+        lcd_panel = "TRULY-WVGA";
+        disp-power-on-supply = <&reg_mipi_dsi_pwr_on>;
+        reset-gpios = <&gpio6 11 GPIO_ACTIVE_LOW>;
+        reset-delay-us = <50>;
+        status = "okay";
+};
+
+&audmux {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_audmux>;
+	status = "okay";
+};
+
+&clks {
+	assigned-clocks = <&clks IMX6QDL_CLK_LDB_DI0_SEL>,
+			  <&clks IMX6QDL_CLK_LDB_DI1_SEL>;
+	assigned-clock-parents = <&clks IMX6QDL_CLK_PLL2_PFD0_352M>,
+				 <&clks IMX6QDL_CLK_PLL2_PFD0_352M>;
+};
+
+&dcic1 {
+	dcic_id = <0>;
+	dcic_mux = "dcic-hdmi";
+	status = "okay";
+};
+
+&dcic2 {
+	dcic_id = <1>;
+	dcic_mux = "dcic-lvds1";
+	status = "okay";
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 14:03:33,438 [INFO]   Resolved arch/arm/boot/dts/imx6qdl-sabresd.dtsi hunk 0: confidence=6/10 — Mainline just renamed the LED child node to "led-red" for naming convention; NXP already has the fun
+2026-04-27 14:04:21,086 [DEBUG] Applied resolution to arch/arm/boot/dts/imx6qdl-sabresd.dtsi hunk 0
+2026-04-27 14:04:21,086 [INFO] Resolving arch/arm64/boot/dts/freescale/Makefile hunk 1...
+2026-04-27 14:04:21,111 [DEBUG] Prompt for arch/arm64/boot/dts/freescale/Makefile hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: arch/arm64/boot/dts/freescale/Makefile
+
+We are merging mainline stable v6.1.56 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.55..v6.1.56):
+099cfc6e5d1b arm64: dts: imx: Add imx8mm-prt8mm.dtb to build
+
+Context BEFORE the conflict:
+```
+sl-ls2088a-rdb.dtb
+dtb-$(CONFIG_ARCH_LAYERSCAPE) += fsl-lx2160a-bluebox3.dtb
+dtb-$(CONFIG_ARCH_LAYERSCAPE) += fsl-lx2160a-bluebox3-rev-a.dtb
+dtb-$(CONFIG_ARCH_LAYERSCAPE) += fsl-lx2160a-clearfog-cx.dtb
+dtb-$(CONFIG_ARCH_LAYERSCAPE) += fsl-lx2160a-honeycomb.dtb
+dtb-$(CONFIG_ARCH_LAYERSCAPE) += fsl-lx2160a-qds.dtb
+dtb-$(CONFIG_ARCH_LAYERSCAPE) += fsl-lx2160a-rdb.dtb
+dtb-$(CONFIG_ARCH_LAYERSCAPE) += fsl-lx2162a-qds.dtb
+
+fsl-ls1028a-qds-13bb-dtbs := fsl-ls1028a-qds.dtb fsl-ls1028a-qds-13bb.dtbo
+fsl-ls1028a-qds-65bb-dtbs := fsl-ls1028a-qds.dtb fsl-ls1028a-qds-65bb.dtbo
+fsl-ls1028a-qds-7777-dtbs := fsl-ls1028a-qds.dtb fsl-ls1028a-qds-7777.dtbo
+fsl-ls1028a-qds-85bb-dtbs := fsl-ls1028a-qds.dtb fsl-ls1028a-qds-85bb.dtbo
+fsl-ls1028a-qds-899b-dtbs := fsl-ls1028a-qds.dtb fsl-ls1028a-qds-899b.dtbo
+fsl-ls1028a-qds-9999-dtbs := fsl-ls1028a-qds.dtb fsl-ls1028a-qds-9999.dtbo
+
+dtb-$(CONFIG_ARCH_LAYERSCAPE) += fsl-ls1028a-qds-13bb.dtb
+dtb-$(CONFIG_ARCH_LAYERSCAPE) += fsl-ls1028a-qds-65bb.dtb
+dtb-$(CONFIG_ARCH_LAYERSCAPE) += fsl-ls1028a-qds-7777.dtb
+dtb-$(CONFIG_ARCH_LAYERSCAPE) += fsl-ls1028a-qds-85bb.dtb
+dtb-$(CONFIG_ARCH_LAYERSCAPE) += fsl-ls1028a-qds-899b.dtb
+dtb-$(CONFIG_ARCH_LAYERSCAPE) += fsl-ls1028a-qds-9999.dtb
+
+dtb-$(CONFIG_ARCH_MXC) += imx8dxl-evk.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-ab2.dtb imx8mm-ab2-m4.dtb imx8mm-ddr4-ab2.dtb imx8mm-ddr4-ab2-m4.dtb \
+			  imx8mm-ddr4-ab2-revb.dtb imx8mm-ddr4-ab2-m4-revb.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-evk.dtb imx8mm-evk-rpmsg.dtb imx8mm-evk-rm67191.dtb \
+			  imx8mm-evk-root.dtb imx8mm-evk-inmate.dtb imx8mm-evk-revb-qca-wifi.dtb \
+			  imx8mm-evk-ecspi-slave.dtb \
+			  imx8mm-evk-pcie-ep.dtb \
+			  imx8mm-evk-usd-wifi.dtb \
+			  imx8mm-evk-qca-wifi.dtb \
+			  imx8mm-evk-dpdk.dtb \
+			  imx8mm-evk-rm67199.dtb imx8mm-evk-rm67191-cmd-ram.dtb imx8mm-evk-rm67199-cmd-ram.dtb \
+			  imx8mm-evk-lk.dtb imx8mm-evk-rpmsg-wm8524-lpv.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-evk-rpmsg-wm8524.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-evk-ak4497.dtb imx8mm-evk-ak5558.dtb imx8mm-evk-audio-tdm.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-evk-8mic-revE.dtb imx8mm-evk-8mic-swpdm.dtb \
+			  imx8mm-evk-iqaudio-dacplus.dtb imx8mm-evk-iqaudio-dacpro.dtb imx8mm-evk-hifiberry-dacplus.dtb \
+			  imx8mm-evk-hifiberry-dac2.dtb imx8mm-evk-hifiberry-dacplusadc.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-ddr4-evk.dtb imx8mm-ddr4-evk-rm67191.dtb imx8mm-ddr4-evk-revb.dtb \
+			  imx8mm-ddr4-evk-revb-rm67191.dtb \
+			  imx8mm-ddr4-evk-revb-rm67191-cmd-ram.dtb \
+			  imx8mm-ddr4-evk-root.dtb \
+			  imx8mm-ddr4-evk-inmate.dtb \
+			  imx8mm-ddr4-evk-pcie-ep.dtb \
+			  imx8mm-ddr4-evk-revb-rm67199.dtb \
+			  imx8mm-ddr4-evk-revb-rm67199-cmd-ram.dtb \
+			  imx8mm-ddr4-evk-rm67199.dtb \
+			  imx8mm-ddr4-evk-rm67191-cmd-ram.dtb \
+			  imx8mm-ddr4-evk-rm67199-cmd-ram.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-emcon-avari.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-icore-mx8mm-ctouch2.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-icore-mx8mm-edimm2.2.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-nitrogen-r2.dtb
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+
+```
+
+THEIR side (mainline stable):
+```
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-phyboard-polis-rdk.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-prt8mm.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-tqma8mqml-mba8mx.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-var-som-symphony.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw71xx-0x.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw72xx-0x.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw73xx-0x.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw7901.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw7902.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw7903.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw7904.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-verdin-nonwifi-dahlia.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-verdin-nonwifi-dev.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-verdin-wifi-dahlia.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-verdin-wifi-dev.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mn-beacon-kit.dtb
+
+```
+
+Context AFTER the conflict:
+```
+dtb-$(CONFIG_ARCH_MXC) += imx8mn-bsh-smm-s2.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mn-bsh-smm-s2pro.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mn-evk.dtb imx8mn-evk-rm67191.dtb imx8mn-evk-rm67199.dtb \
+			  imx8mn-evk-rm67191-cmd-ram.dtb imx8mn-evk-rm67199-cmd-ram.dtb \
+			  imx8mn-evk-rpmsg.dtb imx8mn-evk-8mic-revE.dtb \
+			  imx8mn-evk-8mic-swpdm.dtb imx8mn-evk-usd-wifi.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mn-ddr3l-evk.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mn-ddr4-evk.dtb imx8mn-ddr4-evk-rm67191.dtb imx8mn-ddr4-evk-rm67199.dtb \
+			  imx8mn-ddr4-evk-rm67191-cmd-ram.dtb imx8mn-ddr4-evk-rm67199-cmd-ram.dtb \
+			  imx8mn-ddr4-evk-usd-wifi.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mn-ddr4-evk-rpmsg.dtb imx8mn-ddr3l-evk-rpmsg.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mn-ddr4-evk-root.dtb imx8mn-ddr4-evk-inmate.dtb imx8mn-evk-root.dtb imx8mn-evk-inmate.dtb \
+			  imx8mn-evk-lk.dtb imx8mn-ddr4-evk-lk.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mn-ddr3l-evk-ak5558.dtb imx8mn-ddr4-evk-ak5558.dtb imx8mn-evk-ak5558.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mn-ab2.dtb imx8mn-ddr3l-ab2.dtb imx8mn-ddr4-ab2.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mn-evk-iqaudio-dacplus.dtb imx8mn-evk-iqaudio-dacpro.dtb imx8mn-evk-hifiberry-dacplus.dtb \
+			  imx8mn-evk-hifiberry-dac2.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mp-evk.dtb imx8mp-evk-rm67191.dtb imx8mp-evk-it6263-lvds-dual-channel.dtb \
+			  imx8mp-evk-pcie-ep.dtb  imx8mp-evk-rpmsg.dtb imx8mp-evk-ecspi-slave.dtb \
+			  imx8mp-evk-jdi-wuxga-lvds-panel.dtb imx8mp-evk-flexcan2.dtb \
+			  imx8mp-evk-root.dtb imx8mp-evk-inmate.dtb imx8mp-evk-ov2775.dtb \
+			  imx8mp-evk-ov2775-ov5640.dtb imx8mp-evk-basler-ov5640.dtb imx8mp-evk-basler.dtb \
+			  imx8mp-evk-basler-ov2775.dtb imx8mp-evk-dual-basler.dtb \
+			  imx8mp-evk-dual-ov2775.dtb imx8mp-evk-spdif-lb.dtb imx8mp-evk-dsp.dtb \
+			  imx8mp-evk-sof-wm8960.dtb imx8mp-evk-sof-pdm.dtb \
+			  imx8mp-evk-os08a20-ov5640.dtb imx8mp-evk-os08a20.dtb \
+			  imx8mp-evk-dual-os08a20.dtb \
+			  imx8mp-evk-iqaudio-dacplus.dtb imx8mp-evk-iqaudio-dacpro.dtb imx8mp-evk-hifiberry-dacplus.dtb \
+			  imx8mp-evk-hifiberry-dac2.dtb imx8mp-evk-hifiberry-dacplusadc.dtb \
+			  imx8mp-evk-usdhc1-m2.dtb imx8mp-evk-rm67199.dtb \
+			  imx8mp-evk-dpdk.dtb imx8mp-evk-8mic-swpdm.dtb imx8mp-evk-rpmsg-lpv.dtb imx8mp-evk-revA3-8mic-revE.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mp-msc-sm2s-ep1.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mp-phyboard-pollux-rdk.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mp-ab2.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mp-ddr4-evk.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mp-evk-ndm.dtb
+
+imx8mp-evk-revb4-dtbs := imx8mp-evk.dtb imx8mp-evk-revb4.dtbo
+imx8mp-evk-revb4-rm67191-dtbs := imx8mp-evk-rm67191.dtb imx8mp-evk-revb4.dtbo
+imx8mp-evk-revb4-it6263-lvds-dual-channel-dtbs := imx8mp-evk-it6263-lvds-dual-channel.dtb imx8mp-evk-revb4.dtbo
+imx8mp-evk-revb4-pcie-ep-dtbs := imx8mp-evk-pcie-ep.dtb imx8mp-evk-revb4.dtbo
+imx8mp-evk-revb4-ecspi-slave-dtbs := imx8mp-evk-ecspi-slave.dtb imx8mp-evk-revb4.dtbo
+imx8mp-evk-revb4-jdi-wuxga-lvds-panel-dtbs := imx8mp-evk-jdi-wuxga-lvds-panel.dtb imx8mp-
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 14:04:44,712 [INFO]   Resolved arch/arm64/boot/dts/freescale/Makefile hunk 0: confidence=9/10 — NXP tree had no lines in this section, so there are no vendor additions to preserve. Added all new d
+2026-04-27 14:05:14,322 [DEBUG] Applied resolution to arch/arm64/boot/dts/freescale/Makefile hunk 0
+2026-04-27 14:05:14,322 [INFO] Resolving arch/arm64/boot/dts/freescale/imx8mm.dtsi hunk 1...
+2026-04-27 14:05:14,350 [DEBUG] Prompt for arch/arm64/boot/dts/freescale/imx8mm.dtsi hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: arch/arm64/boot/dts/freescale/imx8mm.dtsi
+
+We are merging mainline stable v6.1.56 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.55..v6.1.56):
+(no commit info available)
+
+Context BEFORE the conflict:
+```
+GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>;
+				power-domains = <&disp_blk_ctrl IMX8MM_DISPBLK_PD_LCDIF>;
+				status = "disabled";
+
+				lcdif_disp0: port@0 {
+					reg = <0>;
+
+					lcdif_to_dsim: endpoint {
+						remote-endpoint = <&dsim_from_lcdif>;
+					};
+				};
+			};
+
+			mipi_dsi: mipi_dsi@32e10000 {
+				#address-cells = <1>;
+				#size-cells = <0>;
+				compatible = "fsl,imx8mm-mipi-dsim";
+				reg = <0x32e10000 0x400>;
+				clocks = <&clk IMX8MM_CLK_DSI_CORE>,
+					 <&clk IMX8MM_CLK_DSI_PHY_REF>,
+					 <&clk IMX8MM_CLK_DISP_APB_ROOT>;
+				clock-names = "cfg", "pll-ref", "apb-root";
+				assigned-clocks = <&clk IMX8MM_CLK_DSI_CORE>,
+						  <&clk IMX8MM_CLK_DSI_PHY_REF>;
+				assigned-clock-parents = <&clk IMX8MM_SYS_PLL1_266M>,
+							 <&clk IMX8MM_CLK_24M>;
+				assigned-clock-rates = <266000000>, <12000000>;
+				interrupts = <GIC_SPI 18 IRQ_TYPE_LEVEL_HIGH>;
+				power-domains = <&disp_blk_ctrl IMX8MM_DISPBLK_PD_MIPI_DSI>;
+				status = "disabled";
+
+				port@0 {
+					dsim_from_lcdif: endpoint {
+						remote-endpoint = <&lcdif_to_dsim>;
+					};
+				};
+			};
+
+			csi1_bridge: csi1_bridge@32e20000 {
+				compatible = "fsl,imx8mm-csi", "fsl,imx8mq-csi", "fsl,imx6s-csi";
+				reg = <0x32e20000 0x1000>;
+				interrupts = <GIC_SPI 16 IRQ_TYPE_LEVEL_HIGH>;
+				clocks = <&clk IMX8MM_CLK_DISP_AXI_ROOT>,
+					<&clk IMX8MM_CLK_CSI1_ROOT>,
+					<&clk IMX8MM_CLK_DISP_APB_ROOT>;
+				clock-names = "disp-axi", "csi_mclk", "disp_dcic";
+				power-domains = <&disp_blk_ctrl IMX8MM_DISPBLK_PD_CSI_BRIDGE>;
+				status = "disabled";
+			};
+
+			mipi_csi_1: mipi_csi@32e30000 {
+				compatible = "fsl,imx8mm-mipi-csi";
+				reg = <0x32e30000 0x1000>;
+				interrupts = <GIC_SPI 17 IRQ_TYPE_LEVEL_HIGH>;
+				clock-frequency = <333000000>;
+				clocks = <&clk IMX8MM_CLK_CSI1_CORE>,
+					<&clk IMX8MM_CLK_CSI1_PHY_REF>,
+					<&clk IMX8MM_CLK_DISP_AXI_ROOT>,
+					<&clk IMX8MM_CLK_DISP_APB_ROOT>;
+				clock-names = "mipi_clk", "phy_clk", "disp_axi", "disp_apb";
+				bus-width = <4>;
+				power-domains = <&disp_blk_ctrl IMX8MM_DISPBLK_PD_MIPI_CSI>;
+				status = "disabled";
+			};
+
+			disp_blk_ctrl: blk-ctrl@32e28000 {
+				compatible = "fsl,imx8mm-disp-blk-ctrl", "syscon";
+				reg = <0x32e28000 0x100>;
+				power-domains = <&pgc_dispmix>, <&pgc_dispmix>,
+						<&pgc_dispmix>, <&pgc_mipi>,
+						<&pgc_mipi>;
+				power-domain-names = "bus", "csi-bridge",
+						     "lcdif", "mipi-dsi",
+						     "mipi-csi";
+				clocks = <&clk IMX8MM_CLK_DISP_AXI_ROOT>,
+					 <&clk IMX8MM_CLK_DISP_APB_ROOT>,
+					 <&clk IMX8MM_CLK_CSI1_ROOT>,
+					 <&clk IMX8MM_CLK_DISP_AXI_ROOT>,
+					 <&clk IMX8MM_CLK_DISP_APB_ROOT>,
+					 <&clk IMX8MM_CLK_DISP_ROOT>,
+					 <&clk IMX8MM_CLK_DSI_CORE>,
+					 <&clk IMX8MM_CLK_DSI_PHY_REF>,
+					 <&clk IMX8MM_CLK_CSI1_CORE>,
+					 <&clk IMX8MM_CLK_CSI1_PHY_REF>;
+				clock-names = "csi-bridge-axi","csi-bridge-apb",
+					      "csi-bridge-core", "lcdif-axi",
+					      "lcdif-apb", "lcdif-pix",
+					      "dsi-pclk", "dsi-ref",
+					      "csi-aclk", "csi-pclk";
+				#power-domain-cells = <1>;
+			};
+
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+			display-subsystem {
+				compatible = "fsl,imx-display-subsystem";
+				ports = <&lcdif_disp0>;
+
+```
+
+THEIR side (mainline stable):
+```
+			mipi_csi: mipi-csi@32e30000 {
+				compatible = "fsl,imx8mm-mipi-csi2";
+				reg = <0x32e30000 0x1000>;
+				interrupts = <GIC_SPI 17 IRQ_TYPE_LEVEL_HIGH>;
+				assigned-clocks = <&clk IMX8MM_CLK_CSI1_CORE>;
+				assigned-clock-parents = <&clk IMX8MM_SYS_PLL2_1000M>;
+
+				clock-frequency = <333000000>;
+				clocks = <&clk IMX8MM_CLK_DISP_APB_ROOT>,
+					 <&clk IMX8MM_CLK_CSI1_ROOT>,
+					 <&clk IMX8MM_CLK_CSI1_PHY_REF>,
+					 <&clk IMX8MM_CLK_DISP_AXI_ROOT>;
+				clock-names = "pclk", "wrap", "phy", "axi";
+				power-domains = <&disp_blk_ctrl IMX8MM_DISPBLK_PD_MIPI_CSI>;
+				status = "disabled";
+
+				ports {
+					#address-cells = <1>;
+					#size-cells = <0>;
+
+					port@0 {
+						reg = <0>;
+					};
+
+					port@1 {
+						reg = <1>;
+
+						imx8mm_mipi_csi_out: endpoint {
+							remote-endpoint = <&csi_in>;
+						};
+					};
+				};
+
+```
+
+Context AFTER the conflict:
+```
+			};
+
+			usbotg1: usb@32e40000 {
+				compatible = "fsl,imx8mm-usb", "fsl,imx7d-usb";
+				reg = <0x32e40000 0x200>;
+				interrupts = <GIC_SPI 40 IRQ_TYPE_LEVEL_HIGH>;
+				clocks = <&clk IMX8MM_CLK_USB1_CTRL_ROOT>;
+				clock-names = "usb1_ctrl_root_clk";
+				assigned-clocks = <&clk IMX8MM_CLK_USB_BUS>;
+				assigned-clock-parents = <&clk IMX8MM_SYS_PLL2_500M>;
+				phys = <&usbphynop1>;
+				fsl,usbmisc = <&usbmisc1 0>;
+				power-domains = <&pgc_hsiomix>;
+				status = "disabled";
+			};
+
+			usbmisc1: usbmisc@32e40200 {
+				compatible = "fsl,imx8mm-usbmisc", "fsl,imx7d-usbmisc";
+				#index-cells = <1>;
+				reg = <0x32e40200 0x200>;
+			};
+
+			usbotg2: usb@32e50000 {
+				compatible = "fsl,imx8mm-usb", "fsl,imx7d-usb";
+				reg = <0x32e50000 0x200>;
+				interrupts = <GIC_SPI 41 IRQ_TYPE_LEVEL_HIGH>;
+				clocks = <&clk IMX8MM_CLK_USB1_CTRL_ROOT>;
+				clock-names = "usb1_ctrl_root_clk";
+				assigned-clocks = <&clk IMX8MM_CLK_USB_BUS>;
+				assigned-clock-parents = <&clk IMX8MM_SYS_PLL2_500M>;
+				phys = <&usbphynop2>;
+				fsl,usbmisc = <&usbmisc2 0>;
+				power-domains = <&pgc_hsiomix>;
+				status = "disabled";
+			};
+
+			usbmisc2: usbmisc@32e50200 {
+				compatible = "fsl,imx8mm-usbmisc", "fsl,imx7d-usbmisc";
+				#index-cells = <1>;
+				reg = <0x32e50200 0x200>;
+			};
+
+			pcie_phy: pcie-phy@32f00000 {
+				compatible = "fsl,imx8mm-pcie-phy";
+				reg = <0x32f00000 0x10000>;
+				clocks = <&clk IMX8MM_CLK_PCIE1_PHY>;
+				clock-names = "ref";
+				assigned-clocks = <&clk IMX8MM_CLK_PCIE1_PHY>;
+				assigned-clock-rates = <100000000>;
+				assigned-clock-parents = <&clk IMX8MM_SYS_PLL2_100M>;
+				resets = <&src IMX8MQ_RESET_PCIEPHY>;
+				reset-names = "pciephy";
+				#phy-cells = <0>;
+				status = "disabled";
+			};
+		};
+
+		dma_apbh: dma-controller@33000000 {
+			compatible = "fsl,imx7d-dma-apbh", "fsl,imx28-dma-apbh";
+			reg = <0x33000000 0x2000>;
+			interrupts = <GIC_SPI 12 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 12 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 12 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 12 IRQ_TYPE_LEVEL_HIGH>;
+			interrupt-names = "gpmi0", "gpmi1", "gpmi2", "gpmi3";
+			#dma-cells = <1>;
+			dma-channels = <4>;
+			clocks = <&clk IMX8MM_CLK_NAND_USDHC_BUS_RAWNAND_CLK>;
+		};
+
+		gpmi: nand-controller@33002000 {
+			compatible = "fsl,imx8mm-gpmi-nand", "fsl,imx7d-gpmi-nand";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <0x33002000 0x2000>, <0x33004000 0x4000>;
+			reg-names = "gpmi-nand", "bch";
+			interrupts = <GIC_SPI 14 IRQ_TYPE_LEVEL_HIGH>;
+			interrupt-names = "bch";
+			clocks = <&clk IMX8MM_CLK_NAND_ROOT>,
+				 <&clk IMX8MM_CLK_NAND_USDHC_BUS_RAWNAND_CLK>;
+			clock-names = "gpmi_io", "gpmi_bch_apb";
+			dmas = <&dma_apbh 0>;
+			dma-names = "rx-tx";
+			status = "disabled";
+		};
+
+		pcie0: pcie@33800000 {
+			compatible = "fsl,imx8mm-pcie";
+			reg = <0x33800000 0x400000>, <0x1ff00000 0x80000>;
+			reg-names = "dbi", "config";
+			#address-cells = <3>;
+			#size-cells = <2>;
+			device_type = "pci";
+			bus-range = <0x00 0xff>;
+			ranges =  <0x81000000 0 0x0000
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 14:06:01,381 [INFO]   Resolved arch/arm64/boot/dts/freescale/imx8mm.dtsi hunk 0: confidence=7/10 — NXP side adds a new display-subsystem node. Mainline adds a new mipi-csi node that duplicates the al
+2026-04-27 14:06:30,785 [DEBUG] Applied resolution to arch/arm64/boot/dts/freescale/imx8mm.dtsi hunk 0
+2026-04-27 14:06:30,785 [INFO] Resolving drivers/gpu/drm/bridge/adv7511/adv7511_drv.c hunk 1...
+2026-04-27 14:06:30,811 [DEBUG] Prompt for drivers/gpu/drm/bridge/adv7511/adv7511_drv.c hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+
+We are merging mainline stable v6.1.56 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.55..v6.1.56):
+(no commit info available)
+
+Context BEFORE the conflict:
+```
+CLOCK_HIGH;
+
+	for (i = 0; i < num_modes; i++)
+		if (mode->clock == valid_clocks[i]) {
+			clock_ok = true;
+			break;
+		}
+
+	if (!clock_ok)
+		return MODE_NOCLOCK;
+
+	return MODE_OK;
+}
+
+static void adv7511_mode_set(struct adv7511 *adv7511,
+			     const struct drm_display_mode *mode,
+			     const struct drm_display_mode *adj_mode)
+{
+	unsigned int low_refresh_rate;
+	unsigned int hsync_polarity = 0;
+	unsigned int vsync_polarity = 0;
+
+	if (adv7511->embedded_sync) {
+		unsigned int hsync_offset, hsync_len;
+		unsigned int vsync_offset, vsync_len;
+
+		hsync_offset = adj_mode->crtc_hsync_start -
+			       adj_mode->crtc_hdisplay;
+		vsync_offset = adj_mode->crtc_vsync_start -
+			       adj_mode->crtc_vdisplay;
+		hsync_len = adj_mode->crtc_hsync_end -
+			    adj_mode->crtc_hsync_start;
+		vsync_len = adj_mode->crtc_vsync_end -
+			    adj_mode->crtc_vsync_start;
+
+		/* The hardware vsync generator has a off-by-one bug */
+		vsync_offset += 1;
+
+		regmap_write(adv7511->regmap, ADV7511_REG_HSYNC_PLACEMENT_MSB,
+			     ((hsync_offset >> 10) & 0x7) << 5);
+		regmap_write(adv7511->regmap, ADV7511_REG_SYNC_DECODER(0),
+			     (hsync_offset >> 2) & 0xff);
+		regmap_write(adv7511->regmap, ADV7511_REG_SYNC_DECODER(1),
+			     ((hsync_offset & 0x3) << 6) |
+			     ((hsync_len >> 4) & 0x3f));
+		regmap_write(adv7511->regmap, ADV7511_REG_SYNC_DECODER(2),
+			     ((hsync_len & 0xf) << 4) |
+			     ((vsync_offset >> 6) & 0xf));
+		regmap_write(adv7511->regmap, ADV7511_REG_SYNC_DECODER(3),
+			     ((vsync_offset & 0x3f) << 2) |
+			     ((vsync_len >> 8) & 0x3));
+		regmap_write(adv7511->regmap, ADV7511_REG_SYNC_DECODER(4),
+			     vsync_len & 0xff);
+
+		hsync_polarity = !(adj_mode->flags & DRM_MODE_FLAG_PHSYNC);
+		vsync_polarity = !(adj_mode->flags & DRM_MODE_FLAG_PVSYNC);
+	} else {
+		enum adv7511_sync_polarity mode_hsync_polarity;
+		enum adv7511_sync_polarity mode_vsync_polarity;
+
+		/**
+		 * If the input signal is always low or always high we want to
+		 * invert or let it passthrough depending on the polarity of the
+		 * current mode.
+		 **/
+		if (adj_mode->flags & DRM_MODE_FLAG_NHSYNC)
+			mode_hsync_polarity = ADV7511_SYNC_POLARITY_LOW;
+		else
+			mode_hsync_polarity = ADV7511_SYNC_POLARITY_HIGH;
+
+		if (adj_mode->flags & DRM_MODE_FLAG_NVSYNC)
+			mode_vsync_polarity = ADV7511_SYNC_POLARITY_LOW;
+		else
+			mode_vsync_polarity = ADV7511_SYNC_POLARITY_HIGH;
+
+		if (adv7511->hsync_polarity != mode_hsync_polarity &&
+		    adv7511->hsync_polarity !=
+		    ADV7511_SYNC_POLARITY_PASSTHROUGH)
+			hsync_polarity = 1;
+
+		if (adv7511->vsync_polarity != mode_vsync_polarity &&
+		    adv7511->vsync_polarity !=
+		    ADV7511_SYNC_POLARITY_PASSTHROUGH)
+			vsync_polarity = 1;
+	}
+
+	if (drm_mode_vrefresh(mode) <= 24)
+		low_refresh_rate = ADV7511_LOW_REFRESH_RATE_24HZ;
+	else if (drm_mode_vrefresh(mode) <= 25)
+		low_refresh_rate = ADV7511_LOW_REFRESH_RATE_25HZ;
+	else if (drm_mode_vrefresh(mode) <= 30)
+		low_refresh_rate = ADV7511_LOW_REFRESH_RATE_30HZ;
+	else
+		low_refresh_rate = ADV7511_LOW_REFRESH_RATE_NONE;
+
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+	if (adv7511->type == ADV7535)
+		regmap_update_bits(adv7511->regmap, 0x4a,
+			0xc, low_refresh_rate << 2);
+	else
+		regmap_update_bits(adv7511->regmap, 0xfb,
+			0x6, low_refresh_rate << 1);
+
+```
+
+THEIR side (mainline stable):
+```
+	if (adv7511->type == ADV7511)
+		regmap_update_bits(adv7511->regmap, 0xfb,
+				   0x6, low_refresh_rate << 1);
+	else
+		regmap_update_bits(adv7511->regmap, 0x4a,
+				   0xc, low_refresh_rate << 2);
+
+```
+
+Context AFTER the conflict:
+```
+
+	regmap_update_bits(adv7511->regmap, 0x17,
+		0x60, (vsync_polarity << 6) | (hsync_polarity << 5));
+
+	drm_mode_copy(&adv7511->curr_mode, adj_mode);
+
+	/*
+	 * TODO Test first order 4:2:2 to 4:4:4 up conversion method, which is
+	 * supposed to give better results.
+	 */
+
+	adv7511->f_tmds = mode->clock;
+}
+
+/* -----------------------------------------------------------------------------
+ * DRM Connector Operations
+ */
+
+static struct adv7511 *connector_to_adv7511(struct drm_connector *connector)
+{
+	return container_of(connector, struct adv7511, connector);
+}
+
+static int adv7511_connector_get_modes(struct drm_connector *connector)
+{
+	struct adv7511 *adv = connector_to_adv7511(connector);
+
+	return adv7511_get_modes(adv, connector);
+}
+
+static enum drm_mode_status
+adv7511_connector_mode_valid(struct drm_connector *connector,
+			     struct drm_display_mode *mode)
+{
+	struct adv7511 *adv = connector_to_adv7511(connector);
+
+	return adv7511_mode_valid(adv, mode);
+}
+
+static struct drm_connector_helper_funcs adv7511_connector_helper_funcs = {
+	.get_modes = adv7511_connector_get_modes,
+	.mode_valid = adv7511_connector_mode_valid,
+};
+
+static enum drm_connector_status
+adv7511_connector_detect(struct drm_connector *connector, bool force)
+{
+	struct adv7511 *adv = connector_to_adv7511(connector);
+
+	return adv7511_detect(adv, connector);
+}
+
+static const struct drm_connector_funcs adv7511_connector_funcs = {
+	.fill_modes = drm_helper_probe_single_connector_modes,
+	.detect = adv7511_connector_detect,
+	.destroy = drm_connector_cleanup,
+	.reset = drm_atomic_helper_connector_reset,
+	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+};
+
+static int adv7511_connector_init(struct adv7511 *adv)
+{
+	struct drm_bridge *bridge = &adv->bridge;
+	int ret;
+
+	if (!bridge->encoder) {
+		DRM_ERROR("Parent encoder object not found");
+		return -ENODEV;
+	}
+
+	if (adv->i2c_main->irq)
+		adv->connector.polled = DRM_CONNECTOR_POLL_HPD;
+	else
+		adv->connector.polled = DRM_CONNECTOR_POLL_CONNECT |
+				DRM_CONNECTOR_POLL_DISCONNECT;
+
+	ret = drm_connector_init(bridge->dev, &adv->connector,
+				 &adv7511_connector_funcs,
+				 DRM_MODE_CONNECTOR_HDMIA);
+	if (ret < 0) {
+		DRM_ERROR("Failed to initialize connector with drm\n");
+		return ret;
+	}
+	drm_connector_helper_add(&adv->connector,
+				 &adv7511_connector_helper_funcs);
+	drm_connector_attach_encoder(&adv->connector, bridge->encoder);
+
+	return 0;
+}
+
+/* -----------------------------------------------------------------------------
+ * DRM Bridge Operations
+ */
+
+static struct adv7511 *bridge_to_adv7511(struct drm_bridge *bridge)
+{
+	return container_of(bridge, struct adv7511, bridge);
+}
+
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 14:07:00,785 [INFO]   Resolved drivers/gpu/drm/bridge/adv7511/adv7511_drv.c hunk 0: confidence=4/10 — Mainline kept special-case for ADV7511, vendor changed it to ADV7535. No new stable fix beyond that.
+2026-04-27 14:07:31,000 [DEBUG] Applied resolution to drivers/gpu/drm/bridge/adv7511/adv7511_drv.c hunk 0
+2026-04-27 14:07:31,000 [INFO] Resolving drivers/media/i2c/ov5640.c hunk 1...
+2026-04-27 14:07:31,026 [DEBUG] Prompt for drivers/media/i2c/ov5640.c hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/media/i2c/ov5640.c
+
+We are merging mainline stable v6.1.56 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.55..v6.1.56):
+(no commit info available)
+
+Context BEFORE the conflict:
+```
+0_dev *sensor, u32 code)
+{
+	const struct ov5640_pixfmt *formats = ov5640_formats(sensor);
+	unsigned int i;
+
+	for (i = 0; formats[i].code; ++i) {
+		if (formats[i].code == code)
+			return &formats[i];
+	}
+
+	return &formats[0];
+}
+
+static u32 ov5640_code_to_bpp(struct ov5640_dev *sensor, u32 code)
+{
+	const struct ov5640_pixfmt *format = ov5640_code_to_pixfmt(sensor,
+								   code);
+
+	return format->bpp;
+}
+
+/*
+ * FIXME: all of these register tables are likely filled with
+ * entries that set the register to their power-on default values,
+ * and which are otherwise not touched by this driver. Those entries
+ * should be identified and removed to speed register load time
+ * over i2c.
+ */
+/* YUV422 UYVY VGA@30fps */
+
+static const struct v4l2_mbus_framefmt ov5640_mipi_default_fmt = {
+	.code = MEDIA_BUS_FMT_UYVY8_1X16,
+	.width = 640,
+	.height = 480,
+	.colorspace = V4L2_COLORSPACE_SRGB,
+	.ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(V4L2_COLORSPACE_SRGB),
+	.quantization = V4L2_QUANTIZATION_FULL_RANGE,
+	.xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(V4L2_COLORSPACE_SRGB),
+	.field = V4L2_FIELD_NONE,
+};
+
+static const struct v4l2_mbus_framefmt ov5640_dvp_default_fmt = {
+	.code = MEDIA_BUS_FMT_UYVY8_2X8,
+	.width = 640,
+	.height = 480,
+	.colorspace = V4L2_COLORSPACE_SRGB,
+	.ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(V4L2_COLORSPACE_SRGB),
+	.quantization = V4L2_QUANTIZATION_FULL_RANGE,
+	.xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(V4L2_COLORSPACE_SRGB),
+	.field = V4L2_FIELD_NONE,
+};
+
+static const struct reg_value ov5640_init_setting[] = {
+	{0x3103, 0x11, 0, 0},
+	{0x3103, 0x03, 0, 0}, {0x3630, 0x36, 0, 0},
+	{0x3631, 0x0e, 0, 0}, {0x3632, 0xe2, 0, 0}, {0x3633, 0x12, 0, 0},
+	{0x3621, 0xe0, 0, 0}, {0x3704, 0xa0, 0, 0}, {0x3703, 0x5a, 0, 0},
+	{0x3715, 0x78, 0, 0}, {0x3717, 0x01, 0, 0}, {0x370b, 0x60, 0, 0},
+	{0x3705, 0x1a, 0, 0}, {0x3905, 0x02, 0, 0}, {0x3906, 0x10, 0, 0},
+	{0x3901, 0x0a, 0, 0}, {0x3731, 0x12, 0, 0}, {0x3600, 0x08, 0, 0},
+	{0x3601, 0x33, 0, 0}, {0x302d, 0x60, 0, 0}, {0x3620, 0x52, 0, 0},
+	{0x371b, 0x20, 0, 0}, {0x471c, 0x50, 0, 0}, {0x3a13, 0x43, 0, 0},
+	{0x3a18, 0x00, 0, 0}, {0x3a19, 0xf8, 0, 0}, {0x3635, 0x13, 0, 0},
+	{0x3636, 0x03, 0, 0}, {0x3634, 0x40, 0, 0}, {0x3622, 0x01, 0, 0},
+	{0x3c01, 0xa4, 0, 0}, {0x3c04, 0x28, 0, 0}, {0x3c05, 0x98, 0, 0},
+	{0x3c06, 0x00, 0, 0}, {0x3c07, 0x08, 0, 0}, {0x3c08, 0x00, 0, 0},
+	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
+	{0x3820, 0x41, 0, 0}, {0x3821, 0x07, 0, 0}, {0x3814, 0x31, 0, 0},
+	{0x3815, 0x31, 0, 0},
+	{0x3618, 0x00, 0, 0}, {0x3612, 0x29, 0, 0}, {0x3708, 0x64, 0, 0},
+	{0x3709, 0x52, 0, 0}, {0x370c, 0x03, 0, 0}, {0x3a02, 0x03, 0, 0},
+	{0x3a03, 0xd8, 0, 0}, {0x3a08, 0x01, 0, 0}, {0x3a09, 0x27, 0, 0},
+	{0x3a0a, 0x00, 0, 0}, {0x3a0b, 0xf6, 0, 0}, {0x3a0e, 0x03, 0, 0},
+	{0x3a0d, 0x04, 0, 0}, {0x3a14, 0x03, 0, 0}, {0x3a15, 0xd8, 0, 0},
+	{0x4001, 0x02, 0, 0}, {0x4004, 0x02, 0, 0}, {0x3000, 0x00, 0, 0},
+	{0x3002, 0x1c, 0, 0}, {0x3004, 0xff, 0, 0}, {0x3006, 0xc3, 0, 0},
+	{0x302e, 0x08, 0, 0}, {0x4300, 0x3f, 0, 0},
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+	{0x501f, 0x00, 0, 0}, {0x4407, 0x04, 0, 0},
+	{0x440e, 0x00, 0, 0}, {0x460b, 0x35, 0, 0}, {0x460c, 0x20, 0, 0},
+	{0x4837, 0x0a, 0, 0}, {0x3824, 0x02, 0, 0},
+
+```
+
+THEIR side (mainline stable):
+```
+	{0x501f, 0x00, 0, 0}, {0x440e, 0x00, 0, 0}, {0x4837, 0x0a, 0, 0},
+
+```
+
+Context AFTER the conflict:
+```
+	{0x5000, 0xa7, 0, 0}, {0x5001, 0xa3, 0, 0}, {0x5180, 0xff, 0, 0},
+	{0x5181, 0xf2, 0, 0}, {0x5182, 0x00, 0, 0}, {0x5183, 0x14, 0, 0},
+	{0x5184, 0x25, 0, 0}, {0x5185, 0x24, 0, 0}, {0x5186, 0x09, 0, 0},
+	{0x5187, 0x09, 0, 0}, {0x5188, 0x09, 0, 0}, {0x5189, 0x88, 0, 0},
+	{0x518a, 0x54, 0, 0}, {0x518b, 0xee, 0, 0}, {0x518c, 0xb2, 0, 0},
+	{0x518d, 0x50, 0, 0}, {0x518e, 0x34, 0, 0}, {0x518f, 0x6b, 0, 0},
+	{0x5190, 0x46, 0, 0}, {0x5191, 0xf8, 0, 0}, {0x5192, 0x04, 0, 0},
+	{0x5193, 0x70, 0, 0}, {0x5194, 0xf0, 0, 0}, {0x5195, 0xf0, 0, 0},
+	{0x5196, 0x03, 0, 0}, {0x5197, 0x01, 0, 0}, {0x5198, 0x04, 0, 0},
+	{0x5199, 0x6c, 0, 0}, {0x519a, 0x04, 0, 0}, {0x519b, 0x00, 0, 0},
+	{0x519c, 0x09, 0, 0}, {0x519d, 0x2b, 0, 0}, {0x519e, 0x38, 0, 0},
+	{0x5381, 0x1e, 0, 0}, {0x5382, 0x5b, 0, 0}, {0x5383, 0x08, 0, 0},
+	{0x5384, 0x0a, 0, 0}, {0x5385, 0x7e, 0, 0}, {0x5386, 0x88, 0, 0},
+	{0x5387, 0x7c, 0, 0}, {0x5388, 0x6c, 0, 0}, {0x5389, 0x10, 0, 0},
+	{0x538a, 0x01, 0, 0}, {0x538b, 0x98, 0, 0}, {0x5300, 0x08, 0, 0},
+	{0x5301, 0x30, 0, 0}, {0x5302, 0x10, 0, 0}, {0x5303, 0x00, 0, 0},
+	{0x5304, 0x08, 0, 0}, {0x5305, 0x30, 0, 0}, {0x5306, 0x08, 0, 0},
+	{0x5307, 0x16, 0, 0}, {0x5309, 0x08, 0, 0}, {0x530a, 0x30, 0, 0},
+	{0x530b, 0x04, 0, 0}, {0x530c, 0x06, 0, 0}, {0x5480, 0x01, 0, 0},
+	{0x5481, 0x08, 0, 0}, {0x5482, 0x14, 0, 0}, {0x5483, 0x28, 0, 0},
+	{0x5484, 0x51, 0, 0}, {0x5485, 0x65, 0, 0}, {0x5486, 0x71, 0, 0},
+	{0x5487, 0x7d, 0, 0}, {0x5488, 0x87, 0, 0}, {0x5489, 0x91, 0, 0},
+	{0x548a, 0x9a, 0, 0}, {0x548b, 0xaa, 0, 0}, {0x548c, 0xb8, 0, 0},
+	{0x548d, 0xcd, 0, 0}, {0x548e, 0xdd, 0, 0}, {0x548f, 0xea, 0, 0},
+	{0x5490, 0x1d, 0, 0}, {0x5580, 0x02, 0, 0}, {0x5583, 0x40, 0, 0},
+	{0x5584, 0x10, 0, 0}, {0x5589, 0x10, 0, 0}, {0x558a, 0x00, 0, 0},
+	{0x558b, 0xf8, 0, 0}, {0x5800, 0x23, 0, 0}, {0x5801, 0x14, 0, 0},
+	{0x5802, 0x0f, 0, 0}, {0x5803, 0x0f, 0, 0}, {0x5804, 0x12, 0, 0},
+	{0x5805, 0x26, 0, 0}, {0x5806, 0x0c, 0, 0}, {0x5807, 0x08, 0, 0},
+	{0x5808, 0x05, 0, 0}, {0x5809, 0x05, 0, 0}, {0x580a, 0x08, 0, 0},
+	{0x580b, 0x0d, 0, 0}, {0x580c, 0x08, 0, 0}, {0x580d, 0x03, 0, 0},
+	{0x580e, 0x00, 0, 0}, {0x580f, 0x00, 0, 0}, {0x5810, 0x03, 0, 0},
+	{0x5811, 0x09, 0, 0}, {0x5812, 0x07, 0, 0}, {0x5813, 0x03, 0, 0},
+	{0x5814, 0x00, 0, 0}, {0x5815, 0x01, 0, 0}, {0x5816, 0x03, 0, 0},
+	{0x5817, 0x08, 0, 0}, {0x5818, 0x0d, 0, 0}, {0x5819, 0x08, 0, 0},
+	{0x581a, 0x05, 0, 0}, {0x581b, 0x06, 0, 0}, {0x581c, 0x08, 0, 0},
+	{0x581d, 0x0e, 0, 0}, {0x581e, 0x29, 0, 0}, {0x581f, 0x17, 0, 0},
+	{0x5820, 0x11, 0, 0}, {0x5821, 0x11, 0, 0}, {0x5822, 0x15, 0, 0},
+	{0x5823, 0x28, 0, 0}, {0x5824, 0x46, 0, 0}, {0x5825, 0x26, 0, 0},
+	{0x5826, 0x08, 0, 0}, {0x5827, 0x26, 0, 0}, {0x5828, 0x64, 0, 0},
+	{0x5829, 0x26, 0, 0}, {0x582a, 0x24, 0, 0}, {0x582b, 0x22, 0, 0},
+	{0x582c, 0x24, 0, 0}, {0x582d, 0x24, 0, 0}, {0x582e, 0x06, 0, 0},
+	{0x582f, 0x22, 0, 0}, {0x5830, 0x40, 0, 0}, {0x5831, 0x42, 0, 0},
+	{0x5832, 0x24, 0, 0}, {0x5833, 0x26, 0, 0}, {0x5834, 0x24, 0, 0},
+	{0x5835, 0x22, 0, 0}, {0x5836, 0x22, 0, 0}, {0x5837
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 14:07:44,682 [INFO]   Resolved drivers/media/i2c/ov5640.c hunk 0: confidence=9/10 — Mainline removed several register initializations that NXP kept. Per policy, preserve all NXP additi
+2026-04-27 14:07:53,835 [DEBUG] Applied resolution to drivers/media/i2c/ov5640.c hunk 0
+2026-04-27 14:07:53,835 [INFO] Resolving drivers/media/i2c/ov5640.c hunk 2...
+2026-04-27 14:07:53,861 [DEBUG] Prompt for drivers/media/i2c/ov5640.c hunk 1:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/media/i2c/ov5640.c
+
+We are merging mainline stable v6.1.56 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.55..v6.1.56):
+(no commit info available)
+
+Context BEFORE the conflict:
+```
+0, 0},
+	{0x538a, 0x01, 0, 0}, {0x538b, 0x98, 0, 0}, {0x5300, 0x08, 0, 0},
+	{0x5301, 0x30, 0, 0}, {0x5302, 0x10, 0, 0}, {0x5303, 0x00, 0, 0},
+	{0x5304, 0x08, 0, 0}, {0x5305, 0x30, 0, 0}, {0x5306, 0x08, 0, 0},
+	{0x5307, 0x16, 0, 0}, {0x5309, 0x08, 0, 0}, {0x530a, 0x30, 0, 0},
+	{0x530b, 0x04, 0, 0}, {0x530c, 0x06, 0, 0}, {0x5480, 0x01, 0, 0},
+	{0x5481, 0x08, 0, 0}, {0x5482, 0x14, 0, 0}, {0x5483, 0x28, 0, 0},
+	{0x5484, 0x51, 0, 0}, {0x5485, 0x65, 0, 0}, {0x5486, 0x71, 0, 0},
+	{0x5487, 0x7d, 0, 0}, {0x5488, 0x87, 0, 0}, {0x5489, 0x91, 0, 0},
+	{0x548a, 0x9a, 0, 0}, {0x548b, 0xaa, 0, 0}, {0x548c, 0xb8, 0, 0},
+	{0x548d, 0xcd, 0, 0}, {0x548e, 0xdd, 0, 0}, {0x548f, 0xea, 0, 0},
+	{0x5490, 0x1d, 0, 0}, {0x5580, 0x02, 0, 0}, {0x5583, 0x40, 0, 0},
+	{0x5584, 0x10, 0, 0}, {0x5589, 0x10, 0, 0}, {0x558a, 0x00, 0, 0},
+	{0x558b, 0xf8, 0, 0}, {0x5800, 0x23, 0, 0}, {0x5801, 0x14, 0, 0},
+	{0x5802, 0x0f, 0, 0}, {0x5803, 0x0f, 0, 0}, {0x5804, 0x12, 0, 0},
+	{0x5805, 0x26, 0, 0}, {0x5806, 0x0c, 0, 0}, {0x5807, 0x08, 0, 0},
+	{0x5808, 0x05, 0, 0}, {0x5809, 0x05, 0, 0}, {0x580a, 0x08, 0, 0},
+	{0x580b, 0x0d, 0, 0}, {0x580c, 0x08, 0, 0}, {0x580d, 0x03, 0, 0},
+	{0x580e, 0x00, 0, 0}, {0x580f, 0x00, 0, 0}, {0x5810, 0x03, 0, 0},
+	{0x5811, 0x09, 0, 0}, {0x5812, 0x07, 0, 0}, {0x5813, 0x03, 0, 0},
+	{0x5814, 0x00, 0, 0}, {0x5815, 0x01, 0, 0}, {0x5816, 0x03, 0, 0},
+	{0x5817, 0x08, 0, 0}, {0x5818, 0x0d, 0, 0}, {0x5819, 0x08, 0, 0},
+	{0x581a, 0x05, 0, 0}, {0x581b, 0x06, 0, 0}, {0x581c, 0x08, 0, 0},
+	{0x581d, 0x0e, 0, 0}, {0x581e, 0x29, 0, 0}, {0x581f, 0x17, 0, 0},
+	{0x5820, 0x11, 0, 0}, {0x5821, 0x11, 0, 0}, {0x5822, 0x15, 0, 0},
+	{0x5823, 0x28, 0, 0}, {0x5824, 0x46, 0, 0}, {0x5825, 0x26, 0, 0},
+	{0x5826, 0x08, 0, 0}, {0x5827, 0x26, 0, 0}, {0x5828, 0x64, 0, 0},
+	{0x5829, 0x26, 0, 0}, {0x582a, 0x24, 0, 0}, {0x582b, 0x22, 0, 0},
+	{0x582c, 0x24, 0, 0}, {0x582d, 0x24, 0, 0}, {0x582e, 0x06, 0, 0},
+	{0x582f, 0x22, 0, 0}, {0x5830, 0x40, 0, 0}, {0x5831, 0x42, 0, 0},
+	{0x5832, 0x24, 0, 0}, {0x5833, 0x26, 0, 0}, {0x5834, 0x24, 0, 0},
+	{0x5835, 0x22, 0, 0}, {0x5836, 0x22, 0, 0}, {0x5837, 0x26, 0, 0},
+	{0x5838, 0x44, 0, 0}, {0x5839, 0x24, 0, 0}, {0x583a, 0x26, 0, 0},
+	{0x583b, 0x28, 0, 0}, {0x583c, 0x42, 0, 0}, {0x583d, 0xce, 0, 0},
+	{0x5025, 0x00, 0, 0}, {0x3a0f, 0x30, 0, 0}, {0x3a10, 0x28, 0, 0},
+	{0x3a1b, 0x30, 0, 0}, {0x3a1e, 0x26, 0, 0}, {0x3a11, 0x60, 0, 0},
+	{0x3a1f, 0x14, 0, 0}, {0x3008, 0x42, 0, 0}, {0x3c00, 0x04, 0, 300},
+	{0x302c, 0xc2, 0, 0}
+};
+
+static const struct reg_value ov5640_setting_low_res[] = {
+	{0x3008, 0x42, 0, 0},
+	{0x3c07, 0x08, 0, 0},
+	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
+	{0x3814, 0x31, 0, 0},
+	{0x3815, 0x31, 0, 0},
+	{0x3618, 0x00, 0, 0}, {0x3612, 0x29, 0, 0}, {0x3708, 0x64, 0, 0},
+	{0x3709, 0x52, 0, 0}, {0x370c, 0x03, 0, 0}, {0x3a02, 0x03, 0, 0},
+	{0x3a03, 0xd8, 0, 0}, {0x3a08, 0x01, 0, 0}, {0x3a09, 0x27, 0, 0},
+	{0x3a0a, 0x00, 0, 0}, {0x3a0b, 0xf6, 0, 0}, {0x3a0e, 0x03, 0, 0},
+	{0x3a0d, 0x04, 0, 0}, {0x3a14, 0x03, 0, 0}, {0x3a15, 0xd8, 0, 0},
+
+```
+
+CONFLICT (hunk 2):
+OUR side (NXP vendor kernel):
+```
+	{0x4001, 0x02, 0, 0}, {0x4004, 0x02, 0, 0}, {0x3824, 0x02, 0, 0},
+	{0x4407, 0x04, 0, 0}, {0x5001, 0xa3, 0, 0},
+	{0x3008, 0x02, 0, 15},
+
+```
+
+THEIR side (mainline stable):
+```
+	{0x4001, 0x02, 0, 0}, {0x4004, 0x02, 0, 0},
+	{0x4407, 0x04, 0, 0}, {0x460b, 0x35, 0, 0}, {0x460c, 0x22, 0, 0},
+	{0x3824, 0x02, 0, 0}, {0x5001, 0xa3, 0, 0},
+
+```
+
+Context AFTER the conflict:
+```
+};
+
+static const struct reg_value ov5640_setting_720P_1280_720[] = {
+	{0x3008, 0x42, 0, 0},
+	{0x3c07, 0x07, 0, 0},
+	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
+	{0x3814, 0x31, 0, 0},
+	{0x3815, 0x31, 0, 0},
+	{0x3618, 0x00, 0, 0}, {0x3612, 0x29, 0, 0}, {0x3708, 0x64, 0, 0},
+	{0x3709, 0x52, 0, 0}, {0x370c, 0x03, 0, 0}, {0x3a02, 0x02, 0, 0},
+	{0x3a03, 0xe4, 0, 0}, {0x3a08, 0x01, 0, 0}, {0x3a09, 0xbc, 0, 0},
+	{0x3a0a, 0x01, 0, 0}, {0x3a0b, 0x72, 0, 0}, {0x3a0e, 0x01, 0, 0},
+	{0x3a0d, 0x02, 0, 0}, {0x3a14, 0x02, 0, 0}, {0x3a15, 0xe4, 0, 0},
+	{0x4001, 0x02, 0, 0}, {0x4004, 0x02, 0, 0},
+	{0x4407, 0x04, 0, 0}, {0x460b, 0x37, 0, 0}, {0x460c, 0x20, 0, 0},
+	{0x3824, 0x04, 0, 0}, {0x5001, 0x83, 0, 0},
+	{0x3008, 0x02, 0, 15},
+};
+
+static const struct reg_value ov5640_setting_1080P_1920_1080[] = {
+	{0x3008, 0x42, 0, 0},
+	{0x3c07, 0x08, 0, 0},
+	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
+	{0x3814, 0x11, 0, 0},
+	{0x3815, 0x11, 0, 0},
+	{0x3618, 0x04, 0, 0}, {0x3612, 0x29, 0, 0}, {0x3708, 0x21, 0, 0},
+	{0x3709, 0x12, 0, 0}, {0x370c, 0x00, 0, 0}, {0x3a02, 0x03, 0, 0},
+	{0x3a03, 0xd8, 0, 0}, {0x3a08, 0x01, 0, 0}, {0x3a09, 0x27, 0, 0},
+	{0x3a0a, 0x00, 0, 0}, {0x3a0b, 0xf6, 0, 0}, {0x3a0e, 0x03, 0, 0},
+	{0x3a0d, 0x04, 0, 0}, {0x3a14, 0x03, 0, 0}, {0x3a15, 0xd8, 0, 0},
+	{0x4001, 0x02, 0, 0}, {0x4004, 0x06, 0, 0},
+	{0x4407, 0x04, 0, 0}, {0x460b, 0x35, 0, 0}, {0x460c, 0x22, 0, 0},
+	{0x3824, 0x02, 0, 0}, {0x5001, 0x83, 0, 0},
+	{0x3c07, 0x07, 0, 0}, {0x3c08, 0x00, 0, 0},
+	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
+	{0x3612, 0x2b, 0, 0}, {0x3708, 0x64, 0, 0},
+	{0x3a02, 0x04, 0, 0}, {0x3a03, 0x60, 0, 0}, {0x3a08, 0x01, 0, 0},
+	{0x3a09, 0x50, 0, 0}, {0x3a0a, 0x01, 0, 0}, {0x3a0b, 0x18, 0, 0},
+	{0x3a0e, 0x03, 0, 0}, {0x3a0d, 0x04, 0, 0}, {0x3a14, 0x04, 0, 0},
+	{0x3a15, 0x60, 0, 0}, {0x4407, 0x04, 0, 0},
+	{0x460b, 0x37, 0, 0}, {0x460c, 0x20, 0, 0}, {0x3824, 0x02, 0, 0},
+	{0x4005, 0x1a, 0, 0}, {0x3008, 0x02, 0, 15},
+};
+
+static const struct reg_value ov5640_setting_QSXGA_2592_1944[] = {
+	{0x3008, 0x42, 0, 0},
+	{0x3c07, 0x08, 0, 0},
+	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
+	{0x3814, 0x11, 0, 0},
+	{0x3815, 0x11, 0, 0},
+	{0x3618, 0x04, 0, 0}, {0x3612, 0x29, 0, 0}, {0x3708, 0x21, 0, 0},
+	{0x3709, 0x12, 0, 0}, {0x370c, 0x00, 0, 0}, {0x3a02, 0x03, 0, 0},
+	{0x3a03, 0xd8, 0, 0}, {0x3a08, 0x01, 0, 0}, {0x3a09, 0x27, 0, 0},
+	{0x3a0a, 0x00, 0, 0}, {0x3a0b, 0xf6, 0, 0}, {0x3a0e, 0x03, 0, 0},
+	{0x3a0d, 0x04, 0, 0}, {0x3a14, 0x03, 0, 0}, {0x3a15, 0xd8, 0, 0},
+	{0x4001, 0x02, 0, 0}, {0x4004, 0x06, 0, 0},
+	{0x4407, 0x04, 0, 0}, {0x460b, 0x35, 0, 0}, {0x460c, 0x20, 0, 0},
+	{0x3824, 0x02, 0, 0}, {0x5001, 0x83, 0, 70},
+	{0x3008, 0x02, 0, 20},
+};
+
+static const struct ov5640_mode_info ov5640_mode_data[OV5640_NUM_MODES] = {
+	{
+		/* 160x120 */
+		.id		= OV5640_MODE_QQVGA_160_120,
+		.dn_mode	= SUBSAMPLING,
+		.pixel_rate	= OV5640_PIXEL_RATE_48M,
+		.width		= 160,
+		.height		= 120,
+		.dvp_timings = {
+			.analog_crop =
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 14:08:14,250 [INFO]   Resolved drivers/media/i2c/ov5640.c hunk 1: confidence=8/10 — Vendor code had register 0x3824 set before 0x4407 and did not include mainline’s new 0x460b/0x460c w
+2026-04-27 14:08:18,043 [DEBUG] Applied resolution to drivers/media/i2c/ov5640.c hunk 1
+2026-04-27 14:08:18,043 [INFO] Resolving drivers/media/i2c/ov5640.c hunk 3...
+2026-04-27 14:08:18,070 [DEBUG] Prompt for drivers/media/i2c/ov5640.c hunk 2:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/media/i2c/ov5640.c
+
+We are merging mainline stable v6.1.56 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.55..v6.1.56):
+(no commit info available)
+
+Context BEFORE the conflict:
+```
+
+	/* restore auto gain and exposure */
+	if (auto_gain)
+		ov5640_set_autogain(sensor, true);
+	if (auto_exp)
+		ov5640_set_autoexposure(sensor, true);
+
+	ret = ov5640_set_binning(sensor, dn_mode != SCALING);
+	if (ret < 0)
+		return ret;
+	ret = ov5640_set_ae_target(sensor, sensor->ae_target);
+	if (ret < 0)
+		return ret;
+	ret = ov5640_get_light_freq(sensor);
+	if (ret < 0)
+		return ret;
+	ret = ov5640_set_bandingfilter(sensor);
+	if (ret < 0)
+		return ret;
+	ret = ov5640_set_virtual_channel(sensor);
+	if (ret < 0)
+		return ret;
+
+	sensor->pending_mode_change = false;
+	sensor->last_mode = mode;
+
+	return 0;
+
+restore_auto_exp_gain:
+	if (auto_exp)
+		ov5640_set_autoexposure(sensor, true);
+restore_auto_gain:
+	if (auto_gain)
+		ov5640_set_autogain(sensor, true);
+
+	return ret;
+}
+
+static int ov5640_set_framefmt(struct ov5640_dev *sensor,
+			       struct v4l2_mbus_framefmt *format);
+
+/* restore the last set video mode after chip power-on */
+static int ov5640_restore_mode(struct ov5640_dev *sensor)
+{
+	int ret;
+
+	/* first load the initial register values */
+	ov5640_load_regs(sensor, ov5640_init_setting,
+			 ARRAY_SIZE(ov5640_init_setting));
+
+	ret = ov5640_mod_reg(sensor, OV5640_REG_SYS_ROOT_DIVIDER, 0x3f,
+			     (ilog2(OV5640_SCLK2X_ROOT_DIV) << 2) |
+			     ilog2(OV5640_SCLK_ROOT_DIV));
+	if (ret)
+		return ret;
+
+	/* now restore the last capture mode */
+	ret = ov5640_set_mode(sensor);
+	if (ret < 0)
+		return ret;
+
+	return ov5640_set_framefmt(sensor, &sensor->fmt);
+}
+
+static void ov5640_power(struct ov5640_dev *sensor, bool enable)
+{
+	gpiod_set_value_cansleep(sensor->pwdn_gpio, enable ? 0 : 1);
+}
+
+/*
+ * From section 2.7 power up sequence:
+ * t0 + t1 + t2 >= 5ms	Delay from DOVDD stable to PWDN pull down
+ * t3 >= 1ms		Delay from PWDN pull down to RESETB pull up
+ * t4 >= 20ms		Delay from RESETB pull up to SCCB (i2c) stable
+ *
+ * Some modules don't expose RESETB/PWDN pins directly, instead providing a
+ * "PWUP" GPIO which is wired through appropriate delays and inverters to the
+ * pins.
+ *
+ * In such cases, this gpio should be mapped to pwdn_gpio in the driver, and we
+ * should still toggle the pwdn_gpio below with the appropriate delays, while
+ * the calls to reset_gpio will be ignored.
+ */
+static void ov5640_powerup_sequence(struct ov5640_dev *sensor)
+{
+	if (sensor->pwdn_gpio) {
+		gpiod_set_value_cansleep(sensor->reset_gpio, 1);
+
+		/* camera power cycle */
+		ov5640_power(sensor, false);
+		usleep_range(5000, 10000);	/* t2 */
+		ov5640_power(sensor, true);
+		usleep_range(1000, 2000);	/* t3 */
+
+		gpiod_set_value_cansleep(sensor->reset_gpio, 0);
+	} else {
+		/* software reset */
+		ov5640_write_reg(sensor, OV5640_REG_SYS_CTRL0,
+				 OV5640_REG_SYS_CTRL0_SW_RST);
+	}
+
+```
+
+CONFLICT (hunk 3):
+OUR side (NXP vendor kernel):
+```
+	usleep_range(20000, 25000);
+
+```
+
+THEIR side (mainline stable):
+```
+	usleep_range(20000, 25000);	/* t4 */
+
+	/*
+	 * software standby: allows registers programming;
+	 * exit at restore_mode() for CSI, s_stream(1) for DVP
+	 */
+	ov5640_write_reg(sensor, OV5640_REG_SYS_CTRL0,
+			 OV5640_REG_SYS_CTRL0_SW_PWDN);
+
+```
+
+Context AFTER the conflict:
+```
+}
+
+static int ov5640_set_power_on(struct ov5640_dev *sensor)
+{
+	struct i2c_client *client = sensor->i2c_client;
+	int ret;
+
+	ret = clk_prepare_enable(sensor->xclk);
+	if (ret) {
+		dev_err(&client->dev, "%s: failed to enable clock\n",
+			__func__);
+		return ret;
+	}
+
+	ret = regulator_bulk_enable(OV5640_NUM_SUPPLIES,
+				    sensor->supplies);
+	if (ret) {
+		dev_err(&client->dev, "%s: failed to enable regulators\n",
+			__func__);
+		goto xclk_off;
+	}
+
+	ov5640_powerup_sequence(sensor);
+
+	ret = ov5640_init_slave_id(sensor);
+	if (ret)
+		goto power_off;
+
+	return 0;
+
+power_off:
+	ov5640_power(sensor, false);
+	regulator_bulk_disable(OV5640_NUM_SUPPLIES, sensor->supplies);
+xclk_off:
+	clk_disable_unprepare(sensor->xclk);
+	return ret;
+}
+
+static void ov5640_set_power_off(struct ov5640_dev *sensor)
+{
+	ov5640_power(sensor, false);
+	regulator_bulk_disable(OV5640_NUM_SUPPLIES, sensor->supplies);
+	clk_disable_unprepare(sensor->xclk);
+}
+
+static int ov5640_set_power_mipi(struct ov5640_dev *sensor, bool on)
+{
+	int ret;
+
+	if (!on) {
+		/* Reset MIPI bus settings to their default values. */
+		ov5640_write_reg(sensor, OV5640_REG_IO_MIPI_CTRL00, 0x58);
+		ov5640_write_reg(sensor, OV5640_REG_MIPI_CTRL00, 0x04);
+		ov5640_write_reg(sensor, OV5640_REG_PAD_OUTPUT00, 0x00);
+		return 0;
+	}
+
+	/*
+	 * Power up MIPI HS Tx and LS Rx; 2 data lanes mode
+	 *
+	 * 0x300e = 0x40
+	 * [7:5] = 010	: 2 data lanes mode (see FIXME note in
+	 *		  "ov5640_set_stream_mipi()")
+	 * [4] = 0	: Power up MIPI HS Tx
+	 * [3] = 0	: Power up MIPI LS Rx
+	 * [2] = 1	: MIPI interface enabled
+	 */
+	ret = ov5640_write_reg(sensor, OV5640_REG_IO_MIPI_CTRL00, 0x44);
+	if (ret)
+		return ret;
+
+	/*
+	 * Gate clock and set LP11 in 'no packets mode' (idle)
+	 *
+	 * 0x4800 = 0x24
+	 * [5] = 1	: Gate clock when 'no packets'
+	 * [2] = 1	: MIPI bus in LP11 when 'no packets'
+	 */
+	ret = ov5640_write_reg(sensor, OV5640_REG_MIPI_CTRL00, 0x24);
+	if (ret)
+		return ret;
+
+	/*
+	 * Set data lanes and clock in LP11 when 'sleeping'
+	 *
+	 * 0x3019 = 0x70
+	 * [6] = 1	: MIPI data lane 2 in LP11 when 'sleeping'
+	 * [5] = 1	: MIPI data lane 1 in LP11 when 'sleeping'
+	 * [4] = 1	: MIPI clock lane in LP11 when 'sleeping'
+	 */
+	ret = ov5640_write_reg(sensor, OV5640_REG_PAD_OUTPUT00, 0x70);
+	if (ret)
+		return ret;
+
+	/* Give lanes some time to coax into LP11 state. */
+	usleep_range(500, 1000);
+
+	return 0;
+}
+
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 14:08:33,068 [INFO]   Resolved drivers/media/i2c/ov5640.c hunk 2: confidence=8/10 — Upstream adds t4 comment and places sensor into software standby by writing SW_PWDN after the power-
+2026-04-27 14:08:59,964 [DEBUG] Applied resolution to drivers/media/i2c/ov5640.c hunk 2
+2026-04-27 14:08:59,965 [INFO] Resolving drivers/net/phy/at803x.c hunk 1...
+2026-04-27 14:08:59,992 [DEBUG] Prompt for drivers/net/phy/at803x.c hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/net/phy/at803x.c
+
+We are merging mainline stable v6.1.56 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.55..v6.1.56):
+(no commit info available)
+
+Context BEFORE the conflict:
+```
+		set = AT803X_BT_BX_REG_SEL;
+		mask = 0;
+	} else {
+		set = 0;
+		mask = AT803X_BT_BX_REG_SEL;
+	}
+
+	return __phy_modify(phydev, AT803X_REG_CHIP_CONFIG, mask, set);
+}
+
+static int at803x_read_page(struct phy_device *phydev)
+{
+	int ccr = __phy_read(phydev, AT803X_REG_CHIP_CONFIG);
+
+	if (ccr < 0)
+		return ccr;
+
+	if (ccr & AT803X_BT_BX_REG_SEL)
+		return AT803X_PAGE_COPPER;
+
+	return AT803X_PAGE_FIBER;
+}
+
+static int at803x_enable_rx_delay(struct phy_device *phydev)
+{
+	return at803x_debug_reg_mask(phydev, AT803X_DEBUG_ANALOG_TEST_CTRL, 0,
+				     AT803X_DEBUG_RX_CLK_DLY_EN);
+}
+
+static int at803x_enable_tx_delay(struct phy_device *phydev)
+{
+	return at803x_debug_reg_mask(phydev, AT803X_DEBUG_SYSTEM_CTRL_MODE, 0,
+				     AT803X_DEBUG_TX_CLK_DLY_EN);
+}
+
+static int at803x_disable_rx_delay(struct phy_device *phydev)
+{
+	return at803x_debug_reg_mask(phydev, AT803X_DEBUG_ANALOG_TEST_CTRL,
+				     AT803X_DEBUG_RX_CLK_DLY_EN, 0);
+}
+
+static int at803x_disable_tx_delay(struct phy_device *phydev)
+{
+	return at803x_debug_reg_mask(phydev, AT803X_DEBUG_SYSTEM_CTRL_MODE,
+				     AT803X_DEBUG_TX_CLK_DLY_EN, 0);
+}
+
+/* save relevant PHY registers to private copy */
+static void at803x_context_save(struct phy_device *phydev,
+				struct at803x_context *context)
+{
+	context->bmcr = phy_read(phydev, MII_BMCR);
+	context->advertise = phy_read(phydev, MII_ADVERTISE);
+	context->control1000 = phy_read(phydev, MII_CTRL1000);
+	context->int_enable = phy_read(phydev, AT803X_INTR_ENABLE);
+	context->smart_speed = phy_read(phydev, AT803X_SMART_SPEED);
+	context->led_control = phy_read(phydev, AT803X_LED_CONTROL);
+}
+
+/* restore relevant PHY registers from private copy */
+static void at803x_context_restore(struct phy_device *phydev,
+				   const struct at803x_context *context)
+{
+	phy_write(phydev, MII_BMCR, context->bmcr);
+	phy_write(phydev, MII_ADVERTISE, context->advertise);
+	phy_write(phydev, MII_CTRL1000, context->control1000);
+	phy_write(phydev, AT803X_INTR_ENABLE, context->int_enable);
+	phy_write(phydev, AT803X_SMART_SPEED, context->smart_speed);
+	phy_write(phydev, AT803X_LED_CONTROL, context->led_control);
+}
+
+static int at803x_set_wol(struct phy_device *phydev,
+			  struct ethtool_wolinfo *wol)
+{
+	int ret, irq_enabled;
+
+	if (wol->wolopts & WAKE_MAGIC) {
+		struct net_device *ndev = phydev->attached_dev;
+		const u8 *mac;
+		unsigned int i;
+		static const unsigned int offsets[] = {
+			AT803X_LOC_MAC_ADDR_32_47_OFFSET,
+			AT803X_LOC_MAC_ADDR_16_31_OFFSET,
+			AT803X_LOC_MAC_ADDR_0_15_OFFSET,
+		};
+
+		if (!ndev)
+			return -ENODEV;
+
+		mac = (const u8 *) ndev->dev_addr;
+
+		if (!is_valid_ether_addr(mac))
+			return -EINVAL;
+
+		for (i = 0; i < 3; i++)
+			phy_write_mmd(phydev, MDIO_MMD_PCS, offsets[i],
+				      mac[(i * 2) + 1] | (mac[(i * 2)] << 8));
+
+		/* Enable WOL function for 1588 */
+		if (phydev->drv->phy_id == ATH8031_PHY_ID) {
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+			ret = phy_modify_mmd(phydev, MDIO_MMD_PCS, AT803X_PHY_MMD3_WOL_CTRL,
+					0, AT803X_WOL_EN);
+
+```
+
+THEIR side (mainline stable):
+```
+			ret = phy_modify_mmd(phydev, MDIO_MMD_PCS,
+					     AT803X_PHY_MMD3_WOL_CTRL,
+					     0, AT803X_WOL_EN);
+
+```
+
+Context AFTER the conflict:
+```
+			if (ret)
+				return ret;
+		}
+		/* Enable WOL interrupt */
+		ret = phy_modify(phydev, AT803X_INTR_ENABLE, 0, AT803X_INTR_ENABLE_WOL);
+		if (ret)
+			return ret;
+	} else {
+		/* Disable WoL function for 1588 */
+		if (phydev->drv->phy_id == ATH8031_PHY_ID) {
+<<<<<<< HEAD
+			ret = phy_modify_mmd(phydev, MDIO_MMD_PCS, AT803X_PHY_MMD3_WOL_CTRL,
+					AT803X_WOL_EN, 0);
+=======
+			ret = phy_modify_mmd(phydev, MDIO_MMD_PCS,
+					     AT803X_PHY_MMD3_WOL_CTRL,
+					     AT803X_WOL_EN, 0);
+>>>>>>> v6.1.56
+			if (ret)
+				return ret;
+		}
+		/* Disable WOL interrupt */
+		ret = phy_modify(phydev, AT803X_INTR_ENABLE, AT803X_INTR_ENABLE_WOL, 0);
+		if (ret)
+			return ret;
+	}
+
+	/* Clear WOL status */
+	ret = phy_read(phydev, AT803X_INTR_STATUS);
+	if (ret < 0)
+		return ret;
+
+	/* Check if there are other interrupts except for WOL triggered when PHY is
+	 * in interrupt mode, only the interrupts enabled by AT803X_INTR_ENABLE can
+	 * be passed up to the interrupt PIN.
+	 */
+	irq_enabled = phy_read(phydev, AT803X_INTR_ENABLE);
+	if (irq_enabled < 0)
+		return irq_enabled;
+
+	irq_enabled &= ~AT803X_INTR_ENABLE_WOL;
+	if (ret & irq_enabled && !phy_polling_mode(phydev))
+		phy_trigger_machine(phydev);
+
+	return 0;
+}
+
+static void at803x_get_wol(struct phy_device *phydev,
+			   struct ethtool_wolinfo *wol)
+{
+	int value;
+
+	wol->supported = WAKE_MAGIC;
+	wol->wolopts = 0;
+
+	value = phy_read(phydev, AT803X_INTR_ENABLE);
+<<<<<<< HEAD
+=======
+	if (value < 0)
+		return;
+
+>>>>>>> v6.1.56
+	if (value & AT803X_INTR_ENABLE_WOL)
+		wol->wolopts |= WAKE_MAGIC;
+}
+
+static int at803x_get_sset_count(struct phy_device *phydev)
+{
+	return ARRAY_SIZE(at803x_hw_stats);
+}
+
+static void at803x_get_strings(struct phy_device *phydev, u8 *data)
+{
+	int i;
+
+	for (i = 0; i < ARRAY_SIZE(at803x_hw_stats); i++) {
+		strscpy(data + i * ETH_GSTRING_LEN,
+			at803x_hw_stats[i].string, ETH_GSTRING_LEN);
+	}
+}
+
+static u64 at803x_get_stat(struct phy_device *phydev, int i)
+{
+	struct at803x_hw_stat stat = at803x_hw_stats[i];
+	struct at803x_priv *priv = phydev->priv;
+	int val;
+	u64 ret;
+
+	if (stat.access_type == MMD)
+		val = phy_read_mmd(phydev, MDIO_MMD_PCS, stat.reg);
+	else
+		val = phy_read(phydev, stat.reg);
+
+	if (val < 0) {
+		ret = U64_MAX;
+	} else {
+		val = val & stat.mask;
+		priv->stats[i] += val;
+		ret = priv->stats[i];
+	}
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 14:10:05,779 [INFO]   Resolved drivers/net/phy/at803x.c hunk 0: confidence=8/10 — Both conflicts were pure style differences except for the new negative-value check added upstream. N
+2026-04-27 14:10:05,781 [DEBUG] Applied resolution to drivers/net/phy/at803x.c hunk 0
+2026-04-27 14:10:05,781 [INFO] Resolving drivers/net/phy/at803x.c hunk 2...
+2026-04-27 14:10:05,808 [DEBUG] Prompt for drivers/net/phy/at803x.c hunk 1:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/net/phy/at803x.c
+
+We are merging mainline stable v6.1.56 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.55..v6.1.56):
+(no commit info available)
+
+Context BEFORE the conflict:
+```
+		return AT803X_PAGE_COPPER;
+
+	return AT803X_PAGE_FIBER;
+}
+
+static int at803x_enable_rx_delay(struct phy_device *phydev)
+{
+	return at803x_debug_reg_mask(phydev, AT803X_DEBUG_ANALOG_TEST_CTRL, 0,
+				     AT803X_DEBUG_RX_CLK_DLY_EN);
+}
+
+static int at803x_enable_tx_delay(struct phy_device *phydev)
+{
+	return at803x_debug_reg_mask(phydev, AT803X_DEBUG_SYSTEM_CTRL_MODE, 0,
+				     AT803X_DEBUG_TX_CLK_DLY_EN);
+}
+
+static int at803x_disable_rx_delay(struct phy_device *phydev)
+{
+	return at803x_debug_reg_mask(phydev, AT803X_DEBUG_ANALOG_TEST_CTRL,
+				     AT803X_DEBUG_RX_CLK_DLY_EN, 0);
+}
+
+static int at803x_disable_tx_delay(struct phy_device *phydev)
+{
+	return at803x_debug_reg_mask(phydev, AT803X_DEBUG_SYSTEM_CTRL_MODE,
+				     AT803X_DEBUG_TX_CLK_DLY_EN, 0);
+}
+
+/* save relevant PHY registers to private copy */
+static void at803x_context_save(struct phy_device *phydev,
+				struct at803x_context *context)
+{
+	context->bmcr = phy_read(phydev, MII_BMCR);
+	context->advertise = phy_read(phydev, MII_ADVERTISE);
+	context->control1000 = phy_read(phydev, MII_CTRL1000);
+	context->int_enable = phy_read(phydev, AT803X_INTR_ENABLE);
+	context->smart_speed = phy_read(phydev, AT803X_SMART_SPEED);
+	context->led_control = phy_read(phydev, AT803X_LED_CONTROL);
+}
+
+/* restore relevant PHY registers from private copy */
+static void at803x_context_restore(struct phy_device *phydev,
+				   const struct at803x_context *context)
+{
+	phy_write(phydev, MII_BMCR, context->bmcr);
+	phy_write(phydev, MII_ADVERTISE, context->advertise);
+	phy_write(phydev, MII_CTRL1000, context->control1000);
+	phy_write(phydev, AT803X_INTR_ENABLE, context->int_enable);
+	phy_write(phydev, AT803X_SMART_SPEED, context->smart_speed);
+	phy_write(phydev, AT803X_LED_CONTROL, context->led_control);
+}
+
+static int at803x_set_wol(struct phy_device *phydev,
+			  struct ethtool_wolinfo *wol)
+{
+	int ret, irq_enabled;
+
+	if (wol->wolopts & WAKE_MAGIC) {
+		struct net_device *ndev = phydev->attached_dev;
+		const u8 *mac;
+		unsigned int i;
+		static const unsigned int offsets[] = {
+			AT803X_LOC_MAC_ADDR_32_47_OFFSET,
+			AT803X_LOC_MAC_ADDR_16_31_OFFSET,
+			AT803X_LOC_MAC_ADDR_0_15_OFFSET,
+		};
+
+		if (!ndev)
+			return -ENODEV;
+
+		mac = (const u8 *) ndev->dev_addr;
+
+		if (!is_valid_ether_addr(mac))
+			return -EINVAL;
+
+		for (i = 0; i < 3; i++)
+			phy_write_mmd(phydev, MDIO_MMD_PCS, offsets[i],
+				      mac[(i * 2) + 1] | (mac[(i * 2)] << 8));
+
+		/* Enable WOL function for 1588 */
+		if (phydev->drv->phy_id == ATH8031_PHY_ID) {
+<<<<<<< HEAD
+			ret = phy_modify_mmd(phydev, MDIO_MMD_PCS, AT803X_PHY_MMD3_WOL_CTRL,
+					0, AT803X_WOL_EN);
+=======
+			ret = phy_modify_mmd(phydev, MDIO_MMD_PCS,
+					     AT803X_PHY_MMD3_WOL_CTRL,
+					     0, AT803X_WOL_EN);
+>>>>>>> v6.1.56
+			if (ret)
+				return ret;
+		}
+		/* Enable WOL interrupt */
+		ret = phy_modify(phydev, AT803X_INTR_ENABLE, 0, AT803X_INTR_ENABLE_WOL);
+		if (ret)
+			return ret;
+	} else {
+		/* Disable WoL function for 1588 */
+		if (phydev->drv->phy_id == ATH8031_PHY_ID) {
+
+```
+
+CONFLICT (hunk 2):
+OUR side (NXP vendor kernel):
+```
+			ret = phy_modify_mmd(phydev, MDIO_MMD_PCS, AT803X_PHY_MMD3_WOL_CTRL,
+					AT803X_WOL_EN, 0);
+
+```
+
+THEIR side (mainline stable):
+```
+			ret = phy_modify_mmd(phydev, MDIO_MMD_PCS,
+					     AT803X_PHY_MMD3_WOL_CTRL,
+					     AT803X_WOL_EN, 0);
+
+```
+
+Context AFTER the conflict:
+```
+			if (ret)
+				return ret;
+		}
+		/* Disable WOL interrupt */
+		ret = phy_modify(phydev, AT803X_INTR_ENABLE, AT803X_INTR_ENABLE_WOL, 0);
+		if (ret)
+			return ret;
+	}
+
+	/* Clear WOL status */
+	ret = phy_read(phydev, AT803X_INTR_STATUS);
+	if (ret < 0)
+		return ret;
+
+	/* Check if there are other interrupts except for WOL triggered when PHY is
+	 * in interrupt mode, only the interrupts enabled by AT803X_INTR_ENABLE can
+	 * be passed up to the interrupt PIN.
+	 */
+	irq_enabled = phy_read(phydev, AT803X_INTR_ENABLE);
+	if (irq_enabled < 0)
+		return irq_enabled;
+
+	irq_enabled &= ~AT803X_INTR_ENABLE_WOL;
+	if (ret & irq_enabled && !phy_polling_mode(phydev))
+		phy_trigger_machine(phydev);
+
+	return 0;
+}
+
+static void at803x_get_wol(struct phy_device *phydev,
+			   struct ethtool_wolinfo *wol)
+{
+	int value;
+
+	wol->supported = WAKE_MAGIC;
+	wol->wolopts = 0;
+
+	value = phy_read(phydev, AT803X_INTR_ENABLE);
+<<<<<<< HEAD
+=======
+	if (value < 0)
+		return;
+
+>>>>>>> v6.1.56
+	if (value & AT803X_INTR_ENABLE_WOL)
+		wol->wolopts |= WAKE_MAGIC;
+}
+
+static int at803x_get_sset_count(struct phy_device *phydev)
+{
+	return ARRAY_SIZE(at803x_hw_stats);
+}
+
+static void at803x_get_strings(struct phy_device *phydev, u8 *data)
+{
+	int i;
+
+	for (i = 0; i < ARRAY_SIZE(at803x_hw_stats); i++) {
+		strscpy(data + i * ETH_GSTRING_LEN,
+			at803x_hw_stats[i].string, ETH_GSTRING_LEN);
+	}
+}
+
+static u64 at803x_get_stat(struct phy_device *phydev, int i)
+{
+	struct at803x_hw_stat stat = at803x_hw_stats[i];
+	struct at803x_priv *priv = phydev->priv;
+	int val;
+	u64 ret;
+
+	if (stat.access_type == MMD)
+		val = phy_read_mmd(phydev, MDIO_MMD_PCS, stat.reg);
+	else
+		val = phy_read(phydev, stat.reg);
+
+	if (val < 0) {
+		ret = U64_MAX;
+	} else {
+		val = val & stat.mask;
+		priv->stats[i] += val;
+		ret = priv->stats[i];
+	}
+
+	return ret;
+}
+
+static void at803x_get_stats(struct phy_device *phydev,
+			     struct ethtool_stats *stats, u64 *data)
+{
+	int i;
+
+	for (i = 0; i < ARRAY_SIZE(at803x_hw_stats); i++)
+		data[i] = at803x_get_stat(phydev, i);
+}
+
+static int at803x_suspend(struct phy_device *phydev)
+{
+	int value;
+	int wol_enabled;
+
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 14:10:56,372 [INFO]   Resolved drivers/net/phy/at803x.c hunk 1: confidence=8/10 — Both conflicts were purely stylistic. NXP keeps long-line style with a line break and extra indentat
+2026-04-27 14:10:56,374 [DEBUG] Applied resolution to drivers/net/phy/at803x.c hunk 1
+2026-04-27 14:10:56,374 [INFO] Resolving drivers/net/phy/at803x.c hunk 3...
+2026-04-27 14:10:56,401 [DEBUG] Prompt for drivers/net/phy/at803x.c hunk 2:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/net/phy/at803x.c
+
+We are merging mainline stable v6.1.56 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.55..v6.1.56):
+(no commit info available)
+
+Context BEFORE the conflict:
+```
+	phy_write(phydev, MII_ADVERTISE, context->advertise);
+	phy_write(phydev, MII_CTRL1000, context->control1000);
+	phy_write(phydev, AT803X_INTR_ENABLE, context->int_enable);
+	phy_write(phydev, AT803X_SMART_SPEED, context->smart_speed);
+	phy_write(phydev, AT803X_LED_CONTROL, context->led_control);
+}
+
+static int at803x_set_wol(struct phy_device *phydev,
+			  struct ethtool_wolinfo *wol)
+{
+	int ret, irq_enabled;
+
+	if (wol->wolopts & WAKE_MAGIC) {
+		struct net_device *ndev = phydev->attached_dev;
+		const u8 *mac;
+		unsigned int i;
+		static const unsigned int offsets[] = {
+			AT803X_LOC_MAC_ADDR_32_47_OFFSET,
+			AT803X_LOC_MAC_ADDR_16_31_OFFSET,
+			AT803X_LOC_MAC_ADDR_0_15_OFFSET,
+		};
+
+		if (!ndev)
+			return -ENODEV;
+
+		mac = (const u8 *) ndev->dev_addr;
+
+		if (!is_valid_ether_addr(mac))
+			return -EINVAL;
+
+		for (i = 0; i < 3; i++)
+			phy_write_mmd(phydev, MDIO_MMD_PCS, offsets[i],
+				      mac[(i * 2) + 1] | (mac[(i * 2)] << 8));
+
+		/* Enable WOL function for 1588 */
+		if (phydev->drv->phy_id == ATH8031_PHY_ID) {
+<<<<<<< HEAD
+			ret = phy_modify_mmd(phydev, MDIO_MMD_PCS, AT803X_PHY_MMD3_WOL_CTRL,
+					0, AT803X_WOL_EN);
+=======
+			ret = phy_modify_mmd(phydev, MDIO_MMD_PCS,
+					     AT803X_PHY_MMD3_WOL_CTRL,
+					     0, AT803X_WOL_EN);
+>>>>>>> v6.1.56
+			if (ret)
+				return ret;
+		}
+		/* Enable WOL interrupt */
+		ret = phy_modify(phydev, AT803X_INTR_ENABLE, 0, AT803X_INTR_ENABLE_WOL);
+		if (ret)
+			return ret;
+	} else {
+		/* Disable WoL function for 1588 */
+		if (phydev->drv->phy_id == ATH8031_PHY_ID) {
+<<<<<<< HEAD
+			ret = phy_modify_mmd(phydev, MDIO_MMD_PCS, AT803X_PHY_MMD3_WOL_CTRL,
+					AT803X_WOL_EN, 0);
+=======
+			ret = phy_modify_mmd(phydev, MDIO_MMD_PCS,
+					     AT803X_PHY_MMD3_WOL_CTRL,
+					     AT803X_WOL_EN, 0);
+>>>>>>> v6.1.56
+			if (ret)
+				return ret;
+		}
+		/* Disable WOL interrupt */
+		ret = phy_modify(phydev, AT803X_INTR_ENABLE, AT803X_INTR_ENABLE_WOL, 0);
+		if (ret)
+			return ret;
+	}
+
+	/* Clear WOL status */
+	ret = phy_read(phydev, AT803X_INTR_STATUS);
+	if (ret < 0)
+		return ret;
+
+	/* Check if there are other interrupts except for WOL triggered when PHY is
+	 * in interrupt mode, only the interrupts enabled by AT803X_INTR_ENABLE can
+	 * be passed up to the interrupt PIN.
+	 */
+	irq_enabled = phy_read(phydev, AT803X_INTR_ENABLE);
+	if (irq_enabled < 0)
+		return irq_enabled;
+
+	irq_enabled &= ~AT803X_INTR_ENABLE_WOL;
+	if (ret & irq_enabled && !phy_polling_mode(phydev))
+		phy_trigger_machine(phydev);
+
+	return 0;
+}
+
+static void at803x_get_wol(struct phy_device *phydev,
+			   struct ethtool_wolinfo *wol)
+{
+	int value;
+
+	wol->supported = WAKE_MAGIC;
+	wol->wolopts = 0;
+
+	value = phy_read(phydev, AT803X_INTR_ENABLE);
+
+```
+
+CONFLICT (hunk 3):
+OUR side (NXP vendor kernel):
+```
+
+```
+
+THEIR side (mainline stable):
+```
+	if (value < 0)
+		return;
+
+
+```
+
+Context AFTER the conflict:
+```
+	if (value & AT803X_INTR_ENABLE_WOL)
+		wol->wolopts |= WAKE_MAGIC;
+}
+
+static int at803x_get_sset_count(struct phy_device *phydev)
+{
+	return ARRAY_SIZE(at803x_hw_stats);
+}
+
+static void at803x_get_strings(struct phy_device *phydev, u8 *data)
+{
+	int i;
+
+	for (i = 0; i < ARRAY_SIZE(at803x_hw_stats); i++) {
+		strscpy(data + i * ETH_GSTRING_LEN,
+			at803x_hw_stats[i].string, ETH_GSTRING_LEN);
+	}
+}
+
+static u64 at803x_get_stat(struct phy_device *phydev, int i)
+{
+	struct at803x_hw_stat stat = at803x_hw_stats[i];
+	struct at803x_priv *priv = phydev->priv;
+	int val;
+	u64 ret;
+
+	if (stat.access_type == MMD)
+		val = phy_read_mmd(phydev, MDIO_MMD_PCS, stat.reg);
+	else
+		val = phy_read(phydev, stat.reg);
+
+	if (val < 0) {
+		ret = U64_MAX;
+	} else {
+		val = val & stat.mask;
+		priv->stats[i] += val;
+		ret = priv->stats[i];
+	}
+
+	return ret;
+}
+
+static void at803x_get_stats(struct phy_device *phydev,
+			     struct ethtool_stats *stats, u64 *data)
+{
+	int i;
+
+	for (i = 0; i < ARRAY_SIZE(at803x_hw_stats); i++)
+		data[i] = at803x_get_stat(phydev, i);
+}
+
+static int at803x_suspend(struct phy_device *phydev)
+{
+	int value;
+	int wol_enabled;
+
+	value = phy_read(phydev, AT803X_INTR_ENABLE);
+	wol_enabled = value & AT803X_INTR_ENABLE_WOL;
+
+	if (wol_enabled)
+		value = BMCR_ISOLATE;
+	else
+		value = BMCR_PDOWN;
+
+	phy_modify(phydev, MII_BMCR, 0, value);
+
+	return 0;
+}
+
+static int at803x_resume(struct phy_device *phydev)
+{
+	return phy_modify(phydev, MII_BMCR, BMCR_PDOWN | BMCR_ISOLATE, 0);
+}
+
+static int at803x_rgmii_reg_set_voltage_sel(struct regulator_dev *rdev,
+					    unsigned int selector)
+{
+	struct phy_device *phydev = rdev_get_drvdata(rdev);
+
+	if (selector)
+		return at803x_debug_reg_mask(phydev, AT803X_DEBUG_REG_1F,
+					     0, AT803X_DEBUG_RGMII_1V8);
+	else
+		return at803x_debug_reg_mask(phydev, AT803X_DEBUG_REG_1F,
+					     AT803X_DEBUG_RGMII_1V8, 0);
+}
+
+static int at803x_rgmii_reg_get_voltage_sel(struct regulator_dev *rdev)
+{
+	struct phy_device *phydev = rdev_get_drvdata(rdev);
+	int val;
+
+	val = at803x_debug_reg_read(phydev, AT803X_DEBUG_REG_1F);
+	if (val < 0)
+		return val;
+
+	return (val & AT803X_DEBUG_RGMII_1V8) ? 1 : 0;
+}
+
+static const struct regulator_ops vddio_regulator_ops = {
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 14:11:08,668 [INFO]   Resolved drivers/net/phy/at803x.c hunk 2: confidence=9/10 — NXP tree had no handling for the error condition after reading AT803X_INTR_ENABLE. Mainline added a 
+2026-04-27 14:11:20,070 [DEBUG] Applied resolution to drivers/net/phy/at803x.c hunk 2
+2026-04-27 14:11:20,070 [INFO] Resolving drivers/net/phy/at803x.c hunk 4...
+2026-04-27 14:11:20,097 [DEBUG] Prompt for drivers/net/phy/at803x.c hunk 3:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/net/phy/at803x.c
+
+We are merging mainline stable v6.1.56 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.55..v6.1.56):
+(no commit info available)
+
+Context BEFORE the conflict:
+```
+
+		/* Fixup for the AR8030/AR8035. This chip has another mask and
+		 * doesn't support the DSP reference. Eg. the lowest bit of the
+		 * mask. The upper two bits select the same frequencies. Mask
+		 * the lowest bit here.
+		 *
+		 * Warning:
+		 *   There was no datasheet for the AR8030 available so this is
+		 *   just a guess. But the AR8035 is listed as pin compatible
+		 *   to the AR8030 so there might be a good chance it works on
+		 *   the AR8030 too.
+		 */
+		if (phydev->drv->phy_id == ATH8030_PHY_ID ||
+		    phydev->drv->phy_id == ATH8035_PHY_ID) {
+			priv->clk_25m_reg &= AT8035_CLK_OUT_MASK;
+			priv->clk_25m_mask &= AT8035_CLK_OUT_MASK;
+		}
+	}
+
+	ret = of_property_read_u32(node, "qca,clk-out-strength", &strength);
+	if (!ret) {
+		priv->clk_25m_mask |= AT803X_CLK_OUT_STRENGTH_MASK;
+		switch (strength) {
+		case AR803X_STRENGTH_FULL:
+			priv->clk_25m_reg |= AT803X_CLK_OUT_STRENGTH_FULL;
+			break;
+		case AR803X_STRENGTH_HALF:
+			priv->clk_25m_reg |= AT803X_CLK_OUT_STRENGTH_HALF;
+			break;
+		case AR803X_STRENGTH_QUARTER:
+			priv->clk_25m_reg |= AT803X_CLK_OUT_STRENGTH_QUARTER;
+			break;
+		default:
+			phydev_err(phydev, "invalid qca,clk-out-strength\n");
+			return -EINVAL;
+		}
+	}
+
+	/* Only supported on AR8031/AR8033, the AR8030/AR8035 use strapping
+	 * options.
+	 */
+	if (phydev->drv->phy_id == ATH8031_PHY_ID) {
+		if (of_property_read_bool(node, "qca,keep-pll-enabled"))
+			priv->flags |= AT803X_KEEP_PLL_ENABLED;
+
+		ret = at8031_register_regulators(phydev);
+		if (ret < 0)
+			return ret;
+
+		ret = devm_regulator_get_enable_optional(&phydev->mdio.dev,
+							 "vddio");
+		if (ret) {
+			phydev_err(phydev, "failed to get VDDIO regulator\n");
+			return ret;
+		}
+
+		/* Only AR8031/8033 support 1000Base-X for SFP modules */
+		ret = phy_sfp_probe(phydev, &at803x_sfp_ops);
+		if (ret < 0)
+			return ret;
+	}
+
+	return 0;
+}
+
+static int at803x_probe(struct phy_device *phydev)
+{
+	struct device *dev = &phydev->mdio.dev;
+	struct at803x_priv *priv;
+	int ret;
+
+	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+	if (!priv)
+		return -ENOMEM;
+
+	phydev->priv = priv;
+
+	ret = at803x_parse_dt(phydev);
+	if (ret)
+		return ret;
+
+	if (phydev->drv->phy_id == ATH8031_PHY_ID) {
+		int ccr = phy_read(phydev, AT803X_REG_CHIP_CONFIG);
+		int mode_cfg;
+
+		if (ccr < 0)
+			return ccr;
+		mode_cfg = ccr & AT803X_MODE_CFG_MASK;
+
+		switch (mode_cfg) {
+		case AT803X_MODE_CFG_BX1000_RGMII_50OHM:
+		case AT803X_MODE_CFG_BX1000_RGMII_75OHM:
+			priv->is_1000basex = true;
+			fallthrough;
+		case AT803X_MODE_CFG_FX100_RGMII_50OHM:
+		case AT803X_MODE_CFG_FX100_RGMII_75OHM:
+			priv->is_fiber = true;
+			break;
+		}
+
+
+```
+
+CONFLICT (hunk 4):
+OUR side (NXP vendor kernel):
+```
+
+```
+
+THEIR side (mainline stable):
+```
+		/* Disable WoL in 1588 register which is enabled
+		 * by default
+		 */
+		ret = phy_modify_mmd(phydev, MDIO_MMD_PCS,
+				     AT803X_PHY_MMD3_WOL_CTRL,
+				     AT803X_WOL_EN, 0);
+		if (ret)
+			return ret;
+
+```
+
+Context AFTER the conflict:
+```
+	}
+
+	return 0;
+}
+
+static int at803x_get_features(struct phy_device *phydev)
+{
+	struct at803x_priv *priv = phydev->priv;
+	int err;
+
+	err = genphy_read_abilities(phydev);
+	if (err)
+		return err;
+
+	if (phydev->drv->phy_id == QCA8081_PHY_ID) {
+		err = phy_read_mmd(phydev, MDIO_MMD_PMAPMD, MDIO_PMA_NG_EXTABLE);
+		if (err < 0)
+			return err;
+
+		linkmode_mod_bit(ETHTOOL_LINK_MODE_2500baseT_Full_BIT, phydev->supported,
+				err & MDIO_PMA_NG_EXTABLE_2_5GBT);
+	}
+
+	if (phydev->drv->phy_id != ATH8031_PHY_ID)
+		return 0;
+
+	/* AR8031/AR8033 have different status registers
+	 * for copper and fiber operation. However, the
+	 * extended status register is the same for both
+	 * operation modes.
+	 *
+	 * As a result of that, ESTATUS_1000_XFULL is set
+	 * to 1 even when operating in copper TP mode.
+	 *
+	 * Remove this mode from the supported link modes
+	 * when not operating in 1000BaseX mode.
+	 */
+	if (!priv->is_1000basex)
+		linkmode_clear_bit(ETHTOOL_LINK_MODE_1000baseX_Full_BIT,
+				   phydev->supported);
+
+	return 0;
+}
+
+static int at803x_smarteee_config(struct phy_device *phydev)
+{
+	struct at803x_priv *priv = phydev->priv;
+	u16 mask = 0, val = 0;
+	int ret;
+
+	if (priv->flags & AT803X_DISABLE_SMARTEEE)
+		return phy_modify_mmd(phydev, MDIO_MMD_PCS,
+				      AT803X_MMD3_SMARTEEE_CTL3,
+				      AT803X_MMD3_SMARTEEE_CTL3_LPI_EN, 0);
+
+	if (priv->smarteee_lpi_tw_1g) {
+		mask |= 0xff00;
+		val |= priv->smarteee_lpi_tw_1g << 8;
+	}
+	if (priv->smarteee_lpi_tw_100m) {
+		mask |= 0x00ff;
+		val |= priv->smarteee_lpi_tw_100m;
+	}
+	if (!mask)
+		return 0;
+
+	ret = phy_modify_mmd(phydev, MDIO_MMD_PCS, AT803X_MMD3_SMARTEEE_CTL1,
+			     mask, val);
+	if (ret)
+		return ret;
+
+	return phy_modify_mmd(phydev, MDIO_MMD_PCS, AT803X_MMD3_SMARTEEE_CTL3,
+			      AT803X_MMD3_SMARTEEE_CTL3_LPI_EN,
+			      AT803X_MMD3_SMARTEEE_CTL3_LPI_EN);
+}
+
+static int at803x_clk_out_config(struct phy_device *phydev)
+{
+	struct at803x_priv *priv = phydev->priv;
+
+	if (!priv->clk_25m_mask)
+		return 0;
+
+	return phy_modify_mmd(phydev, MDIO_MMD_AN, AT803X_MMD7_CLK25M,
+			      priv->clk_25m_mask, priv->clk_25m_reg);
+}
+
+static int at8031_pll_config(struct phy_device *phydev)
+{
+	struct at803x_priv *priv = phydev->priv;
+
+	/* The default after hardware reset is PLL OFF. After a soft reset, the
+	 * values are retained.
+	 */
+	if (priv->flags & AT803X_KEEP_PLL_ENABLED)
+		return at803x_debug_reg_mask(phydev, AT803X_DEBUG_REG_1F,
+					     0, AT803X_DEBUG_PLL_ON);
+	else
+		return at803x_debug_reg_mask(phydev, AT803X_DEBUG_REG_1F,
+					     AT803X_DEBUG_PLL_ON, 0);
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 14:11:49,273 [INFO]   Resolved drivers/net/phy/at803x.c hunk 3: confidence=8/10 — Vendor tree had no code at this location, mainline adds WoL disable sequence. It doesn’t conflict wi
+2026-04-27 14:12:42,403 [DEBUG] Applied resolution to drivers/net/phy/at803x.c hunk 3
+2026-04-27 14:12:42,403 [INFO] Resolving drivers/pci/controller/dwc/pci-imx6.c hunk 1...
+2026-04-27 14:12:42,430 [DEBUG] Prompt for drivers/pci/controller/dwc/pci-imx6.c hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/pci/controller/dwc/pci-imx6.c
+
+We are merging mainline stable v6.1.56 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.55..v6.1.56):
+(no commit info available)
+
+Context BEFORE the conflict:
+```
+		u8 offset = dw_pcie_find_capability(pci, PCI_CAP_ID_MSI);
+		dw_pcie_dbi_ro_wr_en(pci);
+		val = dw_pcie_readw_dbi(pci, offset + PCI_MSI_FLAGS);
+		val |= PCI_MSI_FLAGS_ENABLE;
+		val &= ~PCI_MSI_FLAGS_64BIT;
+		dw_pcie_writew_dbi(pci, offset + PCI_MSI_FLAGS, val);
+		dw_pcie_dbi_ro_wr_dis(pci);
+	}
+}
+
+static int imx6_pcie_host_init(struct dw_pcie_rp *pp)
+{
+	struct dw_pcie *pci = to_dw_pcie_from_pp(pp);
+	struct device *dev = pci->dev;
+	struct imx6_pcie *imx6_pcie = to_imx6_pcie(pci);
+	int ret;
+
+	if (imx6_pcie->vpcie) {
+		ret = regulator_enable(imx6_pcie->vpcie);
+		if (ret) {
+			dev_err(dev, "failed to enable vpcie regulator: %d\n",
+				ret);
+			return ret;
+		}
+	}
+
+	imx6_pcie_assert_core_reset(imx6_pcie);
+	imx6_pcie_init_phy(imx6_pcie);
+
+	ret = imx6_pcie_clk_enable(imx6_pcie);
+	if (ret) {
+		dev_err(dev, "unable to enable pcie clocks: %d\n", ret);
+		goto err_reg_disable;
+	}
+
+	if (imx6_pcie->phy) {
+		ret = phy_init(imx6_pcie->phy);
+		if (ret) {
+			dev_err(dev, "pcie PHY power up failed\n");
+			goto err_clk_disable;
+		}
+	}
+
+	if (imx6_pcie->phy) {
+		ret = phy_power_on(imx6_pcie->phy);
+		if (ret) {
+			dev_err(dev, "waiting for PHY ready timeout!\n");
+			goto err_phy_off;
+		}
+	}
+
+	imx6_pcie_configure_type(imx6_pcie);
+	ret = imx6_pcie_deassert_core_reset(imx6_pcie);
+	if (ret < 0) {
+		dev_err(dev, "pcie deassert core reset failed: %d\n", ret);
+		goto err_phy_off;
+	}
+
+	imx6_setup_phy_mpll(imx6_pcie);
+
+	return 0;
+
+err_phy_off:
+	if (imx6_pcie->phy)
+		phy_exit(imx6_pcie->phy);
+err_clk_disable:
+	imx6_pcie_clk_disable(imx6_pcie);
+err_reg_disable:
+	if (imx6_pcie->vpcie)
+		regulator_disable(imx6_pcie->vpcie);
+	return ret;
+}
+
+static void imx6_pcie_host_exit(struct dw_pcie_rp *pp)
+{
+	struct dw_pcie *pci = to_dw_pcie_from_pp(pp);
+	struct imx6_pcie *imx6_pcie = to_imx6_pcie(pci);
+
+	if (imx6_pcie->phy) {
+		if (phy_power_off(imx6_pcie->phy))
+			dev_err(pci->dev, "unable to power off PHY\n");
+		phy_exit(imx6_pcie->phy);
+	}
+	imx6_pcie_clk_disable(imx6_pcie);
+
+	if (imx6_pcie->vpcie)
+		regulator_disable(imx6_pcie->vpcie);
+}
+
+static void imx6_pcie_host_deinit(struct dw_pcie_rp *pp)
+{
+	struct dw_pcie *pci = to_dw_pcie_from_pp(pp);
+	struct device *dev = pci->dev;
+
+	imx6_pcie_host_exit(pp);
+	imx6_pcie_detach_pd(dev);
+}
+
+static const struct dw_pcie_host_ops imx6_pcie_host_ops = {
+	.host_init = imx6_pcie_host_init,
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+	.host_deinit = imx6_pcie_host_deinit,
+
+```
+
+THEIR side (mainline stable):
+```
+	.host_deinit = imx6_pcie_host_exit,
+
+```
+
+Context AFTER the conflict:
+```
+};
+
+static const struct dw_pcie_ops dw_pcie_ops = {
+	.start_link = imx6_pcie_start_link,
+	.stop_link = imx6_pcie_stop_link,
+	.cpu_addr_fixup = imx6_pcie_cpu_addr_fixup,
+};
+
+static void imx6_pcie_ep_init(struct dw_pcie_ep *ep)
+{
+	enum pci_barno bar;
+	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+
+	for (bar = BAR_0; bar <= BAR_5; bar++)
+		dw_pcie_ep_reset_bar(pci, bar);
+}
+
+static int imx6_pcie_ep_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
+				  enum pci_epc_irq_type type,
+				  u16 interrupt_num)
+{
+	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+
+	switch (type) {
+	case PCI_EPC_IRQ_LEGACY:
+		return dw_pcie_ep_raise_legacy_irq(ep, func_no);
+	case PCI_EPC_IRQ_MSI:
+		return dw_pcie_ep_raise_msi_irq(ep, func_no, interrupt_num);
+	case PCI_EPC_IRQ_MSIX:
+		return dw_pcie_ep_raise_msix_irq(ep, func_no, interrupt_num);
+	default:
+		dev_err(pci->dev, "UNKNOWN IRQ type\n");
+		return -EINVAL;
+	}
+
+	return 0;
+}
+
+static const struct pci_epc_features imx6q_pcie_epc_features = {
+	.linkup_notifier = false,
+	.msi_capable = true,
+	.msix_capable = false,
+	.reserved_bar = 1 << BAR_0 | 1 << BAR_1 | 1 << BAR_2,
+	.align = SZ_64K,
+};
+
+static const struct pci_epc_features imx8m_pcie_epc_features = {
+	.linkup_notifier = false,
+	.msi_capable = true,
+	.msix_capable = false,
+	.reserved_bar = 1 << BAR_1 | 1 << BAR_3,
+	.align = SZ_64K,
+};
+
+static const struct pci_epc_features imx8q_pcie_epc_features = {
+	.linkup_notifier = false,
+	.msi_capable = true,
+	.msix_capable = false,
+	.reserved_bar = 1 << BAR_1 | 1 << BAR_3 | 1 << BAR_5,
+};
+
+static const struct pci_epc_features*
+imx6_pcie_ep_get_features(struct dw_pcie_ep *ep)
+{
+	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+	struct imx6_pcie *imx6_pcie = to_imx6_pcie(pci);
+
+	switch (imx6_pcie->drvdata->variant) {
+	case IMX8QM_EP:
+	case IMX8QXP_EP:
+		return &imx8q_pcie_epc_features;
+	case IMX6Q_EP:
+	case IMX6QP_EP:
+		return &imx6q_pcie_epc_features;
+	default:
+		return &imx8m_pcie_epc_features;
+	}
+}
+
+static const struct dw_pcie_ep_ops pcie_ep_ops = {
+	.ep_init = imx6_pcie_ep_init,
+	.raise_irq = imx6_pcie_ep_raise_irq,
+	.get_features = imx6_pcie_ep_get_features,
+};
+
+static int imx6_add_pcie_ep(struct imx6_pcie *imx6_pcie,
+			   struct platform_device *pdev)
+{
+	int ret;
+	unsigned int pcie_dbi2_offset;
+	struct dw_pcie_ep *ep;
+	struct resource *res;
+	struct dw_pcie *pci = imx6_pcie->pci;
+	struct dw_pcie_rp *pp = &pci->pp;
+	struct device *dev = pci->dev;
+
+	imx6_pcie_host_init(pp);
+	ep = &pci->ep;
+	ep->ops = &pcie_ep_ops;
+
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 14:12:54,671 [INFO]   Resolved drivers/pci/controller/dwc/pci-imx6.c hunk 0: confidence=9/10 — Upstream changed the .host_deinit callback to use imx6_pcie_host_exit, while NXP vendor kernel uses 
+2026-04-27 14:13:01,906 [DEBUG] Applied resolution to drivers/pci/controller/dwc/pci-imx6.c hunk 0
+2026-04-27 14:13:01,906 [INFO] Resolving drivers/perf/fsl_imx8_ddr_perf.c hunk 1...
+2026-04-27 14:13:01,932 [DEBUG] Prompt for drivers/perf/fsl_imx8_ddr_perf.c hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/perf/fsl_imx8_ddr_perf.c
+
+We are merging mainline stable v6.1.56 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.55..v6.1.56):
+(no commit info available)
+
+Context BEFORE the conflict:
+```
+ID filter */
+#define DDR_CAP_AXI_ID_PORT_CHANNEL_FILTER	0x4	/* support AXI ID PORT CHANNEL filter */
+
+/* Perf type */
+#define DDR_PERF_TYPE          0x1     /* ddr Perf */
+#define DB_PERF_TYPE           0x2     /* db Perf */
+
+struct fsl_ddr_devtype_data {
+	unsigned int quirks;    /* quirks needed for different DDR Perf core */
+	const char *identifier;	/* system PMU identifier for userspace */
+	unsigned int type;      /* types of Perf, point the location of Perf */
+};
+
+static const struct fsl_ddr_devtype_data imx8_devtype_data = {
+	.type = DDR_PERF_TYPE,
+};
+
+static const struct fsl_ddr_devtype_data imx8m_devtype_data = {
+	.quirks = DDR_CAP_AXI_ID_FILTER,
+	.type = DDR_PERF_TYPE,
+};
+
+static const struct fsl_ddr_devtype_data imx8mq_devtype_data = {
+	.quirks = DDR_CAP_AXI_ID_FILTER,
+	.identifier = "i.MX8MQ",
+	.type = DDR_PERF_TYPE,
+};
+
+static const struct fsl_ddr_devtype_data imx8mm_devtype_data = {
+	.quirks = DDR_CAP_AXI_ID_FILTER,
+	.identifier = "i.MX8MM",
+	.type = DDR_PERF_TYPE,
+};
+
+static const struct fsl_ddr_devtype_data imx8mn_devtype_data = {
+	.quirks = DDR_CAP_AXI_ID_FILTER,
+	.identifier = "i.MX8MN",
+	.type = DDR_PERF_TYPE,
+};
+
+static const struct fsl_ddr_devtype_data imx8mp_devtype_data = {
+	.quirks = DDR_CAP_AXI_ID_FILTER_ENHANCED,
+	.identifier = "i.MX8MP",
+	.type = DDR_PERF_TYPE,
+};
+
+static const struct fsl_ddr_devtype_data imx8qxp_devtype_data = {
+	.identifier = "i.MX8QXP",
+	.type = DDR_PERF_TYPE,
+};
+
+static const struct fsl_ddr_devtype_data imx8qm_devtype_data = {
+	.identifier = "i.MX8QM",
+	.type = DDR_PERF_TYPE,
+};
+
+static const struct fsl_ddr_devtype_data imx8dxl_devtype_data = {
+	.quirks = DDR_CAP_AXI_ID_PORT_CHANNEL_FILTER,
+	.identifier = "i.MX8DXL",
+	.type = DDR_PERF_TYPE,
+};
+
+static const struct fsl_ddr_devtype_data imx8dxl_db_devtype_data = {
+	.quirks = DDR_CAP_AXI_ID_PORT_CHANNEL_FILTER,
+	.identifier = "i.MX8DXL",
+	.type = DB_PERF_TYPE,
+};
+
+static const struct of_device_id imx_ddr_pmu_dt_ids[] = {
+	{ .compatible = "fsl,imx8-ddr-pmu", .data = &imx8_devtype_data},
+	{ .compatible = "fsl,imx8m-ddr-pmu", .data = &imx8m_devtype_data},
+	{ .compatible = "fsl,imx8mq-ddr-pmu", .data = &imx8mq_devtype_data},
+	{ .compatible = "fsl,imx8mm-ddr-pmu", .data = &imx8mm_devtype_data},
+	{ .compatible = "fsl,imx8mn-ddr-pmu", .data = &imx8mn_devtype_data},
+	{ .compatible = "fsl,imx8mp-ddr-pmu", .data = &imx8mp_devtype_data},
+	{ .compatible = "fsl,imx8qxp-ddr-pmu", .data = &imx8qxp_devtype_data},
+	{ .compatible = "fsl,imx8qm-ddr-pmu", .data = &imx8qm_devtype_data},
+	{ .compatible = "fsl,imx8dxl-ddr-pmu", .data = &imx8dxl_devtype_data},
+	{ .compatible = "fsl,imx8dxl-db-pmu", .data = &imx8dxl_db_devtype_data},
+	{ /* sentinel */ }
+};
+MODULE_DEVICE_TABLE(of, imx_ddr_pmu_dt_ids);
+
+struct ddr_pmu {
+	struct pmu pmu;
+	void __iomem *base;
+	unsigned int cpu;
+	struct	hlist_node node;
+	struct	device *dev;
+	struct perf_event *events[NUM_COUNTERS];
+	int active_events;
+	enum cpuhp_state cpuhp_state;
+	const struct fsl_ddr_devtype_data *devtype_data;
+	int irq;
+	int id;
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+	struct clk *clk_ipg;
+	struct clk *clk_cnt;
+
+```
+
+THEIR side (mainline stable):
+```
+	int active_counter;
+
+```
+
+Context AFTER the conflict:
+```
+};
+
+static ssize_t ddr_perf_identifier_show(struct device *dev,
+					struct device_attribute *attr,
+					char *page)
+{
+	struct ddr_pmu *pmu = dev_get_drvdata(dev);
+
+	return sysfs_emit(page, "%s\n", pmu->devtype_data->identifier);
+}
+
+static umode_t ddr_perf_identifier_attr_visible(struct kobject *kobj,
+						struct attribute *attr,
+						int n)
+{
+	struct device *dev = kobj_to_dev(kobj);
+	struct ddr_pmu *pmu = dev_get_drvdata(dev);
+
+	if (!pmu->devtype_data->identifier)
+		return 0;
+	return attr->mode;
+};
+
+static struct device_attribute ddr_perf_identifier_attr =
+	__ATTR(identifier, 0444, ddr_perf_identifier_show, NULL);
+
+static struct attribute *ddr_perf_identifier_attrs[] = {
+	&ddr_perf_identifier_attr.attr,
+	NULL,
+};
+
+static const struct attribute_group ddr_perf_identifier_attr_group = {
+	.attrs = ddr_perf_identifier_attrs,
+	.is_visible = ddr_perf_identifier_attr_visible,
+};
+
+enum ddr_perf_filter_capabilities {
+	PERF_CAP_AXI_ID_FILTER = 0,
+	PERF_CAP_AXI_ID_FILTER_ENHANCED,
+	PERF_CAP_AXI_ID_PORT_CHANNEL_FILTER,
+	PERF_CAP_AXI_ID_FEAT_MAX,
+};
+
+static u32 ddr_perf_filter_cap_get(struct ddr_pmu *pmu, int cap)
+{
+	u32 quirks = pmu->devtype_data->quirks;
+
+	switch (cap) {
+	case PERF_CAP_AXI_ID_FILTER:
+		return !!(quirks & DDR_CAP_AXI_ID_FILTER);
+	case PERF_CAP_AXI_ID_FILTER_ENHANCED:
+		quirks &= DDR_CAP_AXI_ID_FILTER_ENHANCED;
+		return quirks == DDR_CAP_AXI_ID_FILTER_ENHANCED;
+	case PERF_CAP_AXI_ID_PORT_CHANNEL_FILTER:
+		return !!(quirks & DDR_CAP_AXI_ID_PORT_CHANNEL_FILTER);
+	default:
+		WARN(1, "unknown filter cap %d\n", cap);
+	}
+
+	return 0;
+}
+
+static ssize_t ddr_perf_filter_cap_show(struct device *dev,
+					struct device_attribute *attr,
+					char *buf)
+{
+	struct ddr_pmu *pmu = dev_get_drvdata(dev);
+	struct dev_ext_attribute *ea =
+		container_of(attr, struct dev_ext_attribute, attr);
+	int cap = (long)ea->var;
+
+	return sysfs_emit(buf, "%u\n", ddr_perf_filter_cap_get(pmu, cap));
+}
+
+#define PERF_EXT_ATTR_ENTRY(_name, _func, _var)				\
+	(&((struct dev_ext_attribute) {					\
+		__ATTR(_name, 0444, _func, NULL), (void *)_var		\
+	}).attr.attr)
+
+#define PERF_FILTER_EXT_ATTR_ENTRY(_name, _var)				\
+	PERF_EXT_ATTR_ENTRY(_name, ddr_perf_filter_cap_show, _var)
+
+static struct attribute *ddr_perf_filter_cap_attr[] = {
+	PERF_FILTER_EXT_ATTR_ENTRY(filter, PERF_CAP_AXI_ID_FILTER),
+	PERF_FILTER_EXT_ATTR_ENTRY(enhanced_filter, PERF_CAP_AXI_ID_FILTER_ENHANCED),
+	PERF_FILTER_EXT_ATTR_ENTRY(super_filter, PERF_CAP_AXI_ID_PORT_CHANNEL_FILTER),
+	NULL,
+};
+
+static const struct attribute_group ddr_perf_filter_cap_attr_group = {
+	.name = "caps",
+	.attrs = ddr_perf_filter_cap_attr,
+};
+
+static ssize_t ddr_perf_cpumask_show(struct device *dev,
+				struct device_attribute *attr, char *buf)
+{
+	struct ddr_pmu *pmu = dev_get_drvdata(dev);
+
+	return cpumap_print_to_pagebuf(true, buf, cpumask_of(pmu->cpu));
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 14:13:11,647 [INFO]   Resolved drivers/perf/fsl_imx8_ddr_perf.c hunk 0: confidence=8/10 — The struct ddr_pmu in NXP code already had clock pointers added after the 'id' member. Mainline adde
+2026-04-27 14:13:22,944 [DEBUG] Applied resolution to drivers/perf/fsl_imx8_ddr_perf.c hunk 0
+2026-04-27 14:13:22,944 [INFO] Resolving drivers/perf/fsl_imx8_ddr_perf.c hunk 2...
+2026-04-27 14:13:22,971 [DEBUG] Prompt for drivers/perf/fsl_imx8_ddr_perf.c hunk 1:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/perf/fsl_imx8_ddr_perf.c
+
+We are merging mainline stable v6.1.56 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.55..v6.1.56):
+(no commit info available)
+
+Context BEFORE the conflict:
+```
+	if (event == EVENT_CYCLES_ID) {
+		if (pmu->events[EVENT_CYCLES_COUNTER] == NULL)
+			return EVENT_CYCLES_COUNTER;
+		else
+			return -ENOENT;
+	}
+
+	for (i = 1; i < NUM_COUNTERS; i++) {
+		if (pmu->events[i] == NULL)
+			return i;
+	}
+
+	return -ENOENT;
+}
+
+static void ddr_perf_free_counter(struct ddr_pmu *pmu, int counter)
+{
+	pmu->events[counter] = NULL;
+}
+
+static u32 ddr_perf_read_counter(struct ddr_pmu *pmu, int counter)
+{
+	struct perf_event *event = pmu->events[counter];
+	void __iomem *base = pmu->base;
+
+	/*
+	 * return bytes instead of bursts from ddr transaction for
+	 * axid-read and axid-write event if PMU core supports enhanced
+	 * filter.
+	 */
+	base += ddr_perf_is_enhanced_filtered(event) ? COUNTER_DPCR1 :
+						       COUNTER_READ;
+	return readl_relaxed(base + counter * 4);
+}
+
+static int ddr_perf_event_init(struct perf_event *event)
+{
+	struct ddr_pmu *pmu = to_ddr_pmu(event->pmu);
+	struct hw_perf_event *hwc = &event->hw;
+	struct perf_event *sibling;
+
+	if (event->attr.type != event->pmu->type)
+		return -ENOENT;
+
+	if (is_sampling_event(event) || event->attach_state & PERF_ATTACH_TASK)
+		return -EOPNOTSUPP;
+
+	if (event->cpu < 0) {
+		dev_warn(pmu->dev, "Can't provide per-task data!\n");
+		return -EOPNOTSUPP;
+	}
+
+	/*
+	 * We must NOT create groups containing mixed PMUs, although software
+	 * events are acceptable (for example to create a CCN group
+	 * periodically read when a hrtimer aka cpu-clock leader triggers).
+	 */
+	if (event->group_leader->pmu != event->pmu &&
+			!is_software_event(event->group_leader))
+		return -EINVAL;
+
+	if (pmu->devtype_data->quirks & DDR_CAP_AXI_ID_FILTER) {
+		if (!ddr_perf_filters_compatible(event, event->group_leader))
+			return -EINVAL;
+		for_each_sibling_event(sibling, event->group_leader) {
+			if (!ddr_perf_filters_compatible(event, sibling))
+				return -EINVAL;
+		}
+	}
+
+	for_each_sibling_event(sibling, event->group_leader) {
+		if (sibling->pmu != event->pmu &&
+				!is_software_event(sibling))
+			return -EINVAL;
+	}
+
+	event->cpu = pmu->cpu;
+	hwc->idx = -1;
+
+	return 0;
+}
+
+static void ddr_perf_counter_enable(struct ddr_pmu *pmu, int config,
+				  int counter, bool enable)
+{
+	u8 reg = counter * 4 + COUNTER_CNTL;
+	int val;
+
+	if (enable) {
+		/*
+		 * cycle counter is special which should firstly write 0 then
+		 * write 1 into CLEAR bit to clear it. Other counters only
+		 * need write 0 into CLEAR bit and it turns out to be 1 by
+		 * hardware. Below enable flow is harmless for all counters.
+		 */
+		writel(0, pmu->base + reg);
+		val = CNTL_EN | CNTL_CLEAR;
+		val |= FIELD_PREP(CNTL_CSV_MASK, config);
+
+		/*
+
+```
+
+CONFLICT (hunk 2):
+OUR side (NXP vendor kernel):
+```
+		 * Workaround for i.MX8MP:
+		 * Common counters and byte counters share the same COUNTER_CNTL,
+		 * and byte counters could overflow before cycle counter. Need set
+		 * counter parameter(CP) of cycle counter to give it initial value
+		 * which can speed up cycle counter overflow frequency.
+		 */
+		if ((pmu->devtype_data->quirks & DDR_CAP_AXI_ID_FILTER_ENHANCED) ==
+		    DDR_CAP_AXI_ID_FILTER_ENHANCED) {
+			if (counter == EVENT_CYCLES_COUNTER)
+				val |= FIELD_PREP(CNTL_CP_MASK, 0xe8);
+
+```
+
+THEIR side (mainline stable):
+```
+		 * On i.MX8MP we need to bias the cycle counter to overflow more often.
+		 * We do this by initializing bits [23:16] of the counter value via the
+		 * COUNTER_CTRL Counter Parameter (CP) field.
+		 */
+		if (pmu->devtype_data->quirks & DDR_CAP_AXI_ID_FILTER_ENHANCED) {
+			if (counter == EVENT_CYCLES_COUNTER)
+				val |= FIELD_PREP(CNTL_CP_MASK, 0xf0);
+
+```
+
+Context AFTER the conflict:
+```
+		}
+
+		writel(val, pmu->base + reg);
+	} else {
+		/* Disable counter */
+		val = readl_relaxed(pmu->base + reg) & CNTL_EN_MASK;
+		writel(val, pmu->base + reg);
+	}
+}
+
+static bool ddr_perf_counter_overflow(struct ddr_pmu *pmu, int counter)
+{
+	int val;
+
+	val = readl_relaxed(pmu->base + counter * 4 + COUNTER_CNTL);
+
+	return val & CNTL_OVER;
+}
+
+static void ddr_perf_counter_clear(struct ddr_pmu *pmu, int counter)
+{
+	u8 reg = counter * 4 + COUNTER_CNTL;
+	int val;
+
+	val = readl_relaxed(pmu->base + reg);
+	val &= ~CNTL_CLEAR;
+	writel(val, pmu->base + reg);
+
+	val |= CNTL_CLEAR;
+	writel(val, pmu->base + reg);
+}
+
+static void ddr_perf_event_update(struct perf_event *event)
+{
+	struct ddr_pmu *pmu = to_ddr_pmu(event->pmu);
+	struct hw_perf_event *hwc = &event->hw;
+	u64 new_raw_count;
+	int counter = hwc->idx;
+	int ret;
+
+	new_raw_count = ddr_perf_read_counter(pmu, counter);
+	/* Remove the bias applied in ddr_perf_counter_enable(). */
+	if (pmu->devtype_data->quirks & DDR_CAP_AXI_ID_FILTER_ENHANCED) {
+		if (counter == EVENT_CYCLES_COUNTER)
+			new_raw_count &= CYCLES_COUNTER_MASK;
+	}
+
+	local64_add(new_raw_count, &event->count);
+
+	/*
+	 * For legacy SoCs: event counter continue counting when overflow,
+	 *                  no need to clear the counter.
+	 * For new SoCs: event counter stop counting when overflow, need
+	 *               clear counter to let it count again.
+	 */
+	if (counter != EVENT_CYCLES_COUNTER) {
+		ret = ddr_perf_counter_overflow(pmu, counter);
+		if (ret)
+			dev_warn_ratelimited(pmu->dev,  "events lost due to counter overflow (config 0x%llx)\n",
+					     event->attr.config);
+	}
+
+	/* clear counter every time for both cycle counter and event counter */
+	ddr_perf_counter_clear(pmu, counter);
+}
+
+static void ddr_perf_event_start(struct perf_event *event, int flags)
+{
+	struct ddr_pmu *pmu = to_ddr_pmu(event->pmu);
+	struct hw_perf_event *hwc = &event->hw;
+	int counter = hwc->idx;
+
+	/* Workaround for i.MXMP */
+	if ((pmu->devtype_data->quirks & DDR_CAP_AXI_ID_FILTER_ENHANCED) ==
+	     DDR_CAP_AXI_ID_FILTER_ENHANCED) {
+		if (counter == EVENT_CYCLES_COUNTER)
+			local64_set(&hwc->prev_count, 0xe8000000);
+	} else {
+		local64_set(&hwc->prev_count, 0);
+	}
+
+	ddr_perf_counter_enable(pmu, event->attr.config, counter, true);
+
+	if (!pmu->active_counter++)
+		ddr_perf_counter_enable(pmu, EVENT_CYCLES_ID,
+			EVENT_CYCLES_COUNTER, true);
+
+	hwc->state = 0;
+}
+
+static int ddr_perf_event_add(struct perf_event *event, int flags)
+{
+	struct ddr_pmu *pmu = to_ddr_pmu(event->pmu);
+	struct hw_perf_event *hwc = &event->hw;
+	int counter;
+	int cfg = event->attr.config;
+	int cfg1 = event->attr.config1;
+	int cfg2 = event->attr.config2;
+
+	if (pmu->devtype_data->quirks & DDR_CAP_AXI_ID_FILTER) {
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 14:13:56,291 [INFO]   Resolved drivers/perf/fsl_imx8_ddr_perf.c hunk 1: confidence=7/10 — Upstream changed the explanatory comments and biased value to 0xf0 using a simpler mask check, while
+2026-04-27 14:14:30,764 [DEBUG] Applied resolution to drivers/perf/fsl_imx8_ddr_perf.c hunk 1
+2026-04-27 14:14:30,764 [INFO] Resolving drivers/pwm/pwm-imx-tpm.c hunk 1...
+2026-04-27 14:14:30,790 [DEBUG] Prompt for drivers/pwm/pwm-imx-tpm.c hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/pwm/pwm-imx-tpm.c
+
+We are merging mainline stable v6.1.56 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.55..v6.1.56):
+(no commit info available)
+
+Context BEFORE the conflict:
+```
+
+	mutex_lock(&tpm->lock);
+	ret = pwm_imx_tpm_apply_hw(chip, &param, &real_state, pwm);
+	mutex_unlock(&tpm->lock);
+
+	return ret;
+}
+
+static int pwm_imx_tpm_request(struct pwm_chip *chip, struct pwm_device *pwm)
+{
+	struct imx_tpm_pwm_chip *tpm = to_imx_tpm_pwm_chip(chip);
+
+	mutex_lock(&tpm->lock);
+	tpm->user_count++;
+	mutex_unlock(&tpm->lock);
+
+	return 0;
+}
+
+static void pwm_imx_tpm_free(struct pwm_chip *chip, struct pwm_device *pwm)
+{
+	struct imx_tpm_pwm_chip *tpm = to_imx_tpm_pwm_chip(chip);
+
+	mutex_lock(&tpm->lock);
+	tpm->user_count--;
+	mutex_unlock(&tpm->lock);
+}
+
+static const struct pwm_ops imx_tpm_pwm_ops = {
+	.request = pwm_imx_tpm_request,
+	.free = pwm_imx_tpm_free,
+	.get_state = pwm_imx_tpm_get_state,
+	.apply = pwm_imx_tpm_apply,
+	.owner = THIS_MODULE,
+};
+
+static int pwm_imx_tpm_probe(struct platform_device *pdev)
+{
+	struct imx_tpm_pwm_chip *tpm;
+	int ret;
+	u32 val;
+
+	tpm = devm_kzalloc(&pdev->dev, sizeof(*tpm), GFP_KERNEL);
+	if (!tpm)
+		return -ENOMEM;
+
+	platform_set_drvdata(pdev, tpm);
+
+	tpm->base = devm_platform_ioremap_resource(pdev, 0);
+	if (IS_ERR(tpm->base))
+		return PTR_ERR(tpm->base);
+
+	tpm->clk = devm_clk_get(&pdev->dev, NULL);
+	if (IS_ERR(tpm->clk))
+		return dev_err_probe(&pdev->dev, PTR_ERR(tpm->clk),
+				     "failed to get PWM clock\n");
+
+	ret = clk_prepare_enable(tpm->clk);
+	if (ret) {
+		dev_err(&pdev->dev,
+			"failed to prepare or enable clock: %d\n", ret);
+		return ret;
+	}
+
+	tpm->chip.dev = &pdev->dev;
+	tpm->chip.ops = &imx_tpm_pwm_ops;
+
+	/* get number of channels */
+	val = readl(tpm->base + PWM_IMX_TPM_PARAM);
+	tpm->chip.npwm = FIELD_GET(PWM_IMX_TPM_PARAM_CHAN, val);
+
+	mutex_init(&tpm->lock);
+
+	ret = pwmchip_add(&tpm->chip);
+	if (ret) {
+		dev_err(&pdev->dev, "failed to add PWM chip: %d\n", ret);
+		clk_disable_unprepare(tpm->clk);
+	}
+
+	return ret;
+}
+
+static int pwm_imx_tpm_remove(struct platform_device *pdev)
+{
+	struct imx_tpm_pwm_chip *tpm = platform_get_drvdata(pdev);
+
+	pwmchip_remove(&tpm->chip);
+
+	clk_disable_unprepare(tpm->clk);
+
+	return 0;
+}
+
+static int __maybe_unused pwm_imx_tpm_suspend(struct device *dev)
+{
+	struct imx_tpm_pwm_chip *tpm = dev_get_drvdata(dev);
+
+	if (tpm->enable_count > 0)
+		return -EBUSY;
+
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+	/* force 'real_period' to be zero to force
+	 * period update code can be executed after
+	 * system resume back, since suspend causes
+	 * the period related registers to become
+	 * their reset values.
+
+```
+
+THEIR side (mainline stable):
+```
+	/*
+	 * Force 'real_period' to be zero to force period update code
+	 * can be executed after system resume back, since suspend causes
+	 * the period related registers to become their reset values.
+
+```
+
+Context AFTER the conflict:
+```
+	 */
+	tpm->real_period = 0;
+
+	clk_disable_unprepare(tpm->clk);
+
+	return 0;
+}
+
+static int __maybe_unused pwm_imx_tpm_resume(struct device *dev)
+{
+	struct imx_tpm_pwm_chip *tpm = dev_get_drvdata(dev);
+	int ret = 0;
+
+	ret = clk_prepare_enable(tpm->clk);
+	if (ret)
+		dev_err(dev, "failed to prepare or enable clock: %d\n", ret);
+
+	return ret;
+}
+
+static SIMPLE_DEV_PM_OPS(imx_tpm_pwm_pm,
+			 pwm_imx_tpm_suspend, pwm_imx_tpm_resume);
+
+static const struct of_device_id imx_tpm_pwm_dt_ids[] = {
+	{ .compatible = "fsl,imx7ulp-pwm", },
+	{ /* sentinel */ }
+};
+MODULE_DEVICE_TABLE(of, imx_tpm_pwm_dt_ids);
+
+static struct platform_driver imx_tpm_pwm_driver = {
+	.driver = {
+		.name = "imx7ulp-tpm-pwm",
+		.of_match_table = imx_tpm_pwm_dt_ids,
+		.pm = &imx_tpm_pwm_pm,
+	},
+	.probe	= pwm_imx_tpm_probe,
+	.remove = pwm_imx_tpm_remove,
+};
+module_platform_driver(imx_tpm_pwm_driver);
+
+MODULE_AUTHOR("Anson Huang <Anson.Huang@nxp.com>");
+MODULE_DESCRIPTION("i.MX TPM PWM Driver");
+MODULE_LICENSE("GPL v2");
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 14:14:41,413 [INFO]   Resolved drivers/pwm/pwm-imx-tpm.c hunk 0: confidence=8/10 — The only difference is comment formatting; both convey the same information. There’s no functional c
+2026-04-27 14:14:45,178 [DEBUG] Applied resolution to drivers/pwm/pwm-imx-tpm.c hunk 0
+2026-04-27 14:14:45,178 [INFO] Resolving drivers/soc/imx/soc-imx8m.c hunk 1...
+2026-04-27 14:14:45,206 [DEBUG] Prompt for drivers/soc/imx/soc-imx8m.c hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/soc/imx/soc-imx8m.c
+
+We are merging mainline stable v6.1.56 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.55..v6.1.56):
+328efccc7847 soc: imx8m: Enable OCOTP clock for imx8mm before reading registers
+
+Context BEFORE the conflict:
+```
+#define IMX8MP_OCOTP_UID_HIGH		0xE00
+
+/* Same as ANADIG_DIGPROG_IMX7D */
+#define ANADIG_DIGPROG_IMX8MM	0x800
+
+struct imx8_soc_data {
+	char *name;
+	u32 (*soc_revision)(void);
+};
+
+static u64 soc_uid;
+static u64 soc_uid_h;
+
+#ifdef CONFIG_HAVE_ARM_SMCCC
+static u32 imx8mq_soc_revision_from_atf(void)
+{
+	struct arm_smccc_res res;
+
+	arm_smccc_smc(IMX_SIP_GET_SOC_INFO, 0, 0, 0, 0, 0, 0, 0, &res);
+
+	if (res.a0 == SMCCC_RET_NOT_SUPPORTED)
+		return 0;
+	else
+		return res.a0 & 0xff;
+}
+#else
+static inline u32 imx8mq_soc_revision_from_atf(void) { return 0; };
+#endif
+
+static u32 __init imx8mq_soc_revision(void)
+{
+	struct device_node *np;
+	void __iomem *ocotp_base;
+	u32 magic;
+	u32 rev;
+	struct clk *clk;
+
+	np = of_find_compatible_node(NULL, NULL, "fsl,imx8mq-ocotp");
+	if (!np)
+		return 0;
+
+	ocotp_base = of_iomap(np, 0);
+	WARN_ON(!ocotp_base);
+	clk = of_clk_get_by_name(np, NULL);
+	if (IS_ERR(clk)) {
+		WARN_ON(IS_ERR(clk));
+		return 0;
+	}
+
+	clk_prepare_enable(clk);
+
+	/*
+	 * SOC revision on older imx8mq is not available in fuses so query
+	 * the value from ATF instead.
+	 */
+	rev = imx8mq_soc_revision_from_atf();
+	if (!rev) {
+		magic = readl_relaxed(ocotp_base + IMX8MQ_SW_INFO_B1);
+		if (magic == IMX8MQ_SW_MAGIC_B1)
+			rev = REV_B1;
+	}
+
+	soc_uid = readl_relaxed(ocotp_base + OCOTP_UID_HIGH);
+	soc_uid <<= 32;
+	soc_uid |= readl_relaxed(ocotp_base + OCOTP_UID_LOW);
+
+	clk_disable_unprepare(clk);
+	clk_put(clk);
+	iounmap(ocotp_base);
+	of_node_put(np);
+
+	return rev;
+}
+
+static void __init imx8mm_soc_uid(void)
+{
+	void __iomem *ocotp_base;
+	struct device_node *np;
+	struct clk *clk;
+	u32 offset = of_machine_is_compatible("fsl,imx8mp") ?
+		     IMX8MP_OCOTP_UID_OFFSET : 0;
+
+	np = of_find_compatible_node(NULL, NULL, "fsl,imx8mm-ocotp");
+	if (!np)
+		return;
+
+	ocotp_base = of_iomap(np, 0);
+	WARN_ON(!ocotp_base);
+	clk = of_clk_get_by_name(np, NULL);
+	if (IS_ERR(clk)) {
+		WARN_ON(IS_ERR(clk));
+		return;
+	}
+
+	clk_prepare_enable(clk);
+
+	soc_uid = readl_relaxed(ocotp_base + OCOTP_UID_HIGH + offset);
+	soc_uid <<= 32;
+	soc_uid |= readl_relaxed(ocotp_base + OCOTP_UID_LOW + offset);
+
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+	if (offset) {
+		soc_uid_h = readl_relaxed(ocotp_base + IMX8MP_OCOTP_UID_HIGH + 0x10);
+		soc_uid_h <<= 32;
+		soc_uid_h |= readl_relaxed(ocotp_base + IMX8MP_OCOTP_UID_HIGH);
+	}
+
+
+```
+
+THEIR side (mainline stable):
+```
+	clk_disable_unprepare(clk);
+	clk_put(clk);
+
+```
+
+Context AFTER the conflict:
+```
+	iounmap(ocotp_base);
+	of_node_put(np);
+}
+
+static u32 __init imx8mm_soc_revision(void)
+{
+	struct device_node *np;
+	void __iomem *anatop_base;
+	u32 rev;
+
+	np = of_find_compatible_node(NULL, NULL, "fsl,imx8mm-anatop");
+	if (!np)
+		return 0;
+
+	anatop_base = of_iomap(np, 0);
+	WARN_ON(!anatop_base);
+
+	rev = readl_relaxed(anatop_base + ANADIG_DIGPROG_IMX8MM);
+
+	iounmap(anatop_base);
+	of_node_put(np);
+
+	imx8mm_soc_uid();
+
+	return rev;
+}
+
+static const struct imx8_soc_data imx8mq_soc_data = {
+	.name = "i.MX8MQ",
+	.soc_revision = imx8mq_soc_revision,
+};
+
+static const struct imx8_soc_data imx8mm_soc_data = {
+	.name = "i.MX8MM",
+	.soc_revision = imx8mm_soc_revision,
+};
+
+static const struct imx8_soc_data imx8mn_soc_data = {
+	.name = "i.MX8MN",
+	.soc_revision = imx8mm_soc_revision,
+};
+
+static const struct imx8_soc_data imx8mp_soc_data = {
+	.name = "i.MX8MP",
+	.soc_revision = imx8mm_soc_revision,
+};
+
+static __maybe_unused const struct of_device_id imx8_soc_match[] = {
+	{ .compatible = "fsl,imx8mq", .data = &imx8mq_soc_data, },
+	{ .compatible = "fsl,imx8mm", .data = &imx8mm_soc_data, },
+	{ .compatible = "fsl,imx8mn", .data = &imx8mn_soc_data, },
+	{ .compatible = "fsl,imx8mp", .data = &imx8mp_soc_data, },
+	{ }
+};
+
+static void imx8mq_noc_init(void)
+{
+	struct arm_smccc_res res;
+
+	pr_info("Config NOC for VPU and CPU\n");
+
+	arm_smccc_smc(IMX_SIP_NOC, IMX_SIP_NOC_PRIORITY, NOC_CPU_PRIORITY,
+			0x80000300, 0, 0, 0, 0, &res);
+	if (res.a0)
+		pr_err("Config NOC for CPU fail!\n");
+
+	arm_smccc_smc(IMX_SIP_NOC, IMX_SIP_NOC_PRIORITY, NOC_VPU_PRIORITY,
+			0x80000300, 0, 0, 0, 0, &res);
+	if (res.a0)
+		pr_err("Config NOC for VPU fail!\n");
+}
+
+#define imx8_revision(soc_rev) \
+	soc_rev ? \
+	kasprintf(GFP_KERNEL, "%d.%d", (soc_rev >> 4) & 0xf,  soc_rev & 0xf) : \
+	"unknown"
+
+static int __init imx8_soc_init(void)
+{
+	struct soc_device_attribute *soc_dev_attr;
+	struct soc_device *soc_dev;
+	const struct of_device_id *id;
+	u32 soc_rev = 0;
+	const struct imx8_soc_data *data;
+	int ret;
+
+	soc_dev_attr = kzalloc(sizeof(*soc_dev_attr), GFP_KERNEL);
+	if (!soc_dev_attr)
+		return -ENOMEM;
+
+	soc_dev_attr->family = "Freescale i.MX";
+
+	ret = of_property_read_string(of_root, "model", &soc_dev_attr->machine);
+	if (ret)
+		goto free_soc;
+
+	id = of_match_node(imx8_soc_match, of_root);
+	if (!id) {
+		ret = -ENODEV;
+		goto free_soc;
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 14:15:17,357 [INFO]   Resolved drivers/soc/imx/soc-imx8m.c hunk 0: confidence=8/10 — Mainline added clock disable/put after reading OCOTP; NXP added additional UID-high reading for i.MX
+2026-04-27 14:15:33,250 [DEBUG] Applied resolution to drivers/soc/imx/soc-imx8m.c hunk 0
+2026-04-27 14:15:33,250 [INFO] Resolving drivers/spi/spi-nxp-fspi.c hunk 1...
+2026-04-27 14:15:33,277 [DEBUG] Prompt for drivers/spi/spi-nxp-fspi.c hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/spi/spi-nxp-fspi.c
+
+We are merging mainline stable v6.1.56 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.55..v6.1.56):
+84592ec591be spi: nxp-fspi: reset the FLSHxCR1 registers
+
+Context BEFORE the conflict:
+```
+	map = syscon_regmap_lookup_by_compatible("fsl,ls1028a-dcfg");
+	if (IS_ERR(map)) {
+		dev_err(f->dev, "No syscon regmap\n");
+		goto err;
+	}
+
+	ret = regmap_read(map, DCFG_RCWSR1, &val);
+	if (ret < 0)
+		goto err;
+
+	sys_pll_ratio = FIELD_GET(SYS_PLL_RAT, val);
+	dev_dbg(f->dev, "val: 0x%08x, sys_pll_ratio: %d\n", val, sys_pll_ratio);
+
+	/* Use IP bus only if platform clock is 300MHz */
+	if (sys_pll_ratio == 3)
+		f->devtype_data->quirks |= FSPI_QUIRK_USE_IP_ONLY;
+
+	return;
+
+err:
+	dev_err(f->dev, "Errata cannot be executed. Read via IP bus may not work\n");
+}
+
+static int nxp_fspi_default_setup(struct nxp_fspi *f)
+{
+	void __iomem *base = f->iobase;
+	int ret, i;
+	u32 reg;
+
+	/* disable and unprepare clock to avoid glitch pass to controller */
+	nxp_fspi_clk_disable_unprep(f);
+
+	/* the default frequency, we will change it later if necessary. */
+	ret = clk_set_rate(f->clk, 20000000);
+	if (ret)
+		return ret;
+
+	ret = nxp_fspi_clk_prep_enable(f);
+	if (ret)
+		return ret;
+
+	/*
+	 * ERR050568: Flash access by FlexSPI AHB command may not work with
+	 * platform frequency equal to 300 MHz on LS1028A.
+	 * LS1028A reuses LX2160A compatible entry. Make errata applicable for
+	 * Layerscape LS1028A platform.
+	 */
+	if (of_device_is_compatible(f->dev->of_node, "nxp,lx2160a-fspi"))
+		erratum_err050568(f);
+
+	/* Reset the module */
+	/* w1c register, wait unit clear */
+	ret = fspi_readl_poll_tout(f, f->iobase + FSPI_MCR0,
+				   FSPI_MCR0_SWRST, 0, POLL_TOUT, false);
+	WARN_ON(ret);
+
+	/* Disable the module */
+	fspi_writel(f, FSPI_MCR0_MDIS, base + FSPI_MCR0);
+
+	/*
+	 * Config the DLL register to default value, enable the slave clock delay
+	 * line delay cell override mode, and use 1 fixed delay cell in DLL delay
+	 * chain, this is the suggested setting when clock rate < 100MHz.
+	 */
+	fspi_writel(f, FSPI_DLLACR_OVRDEN, base + FSPI_DLLACR);
+	fspi_writel(f, FSPI_DLLBCR_OVRDEN, base + FSPI_DLLBCR);
+
+	/* enable module */
+	reg = FSPI_MCR0_AHB_TIMEOUT(0xFF) | FSPI_MCR0_IP_TIMEOUT(0xFF);
+
+	/* if there are individual devices connected to each fspi port, */
+	/* please enable individual mode in DT. */
+	if (!f->individual_mode)
+		reg |= FSPI_MCR0_OCTCOMB_EN;
+
+	fspi_writel(f, reg, base + FSPI_MCR0);
+
+	/*
+	 * Disable same device enable bit and configure all slave devices
+	 * independently.
+	 */
+	reg = fspi_readl(f, f->iobase + FSPI_MCR2);
+	reg = reg & ~(FSPI_MCR2_SAMEDEVICEEN);
+	fspi_writel(f, reg, base + FSPI_MCR2);
+
+	/* AHB configuration for access buffer 0~7. */
+	for (i = 0; i < 7; i++)
+		fspi_writel(f, 0, base + FSPI_AHBRX_BUF0CR0 + 4 * i);
+
+	/*
+	 * Set ADATSZ with the maximum AHB buffer size to improve the read
+	 * performance.
+	 */
+	fspi_writel(f, (f->devtype_data->ahb_buf_size / 8 |
+		  FSPI_AHBRXBUF0CR7_PREF), base + FSPI_AHBRX_BUF7CR0);
+
+	/* prefetch and no start address alignment limitation */
+	fspi_writel(f, FSPI_AHBCR_PREF_EN | FSPI_AHBCR_RDADDROPT,
+		 base + FSPI_AHBCR);
+
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+	/* Reset the flashx control1 registers. */
+
+```
+
+THEIR side (mainline stable):
+```
+	/* Reset the FLSHxCR1 registers. */
+
+```
+
+Context AFTER the conflict:
+```
+	reg = FSPI_FLSHXCR1_TCSH(0x3) | FSPI_FLSHXCR1_TCSS(0x3);
+	fspi_writel(f, reg, base + FSPI_FLSHA1CR1);
+	fspi_writel(f, reg, base + FSPI_FLSHA2CR1);
+	fspi_writel(f, reg, base + FSPI_FLSHB1CR1);
+	fspi_writel(f, reg, base + FSPI_FLSHB2CR1);
+
+	/* AHB Read - Set lut sequence ID for all CS. */
+	fspi_writel(f, SEQID_LUT, base + FSPI_FLSHA1CR2);
+	fspi_writel(f, SEQID_LUT, base + FSPI_FLSHA2CR2);
+	fspi_writel(f, SEQID_LUT, base + FSPI_FLSHB1CR2);
+	fspi_writel(f, SEQID_LUT, base + FSPI_FLSHB2CR2);
+
+	f->selected = -1;
+
+	/* enable the interrupt */
+	fspi_writel(f, FSPI_INTEN_IPCMDDONE, base + FSPI_INTEN);
+
+	return 0;
+}
+
+static const char *nxp_fspi_get_name(struct spi_mem *mem)
+{
+	struct nxp_fspi *f = spi_controller_get_devdata(mem->spi->master);
+	struct device *dev = &mem->spi->dev;
+	const char *name;
+
+	// Set custom name derived from the platform_device of the controller.
+	if (of_get_available_child_count(f->dev->of_node) == 1)
+		return dev_name(f->dev);
+
+	name = devm_kasprintf(dev, GFP_KERNEL,
+			      "%s-%d", dev_name(f->dev),
+			      mem->spi->chip_select);
+
+	if (!name) {
+		dev_err(dev, "failed to get memory for custom flash name\n");
+		return ERR_PTR(-ENOMEM);
+	}
+
+	return name;
+}
+
+static const struct spi_controller_mem_ops nxp_fspi_mem_ops = {
+	.adjust_op_size = nxp_fspi_adjust_op_size,
+	.supports_op = nxp_fspi_supports_op,
+	.exec_op = nxp_fspi_exec_op,
+	.get_name = nxp_fspi_get_name,
+};
+
+static const struct spi_controller_mem_caps nxp_fspi_mem_caps = {
+	.dtr = true,
+};
+
+static const struct spi_controller_mem_caps nxp_fspi_mem_caps_quirks = {
+	.dtr = false,
+};
+
+static int nxp_fspi_probe(struct platform_device *pdev)
+{
+	struct spi_controller *ctlr;
+	struct device *dev = &pdev->dev;
+	struct device_node *np = dev->of_node;
+	struct resource *res;
+	struct nxp_fspi *f;
+	int ret;
+	u32 reg;
+
+	ctlr = spi_alloc_master(&pdev->dev, sizeof(*f));
+	if (!ctlr)
+		return -ENOMEM;
+
+	ctlr->mode_bits = SPI_RX_DUAL | SPI_RX_QUAD | SPI_RX_OCTAL |
+			  SPI_TX_DUAL | SPI_TX_QUAD | SPI_TX_OCTAL;
+
+	f = spi_controller_get_devdata(ctlr);
+	f->dev = dev;
+	f->devtype_data = (struct nxp_fspi_devtype_data *)device_get_match_data(dev);
+	if (!f->devtype_data) {
+		ret = -ENODEV;
+		goto err_put_ctrl;
+	}
+
+	platform_set_drvdata(pdev, f);
+
+	/* find the resources - configuration register address space */
+	if (is_acpi_node(dev_fwnode(f->dev)))
+		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+	else
+		res = platform_get_resource_byname(pdev,
+				IORESOURCE_MEM, "fspi_base");
+
+	f->iobase = devm_ioremap_resource(dev, res);
+	if (IS_ERR(f->iobase)) {
+		ret = PTR_ERR(f->iobase);
+		goto err_put_ctrl;
+	}
+
+	/* find the resources - controller memory mapped space */
+	if (is_acpi_node(dev_fwnode(f->dev)))
+		res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 14:15:44,519 [INFO]   Resolved drivers/spi/spi-nxp-fspi.c hunk 0: confidence=7/10 — Conflict only in comment wording. NXP vendor originally had a comment; mainline edited the wording. 
+2026-04-27 14:16:01,208 [DEBUG] Applied resolution to drivers/spi/spi-nxp-fspi.c hunk 0
+2026-04-27 14:16:01,208 [INFO] Resolving drivers/usb/chipidea/ci_hdrc_imx.c hunk 1...
+2026-04-27 14:16:01,236 [DEBUG] Prompt for drivers/usb/chipidea/ci_hdrc_imx.c hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/usb/chipidea/ci_hdrc_imx.c
+
+We are merging mainline stable v6.1.56 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.55..v6.1.56):
+(no commit info available)
+
+Context BEFORE the conflict:
+```
+	{ .compatible = "fsl,imx7d-usb", .data = &imx7d_usb_data},
+	{ .compatible = "fsl,imx7ulp-usb", .data = &imx7ulp_usb_data},
+	{ .compatible = "fsl,imx8ulp-usb", .data = &imx8ulp_usb_data},
+	{ /* sentinel */ }
+};
+MODULE_DEVICE_TABLE(of, ci_hdrc_imx_dt_ids);
+
+struct ci_hdrc_imx_data {
+	struct usb_phy *phy;
+	struct platform_device *ci_pdev;
+	struct clk *clk;
+	struct clk *clk_wakeup;
+	struct imx_usbmisc_data *usbmisc_data;
+	bool supports_runtime_pm;
+	bool override_phy_control;
+	bool in_lpm;
+	struct pinctrl *pinctrl;
+	struct pinctrl_state *pinctrl_hsic_active;
+	struct regulator *hsic_pad_regulator;
+	/* SoC before i.mx6 (except imx23/imx28) needs three clks */
+	bool need_three_clks;
+	struct clk *clk_ipg;
+	struct clk *clk_ahb;
+	struct clk *clk_per;
+	/* --------------------------------- */
+	struct pm_qos_request pm_qos_req;
+	const struct ci_hdrc_imx_platform_flag *plat_data;
+};
+
+/* Common functions shared by usbmisc drivers */
+
+static struct imx_usbmisc_data *usbmisc_get_init_data(struct device *dev)
+{
+	struct platform_device *misc_pdev;
+	struct device_node *np = dev->of_node;
+	struct of_phandle_args args;
+	struct imx_usbmisc_data *data;
+	int ret;
+
+	/*
+	 * In case the fsl,usbmisc property is not present this device doesn't
+	 * need usbmisc. Return NULL (which is no error here)
+	 */
+	if (!of_get_property(np, "fsl,usbmisc", NULL))
+		return NULL;
+
+	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
+	if (!data)
+		return ERR_PTR(-ENOMEM);
+
+	ret = of_parse_phandle_with_args(np, "fsl,usbmisc", "#index-cells",
+					0, &args);
+	if (ret) {
+		dev_err(dev, "Failed to parse property fsl,usbmisc, errno %d\n",
+			ret);
+		return ERR_PTR(ret);
+	}
+
+	data->index = args.args[0];
+
+	misc_pdev = of_find_device_by_node(args.np);
+	of_node_put(args.np);
+
+	if (!misc_pdev)
+		return ERR_PTR(-EPROBE_DEFER);
+
+	if (!platform_get_drvdata(misc_pdev)) {
+		put_device(&misc_pdev->dev);
+		return ERR_PTR(-EPROBE_DEFER);
+	}
+	data->dev = &misc_pdev->dev;
+
+	/*
+	 * Check the various over current related properties. If over current
+	 * detection is disabled we're not interested in the polarity.
+	 */
+	if (of_find_property(np, "disable-over-current", NULL)) {
+		data->disable_oc = 1;
+	} else if (of_find_property(np, "over-current-active-high", NULL)) {
+		data->oc_pol_active_low = 0;
+		data->oc_pol_configured = 1;
+	} else if (of_find_property(np, "over-current-active-low", NULL)) {
+		data->oc_pol_active_low = 1;
+		data->oc_pol_configured = 1;
+	} else {
+		dev_warn(dev, "No over current polarity defined\n");
+	}
+
+	data->pwr_pol = of_property_read_bool(np, "power-active-high");
+	data->evdo = of_property_read_bool(np, "external-vbus-divider");
+
+	if (of_usb_get_phy_mode(np) == USBPHY_INTERFACE_MODE_ULPI)
+		data->ulpi = 1;
+
+	if (of_property_read_u32(np, "samsung,picophy-pre-emp-curr-control",
+			&data->emp_curr_control))
+		data->emp_curr_control = -1;
+	if (of_property_read_u32(np, "samsung,picophy-dc-vol-level-adjust",
+			&data->dc_vol_level_adjust))
+		data->dc_vol_level_adjust = -1;
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+	if (of_property_read_u32(np, "fsl,picophy-rise-fall-time-adjust",
+			&data->rise_fall_time_adjust))
+		data->rise_fall_time_adjust = -1;
+
+```
+
+THEIR side (mainline stable):
+```
+
+```
+
+Context AFTER the conflict:
+```
+
+	return data;
+}
+
+/* End of common functions shared by usbmisc drivers*/
+static int imx_get_clks(struct device *dev)
+{
+	struct ci_hdrc_imx_data *data = dev_get_drvdata(dev);
+	int ret = 0;
+
+	data->clk_ipg = devm_clk_get(dev, "ipg");
+	if (IS_ERR(data->clk_ipg)) {
+		/* If the platform only needs one primary clock */
+		data->clk = devm_clk_get(dev, NULL);
+		if (IS_ERR(data->clk)) {
+			ret = PTR_ERR(data->clk);
+			dev_err(dev,
+				"Failed to get clks, err=%ld,%ld\n",
+				PTR_ERR(data->clk), PTR_ERR(data->clk_ipg));
+			return ret;
+		}
+		/* Get wakeup clock. Not all of the platforms need to
+		 * handle this clock. So make it optional.
+		 */
+		data->clk_wakeup = devm_clk_get_optional(dev,
+							 "usb_wakeup_clk");
+		if (IS_ERR(data->clk_wakeup)) {
+			ret = PTR_ERR(data->clk_wakeup);
+			dev_err(dev,
+				"Failed to get wakeup clk, err=%ld\n",
+				PTR_ERR(data->clk_wakeup));
+			return ret;
+		}
+		return ret;
+	}
+
+	data->clk_ahb = devm_clk_get(dev, "ahb");
+	if (IS_ERR(data->clk_ahb)) {
+		ret = PTR_ERR(data->clk_ahb);
+		dev_err(dev,
+			"Failed to get ahb clock, err=%d\n", ret);
+		return ret;
+	}
+
+	data->clk_per = devm_clk_get(dev, "per");
+	if (IS_ERR(data->clk_per)) {
+		ret = PTR_ERR(data->clk_per);
+		dev_err(dev,
+			"Failed to get per clock, err=%d\n", ret);
+		return ret;
+	}
+
+	data->need_three_clks = true;
+	return ret;
+}
+
+static int imx_prepare_enable_clks(struct device *dev)
+{
+	struct ci_hdrc_imx_data *data = dev_get_drvdata(dev);
+	int ret = 0;
+
+	if (data->need_three_clks) {
+		ret = clk_prepare_enable(data->clk_ipg);
+		if (ret) {
+			dev_err(dev,
+				"Failed to prepare/enable ipg clk, err=%d\n",
+				ret);
+			return ret;
+		}
+
+		ret = clk_prepare_enable(data->clk_ahb);
+		if (ret) {
+			dev_err(dev,
+				"Failed to prepare/enable ahb clk, err=%d\n",
+				ret);
+			clk_disable_unprepare(data->clk_ipg);
+			return ret;
+		}
+
+		ret = clk_prepare_enable(data->clk_per);
+		if (ret) {
+			dev_err(dev,
+				"Failed to prepare/enable per clk, err=%d\n",
+				ret);
+			clk_disable_unprepare(data->clk_ahb);
+			clk_disable_unprepare(data->clk_ipg);
+			return ret;
+		}
+	} else {
+		ret = clk_prepare_enable(data->clk);
+		if (ret) {
+			dev_err(dev,
+				"Failed to prepare/enable clk, err=%d\n",
+				ret);
+			return ret;
+		}
+	}
+
+	return ret;
+}
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 14:16:12,514 [INFO]   Resolved drivers/usb/chipidea/ci_hdrc_imx.c hunk 0: confidence=9/10 — Upstream had no code; NXP added parsing for "fsl,picophy-rise-fall-time-adjust" DT property. Keeping
+2026-04-27 14:16:20,227 [DEBUG] Applied resolution to drivers/usb/chipidea/ci_hdrc_imx.c hunk 0
+2026-04-27 14:16:20,227 [INFO] Resolving drivers/usb/core/hub.c hunk 1...
+2026-04-27 14:16:20,254 [DEBUG] Prompt for drivers/usb/core/hub.c hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/usb/core/hub.c
+
+We are merging mainline stable v6.1.56 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.55..v6.1.56):
+(no commit info available)
+
+Context BEFORE the conflict:
+```
+cpu_to_le16(64);
+			break;
+		case USB_SPEED_FULL:		/* 8, 16, 32, or 64 */
+			/* to determine the ep0 maxpacket size, try to read
+			 * the device descriptor to get bMaxPacketSize0 and
+			 * then correct our initial guess.
+			 */
+			udev->ep0.desc.wMaxPacketSize = cpu_to_le16(64);
+			break;
+		case USB_SPEED_LOW:		/* fixed at 8 */
+			udev->ep0.desc.wMaxPacketSize = cpu_to_le16(8);
+			break;
+		default:
+			goto fail;
+		}
+	}
+
+	if (udev->speed == USB_SPEED_WIRELESS)
+		speed = "variable speed Wireless";
+	else
+		speed = usb_speed_string(udev->speed);
+
+	/*
+	 * The controller driver may be NULL if the controller device
+	 * is the middle device between platform device and roothub.
+	 * This middle device may not need a device driver due to
+	 * all hardware control can be at platform device driver, this
+	 * platform device is usually a dual-role USB controller device.
+	 */
+	if (udev->bus->controller->driver)
+		driver_name = udev->bus->controller->driver->name;
+	else
+		driver_name = udev->bus->sysdev->driver->name;
+
+	if (udev->speed < USB_SPEED_SUPER)
+		dev_info(&udev->dev,
+				"%s %s USB device number %d using %s\n",
+				(initial ? "new" : "reset"), speed,
+				devnum, driver_name);
+
+	if (initial) {
+		/* Set up TT records, if needed  */
+		if (hdev->tt) {
+			udev->tt = hdev->tt;
+			udev->ttport = hdev->ttport;
+		} else if (udev->speed != USB_SPEED_HIGH
+				&& hdev->speed == USB_SPEED_HIGH) {
+			if (!hub->tt.hub) {
+				dev_err(&udev->dev, "parent hub has no TT\n");
+				retval = -EINVAL;
+				goto fail;
+			}
+			udev->tt = &hub->tt;
+			udev->ttport = port1;
+		}
+	}
+
+	/* Why interleave GET_DESCRIPTOR and SET_ADDRESS this way?
+	 * Because device hardware and firmware is sometimes buggy in
+	 * this area, and this is how Linux has done it for ages.
+	 * Change it cautiously.
+	 *
+	 * NOTE:  If use_new_scheme() is true we will start by issuing
+	 * a 64-byte GET_DESCRIPTOR request.  This is what Windows does,
+	 * so it may help with some non-standards-compliant devices.
+	 * Otherwise we start with SET_ADDRESS and then try to read the
+	 * first 8 bytes of the device descriptor to get the ep0 maxpacket
+	 * value.
+	 */
+	do_new_scheme = use_new_scheme(udev, retry_counter, port_dev);
+
+	for (retries = 0; retries < GET_DESCRIPTOR_TRIES; (++retries, msleep(100))) {
+		if (do_new_scheme) {
+			retval = hub_enable_device(udev);
+			if (retval < 0) {
+				dev_err(&udev->dev,
+					"hub failed to enable device, error %d\n",
+					retval);
+				goto fail;
+			}
+
+			maxp0 = get_bMaxPacketSize0(udev, buf,
+					GET_DESCRIPTOR_BUFSIZE, retries == 0);
+			if (maxp0 > 0 && !initial &&
+					maxp0 != udev->descriptor.bMaxPacketSize0) {
+				dev_err(&udev->dev, "device reset changed ep0 maxpacket size!\n");
+				retval = -ENODEV;
+				goto fail;
+			}
+
+			retval = hub_port_reset(hub, port1, udev, delay, false);
+			if (retval < 0)		/* error or disconnect */
+				goto fail;
+			if (oldspeed != udev->speed) {
+				dev_dbg(&udev->dev,
+					"device reset changed speed!\n");
+				retval = -ENODEV;
+				goto fail;
+			}
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+			if (r) {
+				if (r != -ENODEV)
+					dev_err(&udev->dev,
+						"device no response, device descriptor read/64, error %d\n",
+							r);
+				retval = -EMSGSIZE;
+
+```
+
+THEIR side (mainline stable):
+```
+			if (maxp0 < 0) {
+				if (maxp0 != -ENODEV)
+					dev_err(&udev->dev, "device descriptor read/64, error %d\n",
+							maxp0);
+				retval = maxp0;
+
+```
+
+Context AFTER the conflict:
+```
+				continue;
+			}
+		}
+
+		/*
+		 * If device is WUSB, we already assigned an
+		 * unauthorized address in the Connect Ack sequence;
+		 * authorization will assign the final address.
+		 */
+		if (udev->wusb == 0) {
+			for (operations = 0; operations < SET_ADDRESS_TRIES; ++operations) {
+				retval = hub_set_address(udev, devnum);
+				if (retval >= 0)
+					break;
+				msleep(200);
+			}
+			if (retval < 0) {
+				if (retval != -ENODEV)
+					dev_err(&udev->dev, "device not accepting address %d, error %d\n",
+							devnum, retval);
+				goto fail;
+			}
+			if (udev->speed >= USB_SPEED_SUPER) {
+				devnum = udev->devnum;
+				dev_info(&udev->dev,
+						"%s SuperSpeed%s%s USB device number %d using %s\n",
+						(udev->config) ? "reset" : "new",
+					 (udev->speed == USB_SPEED_SUPER_PLUS) ?
+							" Plus" : "",
+					 (udev->ssp_rate == USB_SSP_GEN_2x2) ?
+							" Gen 2x2" :
+					 (udev->ssp_rate == USB_SSP_GEN_2x1) ?
+							" Gen 2x1" :
+					 (udev->ssp_rate == USB_SSP_GEN_1x2) ?
+							" Gen 1x2" : "",
+					 devnum, driver_name);
+			}
+
+			/* cope with hardware quirkiness:
+			 *  - let SET_ADDRESS settle, some device hardware wants it
+			 *  - read ep0 maxpacket even for high and low speed,
+			 */
+			msleep(10);
+			if (do_new_scheme)
+				break;
+		}
+
+		/* !do_new_scheme || wusb */
+		maxp0 = get_bMaxPacketSize0(udev, buf, 8, retries == 0);
+		if (maxp0 < 0) {
+			retval = maxp0;
+			if (retval != -ENODEV)
+				dev_err(&udev->dev,
+					"device descriptor read/8, error %d\n",
+					retval);
+		} else {
+			u32 delay;
+
+			if (!initial && maxp0 != udev->descriptor.bMaxPacketSize0) {
+				dev_err(&udev->dev, "device reset changed ep0 maxpacket size!\n");
+				retval = -ENODEV;
+				goto fail;
+			}
+
+			delay = udev->parent->hub_delay;
+			udev->hub_delay = min_t(u32, delay,
+						USB_TP_TRANSMISSION_DELAY_MAX);
+			retval = usb_set_isoch_delay(udev);
+			if (retval) {
+				dev_dbg(&udev->dev,
+					"Failed set isoch delay, error %d\n",
+					retval);
+				retval = 0;
+			}
+			break;
+		}
+	}
+	if (retval)
+		goto fail;
+
+	/*
+	 * Check the ep0 maxpacket guess and correct it if necessary.
+	 * maxp0 is the value stored in the device descriptor;
+	 * i is the value it encodes (logarithmic for SuperSpeed or greater).
+	 */
+	i = maxp0;
+	if (udev->speed >= USB_SPEED_SUPER) {
+		if (maxp0 <= 16)
+			i = 1 << maxp0;
+		else
+			i = 0;		/* Invalid */
+	}
+	if (usb_endpoint_maxp(&udev->ep0.desc) == i) {
+		;	/* Initial ep0 maxpacket guess is right */
+	} else if ((udev->speed == USB_SPEED_FULL ||
+				udev->speed == USB_SPEED_HIGH) &&
+			(i == 8 || i == 16 || i == 32 || i == 64)) {
+		/* Initial guess is wrong; use the descriptor's value */
+		if (udev->speed == USB_SPEED_FULL)
+			dev_dbg(&udev->dev, "ep0 maxpacket = %d\n", i);
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 14:17:12,331 [INFO]   Resolved drivers/usb/core/hub.c hunk 0: confidence=4/10 — The vendor (NXP) code introduces variable ‘r’, a custom error-handling path and a different dev_err 
+2026-04-27 14:18:15,930 [DEBUG] Applied resolution to drivers/usb/core/hub.c hunk 0
+2026-04-27 14:18:15,931 [INFO] Resolving drivers/usb/host/xhci.h hunk 1...
+2026-04-27 14:18:15,957 [DEBUG] Prompt for drivers/usb/host/xhci.h hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/usb/host/xhci.h
+
+We are merging mainline stable v6.1.56 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.55..v6.1.56):
+(no commit info available)
+
+Context BEFORE the conflict:
+```
+ timer that set it) should stop touching
+ * hardware immediately.  Interrupt handlers should return immediately when
+ * they see this status (any time they drop and re-acquire xhci->lock).
+ * xhci_urb_dequeue() should call usb_hcd_check_unlink_urb() and return without
+ * putting the TD on the canceled list, etc.
+ *
+ * There are no reports of xHCI host controllers that display this issue.
+ */
+#define XHCI_STATE_DYING	(1 << 0)
+#define XHCI_STATE_HALTED	(1 << 1)
+#define XHCI_STATE_REMOVING	(1 << 2)
+	unsigned long long	quirks;
+#define	XHCI_LINK_TRB_QUIRK	BIT_ULL(0)
+#define XHCI_RESET_EP_QUIRK	BIT_ULL(1) /* Deprecated */
+#define XHCI_NEC_HOST		BIT_ULL(2)
+#define XHCI_AMD_PLL_FIX	BIT_ULL(3)
+#define XHCI_SPURIOUS_SUCCESS	BIT_ULL(4)
+/*
+ * Certain Intel host controllers have a limit to the number of endpoint
+ * contexts they can handle.  Ideally, they would signal that they can't handle
+ * anymore endpoint contexts by returning a Resource Error for the Configure
+ * Endpoint command, but they don't.  Instead they expect software to keep track
+ * of the number of active endpoints for them, across configure endpoint
+ * commands, reset device commands, disable slot commands, and address device
+ * commands.
+ */
+#define XHCI_EP_LIMIT_QUIRK	BIT_ULL(5)
+#define XHCI_BROKEN_MSI		BIT_ULL(6)
+#define XHCI_RESET_ON_RESUME	BIT_ULL(7)
+#define	XHCI_SW_BW_CHECKING	BIT_ULL(8)
+#define XHCI_AMD_0x96_HOST	BIT_ULL(9)
+#define XHCI_TRUST_TX_LENGTH	BIT_ULL(10)
+#define XHCI_LPM_SUPPORT	BIT_ULL(11)
+#define XHCI_INTEL_HOST		BIT_ULL(12)
+#define XHCI_SPURIOUS_REBOOT	BIT_ULL(13)
+#define XHCI_COMP_MODE_QUIRK	BIT_ULL(14)
+#define XHCI_AVOID_BEI		BIT_ULL(15)
+#define XHCI_PLAT		BIT_ULL(16)
+#define XHCI_SLOW_SUSPEND	BIT_ULL(17)
+#define XHCI_SPURIOUS_WAKEUP	BIT_ULL(18)
+/* For controllers with a broken beyond repair streams implementation */
+#define XHCI_BROKEN_STREAMS	BIT_ULL(19)
+#define XHCI_PME_STUCK_QUIRK	BIT_ULL(20)
+#define XHCI_MTK_HOST		BIT_ULL(21)
+#define XHCI_SSIC_PORT_UNUSED	BIT_ULL(22)
+#define XHCI_NO_64BIT_SUPPORT	BIT_ULL(23)
+#define XHCI_MISSING_CAS	BIT_ULL(24)
+/* For controller with a broken Port Disable implementation */
+#define XHCI_BROKEN_PORT_PED	BIT_ULL(25)
+#define XHCI_LIMIT_ENDPOINT_INTERVAL_7	BIT_ULL(26)
+#define XHCI_U2_DISABLE_WAKE	BIT_ULL(27)
+#define XHCI_ASMEDIA_MODIFY_FLOWCONTROL	BIT_ULL(28)
+#define XHCI_HW_LPM_DISABLE	BIT_ULL(29)
+#define XHCI_SUSPEND_DELAY	BIT_ULL(30)
+#define XHCI_INTEL_USB_ROLE_SW	BIT_ULL(31)
+#define XHCI_ZERO_64B_REGS	BIT_ULL(32)
+#define XHCI_DEFAULT_PM_RUNTIME_ALLOW	BIT_ULL(33)
+#define XHCI_RESET_PLL_ON_DISCONNECT	BIT_ULL(34)
+#define XHCI_SNPS_BROKEN_SUSPEND    BIT_ULL(35)
+#define XHCI_RENESAS_FW_QUIRK	BIT_ULL(36)
+#define XHCI_SKIP_PHY_INIT	BIT_ULL(37)
+#define XHCI_DISABLE_SPARSE	BIT_ULL(38)
+#define XHCI_SG_TRB_CACHE_SIZE_QUIRK	BIT_ULL(39)
+#define XHCI_NO_SOFT_RETRY	BIT_ULL(40)
+#define XHCI_BROKEN_D3COLD_S2I	BIT_ULL(41)
+#define XHCI_EP_CTX_BROKEN_DCS	BIT_ULL(42)
+#define XHCI_SUSPEND_RESUME_CLKS	BIT_ULL(43)
+#define XHCI_RESET_TO_DEFAULT	BIT_ULL(44)
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+#define XHCI_CDNS_HOST		BIT_ULL(45)
+
+```
+
+THEIR side (mainline stable):
+```
+#define XHCI_ZHAOXIN_TRB_FETCH	BIT_ULL(45)
+#define XHCI_ZHAOXIN_HOST	BIT_ULL(46)
+
+```
+
+Context AFTER the conflict:
+```
+
+	unsigned int		num_active_eps;
+	unsigned int		limit_active_eps;
+	struct xhci_port	*hw_ports;
+	struct xhci_hub		usb2_rhub;
+	struct xhci_hub		usb3_rhub;
+	/* support xHCI 1.0 spec USB2 hardware LPM */
+	unsigned		hw_lpm_support:1;
+	/* Broken Suspend flag for SNPS Suspend resume issue */
+	unsigned		broken_suspend:1;
+	/* Indicates that omitting hcd is supported if root hub has no ports */
+	unsigned		allow_single_roothub:1;
+	/* cached usb2 extened protocol capabilites */
+	u32                     *ext_caps;
+	unsigned int            num_ext_caps;
+	/* cached extended protocol port capabilities */
+	struct xhci_port_cap	*port_caps;
+	unsigned int		num_port_caps;
+	/* Compliance Mode Recovery Data */
+	struct timer_list	comp_mode_recovery_timer;
+	u32			port_status_u0;
+	u16			test_mode;
+/* Compliance Mode Timer Triggered every 2 seconds */
+#define COMP_MODE_RCVRY_MSECS 2000
+
+	struct dentry		*debugfs_root;
+	struct dentry		*debugfs_slots;
+	struct list_head	regset_list;
+
+	void			*dbc;
+	/* platform-specific data -- must come last */
+	unsigned long		priv[] __aligned(sizeof(s64));
+};
+
+/* Platform specific overrides to generic XHCI hc_driver ops */
+struct xhci_driver_overrides {
+	size_t extra_priv_size;
+	int (*reset)(struct usb_hcd *hcd);
+	int (*start)(struct usb_hcd *hcd);
+	int (*add_endpoint)(struct usb_hcd *hcd, struct usb_device *udev,
+			    struct usb_host_endpoint *ep);
+	int (*drop_endpoint)(struct usb_hcd *hcd, struct usb_device *udev,
+			     struct usb_host_endpoint *ep);
+	int (*check_bandwidth)(struct usb_hcd *, struct usb_device *);
+	void (*reset_bandwidth)(struct usb_hcd *, struct usb_device *);
+	int (*bus_suspend)(struct usb_hcd *hcd);
+	int (*update_hub_device)(struct usb_hcd *hcd, struct usb_device *hdev,
+			    struct usb_tt *tt, gfp_t mem_flags);
+};
+
+#define	XHCI_CFC_DELAY		10
+
+/* convert between an HCD pointer and the corresponding EHCI_HCD */
+static inline struct xhci_hcd *hcd_to_xhci(struct usb_hcd *hcd)
+{
+	struct usb_hcd *primary_hcd;
+
+	if (usb_hcd_is_primary_hcd(hcd))
+		primary_hcd = hcd;
+	else
+		primary_hcd = hcd->primary_hcd;
+
+	return (struct xhci_hcd *) (primary_hcd->hcd_priv);
+}
+
+static inline struct usb_hcd *xhci_to_hcd(struct xhci_hcd *xhci)
+{
+	return xhci->main_hcd;
+}
+
+static inline struct usb_hcd *xhci_get_usb3_hcd(struct xhci_hcd *xhci)
+{
+	if (xhci->shared_hcd)
+		return xhci->shared_hcd;
+
+	if (!xhci->usb2_rhub.num_ports)
+		return xhci->main_hcd;
+
+	return NULL;
+}
+
+static inline bool xhci_hcd_is_usb3(struct usb_hcd *hcd)
+{
+	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
+
+	return hcd == xhci_get_usb3_hcd(xhci);
+}
+
+static inline bool xhci_has_one_roothub(struct xhci_hcd *xhci)
+{
+	return xhci->allow_single_roothub &&
+	       (!xhci->usb2_rhub.num_ports || !xhci->usb3_rhub.num_ports);
+}
+
+#define xhci_dbg(xhci, fmt, args...) \
+	dev_dbg(xhci_to_hcd(xhci)->self.controller , fmt , ## args)
+#define xhci_err(xhci, fmt, args...) \
+	dev_err(xhci_to_hcd(xhci)->self.controller , fmt , ## args)
+#define xhci_warn(xhci, fmt, args...) \
+	dev_warn(xhci_to_hcd(xhci
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 14:18:42,659 [INFO]   Resolved drivers/usb/host/xhci.h hunk 0: confidence=8/10 — Vendor (OUR) added a new quirk bit XHCI_CDNS_HOST at position 45. Mainline (THEIR) added two new qui
+2026-04-27 14:18:45,543 [DEBUG] Applied resolution to drivers/usb/host/xhci.h hunk 0
+2026-04-27 14:18:45,543 [INFO] Resolving drivers/usb/phy/phy-mxs-usb.c hunk 1...
+2026-04-27 14:18:45,570 [DEBUG] Prompt for drivers/usb/phy/phy-mxs-usb.c hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/usb/phy/phy-mxs-usb.c
+
+We are merging mainline stable v6.1.56 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.55..v6.1.56):
+(no commit info available)
+
+Context BEFORE the conflict:
+```
+	}
+
+	/* Power up the PHY */
+	writel(0, base + HW_USBPHY_PWD);
+
+	/*
+	 * USB PHY Ctrl Setting
+	 * - Auto clock/power on
+	 * - Enable full/low speed support
+	 */
+	writel(BM_USBPHY_CTRL_ENAUTOSET_USBCLKS |
+		BM_USBPHY_CTRL_ENAUTOCLR_USBCLKGATE |
+		BM_USBPHY_CTRL_ENAUTOCLR_PHY_PWD |
+		BM_USBPHY_CTRL_ENAUTOCLR_CLKGATE |
+		BM_USBPHY_CTRL_ENAUTO_PWRON_PLL |
+		BM_USBPHY_CTRL_ENUTMILEVEL2 |
+		BM_USBPHY_CTRL_ENUTMILEVEL3,
+	       base + HW_USBPHY_CTRL_SET);
+
+	if (mxs_phy->data->flags & MXS_PHY_NEED_IP_FIX)
+		writel(BM_USBPHY_IP_FIX, base + HW_USBPHY_IP_SET);
+
+	if (mxs_phy->regmap_anatop) {
+		unsigned int reg = mxs_phy->port_id ?
+			ANADIG_USB1_CHRG_DETECT_SET :
+			ANADIG_USB2_CHRG_DETECT_SET;
+		/*
+		 * The external charger detector needs to be disabled,
+		 * or the signal at DP will be poor
+		 */
+		regmap_write(mxs_phy->regmap_anatop, reg,
+			     ANADIG_USB1_CHRG_DETECT_EN_B |
+			     ANADIG_USB1_CHRG_DETECT_CHK_CHRG_B);
+	}
+
+	mxs_phy_tx_init(mxs_phy);
+
+	return 0;
+
+disable_pll:
+	if (is_imx7ulp_phy(mxs_phy) || is_imx8ulp_phy(mxs_phy))
+		mxs_phy_pll_enable(base, false);
+	return ret;
+}
+
+/* Return true if the vbus is there */
+static bool mxs_phy_get_vbus_status(struct mxs_phy *mxs_phy)
+{
+	unsigned int vbus_value = 0;
+
+	if (!mxs_phy->regmap_anatop)
+		return false;
+
+	if (mxs_phy->port_id == 0)
+		regmap_read(mxs_phy->regmap_anatop,
+			ANADIG_USB1_VBUS_DET_STAT,
+			&vbus_value);
+	else if (mxs_phy->port_id == 1)
+		regmap_read(mxs_phy->regmap_anatop,
+			ANADIG_USB2_VBUS_DET_STAT,
+			&vbus_value);
+
+	if (vbus_value & BM_ANADIG_USB1_VBUS_DET_STAT_VBUS_VALID)
+		return true;
+	else
+		return false;
+}
+
+static void __mxs_phy_disconnect_line(struct mxs_phy *mxs_phy, bool disconnect)
+{
+	void __iomem *base = mxs_phy->phy.io_priv;
+	u32 reg;
+
+	if (disconnect)
+		writel_relaxed(BM_USBPHY_DEBUG_CLKGATE,
+			base + HW_USBPHY_DEBUG_CLR);
+
+	if (mxs_phy->port_id == 0) {
+		reg = disconnect ? ANADIG_USB1_LOOPBACK_SET
+			: ANADIG_USB1_LOOPBACK_CLR;
+		regmap_write(mxs_phy->regmap_anatop, reg,
+			BM_ANADIG_USB1_LOOPBACK_UTMI_DIG_TST1 |
+			BM_ANADIG_USB1_LOOPBACK_TSTI_TX_EN);
+	} else if (mxs_phy->port_id == 1) {
+		reg = disconnect ? ANADIG_USB2_LOOPBACK_SET
+			: ANADIG_USB2_LOOPBACK_CLR;
+		regmap_write(mxs_phy->regmap_anatop, reg,
+			BM_ANADIG_USB2_LOOPBACK_UTMI_DIG_TST1 |
+			BM_ANADIG_USB2_LOOPBACK_TSTI_TX_EN);
+	}
+
+	if (!disconnect)
+		writel_relaxed(BM_USBPHY_DEBUG_CLKGATE,
+			base + HW_USBPHY_DEBUG_SET);
+
+	/* Delay some time, and let Linestate be SE0 for controller */
+	if (disconnect)
+		usleep_range(500, 1000);
+}
+
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+
+```
+
+THEIR side (mainline stable):
+```
+static bool mxs_phy_is_otg_host(struct mxs_phy *mxs_phy)
+{
+	return IS_ENABLED(CONFIG_USB_OTG) &&
+		mxs_phy->phy.last_event == USB_EVENT_ID;
+}
+
+
+```
+
+Context AFTER the conflict:
+```
+static void mxs_phy_disconnect_line(struct mxs_phy *mxs_phy, bool on)
+{
+	bool vbus_is_on = false;
+	enum usb_phy_events last_event = mxs_phy->phy.last_event;
+
+	/* If the SoCs don't need to disconnect line without vbus, quit */
+	if (!(mxs_phy->data->flags & MXS_PHY_DISCONNECT_LINE_WITHOUT_VBUS))
+		return;
+
+	/* If the SoCs don't have anatop, quit */
+	if (!mxs_phy->regmap_anatop)
+		return;
+
+	vbus_is_on = mxs_phy_get_vbus_status(mxs_phy);
+
+	if (on && ((!vbus_is_on && mxs_phy->mode != CUR_USB_MODE_HOST) ||
+			(last_event == USB_EVENT_VBUS)))
+		__mxs_phy_disconnect_line(mxs_phy, true);
+	else
+		__mxs_phy_disconnect_line(mxs_phy, false);
+
+}
+
+static int mxs_phy_init(struct usb_phy *phy)
+{
+	int ret;
+	struct mxs_phy *mxs_phy = to_mxs_phy(phy);
+
+	mxs_phy_clock_switch_delay();
+	ret = clk_prepare_enable(mxs_phy->clk);
+	if (ret)
+		return ret;
+
+	return mxs_phy_hw_init(mxs_phy);
+}
+
+static void mxs_phy_shutdown(struct usb_phy *phy)
+{
+	struct mxs_phy *mxs_phy = to_mxs_phy(phy);
+	u32 value = BM_USBPHY_CTRL_ENVBUSCHG_WKUP |
+			BM_USBPHY_CTRL_ENDPDMCHG_WKUP |
+			BM_USBPHY_CTRL_ENIDCHG_WKUP |
+			BM_USBPHY_CTRL_ENAUTOSET_USBCLKS |
+			BM_USBPHY_CTRL_ENAUTOCLR_USBCLKGATE |
+			BM_USBPHY_CTRL_ENAUTOCLR_PHY_PWD |
+			BM_USBPHY_CTRL_ENAUTOCLR_CLKGATE |
+			BM_USBPHY_CTRL_ENAUTO_PWRON_PLL;
+
+	writel(value, phy->io_priv + HW_USBPHY_CTRL_CLR);
+	writel(0xffffffff, phy->io_priv + HW_USBPHY_PWD);
+
+	writel(BM_USBPHY_CTRL_CLKGATE,
+	       phy->io_priv + HW_USBPHY_CTRL_SET);
+
+	if (is_imx7ulp_phy(mxs_phy) || is_imx8ulp_phy(mxs_phy))
+		mxs_phy_pll_enable(phy->io_priv, false);
+
+	if (mxs_phy->phy_3p0)
+		regulator_disable(mxs_phy->phy_3p0);
+
+	clk_disable_unprepare(mxs_phy->clk);
+}
+
+static bool mxs_phy_is_low_speed_connection(struct mxs_phy *mxs_phy)
+{
+	unsigned int line_state;
+	/* bit definition is the same for all controllers */
+	unsigned int dp_bit = BM_ANADIG_USB1_MISC_RX_VPIN_FS,
+		     dm_bit = BM_ANADIG_USB1_MISC_RX_VMIN_FS;
+	unsigned int reg = ANADIG_USB1_MISC;
+
+	/* If the SoCs don't have anatop, quit */
+	if (!mxs_phy->regmap_anatop)
+		return false;
+
+	if (mxs_phy->port_id == 0)
+		reg = ANADIG_USB1_MISC;
+	else if (mxs_phy->port_id == 1)
+		reg = ANADIG_USB2_MISC;
+
+	regmap_read(mxs_phy->regmap_anatop, reg, &line_state);
+
+	if ((line_state & (dp_bit | dm_bit)) ==  dm_bit)
+		return true;
+	else
+		return false;
+}
+
+static int mxs_phy_suspend(struct usb_phy *x, int suspend)
+{
+	int ret;
+	struct mxs_phy *mxs_phy = to_mxs_phy(x);
+	bool low_speed_connection, vbus_is_on;
+
+	low_speed_connection = mxs_phy_is_low_speed_connection(mxs_phy);
+	vbus_is_on = mxs_phy_get_vbus_status(mxs_phy);
+
+	if (suspend) {
+		/*
+		 * FIXME: Do not power down RXPWD1PT1 bit for low speed
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 14:19:06,733 [INFO]   Resolved drivers/usb/phy/phy-mxs-usb.c hunk 0: confidence=8/10 — Mainline added the helper function mxs_phy_is_otg_host; NXP tree had no code at this spot, so keepin
+2026-04-27 14:19:14,313 [DEBUG] Applied resolution to drivers/usb/phy/phy-mxs-usb.c hunk 0
+2026-04-27 14:19:14,313 [INFO] Resolving include/linux/usb/chipidea.h hunk 1...
+2026-04-27 14:19:14,340 [DEBUG] Prompt for include/linux/usb/chipidea.h hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: include/linux/usb/chipidea.h
+
+We are merging mainline stable v6.1.56 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.55..v6.1.56):
+(no commit info available)
+
+Context BEFORE the conflict:
+```
+/* SPDX-License-Identifier: GPL-2.0 */
+/*
+ * Platform data for the chipidea USB dual role controller
+ */
+
+#ifndef __LINUX_USB_CHIPIDEA_H
+#define __LINUX_USB_CHIPIDEA_H
+
+#include <linux/extcon.h>
+#include <linux/usb/otg.h>
+
+struct ci_hdrc;
+
+/**
+ * struct ci_hdrc_cable - structure for external connector cable state tracking
+ * @connected: true if cable is connected, false otherwise
+ * @changed: set to true when extcon event happen
+ * @enabled: set to true if we've enabled the vbus or id interrupt
+ * @edev: device which generate events
+ * @ci: driver state of the chipidea device
+ * @nb: hold event notification callback
+ * @conn: used for notification registration
+ */
+struct ci_hdrc_cable {
+	bool				connected;
+	bool				changed;
+	bool				enabled;
+	struct extcon_dev		*edev;
+	struct ci_hdrc			*ci;
+	struct notifier_block		nb;
+};
+
+struct ci_hdrc_platform_data {
+	const char	*name;
+	/* offset of the capability registers */
+	uintptr_t	 capoffset;
+	unsigned	 power_budget;
+	struct phy	*phy;
+	/* old usb_phy interface */
+	struct usb_phy	*usb_phy;
+	enum usb_phy_interface phy_mode;
+	unsigned long	 flags;
+#define CI_HDRC_REGS_SHARED		BIT(0)
+#define CI_HDRC_DISABLE_DEVICE_STREAMING	BIT(1)
+#define CI_HDRC_SUPPORTS_RUNTIME_PM	BIT(2)
+#define CI_HDRC_DISABLE_HOST_STREAMING	BIT(3)
+#define CI_HDRC_DISABLE_STREAMING (CI_HDRC_DISABLE_DEVICE_STREAMING |	\
+		CI_HDRC_DISABLE_HOST_STREAMING)
+	/*
+	 * Only set it when DCCPARAMS.DC==1 and DCCPARAMS.HC==1,
+	 * but otg is not supported (no register otgsc).
+	 */
+#define CI_HDRC_DUAL_ROLE_NOT_OTG	BIT(4)
+#define CI_HDRC_IMX28_WRITE_FIX		BIT(5)
+#define CI_HDRC_FORCE_FULLSPEED		BIT(6)
+#define CI_HDRC_TURN_VBUS_EARLY_ON	BIT(7)
+#define CI_HDRC_SET_NON_ZERO_TTHA	BIT(8)
+#define CI_HDRC_OVERRIDE_AHB_BURST	BIT(9)
+#define CI_HDRC_OVERRIDE_TX_BURST	BIT(10)
+#define CI_HDRC_OVERRIDE_RX_BURST	BIT(11)
+#define CI_HDRC_OVERRIDE_PHY_CONTROL	BIT(12) /* Glue layer manages phy */
+#define CI_HDRC_REQUIRES_ALIGNED_DMA	BIT(13)
+#define CI_HDRC_IMX_IS_HSIC		BIT(14)
+#define CI_HDRC_PMQOS			BIT(15)
+#define CI_HDRC_PHY_VBUS_CONTROL	BIT(16)
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+/* PHY enter low power mode when bus suspend */
+#define CI_HDRC_HOST_SUSP_PHY_LPM	BIT(17)
+#define CI_HDRC_HAS_PORTSC_PEC_MISSED	BIT(18)
+
+```
+
+THEIR side (mainline stable):
+```
+#define CI_HDRC_HAS_PORTSC_PEC_MISSED	BIT(17)
+
+```
+
+Context AFTER the conflict:
+```
+	enum usb_dr_mode	dr_mode;
+#define CI_HDRC_CONTROLLER_RESET_EVENT		0
+#define CI_HDRC_CONTROLLER_STOPPED_EVENT	1
+#define CI_HDRC_IMX_HSIC_ACTIVE_EVENT		2
+#define CI_HDRC_IMX_HSIC_SUSPEND_EVENT		3
+#define CI_HDRC_CONTROLLER_VBUS_EVENT		4
+	int	(*notify_event) (struct ci_hdrc *ci, unsigned event);
+	struct regulator	*reg_vbus;
+	struct usb_otg_caps	ci_otg_caps;
+	bool			tpl_support;
+	/* interrupt threshold setting */
+	u32			itc_setting;
+	u32			ahb_burst_config;
+	u32			tx_burst_size;
+	u32			rx_burst_size;
+
+	/* VBUS and ID signal state tracking, using extcon framework */
+	struct ci_hdrc_cable		vbus_extcon;
+	struct ci_hdrc_cable		id_extcon;
+	u32			phy_clkgate_delay_us;
+
+	/* pins */
+	struct pinctrl *pctl;
+	struct pinctrl_state *pins_default;
+	struct pinctrl_state *pins_host;
+	struct pinctrl_state *pins_device;
+
+	/* platform-specific hooks */
+	int (*hub_control)(struct ci_hdrc *ci, u16 typeReq, u16 wValue,
+			   u16 wIndex, char *buf, u16 wLength,
+			   bool *done, unsigned long *flags);
+	void (*enter_lpm)(struct ci_hdrc *ci, bool enable);
+};
+
+/* Default offset of capability registers */
+#define DEF_CAPOFFSET		0x100
+
+/* Add ci hdrc device */
+struct platform_device *ci_hdrc_add_device(struct device *dev,
+			struct resource *res, int nres,
+			struct ci_hdrc_platform_data *platdata);
+/* Remove ci hdrc device */
+void ci_hdrc_remove_device(struct platform_device *pdev);
+/* Get current available role */
+enum usb_dr_mode ci_hdrc_query_available_role(struct platform_device *pdev);
+int hw_controller_reset(struct ci_hdrc *ci);
+
+#endif
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 14:19:27,686 [INFO]   Resolved include/linux/usb/chipidea.h hunk 0: confidence=9/10 — Mainline only introduced CI_HDRC_HAS_PORTSC_PEC_MISSED at BIT(17). NXP already had a new flag CI_HDR
+2026-04-27 14:19:30,060 [DEBUG] Applied resolution to include/linux/usb/chipidea.h hunk 0
+2026-04-27 14:19:30,060 [INFO] Resolving include/soc/mscc/ocelot.h hunk 1...
+2026-04-27 14:19:30,085 [DEBUG] Prompt for include/soc/mscc/ocelot.h hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: include/soc/mscc/ocelot.h
+
+We are merging mainline stable v6.1.56 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.55..v6.1.56):
+(no commit info available)
+
+Context BEFORE the conflict:
+```
+	OCELOT_STAT_ETHTOOL(DROP_GREEN_PRIO_7, "drop_green_prio_7")
+
+struct ocelot_stats_region {
+	struct list_head node;
+	u32 base;
+	int count;
+	u32 *buf;
+};
+
+enum ocelot_tag_prefix {
+	OCELOT_TAG_PREFIX_DISABLED	= 0,
+	OCELOT_TAG_PREFIX_NONE,
+	OCELOT_TAG_PREFIX_SHORT,
+	OCELOT_TAG_PREFIX_LONG,
+};
+
+struct ocelot;
+
+struct ocelot_ops {
+	struct net_device *(*port_to_netdev)(struct ocelot *ocelot, int port);
+	int (*netdev_to_port)(struct net_device *dev);
+	int (*reset)(struct ocelot *ocelot);
+	u16 (*wm_enc)(u16 value);
+	u16 (*wm_dec)(u16 value);
+	void (*wm_stat)(u32 val, u32 *inuse, u32 *maxuse);
+	void (*psfp_init)(struct ocelot *ocelot);
+	int (*psfp_filter_add)(struct ocelot *ocelot, int port,
+			       struct flow_cls_offload *f);
+	int (*psfp_filter_del)(struct ocelot *ocelot, struct flow_cls_offload *f);
+	int (*psfp_stats_get)(struct ocelot *ocelot, struct flow_cls_offload *f,
+			      struct flow_stats *stats);
+	void (*cut_through_fwd)(struct ocelot *ocelot);
+	void (*tas_clock_adjust)(struct ocelot *ocelot);
+	void (*update_stats)(struct ocelot *ocelot);
+};
+
+struct ocelot_vcap_policer {
+	struct list_head pol_list;
+	u16 base;
+	u16 max;
+	u16 base2;
+	u16 max2;
+};
+
+struct ocelot_vcap_block {
+	struct list_head rules;
+	int count;
+};
+
+struct ocelot_bridge_vlan {
+	u16 vid;
+	unsigned long portmask;
+	unsigned long untagged;
+	struct list_head list;
+};
+
+enum ocelot_port_tag_config {
+	/* all VLANs are egress-untagged */
+	OCELOT_PORT_TAG_DISABLED = 0,
+	/* all VLANs except the native VLAN and VID 0 are egress-tagged */
+	OCELOT_PORT_TAG_NATIVE = 1,
+	/* all VLANs except VID 0 are egress-tagged */
+	OCELOT_PORT_TAG_TRUNK_NO_VID0 = 2,
+	/* all VLANs are egress-tagged */
+	OCELOT_PORT_TAG_TRUNK = 3,
+};
+
+struct ocelot_psfp_list {
+	struct list_head stream_list;
+	struct list_head sfi_list;
+	struct list_head sgi_list;
+	/* Serialize access to the lists */
+	struct mutex lock;
+};
+
+enum ocelot_sb {
+	OCELOT_SB_BUF,
+	OCELOT_SB_REF,
+	OCELOT_SB_NUM,
+};
+
+enum ocelot_sb_pool {
+	OCELOT_SB_POOL_ING,
+	OCELOT_SB_POOL_EGR,
+	OCELOT_SB_POOL_NUM,
+};
+
+/* MAC table entry types.
+ * ENTRYTYPE_NORMAL is subject to aging.
+ * ENTRYTYPE_LOCKED is not subject to aging.
+ * ENTRYTYPE_MACv4 is not subject to aging. For IPv4 multicast.
+ * ENTRYTYPE_MACv6 is not subject to aging. For IPv6 multicast.
+ */
+enum macaccess_entry_type {
+	ENTRYTYPE_NORMAL = 0,
+	ENTRYTYPE_LOCKED,
+	ENTRYTYPE_MACv4,
+	ENTRYTYPE_MACv6,
+};
+
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+struct ocelot_mact_entry {
+	u8 mac[ETH_ALEN];
+	u16 vid;
+	enum macaccess_entry_type type;
+};
+
+
+```
+
+THEIR side (mainline stable):
+```
+
+```
+
+Context AFTER the conflict:
+```
+enum ocelot_proto {
+	OCELOT_PROTO_PTP_L2 = BIT(0),
+	OCELOT_PROTO_PTP_L4 = BIT(1),
+};
+
+#define OCELOT_QUIRK_PCS_PERFORMS_RATE_ADAPTATION	BIT(0)
+#define OCELOT_QUIRK_QSGMII_PORTS_MUST_BE_UP		BIT(1)
+
+struct ocelot_lag_fdb {
+	unsigned char addr[ETH_ALEN];
+	u16 vid;
+	struct net_device *bond;
+	struct list_head list;
+};
+
+struct ocelot_mirror {
+	refcount_t refcount;
+	int to;
+};
+
+struct ocelot_port;
+
+struct ocelot_port {
+	struct ocelot			*ocelot;
+
+	struct regmap			*target;
+
+	struct net_device		*bond;
+	struct net_device		*bridge;
+
+	struct ocelot_port		*dsa_8021q_cpu;
+
+	/* VLAN that untagged frames are classified to, on ingress */
+	const struct ocelot_bridge_vlan	*pvid_vlan;
+
+	struct tc_taprio_qopt_offload	*taprio;
+
+	phy_interface_t			phy_mode;
+
+	unsigned int			ptp_skbs_in_flight;
+	struct sk_buff_head		tx_skbs;
+
+	unsigned int			trap_proto;
+
+	u16				mrp_ring_id;
+
+	u8				ptp_cmd;
+	u8				ts_id;
+
+	u8				index;
+
+	u8				stp_state;
+	bool				vlan_aware;
+	bool				is_dsa_8021q_cpu;
+	bool				learn_ena;
+
+	bool				lag_tx_active;
+
+	int				bridge_num;
+
+	bool				force_forward;
+	u8				cut_thru;
+	u8				preemptable_prios;
+
+	int				speed;
+};
+
+struct ocelot {
+	struct device			*dev;
+	struct devlink			*devlink;
+	struct devlink_port		*devlink_ports;
+
+	const struct ocelot_ops		*ops;
+	struct regmap			*targets[TARGET_MAX];
+	struct regmap_field		*regfields[REGFIELD_MAX];
+	const u32 *const		*map;
+	const struct ocelot_stat_layout	*stats_layout;
+	struct list_head		stats_regions;
+
+	u32				pool_size[OCELOT_SB_NUM][OCELOT_SB_POOL_NUM];
+	int				packet_buffer_size;
+	int				num_frame_refs;
+	int				num_mact_rows;
+
+	struct ocelot_port		**ports;
+
+	u8				base_mac[ETH_ALEN];
+
+	struct list_head		vlans;
+	struct list_head		traps;
+	struct list_head		lag_fdbs;
+
+	/* Switches like VSC9959 have flooding per traffic class */
+	int				num_flooding_pgids;
+
+	/* In tables like ANA:PORT and the ANA:PGID:PGID mask,
+	 * the CPU is located after the physical ports (at the
+	 * num_phys_ports index).
+	 */
+	u8				num_phys_ports;
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 14:19:35,745 [INFO]   Resolved include/soc/mscc/ocelot.h hunk 0: confidence=9/10 — Mainline side removed/never had the struct. NXP side adds struct ocelot_mact_entry. Per rules, prese
+2026-04-27 14:19:37,605 [DEBUG] Applied resolution to include/soc/mscc/ocelot.h hunk 0
+2026-04-27 14:19:39,115 [INFO] All conflicts resolved. Confidence: min=4, avg=7.7
+2026-04-27 14:19:39,115 [INFO] Building kernel (compile test)...
+2026-04-27 14:19:46,671 [ERROR] Build failed:
+cripts/Makefile.lib:406: arch/arm64/boot/dts/freescale/imx8mm-evk-revb-qca-wifi.dtb] Error 1
+make[2]: *** [scripts/Makefile.lib:406: arch/arm64/boot/dts/freescale/imx8mm-evk-pcie-ep.dtb] Error 1
+Error: arch/arm64/boot/dts/freescale/imx8mm.dtsi:1287.4-15 syntax error
+FATAL ERROR: Unable to parse input tree
+Error: arch/arm64/boot/dts/freescale/imx8mm.dtsi:1287.4-15 syntax error
+FATAL ERROR: Unable to parse input tree
+make[2]: *** [scripts/Makefile.lib:406: arch/arm64/boot/dts/freescale/imx8mm-ab2-m4.dtb] Error 1
+make[2]: *** [scripts/Makefile.lib:406: arch/arm64/boot/dts/freescale/imx8mm-evk-usd-wifi.dtb] Error 1
+Error: arch/arm64/boot/dts/freescale/imx8mm.dtsi:1287.4-15 syntax error
+FATAL ERROR: Unable to parse input tree
+make[2]: *** [scripts/Makefile.lib:406: arch/arm64/boot/dts/freescale/imx8mm-evk-ecspi-slave.dtb] Error 1
+make[1]: *** [scripts/Makefile.build:500: arch/arm64/boot/dts/freescale] Error 2
+make: *** [Makefile:1478: dtbs] Error 2
+make: *** Waiting for unfinished jobs....
+
+2026-04-27 14:19:46,671 [DEBUG] Build stdout (last 2000 chars):
+make: Entering directory '/home/osaleem/repos/linux-imx'
+  SYNC    include/config/auto.conf.cmd
+  HOSTCC  scripts/kallsyms
+  UPD     include/config/kernel.release
+  UPD     include/generated/utsrelease.h
+  GEN     arch/arm64/include/generated/asm/cpucaps.h
+  HOSTCC  scripts/mod/modpost.o
+  DTC     arch/arm64/boot/dts/freescale/imx8mm-ab2.dtb
+  DTC     arch/arm64/boot/dts/freescale/imx8mm-ab2-m4.dtb
+  DTC     arch/arm64/boot/dts/freescale/imx8mm-ddr4-ab2.dtb
+  DTC     arch/arm64/boot/dts/freescale/imx8mm-ddr4-ab2-m4.dtb
+  DTC     arch/arm64/boot/dts/freescale/imx8mm-ddr4-ab2-revb.dtb
+  DTC     arch/arm64/boot/dts/freescale/imx8mm-ddr4-ab2-m4-revb.dtb
+  DTC     arch/arm64/boot/dts/freescale/imx8mm-evk.dtb
+  DTC     arch/arm64/boot/dts/freescale/imx8mm-evk-rpmsg.dtb
+  DTC     arch/arm64/boot/dts/freescale/imx8mm-evk-rm67191.dtb
+  DTC     arch/arm64/boot/dts/freescale/imx8mm-evk-root.dtb
+  DTC     arch/arm64/boot/dts/freescale/imx8mm-evk-revb-qca-wifi.dtb
+  DTC     arch/arm64/boot/dts/freescale/imx8mm-evk-ecspi-slave.dtb
+  DTC     arch/arm64/boot/dts/freescale/imx8mm-evk-pcie-ep.dtb
+  DTC     arch/arm64/boot/dts/freescale/imx8mm-evk-usd-wifi.dtb
+  DTC     arch/arm64/boot/dts/freescale/imx8mm-evk-qca-wifi.dtb
+  HOSTLD  scripts/mod/modpost
+  CC      kernel/bounds.s
+  CC      arch/arm64/kernel/asm-offsets.s
+  CALL    scripts/checksyscalls.sh
+make: Leaving directory '/home/osaleem/repos/linux-imx'
+
+2026-04-27 14:19:46,671 [ERROR] Build failed after resolving conflicts for v6.1.56. Manual intervention needed on branch merge/v6.1.56.
+2026-04-27 14:19:46,671 [INFO] To fix manually:
+  cd /home/osaleem/repos/linux-imx
+  # fix the build errors
+  git add -A && git commit --amend
+  git checkout lf-6.1.y-semtech
+  git merge merge/v6.1.56
+  # then re-run this tool with --resume
+2026-04-27 14:19:46,672 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.56_2026-04-27T14-03-07.096243.json
+2026-04-27 14:19:46,672 [ERROR] Stopping due to error at v6.1.56. Fix manually and re-run with --resume.
+2026-04-27 14:19:46,672 [INFO] Done.

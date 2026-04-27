@@ -1,0 +1,1500 @@
+2026-04-27 13:21:15,451 [INFO] Log file: /home/osaleem/repos/linux-imx/merge-logs/merge_20260427_132115.log
+2026-04-27 13:21:15,451 [INFO] Kernel Stable Merge Tool started
+2026-04-27 13:21:15,451 [INFO] Repo: /home/osaleem/repos/linux-imx
+2026-04-27 13:21:15,451 [INFO] Target: v6.1.60
+2026-04-27 13:21:15,451 [INFO] Provider: openai
+2026-04-27 13:21:15,451 [INFO] Dry run: False
+2026-04-27 13:21:15,451 [INFO] Fetching stable tags...
+2026-04-27 13:21:16,449 [INFO] Using override start version: 6.1.55
+2026-04-27 13:21:16,449 [INFO] 
+============================================================
+Merge step: v6.1.55 -> v6.1.56
+Progress: 1/5
+============================================================
+2026-04-27 13:21:16,449 [INFO] Starting merge: v6.1.56
+2026-04-27 13:21:18,927 [INFO] Merge v6.1.56 has 17 conflicted files
+2026-04-27 13:21:18,929 [INFO]   arch/arm/boot/dts/imx6qdl-sabresd.dtsi: 1 conflict hunks
+2026-04-27 13:21:18,929 [INFO]   arch/arm64/boot/dts/freescale/Makefile: 1 conflict hunks
+2026-04-27 13:21:18,931 [INFO]   arch/arm64/boot/dts/freescale/imx8mm.dtsi: 1 conflict hunks
+2026-04-27 13:21:18,933 [INFO]   drivers/gpu/drm/bridge/adv7511/adv7511_drv.c: 1 conflict hunks
+2026-04-27 13:21:18,936 [INFO]   drivers/media/i2c/ov5640.c: 3 conflict hunks
+2026-04-27 13:21:18,938 [INFO]   drivers/net/phy/at803x.c: 4 conflict hunks
+2026-04-27 13:21:18,940 [INFO]   drivers/pci/controller/dwc/pci-imx6.c: 1 conflict hunks
+2026-04-27 13:21:18,941 [INFO]   drivers/perf/fsl_imx8_ddr_perf.c: 2 conflict hunks
+2026-04-27 13:21:18,942 [INFO]   drivers/pwm/pwm-imx-tpm.c: 1 conflict hunks
+2026-04-27 13:21:18,943 [INFO]   drivers/soc/imx/soc-imx8m.c: 1 conflict hunks
+2026-04-27 13:21:18,944 [INFO]   drivers/spi/spi-nxp-fspi.c: 1 conflict hunks
+2026-04-27 13:21:18,945 [INFO]   drivers/usb/chipidea/ci_hdrc_imx.c: 1 conflict hunks
+2026-04-27 13:21:18,950 [INFO]   drivers/usb/core/hub.c: 1 conflict hunks
+2026-04-27 13:21:18,953 [INFO]   drivers/usb/host/xhci.h: 1 conflict hunks
+2026-04-27 13:21:18,955 [INFO]   drivers/usb/phy/phy-mxs-usb.c: 1 conflict hunks
+2026-04-27 13:21:18,956 [INFO]   include/linux/usb/chipidea.h: 1 conflict hunks
+2026-04-27 13:21:18,957 [INFO]   include/soc/mscc/ocelot.h: 1 conflict hunks
+2026-04-27 13:21:18,957 [INFO] Resolving arch/arm/boot/dts/imx6qdl-sabresd.dtsi hunk 1...
+2026-04-27 13:21:18,999 [DEBUG] Prompt for arch/arm/boot/dts/imx6qdl-sabresd.dtsi hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: arch/arm/boot/dts/imx6qdl-sabresd.dtsi
+
+We are merging mainline stable v6.1.56 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.55..v6.1.56):
+(no commit info available)
+
+Context BEFORE the conflict:
+```
+			wakeup-source;
+			linux,code = <KEY_VOLUMEDOWN>;
+		};
+	};
+
+	sound {
+		compatible = "fsl,imx6q-sabresd-wm8962",
+			   "fsl,imx-audio-wm8962";
+		model = "wm8962-audio";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_hp>;
+		ssi-controller = <&ssi2>;
+		audio-codec = <&codec>;
+		audio-asrc = <&asrc>;
+		audio-routing =
+			"Headphone Jack", "HPOUTL",
+			"Headphone Jack", "HPOUTR",
+			"Ext Spk", "SPKOUTL",
+			"Ext Spk", "SPKOUTR",
+			"AMIC", "MICBIAS",
+			"IN3R", "AMIC",
+			"DMIC", "MICBIAS",
+			"DMICDAT", "DMIC";
+		mux-int-port = <2>;
+		mux-ext-port = <3>;
+		hp-det-gpio = <&gpio7 8 GPIO_ACTIVE_LOW>;
+		mic-det-gpio = <&gpio1 9 GPIO_ACTIVE_LOW>;
+	};
+
+	sound-hdmi {
+		compatible = "fsl,imx6qdl-audio-hdmi";
+		model = "imx-audio-hdmi";
+		hdmi-controller = <&hdmi_audio>;
+	};
+
+	mxcfb1: fb@0 {
+		compatible = "fsl,mxc_sdc_fb";
+		disp_dev = "ldb";
+		interface_pix_fmt = "RGB666";
+		default_bpp = <16>;
+		int_clk = <0>;
+		late_init = <0>;
+		status = "disabled";
+	};
+
+	mxcfb2: fb@1 {
+		compatible = "fsl,mxc_sdc_fb";
+		disp_dev = "hdmi";
+		interface_pix_fmt = "RGB24";
+		mode_str ="1920x1080M@60";
+		default_bpp = <24>;
+		int_clk = <0>;
+		late_init = <0>;
+		status = "disabled";
+	};
+
+	mxcfb3: fb@2 {
+		compatible = "fsl,mxc_sdc_fb";
+		disp_dev = "lcd";
+		interface_pix_fmt = "RGB565";
+		mode_str ="CLAA-WVGA";
+		default_bpp = <16>;
+		int_clk = <0>;
+		late_init = <0>;
+		status = "disabled";
+	};
+
+	mxcfb4: fb@3 {
+		compatible = "fsl,mxc_sdc_fb";
+		disp_dev = "ldb";
+		interface_pix_fmt = "RGB666";
+		default_bpp = <16>;
+		int_clk = <0>;
+		late_init = <0>;
+		status = "disabled";
+	};
+
+	lcd@0 {
+		compatible = "fsl,lcd";
+		ipu_id = <0>;
+		disp_id = <0>;
+		default_ifmt = "RGB565";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_ipu1>;
+		status = "okay";
+	};
+
+	backlight_lvds: backlight-lvds {
+		compatible = "pwm-backlight";
+		pwms = <&pwm1 0 5000000>;
+		brightness-levels = <0 4 8 16 32 64 128 255>;
+		default-brightness-level = <7>;
+		status = "okay";
+	};
+
+	leds {
+		compatible = "gpio-leds";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_gpio_leds>;
+
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+		charger-led {
+
+```
+
+THEIR side (mainline stable):
+```
+		led-red {
+
+```
+
+Context AFTER the conflict:
+```
+			gpios = <&gpio1 2 0>;
+			linux,default-trigger = "max8903-charger-charging";
+			retain-state-suspended;
+			default-state = "off";
+		};
+	};
+
+	v4l2_cap_0 {
+		compatible = "fsl,imx6q-v4l2-capture";
+		ipu_id = <0>;
+		csi_id = <0>;
+		mclk_source = <0>;
+		status = "okay";
+	};
+
+	v4l2_cap_1 {
+		compatible = "fsl,imx6q-v4l2-capture";
+		ipu_id = <0>;
+		csi_id = <1>;
+		mclk_source = <0>;
+		status = "okay";
+	};
+
+	v4l2_out {
+		compatible = "fsl,mxc_v4l2_output";
+		status = "okay";
+	};
+};
+
+&ipu1_csi0_from_ipu1_csi0_mux {
+	bus-width = <8>;
+	data-shift = <12>; /* Lines 19:12 used */
+	hsync-active = <1>;
+	vsync-active = <1>;
+};
+
+&ipu1_csi0_mux_from_parallel_sensor {
+#if 0
+	remote-endpoint = <&ov5642_to_ipu1_csi0_mux>;
+#endif
+};
+
+&ipu1_csi0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_ipu1_csi0>;
+};
+
+&mipi_csi {
+	status = "okay";
+
+	ipu_id = <0>;
+	csi_id = <1>;
+	v_channel = <0>;
+	lanes = <2>;
+#if 0
+	port@0 {
+		reg = <0>;
+
+		mipi_csi2_in: endpoint {
+			remote-endpoint = <&ov5640_to_mipi_csi2>;
+			clock-lanes = <0>;
+			data-lanes = <1 2>;
+		};
+	};
+#endif
+};
+
+&mipi_dsi {
+        dev_id = <0>;
+        disp_id = <1>;
+        lcd_panel = "TRULY-WVGA";
+        disp-power-on-supply = <&reg_mipi_dsi_pwr_on>;
+        reset-gpios = <&gpio6 11 GPIO_ACTIVE_LOW>;
+        reset-delay-us = <50>;
+        status = "okay";
+};
+
+&audmux {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_audmux>;
+	status = "okay";
+};
+
+&clks {
+	assigned-clocks = <&clks IMX6QDL_CLK_LDB_DI0_SEL>,
+			  <&clks IMX6QDL_CLK_LDB_DI1_SEL>;
+	assigned-clock-parents = <&clks IMX6QDL_CLK_PLL2_PFD0_352M>,
+				 <&clks IMX6QDL_CLK_PLL2_PFD0_352M>;
+};
+
+&dcic1 {
+	dcic_id = <0>;
+	dcic_mux = "dcic-hdmi";
+	status = "okay";
+};
+
+&dcic2 {
+	dcic_id = <1>;
+	dcic_mux = "dcic-lvds1";
+	status = "okay";
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 13:21:53,646 [INFO]   Resolved arch/arm/boot/dts/imx6qdl-sabresd.dtsi hunk 0: confidence=7/10 — Only the node name differs: NXP kept the old non-generic "charger-led" while mainline renamed it to 
+2026-04-27 13:21:53,646 [DEBUG] Applied resolution to arch/arm/boot/dts/imx6qdl-sabresd.dtsi hunk 0
+2026-04-27 13:21:53,646 [INFO] Resolving arch/arm64/boot/dts/freescale/Makefile hunk 1...
+2026-04-27 13:21:53,667 [DEBUG] Prompt for arch/arm64/boot/dts/freescale/Makefile hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: arch/arm64/boot/dts/freescale/Makefile
+
+We are merging mainline stable v6.1.56 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.55..v6.1.56):
+099cfc6e5d1b arm64: dts: imx: Add imx8mm-prt8mm.dtb to build
+
+Context BEFORE the conflict:
+```
+sl-ls2088a-rdb.dtb
+dtb-$(CONFIG_ARCH_LAYERSCAPE) += fsl-lx2160a-bluebox3.dtb
+dtb-$(CONFIG_ARCH_LAYERSCAPE) += fsl-lx2160a-bluebox3-rev-a.dtb
+dtb-$(CONFIG_ARCH_LAYERSCAPE) += fsl-lx2160a-clearfog-cx.dtb
+dtb-$(CONFIG_ARCH_LAYERSCAPE) += fsl-lx2160a-honeycomb.dtb
+dtb-$(CONFIG_ARCH_LAYERSCAPE) += fsl-lx2160a-qds.dtb
+dtb-$(CONFIG_ARCH_LAYERSCAPE) += fsl-lx2160a-rdb.dtb
+dtb-$(CONFIG_ARCH_LAYERSCAPE) += fsl-lx2162a-qds.dtb
+
+fsl-ls1028a-qds-13bb-dtbs := fsl-ls1028a-qds.dtb fsl-ls1028a-qds-13bb.dtbo
+fsl-ls1028a-qds-65bb-dtbs := fsl-ls1028a-qds.dtb fsl-ls1028a-qds-65bb.dtbo
+fsl-ls1028a-qds-7777-dtbs := fsl-ls1028a-qds.dtb fsl-ls1028a-qds-7777.dtbo
+fsl-ls1028a-qds-85bb-dtbs := fsl-ls1028a-qds.dtb fsl-ls1028a-qds-85bb.dtbo
+fsl-ls1028a-qds-899b-dtbs := fsl-ls1028a-qds.dtb fsl-ls1028a-qds-899b.dtbo
+fsl-ls1028a-qds-9999-dtbs := fsl-ls1028a-qds.dtb fsl-ls1028a-qds-9999.dtbo
+
+dtb-$(CONFIG_ARCH_LAYERSCAPE) += fsl-ls1028a-qds-13bb.dtb
+dtb-$(CONFIG_ARCH_LAYERSCAPE) += fsl-ls1028a-qds-65bb.dtb
+dtb-$(CONFIG_ARCH_LAYERSCAPE) += fsl-ls1028a-qds-7777.dtb
+dtb-$(CONFIG_ARCH_LAYERSCAPE) += fsl-ls1028a-qds-85bb.dtb
+dtb-$(CONFIG_ARCH_LAYERSCAPE) += fsl-ls1028a-qds-899b.dtb
+dtb-$(CONFIG_ARCH_LAYERSCAPE) += fsl-ls1028a-qds-9999.dtb
+
+dtb-$(CONFIG_ARCH_MXC) += imx8dxl-evk.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-ab2.dtb imx8mm-ab2-m4.dtb imx8mm-ddr4-ab2.dtb imx8mm-ddr4-ab2-m4.dtb \
+			  imx8mm-ddr4-ab2-revb.dtb imx8mm-ddr4-ab2-m4-revb.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-evk.dtb imx8mm-evk-rpmsg.dtb imx8mm-evk-rm67191.dtb \
+			  imx8mm-evk-root.dtb imx8mm-evk-inmate.dtb imx8mm-evk-revb-qca-wifi.dtb \
+			  imx8mm-evk-ecspi-slave.dtb \
+			  imx8mm-evk-pcie-ep.dtb \
+			  imx8mm-evk-usd-wifi.dtb \
+			  imx8mm-evk-qca-wifi.dtb \
+			  imx8mm-evk-dpdk.dtb \
+			  imx8mm-evk-rm67199.dtb imx8mm-evk-rm67191-cmd-ram.dtb imx8mm-evk-rm67199-cmd-ram.dtb \
+			  imx8mm-evk-lk.dtb imx8mm-evk-rpmsg-wm8524-lpv.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-evk-rpmsg-wm8524.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-evk-ak4497.dtb imx8mm-evk-ak5558.dtb imx8mm-evk-audio-tdm.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-evk-8mic-revE.dtb imx8mm-evk-8mic-swpdm.dtb \
+			  imx8mm-evk-iqaudio-dacplus.dtb imx8mm-evk-iqaudio-dacpro.dtb imx8mm-evk-hifiberry-dacplus.dtb \
+			  imx8mm-evk-hifiberry-dac2.dtb imx8mm-evk-hifiberry-dacplusadc.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-ddr4-evk.dtb imx8mm-ddr4-evk-rm67191.dtb imx8mm-ddr4-evk-revb.dtb \
+			  imx8mm-ddr4-evk-revb-rm67191.dtb \
+			  imx8mm-ddr4-evk-revb-rm67191-cmd-ram.dtb \
+			  imx8mm-ddr4-evk-root.dtb \
+			  imx8mm-ddr4-evk-inmate.dtb \
+			  imx8mm-ddr4-evk-pcie-ep.dtb \
+			  imx8mm-ddr4-evk-revb-rm67199.dtb \
+			  imx8mm-ddr4-evk-revb-rm67199-cmd-ram.dtb \
+			  imx8mm-ddr4-evk-rm67199.dtb \
+			  imx8mm-ddr4-evk-rm67191-cmd-ram.dtb \
+			  imx8mm-ddr4-evk-rm67199-cmd-ram.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-emcon-avari.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-icore-mx8mm-ctouch2.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-icore-mx8mm-edimm2.2.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-nitrogen-r2.dtb
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+
+```
+
+THEIR side (mainline stable):
+```
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-phyboard-polis-rdk.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-prt8mm.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-tqma8mqml-mba8mx.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-var-som-symphony.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw71xx-0x.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw72xx-0x.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw73xx-0x.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw7901.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw7902.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw7903.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw7904.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-verdin-nonwifi-dahlia.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-verdin-nonwifi-dev.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-verdin-wifi-dahlia.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mm-verdin-wifi-dev.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mn-beacon-kit.dtb
+
+```
+
+Context AFTER the conflict:
+```
+dtb-$(CONFIG_ARCH_MXC) += imx8mn-bsh-smm-s2.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mn-bsh-smm-s2pro.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mn-evk.dtb imx8mn-evk-rm67191.dtb imx8mn-evk-rm67199.dtb \
+			  imx8mn-evk-rm67191-cmd-ram.dtb imx8mn-evk-rm67199-cmd-ram.dtb \
+			  imx8mn-evk-rpmsg.dtb imx8mn-evk-8mic-revE.dtb \
+			  imx8mn-evk-8mic-swpdm.dtb imx8mn-evk-usd-wifi.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mn-ddr3l-evk.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mn-ddr4-evk.dtb imx8mn-ddr4-evk-rm67191.dtb imx8mn-ddr4-evk-rm67199.dtb \
+			  imx8mn-ddr4-evk-rm67191-cmd-ram.dtb imx8mn-ddr4-evk-rm67199-cmd-ram.dtb \
+			  imx8mn-ddr4-evk-usd-wifi.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mn-ddr4-evk-rpmsg.dtb imx8mn-ddr3l-evk-rpmsg.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mn-ddr4-evk-root.dtb imx8mn-ddr4-evk-inmate.dtb imx8mn-evk-root.dtb imx8mn-evk-inmate.dtb \
+			  imx8mn-evk-lk.dtb imx8mn-ddr4-evk-lk.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mn-ddr3l-evk-ak5558.dtb imx8mn-ddr4-evk-ak5558.dtb imx8mn-evk-ak5558.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mn-ab2.dtb imx8mn-ddr3l-ab2.dtb imx8mn-ddr4-ab2.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mn-evk-iqaudio-dacplus.dtb imx8mn-evk-iqaudio-dacpro.dtb imx8mn-evk-hifiberry-dacplus.dtb \
+			  imx8mn-evk-hifiberry-dac2.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mp-evk.dtb imx8mp-evk-rm67191.dtb imx8mp-evk-it6263-lvds-dual-channel.dtb \
+			  imx8mp-evk-pcie-ep.dtb  imx8mp-evk-rpmsg.dtb imx8mp-evk-ecspi-slave.dtb \
+			  imx8mp-evk-jdi-wuxga-lvds-panel.dtb imx8mp-evk-flexcan2.dtb \
+			  imx8mp-evk-root.dtb imx8mp-evk-inmate.dtb imx8mp-evk-ov2775.dtb \
+			  imx8mp-evk-ov2775-ov5640.dtb imx8mp-evk-basler-ov5640.dtb imx8mp-evk-basler.dtb \
+			  imx8mp-evk-basler-ov2775.dtb imx8mp-evk-dual-basler.dtb \
+			  imx8mp-evk-dual-ov2775.dtb imx8mp-evk-spdif-lb.dtb imx8mp-evk-dsp.dtb \
+			  imx8mp-evk-sof-wm8960.dtb imx8mp-evk-sof-pdm.dtb \
+			  imx8mp-evk-os08a20-ov5640.dtb imx8mp-evk-os08a20.dtb \
+			  imx8mp-evk-dual-os08a20.dtb \
+			  imx8mp-evk-iqaudio-dacplus.dtb imx8mp-evk-iqaudio-dacpro.dtb imx8mp-evk-hifiberry-dacplus.dtb \
+			  imx8mp-evk-hifiberry-dac2.dtb imx8mp-evk-hifiberry-dacplusadc.dtb \
+			  imx8mp-evk-usdhc1-m2.dtb imx8mp-evk-rm67199.dtb \
+			  imx8mp-evk-dpdk.dtb imx8mp-evk-8mic-swpdm.dtb imx8mp-evk-rpmsg-lpv.dtb imx8mp-evk-revA3-8mic-revE.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mp-msc-sm2s-ep1.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mp-phyboard-pollux-rdk.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mp-ab2.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mp-ddr4-evk.dtb
+dtb-$(CONFIG_ARCH_MXC) += imx8mp-evk-ndm.dtb
+
+imx8mp-evk-revb4-dtbs := imx8mp-evk.dtb imx8mp-evk-revb4.dtbo
+imx8mp-evk-revb4-rm67191-dtbs := imx8mp-evk-rm67191.dtb imx8mp-evk-revb4.dtbo
+imx8mp-evk-revb4-it6263-lvds-dual-channel-dtbs := imx8mp-evk-it6263-lvds-dual-channel.dtb imx8mp-evk-revb4.dtbo
+imx8mp-evk-revb4-pcie-ep-dtbs := imx8mp-evk-pcie-ep.dtb imx8mp-evk-revb4.dtbo
+imx8mp-evk-revb4-ecspi-slave-dtbs := imx8mp-evk-ecspi-slave.dtb imx8mp-evk-revb4.dtbo
+imx8mp-evk-revb4-jdi-wuxga-lvds-panel-dtbs := imx8mp-evk-jdi-wuxga-lvds-panel.dtb imx8mp-
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 13:22:23,327 [INFO]   Resolved arch/arm64/boot/dts/freescale/Makefile hunk 0: confidence=8/10 — NXP tree had no entries in this spot, so no vendor code to preserve. Mainline adds new dtb build tar
+2026-04-27 13:22:23,328 [DEBUG] Applied resolution to arch/arm64/boot/dts/freescale/Makefile hunk 0
+2026-04-27 13:22:23,328 [INFO] Resolving arch/arm64/boot/dts/freescale/imx8mm.dtsi hunk 1...
+2026-04-27 13:22:23,353 [DEBUG] Prompt for arch/arm64/boot/dts/freescale/imx8mm.dtsi hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: arch/arm64/boot/dts/freescale/imx8mm.dtsi
+
+We are merging mainline stable v6.1.56 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.55..v6.1.56):
+(no commit info available)
+
+Context BEFORE the conflict:
+```
+GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>;
+				power-domains = <&disp_blk_ctrl IMX8MM_DISPBLK_PD_LCDIF>;
+				status = "disabled";
+
+				lcdif_disp0: port@0 {
+					reg = <0>;
+
+					lcdif_to_dsim: endpoint {
+						remote-endpoint = <&dsim_from_lcdif>;
+					};
+				};
+			};
+
+			mipi_dsi: mipi_dsi@32e10000 {
+				#address-cells = <1>;
+				#size-cells = <0>;
+				compatible = "fsl,imx8mm-mipi-dsim";
+				reg = <0x32e10000 0x400>;
+				clocks = <&clk IMX8MM_CLK_DSI_CORE>,
+					 <&clk IMX8MM_CLK_DSI_PHY_REF>,
+					 <&clk IMX8MM_CLK_DISP_APB_ROOT>;
+				clock-names = "cfg", "pll-ref", "apb-root";
+				assigned-clocks = <&clk IMX8MM_CLK_DSI_CORE>,
+						  <&clk IMX8MM_CLK_DSI_PHY_REF>;
+				assigned-clock-parents = <&clk IMX8MM_SYS_PLL1_266M>,
+							 <&clk IMX8MM_CLK_24M>;
+				assigned-clock-rates = <266000000>, <12000000>;
+				interrupts = <GIC_SPI 18 IRQ_TYPE_LEVEL_HIGH>;
+				power-domains = <&disp_blk_ctrl IMX8MM_DISPBLK_PD_MIPI_DSI>;
+				status = "disabled";
+
+				port@0 {
+					dsim_from_lcdif: endpoint {
+						remote-endpoint = <&lcdif_to_dsim>;
+					};
+				};
+			};
+
+			csi1_bridge: csi1_bridge@32e20000 {
+				compatible = "fsl,imx8mm-csi", "fsl,imx8mq-csi", "fsl,imx6s-csi";
+				reg = <0x32e20000 0x1000>;
+				interrupts = <GIC_SPI 16 IRQ_TYPE_LEVEL_HIGH>;
+				clocks = <&clk IMX8MM_CLK_DISP_AXI_ROOT>,
+					<&clk IMX8MM_CLK_CSI1_ROOT>,
+					<&clk IMX8MM_CLK_DISP_APB_ROOT>;
+				clock-names = "disp-axi", "csi_mclk", "disp_dcic";
+				power-domains = <&disp_blk_ctrl IMX8MM_DISPBLK_PD_CSI_BRIDGE>;
+				status = "disabled";
+			};
+
+			mipi_csi_1: mipi_csi@32e30000 {
+				compatible = "fsl,imx8mm-mipi-csi";
+				reg = <0x32e30000 0x1000>;
+				interrupts = <GIC_SPI 17 IRQ_TYPE_LEVEL_HIGH>;
+				clock-frequency = <333000000>;
+				clocks = <&clk IMX8MM_CLK_CSI1_CORE>,
+					<&clk IMX8MM_CLK_CSI1_PHY_REF>,
+					<&clk IMX8MM_CLK_DISP_AXI_ROOT>,
+					<&clk IMX8MM_CLK_DISP_APB_ROOT>;
+				clock-names = "mipi_clk", "phy_clk", "disp_axi", "disp_apb";
+				bus-width = <4>;
+				power-domains = <&disp_blk_ctrl IMX8MM_DISPBLK_PD_MIPI_CSI>;
+				status = "disabled";
+			};
+
+			disp_blk_ctrl: blk-ctrl@32e28000 {
+				compatible = "fsl,imx8mm-disp-blk-ctrl", "syscon";
+				reg = <0x32e28000 0x100>;
+				power-domains = <&pgc_dispmix>, <&pgc_dispmix>,
+						<&pgc_dispmix>, <&pgc_mipi>,
+						<&pgc_mipi>;
+				power-domain-names = "bus", "csi-bridge",
+						     "lcdif", "mipi-dsi",
+						     "mipi-csi";
+				clocks = <&clk IMX8MM_CLK_DISP_AXI_ROOT>,
+					 <&clk IMX8MM_CLK_DISP_APB_ROOT>,
+					 <&clk IMX8MM_CLK_CSI1_ROOT>,
+					 <&clk IMX8MM_CLK_DISP_AXI_ROOT>,
+					 <&clk IMX8MM_CLK_DISP_APB_ROOT>,
+					 <&clk IMX8MM_CLK_DISP_ROOT>,
+					 <&clk IMX8MM_CLK_DSI_CORE>,
+					 <&clk IMX8MM_CLK_DSI_PHY_REF>,
+					 <&clk IMX8MM_CLK_CSI1_CORE>,
+					 <&clk IMX8MM_CLK_CSI1_PHY_REF>;
+				clock-names = "csi-bridge-axi","csi-bridge-apb",
+					      "csi-bridge-core", "lcdif-axi",
+					      "lcdif-apb", "lcdif-pix",
+					      "dsi-pclk", "dsi-ref",
+					      "csi-aclk", "csi-pclk";
+				#power-domain-cells = <1>;
+			};
+
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+			display-subsystem {
+				compatible = "fsl,imx-display-subsystem";
+				ports = <&lcdif_disp0>;
+
+```
+
+THEIR side (mainline stable):
+```
+			mipi_csi: mipi-csi@32e30000 {
+				compatible = "fsl,imx8mm-mipi-csi2";
+				reg = <0x32e30000 0x1000>;
+				interrupts = <GIC_SPI 17 IRQ_TYPE_LEVEL_HIGH>;
+				assigned-clocks = <&clk IMX8MM_CLK_CSI1_CORE>;
+				assigned-clock-parents = <&clk IMX8MM_SYS_PLL2_1000M>;
+
+				clock-frequency = <333000000>;
+				clocks = <&clk IMX8MM_CLK_DISP_APB_ROOT>,
+					 <&clk IMX8MM_CLK_CSI1_ROOT>,
+					 <&clk IMX8MM_CLK_CSI1_PHY_REF>,
+					 <&clk IMX8MM_CLK_DISP_AXI_ROOT>;
+				clock-names = "pclk", "wrap", "phy", "axi";
+				power-domains = <&disp_blk_ctrl IMX8MM_DISPBLK_PD_MIPI_CSI>;
+				status = "disabled";
+
+				ports {
+					#address-cells = <1>;
+					#size-cells = <0>;
+
+					port@0 {
+						reg = <0>;
+					};
+
+					port@1 {
+						reg = <1>;
+
+						imx8mm_mipi_csi_out: endpoint {
+							remote-endpoint = <&csi_in>;
+						};
+					};
+				};
+
+```
+
+Context AFTER the conflict:
+```
+			};
+
+			usbotg1: usb@32e40000 {
+				compatible = "fsl,imx8mm-usb", "fsl,imx7d-usb";
+				reg = <0x32e40000 0x200>;
+				interrupts = <GIC_SPI 40 IRQ_TYPE_LEVEL_HIGH>;
+				clocks = <&clk IMX8MM_CLK_USB1_CTRL_ROOT>;
+				clock-names = "usb1_ctrl_root_clk";
+				assigned-clocks = <&clk IMX8MM_CLK_USB_BUS>;
+				assigned-clock-parents = <&clk IMX8MM_SYS_PLL2_500M>;
+				phys = <&usbphynop1>;
+				fsl,usbmisc = <&usbmisc1 0>;
+				power-domains = <&pgc_hsiomix>;
+				status = "disabled";
+			};
+
+			usbmisc1: usbmisc@32e40200 {
+				compatible = "fsl,imx8mm-usbmisc", "fsl,imx7d-usbmisc";
+				#index-cells = <1>;
+				reg = <0x32e40200 0x200>;
+			};
+
+			usbotg2: usb@32e50000 {
+				compatible = "fsl,imx8mm-usb", "fsl,imx7d-usb";
+				reg = <0x32e50000 0x200>;
+				interrupts = <GIC_SPI 41 IRQ_TYPE_LEVEL_HIGH>;
+				clocks = <&clk IMX8MM_CLK_USB1_CTRL_ROOT>;
+				clock-names = "usb1_ctrl_root_clk";
+				assigned-clocks = <&clk IMX8MM_CLK_USB_BUS>;
+				assigned-clock-parents = <&clk IMX8MM_SYS_PLL2_500M>;
+				phys = <&usbphynop2>;
+				fsl,usbmisc = <&usbmisc2 0>;
+				power-domains = <&pgc_hsiomix>;
+				status = "disabled";
+			};
+
+			usbmisc2: usbmisc@32e50200 {
+				compatible = "fsl,imx8mm-usbmisc", "fsl,imx7d-usbmisc";
+				#index-cells = <1>;
+				reg = <0x32e50200 0x200>;
+			};
+
+			pcie_phy: pcie-phy@32f00000 {
+				compatible = "fsl,imx8mm-pcie-phy";
+				reg = <0x32f00000 0x10000>;
+				clocks = <&clk IMX8MM_CLK_PCIE1_PHY>;
+				clock-names = "ref";
+				assigned-clocks = <&clk IMX8MM_CLK_PCIE1_PHY>;
+				assigned-clock-rates = <100000000>;
+				assigned-clock-parents = <&clk IMX8MM_SYS_PLL2_100M>;
+				resets = <&src IMX8MQ_RESET_PCIEPHY>;
+				reset-names = "pciephy";
+				#phy-cells = <0>;
+				status = "disabled";
+			};
+		};
+
+		dma_apbh: dma-controller@33000000 {
+			compatible = "fsl,imx7d-dma-apbh", "fsl,imx28-dma-apbh";
+			reg = <0x33000000 0x2000>;
+			interrupts = <GIC_SPI 12 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 12 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 12 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 12 IRQ_TYPE_LEVEL_HIGH>;
+			interrupt-names = "gpmi0", "gpmi1", "gpmi2", "gpmi3";
+			#dma-cells = <1>;
+			dma-channels = <4>;
+			clocks = <&clk IMX8MM_CLK_NAND_USDHC_BUS_RAWNAND_CLK>;
+		};
+
+		gpmi: nand-controller@33002000 {
+			compatible = "fsl,imx8mm-gpmi-nand", "fsl,imx7d-gpmi-nand";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <0x33002000 0x2000>, <0x33004000 0x4000>;
+			reg-names = "gpmi-nand", "bch";
+			interrupts = <GIC_SPI 14 IRQ_TYPE_LEVEL_HIGH>;
+			interrupt-names = "bch";
+			clocks = <&clk IMX8MM_CLK_NAND_ROOT>,
+				 <&clk IMX8MM_CLK_NAND_USDHC_BUS_RAWNAND_CLK>;
+			clock-names = "gpmi_io", "gpmi_bch_apb";
+			dmas = <&dma_apbh 0>;
+			dma-names = "rx-tx";
+			status = "disabled";
+		};
+
+		pcie0: pcie@33800000 {
+			compatible = "fsl,imx8mm-pcie";
+			reg = <0x33800000 0x400000>, <0x1ff00000 0x80000>;
+			reg-names = "dbi", "config";
+			#address-cells = <3>;
+			#size-cells = <2>;
+			device_type = "pci";
+			bus-range = <0x00 0xff>;
+			ranges =  <0x81000000 0 0x0000
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 13:23:34,335 [INFO]   Resolved arch/arm64/boot/dts/freescale/imx8mm.dtsi hunk 0: confidence=6/10 — Vendor code adds display-subsystem; mainline adds an updated MIPI-CSI node for the same IP that is n
+2026-04-27 13:23:34,336 [DEBUG] Applied resolution to arch/arm64/boot/dts/freescale/imx8mm.dtsi hunk 0
+2026-04-27 13:23:34,336 [INFO] Resolving drivers/gpu/drm/bridge/adv7511/adv7511_drv.c hunk 1...
+2026-04-27 13:23:34,364 [DEBUG] Prompt for drivers/gpu/drm/bridge/adv7511/adv7511_drv.c hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+
+We are merging mainline stable v6.1.56 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.55..v6.1.56):
+(no commit info available)
+
+Context BEFORE the conflict:
+```
+CLOCK_HIGH;
+
+	for (i = 0; i < num_modes; i++)
+		if (mode->clock == valid_clocks[i]) {
+			clock_ok = true;
+			break;
+		}
+
+	if (!clock_ok)
+		return MODE_NOCLOCK;
+
+	return MODE_OK;
+}
+
+static void adv7511_mode_set(struct adv7511 *adv7511,
+			     const struct drm_display_mode *mode,
+			     const struct drm_display_mode *adj_mode)
+{
+	unsigned int low_refresh_rate;
+	unsigned int hsync_polarity = 0;
+	unsigned int vsync_polarity = 0;
+
+	if (adv7511->embedded_sync) {
+		unsigned int hsync_offset, hsync_len;
+		unsigned int vsync_offset, vsync_len;
+
+		hsync_offset = adj_mode->crtc_hsync_start -
+			       adj_mode->crtc_hdisplay;
+		vsync_offset = adj_mode->crtc_vsync_start -
+			       adj_mode->crtc_vdisplay;
+		hsync_len = adj_mode->crtc_hsync_end -
+			    adj_mode->crtc_hsync_start;
+		vsync_len = adj_mode->crtc_vsync_end -
+			    adj_mode->crtc_vsync_start;
+
+		/* The hardware vsync generator has a off-by-one bug */
+		vsync_offset += 1;
+
+		regmap_write(adv7511->regmap, ADV7511_REG_HSYNC_PLACEMENT_MSB,
+			     ((hsync_offset >> 10) & 0x7) << 5);
+		regmap_write(adv7511->regmap, ADV7511_REG_SYNC_DECODER(0),
+			     (hsync_offset >> 2) & 0xff);
+		regmap_write(adv7511->regmap, ADV7511_REG_SYNC_DECODER(1),
+			     ((hsync_offset & 0x3) << 6) |
+			     ((hsync_len >> 4) & 0x3f));
+		regmap_write(adv7511->regmap, ADV7511_REG_SYNC_DECODER(2),
+			     ((hsync_len & 0xf) << 4) |
+			     ((vsync_offset >> 6) & 0xf));
+		regmap_write(adv7511->regmap, ADV7511_REG_SYNC_DECODER(3),
+			     ((vsync_offset & 0x3f) << 2) |
+			     ((vsync_len >> 8) & 0x3));
+		regmap_write(adv7511->regmap, ADV7511_REG_SYNC_DECODER(4),
+			     vsync_len & 0xff);
+
+		hsync_polarity = !(adj_mode->flags & DRM_MODE_FLAG_PHSYNC);
+		vsync_polarity = !(adj_mode->flags & DRM_MODE_FLAG_PVSYNC);
+	} else {
+		enum adv7511_sync_polarity mode_hsync_polarity;
+		enum adv7511_sync_polarity mode_vsync_polarity;
+
+		/**
+		 * If the input signal is always low or always high we want to
+		 * invert or let it passthrough depending on the polarity of the
+		 * current mode.
+		 **/
+		if (adj_mode->flags & DRM_MODE_FLAG_NHSYNC)
+			mode_hsync_polarity = ADV7511_SYNC_POLARITY_LOW;
+		else
+			mode_hsync_polarity = ADV7511_SYNC_POLARITY_HIGH;
+
+		if (adj_mode->flags & DRM_MODE_FLAG_NVSYNC)
+			mode_vsync_polarity = ADV7511_SYNC_POLARITY_LOW;
+		else
+			mode_vsync_polarity = ADV7511_SYNC_POLARITY_HIGH;
+
+		if (adv7511->hsync_polarity != mode_hsync_polarity &&
+		    adv7511->hsync_polarity !=
+		    ADV7511_SYNC_POLARITY_PASSTHROUGH)
+			hsync_polarity = 1;
+
+		if (adv7511->vsync_polarity != mode_vsync_polarity &&
+		    adv7511->vsync_polarity !=
+		    ADV7511_SYNC_POLARITY_PASSTHROUGH)
+			vsync_polarity = 1;
+	}
+
+	if (drm_mode_vrefresh(mode) <= 24)
+		low_refresh_rate = ADV7511_LOW_REFRESH_RATE_24HZ;
+	else if (drm_mode_vrefresh(mode) <= 25)
+		low_refresh_rate = ADV7511_LOW_REFRESH_RATE_25HZ;
+	else if (drm_mode_vrefresh(mode) <= 30)
+		low_refresh_rate = ADV7511_LOW_REFRESH_RATE_30HZ;
+	else
+		low_refresh_rate = ADV7511_LOW_REFRESH_RATE_NONE;
+
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+	if (adv7511->type == ADV7535)
+		regmap_update_bits(adv7511->regmap, 0x4a,
+			0xc, low_refresh_rate << 2);
+	else
+		regmap_update_bits(adv7511->regmap, 0xfb,
+			0x6, low_refresh_rate << 1);
+
+```
+
+THEIR side (mainline stable):
+```
+	if (adv7511->type == ADV7511)
+		regmap_update_bits(adv7511->regmap, 0xfb,
+				   0x6, low_refresh_rate << 1);
+	else
+		regmap_update_bits(adv7511->regmap, 0x4a,
+				   0xc, low_refresh_rate << 2);
+
+```
+
+Context AFTER the conflict:
+```
+
+	regmap_update_bits(adv7511->regmap, 0x17,
+		0x60, (vsync_polarity << 6) | (hsync_polarity << 5));
+
+	drm_mode_copy(&adv7511->curr_mode, adj_mode);
+
+	/*
+	 * TODO Test first order 4:2:2 to 4:4:4 up conversion method, which is
+	 * supposed to give better results.
+	 */
+
+	adv7511->f_tmds = mode->clock;
+}
+
+/* -----------------------------------------------------------------------------
+ * DRM Connector Operations
+ */
+
+static struct adv7511 *connector_to_adv7511(struct drm_connector *connector)
+{
+	return container_of(connector, struct adv7511, connector);
+}
+
+static int adv7511_connector_get_modes(struct drm_connector *connector)
+{
+	struct adv7511 *adv = connector_to_adv7511(connector);
+
+	return adv7511_get_modes(adv, connector);
+}
+
+static enum drm_mode_status
+adv7511_connector_mode_valid(struct drm_connector *connector,
+			     struct drm_display_mode *mode)
+{
+	struct adv7511 *adv = connector_to_adv7511(connector);
+
+	return adv7511_mode_valid(adv, mode);
+}
+
+static struct drm_connector_helper_funcs adv7511_connector_helper_funcs = {
+	.get_modes = adv7511_connector_get_modes,
+	.mode_valid = adv7511_connector_mode_valid,
+};
+
+static enum drm_connector_status
+adv7511_connector_detect(struct drm_connector *connector, bool force)
+{
+	struct adv7511 *adv = connector_to_adv7511(connector);
+
+	return adv7511_detect(adv, connector);
+}
+
+static const struct drm_connector_funcs adv7511_connector_funcs = {
+	.fill_modes = drm_helper_probe_single_connector_modes,
+	.detect = adv7511_connector_detect,
+	.destroy = drm_connector_cleanup,
+	.reset = drm_atomic_helper_connector_reset,
+	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+};
+
+static int adv7511_connector_init(struct adv7511 *adv)
+{
+	struct drm_bridge *bridge = &adv->bridge;
+	int ret;
+
+	if (!bridge->encoder) {
+		DRM_ERROR("Parent encoder object not found");
+		return -ENODEV;
+	}
+
+	if (adv->i2c_main->irq)
+		adv->connector.polled = DRM_CONNECTOR_POLL_HPD;
+	else
+		adv->connector.polled = DRM_CONNECTOR_POLL_CONNECT |
+				DRM_CONNECTOR_POLL_DISCONNECT;
+
+	ret = drm_connector_init(bridge->dev, &adv->connector,
+				 &adv7511_connector_funcs,
+				 DRM_MODE_CONNECTOR_HDMIA);
+	if (ret < 0) {
+		DRM_ERROR("Failed to initialize connector with drm\n");
+		return ret;
+	}
+	drm_connector_helper_add(&adv->connector,
+				 &adv7511_connector_helper_funcs);
+	drm_connector_attach_encoder(&adv->connector, bridge->encoder);
+
+	return 0;
+}
+
+/* -----------------------------------------------------------------------------
+ * DRM Bridge Operations
+ */
+
+static struct adv7511 *bridge_to_adv7511(struct drm_bridge *bridge)
+{
+	return container_of(bridge, struct adv7511, bridge);
+}
+
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 13:24:37,135 [INFO]   Resolved drivers/gpu/drm/bridge/adv7511/adv7511_drv.c hunk 0: confidence=6/10 — Upstream changed the register selection so that only ADV7511 uses register 0xfb; all other variants 
+2026-04-27 13:24:37,136 [DEBUG] Applied resolution to drivers/gpu/drm/bridge/adv7511/adv7511_drv.c hunk 0
+2026-04-27 13:24:37,136 [INFO] Resolving drivers/media/i2c/ov5640.c hunk 1...
+2026-04-27 13:24:37,163 [DEBUG] Prompt for drivers/media/i2c/ov5640.c hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/media/i2c/ov5640.c
+
+We are merging mainline stable v6.1.56 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.55..v6.1.56):
+(no commit info available)
+
+Context BEFORE the conflict:
+```
+0_dev *sensor, u32 code)
+{
+	const struct ov5640_pixfmt *formats = ov5640_formats(sensor);
+	unsigned int i;
+
+	for (i = 0; formats[i].code; ++i) {
+		if (formats[i].code == code)
+			return &formats[i];
+	}
+
+	return &formats[0];
+}
+
+static u32 ov5640_code_to_bpp(struct ov5640_dev *sensor, u32 code)
+{
+	const struct ov5640_pixfmt *format = ov5640_code_to_pixfmt(sensor,
+								   code);
+
+	return format->bpp;
+}
+
+/*
+ * FIXME: all of these register tables are likely filled with
+ * entries that set the register to their power-on default values,
+ * and which are otherwise not touched by this driver. Those entries
+ * should be identified and removed to speed register load time
+ * over i2c.
+ */
+/* YUV422 UYVY VGA@30fps */
+
+static const struct v4l2_mbus_framefmt ov5640_mipi_default_fmt = {
+	.code = MEDIA_BUS_FMT_UYVY8_1X16,
+	.width = 640,
+	.height = 480,
+	.colorspace = V4L2_COLORSPACE_SRGB,
+	.ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(V4L2_COLORSPACE_SRGB),
+	.quantization = V4L2_QUANTIZATION_FULL_RANGE,
+	.xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(V4L2_COLORSPACE_SRGB),
+	.field = V4L2_FIELD_NONE,
+};
+
+static const struct v4l2_mbus_framefmt ov5640_dvp_default_fmt = {
+	.code = MEDIA_BUS_FMT_UYVY8_2X8,
+	.width = 640,
+	.height = 480,
+	.colorspace = V4L2_COLORSPACE_SRGB,
+	.ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(V4L2_COLORSPACE_SRGB),
+	.quantization = V4L2_QUANTIZATION_FULL_RANGE,
+	.xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(V4L2_COLORSPACE_SRGB),
+	.field = V4L2_FIELD_NONE,
+};
+
+static const struct reg_value ov5640_init_setting[] = {
+	{0x3103, 0x11, 0, 0},
+	{0x3103, 0x03, 0, 0}, {0x3630, 0x36, 0, 0},
+	{0x3631, 0x0e, 0, 0}, {0x3632, 0xe2, 0, 0}, {0x3633, 0x12, 0, 0},
+	{0x3621, 0xe0, 0, 0}, {0x3704, 0xa0, 0, 0}, {0x3703, 0x5a, 0, 0},
+	{0x3715, 0x78, 0, 0}, {0x3717, 0x01, 0, 0}, {0x370b, 0x60, 0, 0},
+	{0x3705, 0x1a, 0, 0}, {0x3905, 0x02, 0, 0}, {0x3906, 0x10, 0, 0},
+	{0x3901, 0x0a, 0, 0}, {0x3731, 0x12, 0, 0}, {0x3600, 0x08, 0, 0},
+	{0x3601, 0x33, 0, 0}, {0x302d, 0x60, 0, 0}, {0x3620, 0x52, 0, 0},
+	{0x371b, 0x20, 0, 0}, {0x471c, 0x50, 0, 0}, {0x3a13, 0x43, 0, 0},
+	{0x3a18, 0x00, 0, 0}, {0x3a19, 0xf8, 0, 0}, {0x3635, 0x13, 0, 0},
+	{0x3636, 0x03, 0, 0}, {0x3634, 0x40, 0, 0}, {0x3622, 0x01, 0, 0},
+	{0x3c01, 0xa4, 0, 0}, {0x3c04, 0x28, 0, 0}, {0x3c05, 0x98, 0, 0},
+	{0x3c06, 0x00, 0, 0}, {0x3c07, 0x08, 0, 0}, {0x3c08, 0x00, 0, 0},
+	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
+	{0x3820, 0x41, 0, 0}, {0x3821, 0x07, 0, 0}, {0x3814, 0x31, 0, 0},
+	{0x3815, 0x31, 0, 0},
+	{0x3618, 0x00, 0, 0}, {0x3612, 0x29, 0, 0}, {0x3708, 0x64, 0, 0},
+	{0x3709, 0x52, 0, 0}, {0x370c, 0x03, 0, 0}, {0x3a02, 0x03, 0, 0},
+	{0x3a03, 0xd8, 0, 0}, {0x3a08, 0x01, 0, 0}, {0x3a09, 0x27, 0, 0},
+	{0x3a0a, 0x00, 0, 0}, {0x3a0b, 0xf6, 0, 0}, {0x3a0e, 0x03, 0, 0},
+	{0x3a0d, 0x04, 0, 0}, {0x3a14, 0x03, 0, 0}, {0x3a15, 0xd8, 0, 0},
+	{0x4001, 0x02, 0, 0}, {0x4004, 0x02, 0, 0}, {0x3000, 0x00, 0, 0},
+	{0x3002, 0x1c, 0, 0}, {0x3004, 0xff, 0, 0}, {0x3006, 0xc3, 0, 0},
+	{0x302e, 0x08, 0, 0}, {0x4300, 0x3f, 0, 0},
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+	{0x501f, 0x00, 0, 0}, {0x4407, 0x04, 0, 0},
+	{0x440e, 0x00, 0, 0}, {0x460b, 0x35, 0, 0}, {0x460c, 0x20, 0, 0},
+	{0x4837, 0x0a, 0, 0}, {0x3824, 0x02, 0, 0},
+
+```
+
+THEIR side (mainline stable):
+```
+	{0x501f, 0x00, 0, 0}, {0x440e, 0x00, 0, 0}, {0x4837, 0x0a, 0, 0},
+
+```
+
+Context AFTER the conflict:
+```
+	{0x5000, 0xa7, 0, 0}, {0x5001, 0xa3, 0, 0}, {0x5180, 0xff, 0, 0},
+	{0x5181, 0xf2, 0, 0}, {0x5182, 0x00, 0, 0}, {0x5183, 0x14, 0, 0},
+	{0x5184, 0x25, 0, 0}, {0x5185, 0x24, 0, 0}, {0x5186, 0x09, 0, 0},
+	{0x5187, 0x09, 0, 0}, {0x5188, 0x09, 0, 0}, {0x5189, 0x88, 0, 0},
+	{0x518a, 0x54, 0, 0}, {0x518b, 0xee, 0, 0}, {0x518c, 0xb2, 0, 0},
+	{0x518d, 0x50, 0, 0}, {0x518e, 0x34, 0, 0}, {0x518f, 0x6b, 0, 0},
+	{0x5190, 0x46, 0, 0}, {0x5191, 0xf8, 0, 0}, {0x5192, 0x04, 0, 0},
+	{0x5193, 0x70, 0, 0}, {0x5194, 0xf0, 0, 0}, {0x5195, 0xf0, 0, 0},
+	{0x5196, 0x03, 0, 0}, {0x5197, 0x01, 0, 0}, {0x5198, 0x04, 0, 0},
+	{0x5199, 0x6c, 0, 0}, {0x519a, 0x04, 0, 0}, {0x519b, 0x00, 0, 0},
+	{0x519c, 0x09, 0, 0}, {0x519d, 0x2b, 0, 0}, {0x519e, 0x38, 0, 0},
+	{0x5381, 0x1e, 0, 0}, {0x5382, 0x5b, 0, 0}, {0x5383, 0x08, 0, 0},
+	{0x5384, 0x0a, 0, 0}, {0x5385, 0x7e, 0, 0}, {0x5386, 0x88, 0, 0},
+	{0x5387, 0x7c, 0, 0}, {0x5388, 0x6c, 0, 0}, {0x5389, 0x10, 0, 0},
+	{0x538a, 0x01, 0, 0}, {0x538b, 0x98, 0, 0}, {0x5300, 0x08, 0, 0},
+	{0x5301, 0x30, 0, 0}, {0x5302, 0x10, 0, 0}, {0x5303, 0x00, 0, 0},
+	{0x5304, 0x08, 0, 0}, {0x5305, 0x30, 0, 0}, {0x5306, 0x08, 0, 0},
+	{0x5307, 0x16, 0, 0}, {0x5309, 0x08, 0, 0}, {0x530a, 0x30, 0, 0},
+	{0x530b, 0x04, 0, 0}, {0x530c, 0x06, 0, 0}, {0x5480, 0x01, 0, 0},
+	{0x5481, 0x08, 0, 0}, {0x5482, 0x14, 0, 0}, {0x5483, 0x28, 0, 0},
+	{0x5484, 0x51, 0, 0}, {0x5485, 0x65, 0, 0}, {0x5486, 0x71, 0, 0},
+	{0x5487, 0x7d, 0, 0}, {0x5488, 0x87, 0, 0}, {0x5489, 0x91, 0, 0},
+	{0x548a, 0x9a, 0, 0}, {0x548b, 0xaa, 0, 0}, {0x548c, 0xb8, 0, 0},
+	{0x548d, 0xcd, 0, 0}, {0x548e, 0xdd, 0, 0}, {0x548f, 0xea, 0, 0},
+	{0x5490, 0x1d, 0, 0}, {0x5580, 0x02, 0, 0}, {0x5583, 0x40, 0, 0},
+	{0x5584, 0x10, 0, 0}, {0x5589, 0x10, 0, 0}, {0x558a, 0x00, 0, 0},
+	{0x558b, 0xf8, 0, 0}, {0x5800, 0x23, 0, 0}, {0x5801, 0x14, 0, 0},
+	{0x5802, 0x0f, 0, 0}, {0x5803, 0x0f, 0, 0}, {0x5804, 0x12, 0, 0},
+	{0x5805, 0x26, 0, 0}, {0x5806, 0x0c, 0, 0}, {0x5807, 0x08, 0, 0},
+	{0x5808, 0x05, 0, 0}, {0x5809, 0x05, 0, 0}, {0x580a, 0x08, 0, 0},
+	{0x580b, 0x0d, 0, 0}, {0x580c, 0x08, 0, 0}, {0x580d, 0x03, 0, 0},
+	{0x580e, 0x00, 0, 0}, {0x580f, 0x00, 0, 0}, {0x5810, 0x03, 0, 0},
+	{0x5811, 0x09, 0, 0}, {0x5812, 0x07, 0, 0}, {0x5813, 0x03, 0, 0},
+	{0x5814, 0x00, 0, 0}, {0x5815, 0x01, 0, 0}, {0x5816, 0x03, 0, 0},
+	{0x5817, 0x08, 0, 0}, {0x5818, 0x0d, 0, 0}, {0x5819, 0x08, 0, 0},
+	{0x581a, 0x05, 0, 0}, {0x581b, 0x06, 0, 0}, {0x581c, 0x08, 0, 0},
+	{0x581d, 0x0e, 0, 0}, {0x581e, 0x29, 0, 0}, {0x581f, 0x17, 0, 0},
+	{0x5820, 0x11, 0, 0}, {0x5821, 0x11, 0, 0}, {0x5822, 0x15, 0, 0},
+	{0x5823, 0x28, 0, 0}, {0x5824, 0x46, 0, 0}, {0x5825, 0x26, 0, 0},
+	{0x5826, 0x08, 0, 0}, {0x5827, 0x26, 0, 0}, {0x5828, 0x64, 0, 0},
+	{0x5829, 0x26, 0, 0}, {0x582a, 0x24, 0, 0}, {0x582b, 0x22, 0, 0},
+	{0x582c, 0x24, 0, 0}, {0x582d, 0x24, 0, 0}, {0x582e, 0x06, 0, 0},
+	{0x582f, 0x22, 0, 0}, {0x5830, 0x40, 0, 0}, {0x5831, 0x42, 0, 0},
+	{0x5832, 0x24, 0, 0}, {0x5833, 0x26, 0, 0}, {0x5834, 0x24, 0, 0},
+	{0x5835, 0x22, 0, 0}, {0x5836, 0x22, 0, 0}, {0x5837
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 13:24:57,862 [INFO]   Resolved drivers/media/i2c/ov5640.c hunk 0: confidence=9/10 — Mainline kept only a subset of the register initialisation table, while NXP vendor code programs fou
+2026-04-27 13:24:57,863 [DEBUG] Applied resolution to drivers/media/i2c/ov5640.c hunk 0
+2026-04-27 13:24:57,863 [INFO] Resolving drivers/media/i2c/ov5640.c hunk 2...
+2026-04-27 13:24:57,888 [DEBUG] Prompt for drivers/media/i2c/ov5640.c hunk 1:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/media/i2c/ov5640.c
+
+We are merging mainline stable v6.1.56 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.55..v6.1.56):
+(no commit info available)
+
+Context BEFORE the conflict:
+```
+0, 0},
+	{0x538a, 0x01, 0, 0}, {0x538b, 0x98, 0, 0}, {0x5300, 0x08, 0, 0},
+	{0x5301, 0x30, 0, 0}, {0x5302, 0x10, 0, 0}, {0x5303, 0x00, 0, 0},
+	{0x5304, 0x08, 0, 0}, {0x5305, 0x30, 0, 0}, {0x5306, 0x08, 0, 0},
+	{0x5307, 0x16, 0, 0}, {0x5309, 0x08, 0, 0}, {0x530a, 0x30, 0, 0},
+	{0x530b, 0x04, 0, 0}, {0x530c, 0x06, 0, 0}, {0x5480, 0x01, 0, 0},
+	{0x5481, 0x08, 0, 0}, {0x5482, 0x14, 0, 0}, {0x5483, 0x28, 0, 0},
+	{0x5484, 0x51, 0, 0}, {0x5485, 0x65, 0, 0}, {0x5486, 0x71, 0, 0},
+	{0x5487, 0x7d, 0, 0}, {0x5488, 0x87, 0, 0}, {0x5489, 0x91, 0, 0},
+	{0x548a, 0x9a, 0, 0}, {0x548b, 0xaa, 0, 0}, {0x548c, 0xb8, 0, 0},
+	{0x548d, 0xcd, 0, 0}, {0x548e, 0xdd, 0, 0}, {0x548f, 0xea, 0, 0},
+	{0x5490, 0x1d, 0, 0}, {0x5580, 0x02, 0, 0}, {0x5583, 0x40, 0, 0},
+	{0x5584, 0x10, 0, 0}, {0x5589, 0x10, 0, 0}, {0x558a, 0x00, 0, 0},
+	{0x558b, 0xf8, 0, 0}, {0x5800, 0x23, 0, 0}, {0x5801, 0x14, 0, 0},
+	{0x5802, 0x0f, 0, 0}, {0x5803, 0x0f, 0, 0}, {0x5804, 0x12, 0, 0},
+	{0x5805, 0x26, 0, 0}, {0x5806, 0x0c, 0, 0}, {0x5807, 0x08, 0, 0},
+	{0x5808, 0x05, 0, 0}, {0x5809, 0x05, 0, 0}, {0x580a, 0x08, 0, 0},
+	{0x580b, 0x0d, 0, 0}, {0x580c, 0x08, 0, 0}, {0x580d, 0x03, 0, 0},
+	{0x580e, 0x00, 0, 0}, {0x580f, 0x00, 0, 0}, {0x5810, 0x03, 0, 0},
+	{0x5811, 0x09, 0, 0}, {0x5812, 0x07, 0, 0}, {0x5813, 0x03, 0, 0},
+	{0x5814, 0x00, 0, 0}, {0x5815, 0x01, 0, 0}, {0x5816, 0x03, 0, 0},
+	{0x5817, 0x08, 0, 0}, {0x5818, 0x0d, 0, 0}, {0x5819, 0x08, 0, 0},
+	{0x581a, 0x05, 0, 0}, {0x581b, 0x06, 0, 0}, {0x581c, 0x08, 0, 0},
+	{0x581d, 0x0e, 0, 0}, {0x581e, 0x29, 0, 0}, {0x581f, 0x17, 0, 0},
+	{0x5820, 0x11, 0, 0}, {0x5821, 0x11, 0, 0}, {0x5822, 0x15, 0, 0},
+	{0x5823, 0x28, 0, 0}, {0x5824, 0x46, 0, 0}, {0x5825, 0x26, 0, 0},
+	{0x5826, 0x08, 0, 0}, {0x5827, 0x26, 0, 0}, {0x5828, 0x64, 0, 0},
+	{0x5829, 0x26, 0, 0}, {0x582a, 0x24, 0, 0}, {0x582b, 0x22, 0, 0},
+	{0x582c, 0x24, 0, 0}, {0x582d, 0x24, 0, 0}, {0x582e, 0x06, 0, 0},
+	{0x582f, 0x22, 0, 0}, {0x5830, 0x40, 0, 0}, {0x5831, 0x42, 0, 0},
+	{0x5832, 0x24, 0, 0}, {0x5833, 0x26, 0, 0}, {0x5834, 0x24, 0, 0},
+	{0x5835, 0x22, 0, 0}, {0x5836, 0x22, 0, 0}, {0x5837, 0x26, 0, 0},
+	{0x5838, 0x44, 0, 0}, {0x5839, 0x24, 0, 0}, {0x583a, 0x26, 0, 0},
+	{0x583b, 0x28, 0, 0}, {0x583c, 0x42, 0, 0}, {0x583d, 0xce, 0, 0},
+	{0x5025, 0x00, 0, 0}, {0x3a0f, 0x30, 0, 0}, {0x3a10, 0x28, 0, 0},
+	{0x3a1b, 0x30, 0, 0}, {0x3a1e, 0x26, 0, 0}, {0x3a11, 0x60, 0, 0},
+	{0x3a1f, 0x14, 0, 0}, {0x3008, 0x42, 0, 0}, {0x3c00, 0x04, 0, 300},
+	{0x302c, 0xc2, 0, 0}
+};
+
+static const struct reg_value ov5640_setting_low_res[] = {
+	{0x3008, 0x42, 0, 0},
+	{0x3c07, 0x08, 0, 0},
+	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
+	{0x3814, 0x31, 0, 0},
+	{0x3815, 0x31, 0, 0},
+	{0x3618, 0x00, 0, 0}, {0x3612, 0x29, 0, 0}, {0x3708, 0x64, 0, 0},
+	{0x3709, 0x52, 0, 0}, {0x370c, 0x03, 0, 0}, {0x3a02, 0x03, 0, 0},
+	{0x3a03, 0xd8, 0, 0}, {0x3a08, 0x01, 0, 0}, {0x3a09, 0x27, 0, 0},
+	{0x3a0a, 0x00, 0, 0}, {0x3a0b, 0xf6, 0, 0}, {0x3a0e, 0x03, 0, 0},
+	{0x3a0d, 0x04, 0, 0}, {0x3a14, 0x03, 0, 0}, {0x3a15, 0xd8, 0, 0},
+
+```
+
+CONFLICT (hunk 2):
+OUR side (NXP vendor kernel):
+```
+	{0x4001, 0x02, 0, 0}, {0x4004, 0x02, 0, 0}, {0x3824, 0x02, 0, 0},
+	{0x4407, 0x04, 0, 0}, {0x5001, 0xa3, 0, 0},
+	{0x3008, 0x02, 0, 15},
+
+```
+
+THEIR side (mainline stable):
+```
+	{0x4001, 0x02, 0, 0}, {0x4004, 0x02, 0, 0},
+	{0x4407, 0x04, 0, 0}, {0x460b, 0x35, 0, 0}, {0x460c, 0x22, 0, 0},
+	{0x3824, 0x02, 0, 0}, {0x5001, 0xa3, 0, 0},
+
+```
+
+Context AFTER the conflict:
+```
+};
+
+static const struct reg_value ov5640_setting_720P_1280_720[] = {
+	{0x3008, 0x42, 0, 0},
+	{0x3c07, 0x07, 0, 0},
+	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
+	{0x3814, 0x31, 0, 0},
+	{0x3815, 0x31, 0, 0},
+	{0x3618, 0x00, 0, 0}, {0x3612, 0x29, 0, 0}, {0x3708, 0x64, 0, 0},
+	{0x3709, 0x52, 0, 0}, {0x370c, 0x03, 0, 0}, {0x3a02, 0x02, 0, 0},
+	{0x3a03, 0xe4, 0, 0}, {0x3a08, 0x01, 0, 0}, {0x3a09, 0xbc, 0, 0},
+	{0x3a0a, 0x01, 0, 0}, {0x3a0b, 0x72, 0, 0}, {0x3a0e, 0x01, 0, 0},
+	{0x3a0d, 0x02, 0, 0}, {0x3a14, 0x02, 0, 0}, {0x3a15, 0xe4, 0, 0},
+	{0x4001, 0x02, 0, 0}, {0x4004, 0x02, 0, 0},
+	{0x4407, 0x04, 0, 0}, {0x460b, 0x37, 0, 0}, {0x460c, 0x20, 0, 0},
+	{0x3824, 0x04, 0, 0}, {0x5001, 0x83, 0, 0},
+	{0x3008, 0x02, 0, 15},
+};
+
+static const struct reg_value ov5640_setting_1080P_1920_1080[] = {
+	{0x3008, 0x42, 0, 0},
+	{0x3c07, 0x08, 0, 0},
+	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
+	{0x3814, 0x11, 0, 0},
+	{0x3815, 0x11, 0, 0},
+	{0x3618, 0x04, 0, 0}, {0x3612, 0x29, 0, 0}, {0x3708, 0x21, 0, 0},
+	{0x3709, 0x12, 0, 0}, {0x370c, 0x00, 0, 0}, {0x3a02, 0x03, 0, 0},
+	{0x3a03, 0xd8, 0, 0}, {0x3a08, 0x01, 0, 0}, {0x3a09, 0x27, 0, 0},
+	{0x3a0a, 0x00, 0, 0}, {0x3a0b, 0xf6, 0, 0}, {0x3a0e, 0x03, 0, 0},
+	{0x3a0d, 0x04, 0, 0}, {0x3a14, 0x03, 0, 0}, {0x3a15, 0xd8, 0, 0},
+	{0x4001, 0x02, 0, 0}, {0x4004, 0x06, 0, 0},
+	{0x4407, 0x04, 0, 0}, {0x460b, 0x35, 0, 0}, {0x460c, 0x22, 0, 0},
+	{0x3824, 0x02, 0, 0}, {0x5001, 0x83, 0, 0},
+	{0x3c07, 0x07, 0, 0}, {0x3c08, 0x00, 0, 0},
+	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
+	{0x3612, 0x2b, 0, 0}, {0x3708, 0x64, 0, 0},
+	{0x3a02, 0x04, 0, 0}, {0x3a03, 0x60, 0, 0}, {0x3a08, 0x01, 0, 0},
+	{0x3a09, 0x50, 0, 0}, {0x3a0a, 0x01, 0, 0}, {0x3a0b, 0x18, 0, 0},
+	{0x3a0e, 0x03, 0, 0}, {0x3a0d, 0x04, 0, 0}, {0x3a14, 0x04, 0, 0},
+	{0x3a15, 0x60, 0, 0}, {0x4407, 0x04, 0, 0},
+	{0x460b, 0x37, 0, 0}, {0x460c, 0x20, 0, 0}, {0x3824, 0x02, 0, 0},
+	{0x4005, 0x1a, 0, 0}, {0x3008, 0x02, 0, 15},
+};
+
+static const struct reg_value ov5640_setting_QSXGA_2592_1944[] = {
+	{0x3008, 0x42, 0, 0},
+	{0x3c07, 0x08, 0, 0},
+	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
+	{0x3814, 0x11, 0, 0},
+	{0x3815, 0x11, 0, 0},
+	{0x3618, 0x04, 0, 0}, {0x3612, 0x29, 0, 0}, {0x3708, 0x21, 0, 0},
+	{0x3709, 0x12, 0, 0}, {0x370c, 0x00, 0, 0}, {0x3a02, 0x03, 0, 0},
+	{0x3a03, 0xd8, 0, 0}, {0x3a08, 0x01, 0, 0}, {0x3a09, 0x27, 0, 0},
+	{0x3a0a, 0x00, 0, 0}, {0x3a0b, 0xf6, 0, 0}, {0x3a0e, 0x03, 0, 0},
+	{0x3a0d, 0x04, 0, 0}, {0x3a14, 0x03, 0, 0}, {0x3a15, 0xd8, 0, 0},
+	{0x4001, 0x02, 0, 0}, {0x4004, 0x06, 0, 0},
+	{0x4407, 0x04, 0, 0}, {0x460b, 0x35, 0, 0}, {0x460c, 0x20, 0, 0},
+	{0x3824, 0x02, 0, 0}, {0x5001, 0x83, 0, 70},
+	{0x3008, 0x02, 0, 20},
+};
+
+static const struct ov5640_mode_info ov5640_mode_data[OV5640_NUM_MODES] = {
+	{
+		/* 160x120 */
+		.id		= OV5640_MODE_QQVGA_160_120,
+		.dn_mode	= SUBSAMPLING,
+		.pixel_rate	= OV5640_PIXEL_RATE_48M,
+		.width		= 160,
+		.height		= 120,
+		.dvp_timings = {
+			.analog_crop =
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 13:25:18,418 [INFO]   Resolved drivers/media/i2c/ov5640.c hunk 1: confidence=8/10 — Vendor code had 0x3824 write before 0x4407 and a final 0x3008 delay entry. Mainline added new 0x460b
+2026-04-27 13:25:18,419 [DEBUG] Applied resolution to drivers/media/i2c/ov5640.c hunk 1
+2026-04-27 13:25:18,419 [INFO] Resolving drivers/media/i2c/ov5640.c hunk 3...
+2026-04-27 13:25:18,445 [DEBUG] Prompt for drivers/media/i2c/ov5640.c hunk 2:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/media/i2c/ov5640.c
+
+We are merging mainline stable v6.1.56 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.55..v6.1.56):
+(no commit info available)
+
+Context BEFORE the conflict:
+```
+
+	/* restore auto gain and exposure */
+	if (auto_gain)
+		ov5640_set_autogain(sensor, true);
+	if (auto_exp)
+		ov5640_set_autoexposure(sensor, true);
+
+	ret = ov5640_set_binning(sensor, dn_mode != SCALING);
+	if (ret < 0)
+		return ret;
+	ret = ov5640_set_ae_target(sensor, sensor->ae_target);
+	if (ret < 0)
+		return ret;
+	ret = ov5640_get_light_freq(sensor);
+	if (ret < 0)
+		return ret;
+	ret = ov5640_set_bandingfilter(sensor);
+	if (ret < 0)
+		return ret;
+	ret = ov5640_set_virtual_channel(sensor);
+	if (ret < 0)
+		return ret;
+
+	sensor->pending_mode_change = false;
+	sensor->last_mode = mode;
+
+	return 0;
+
+restore_auto_exp_gain:
+	if (auto_exp)
+		ov5640_set_autoexposure(sensor, true);
+restore_auto_gain:
+	if (auto_gain)
+		ov5640_set_autogain(sensor, true);
+
+	return ret;
+}
+
+static int ov5640_set_framefmt(struct ov5640_dev *sensor,
+			       struct v4l2_mbus_framefmt *format);
+
+/* restore the last set video mode after chip power-on */
+static int ov5640_restore_mode(struct ov5640_dev *sensor)
+{
+	int ret;
+
+	/* first load the initial register values */
+	ov5640_load_regs(sensor, ov5640_init_setting,
+			 ARRAY_SIZE(ov5640_init_setting));
+
+	ret = ov5640_mod_reg(sensor, OV5640_REG_SYS_ROOT_DIVIDER, 0x3f,
+			     (ilog2(OV5640_SCLK2X_ROOT_DIV) << 2) |
+			     ilog2(OV5640_SCLK_ROOT_DIV));
+	if (ret)
+		return ret;
+
+	/* now restore the last capture mode */
+	ret = ov5640_set_mode(sensor);
+	if (ret < 0)
+		return ret;
+
+	return ov5640_set_framefmt(sensor, &sensor->fmt);
+}
+
+static void ov5640_power(struct ov5640_dev *sensor, bool enable)
+{
+	gpiod_set_value_cansleep(sensor->pwdn_gpio, enable ? 0 : 1);
+}
+
+/*
+ * From section 2.7 power up sequence:
+ * t0 + t1 + t2 >= 5ms	Delay from DOVDD stable to PWDN pull down
+ * t3 >= 1ms		Delay from PWDN pull down to RESETB pull up
+ * t4 >= 20ms		Delay from RESETB pull up to SCCB (i2c) stable
+ *
+ * Some modules don't expose RESETB/PWDN pins directly, instead providing a
+ * "PWUP" GPIO which is wired through appropriate delays and inverters to the
+ * pins.
+ *
+ * In such cases, this gpio should be mapped to pwdn_gpio in the driver, and we
+ * should still toggle the pwdn_gpio below with the appropriate delays, while
+ * the calls to reset_gpio will be ignored.
+ */
+static void ov5640_powerup_sequence(struct ov5640_dev *sensor)
+{
+	if (sensor->pwdn_gpio) {
+		gpiod_set_value_cansleep(sensor->reset_gpio, 1);
+
+		/* camera power cycle */
+		ov5640_power(sensor, false);
+		usleep_range(5000, 10000);	/* t2 */
+		ov5640_power(sensor, true);
+		usleep_range(1000, 2000);	/* t3 */
+
+		gpiod_set_value_cansleep(sensor->reset_gpio, 0);
+	} else {
+		/* software reset */
+		ov5640_write_reg(sensor, OV5640_REG_SYS_CTRL0,
+				 OV5640_REG_SYS_CTRL0_SW_RST);
+	}
+
+```
+
+CONFLICT (hunk 3):
+OUR side (NXP vendor kernel):
+```
+	usleep_range(20000, 25000);
+
+```
+
+THEIR side (mainline stable):
+```
+	usleep_range(20000, 25000);	/* t4 */
+
+	/*
+	 * software standby: allows registers programming;
+	 * exit at restore_mode() for CSI, s_stream(1) for DVP
+	 */
+	ov5640_write_reg(sensor, OV5640_REG_SYS_CTRL0,
+			 OV5640_REG_SYS_CTRL0_SW_PWDN);
+
+```
+
+Context AFTER the conflict:
+```
+}
+
+static int ov5640_set_power_on(struct ov5640_dev *sensor)
+{
+	struct i2c_client *client = sensor->i2c_client;
+	int ret;
+
+	ret = clk_prepare_enable(sensor->xclk);
+	if (ret) {
+		dev_err(&client->dev, "%s: failed to enable clock\n",
+			__func__);
+		return ret;
+	}
+
+	ret = regulator_bulk_enable(OV5640_NUM_SUPPLIES,
+				    sensor->supplies);
+	if (ret) {
+		dev_err(&client->dev, "%s: failed to enable regulators\n",
+			__func__);
+		goto xclk_off;
+	}
+
+	ov5640_powerup_sequence(sensor);
+
+	ret = ov5640_init_slave_id(sensor);
+	if (ret)
+		goto power_off;
+
+	return 0;
+
+power_off:
+	ov5640_power(sensor, false);
+	regulator_bulk_disable(OV5640_NUM_SUPPLIES, sensor->supplies);
+xclk_off:
+	clk_disable_unprepare(sensor->xclk);
+	return ret;
+}
+
+static void ov5640_set_power_off(struct ov5640_dev *sensor)
+{
+	ov5640_power(sensor, false);
+	regulator_bulk_disable(OV5640_NUM_SUPPLIES, sensor->supplies);
+	clk_disable_unprepare(sensor->xclk);
+}
+
+static int ov5640_set_power_mipi(struct ov5640_dev *sensor, bool on)
+{
+	int ret;
+
+	if (!on) {
+		/* Reset MIPI bus settings to their default values. */
+		ov5640_write_reg(sensor, OV5640_REG_IO_MIPI_CTRL00, 0x58);
+		ov5640_write_reg(sensor, OV5640_REG_MIPI_CTRL00, 0x04);
+		ov5640_write_reg(sensor, OV5640_REG_PAD_OUTPUT00, 0x00);
+		return 0;
+	}
+
+	/*
+	 * Power up MIPI HS Tx and LS Rx; 2 data lanes mode
+	 *
+	 * 0x300e = 0x40
+	 * [7:5] = 010	: 2 data lanes mode (see FIXME note in
+	 *		  "ov5640_set_stream_mipi()")
+	 * [4] = 0	: Power up MIPI HS Tx
+	 * [3] = 0	: Power up MIPI LS Rx
+	 * [2] = 1	: MIPI interface enabled
+	 */
+	ret = ov5640_write_reg(sensor, OV5640_REG_IO_MIPI_CTRL00, 0x44);
+	if (ret)
+		return ret;
+
+	/*
+	 * Gate clock and set LP11 in 'no packets mode' (idle)
+	 *
+	 * 0x4800 = 0x24
+	 * [5] = 1	: Gate clock when 'no packets'
+	 * [2] = 1	: MIPI bus in LP11 when 'no packets'
+	 */
+	ret = ov5640_write_reg(sensor, OV5640_REG_MIPI_CTRL00, 0x24);
+	if (ret)
+		return ret;
+
+	/*
+	 * Set data lanes and clock in LP11 when 'sleeping'
+	 *
+	 * 0x3019 = 0x70
+	 * [6] = 1	: MIPI data lane 2 in LP11 when 'sleeping'
+	 * [5] = 1	: MIPI data lane 1 in LP11 when 'sleeping'
+	 * [4] = 1	: MIPI clock lane in LP11 when 'sleeping'
+	 */
+	ret = ov5640_write_reg(sensor, OV5640_REG_PAD_OUTPUT00, 0x70);
+	if (ret)
+		return ret;
+
+	/* Give lanes some time to coax into LP11 state. */
+	usleep_range(500, 1000);
+
+	return 0;
+}
+
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 13:25:50,055 [ERROR] Failed to parse openai response as JSON: Invalid control character at: line 4 column 21 (char 460)
+2026-04-27 13:25:50,055 [DEBUG] Raw response text: {
+  "confidence": 7,
+  "reasoning": "Vendor tree only had the t4 delay after reset. Mainline adds a comment annotating t4 and then puts the sensor into software-standby (SW_PWDN) so that register programming that follows happens in a defined state. Vendor code doesn’t do this elsewhere, so we keep the vendor delay, add the mainline comment and SW_PWDN write. No vendor functionality is removed; we merely extend it with the stable fix.",
+  "resolved_code": "	usleep_range(20000, 25000);	/* t4 */\n\
+2026-04-27 13:25:50,055 [INFO] Retrying...
+2026-04-27 13:26:18,326 [ERROR] Failed to parse openai response as JSON: Invalid control character at: line 4 column 21 (char 293)
+2026-04-27 13:26:18,327 [DEBUG] Raw response text: {
+  "confidence": 9,
+  "reasoning": "NXP only had the delay; mainline adds a comment and puts sensor into SW_PWDN standby after t4. This doesn’t overlap with any vendor change so we keep vendor’s delay (identical) and append the stable additions, preserving indentation.",
+  "resolved_code": "	usleep_range(20000, 25000);	/* t4 */\n\n\t/*\n\t * software standby: allows registers programming;\n\t * exit at restore_mode() for CSI, s_stream(1) for DVP\n\t */\n\tov5640_write_reg(sensor, OV5640_REG_SYS
+2026-04-27 13:26:18,327 [INFO] Retrying...
+2026-04-27 13:26:50,221 [ERROR] Failed to parse openai response as JSON: Invalid control character at: line 4 column 21 (char 453)
+2026-04-27 13:26:50,221 [DEBUG] Raw response text: {
+  "confidence": 8,
+  "reasoning": "Mainline adds a t4 comment, a descriptive comment block, and a write to put the sensor into software standby. NXP vendor tree only had the sleep. These additions are independent and do not conflict with any vendor-specific changes, so we keep the vendor’s sleep line and append the mainline additions, preserving indentation and leaving the closing brace outside the conflict region untouched.",
+  "resolved_code": "	usleep_range(20000, 25000);	/* t4 */\n\n\t/*\n
+2026-04-27 13:26:50,221 [ERROR] Failed to resolve drivers/media/i2c/ov5640.c hunk 2: Invalid control character at: line 4 column 21 (char 453)
+2026-04-27 13:26:50,222 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.56_2026-04-27T13-21-16.449264.json
+2026-04-27 13:26:50,222 [ERROR] Stopping due to error at v6.1.56. Fix manually and re-run with --resume.
+2026-04-27 13:26:50,222 [INFO] Done.

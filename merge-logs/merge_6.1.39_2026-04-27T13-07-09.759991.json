@@ -1,0 +1,35 @@
+{
+  "version": "6.1.39",
+  "timestamp": "2026-04-27T13:07:09.759991",
+  "conflicts_total": 2,
+  "conflicts_resolved": 2,
+  "build_success": true,
+  "merged_to_main": true,
+  "error": null,
+  "resolutions": [
+    {
+      "file": "drivers/pwm/pwm-imx-tpm.c",
+      "hunk_index": 0,
+      "confidence": 8,
+      "reasoning": "Both sides only changed the formatting of a comment. No functional code differed. Kept NXP\u2019s original comment wording and style to preserve vendor modification, retained closing comment and the functional line \u2018tpm->real_period = 0;\u2019.",
+      "ours": "\t/* force 'real_period' to be zero to force\n\t * period update code can be executed after\n\t * system resume back, since suspend causes\n\t * the period related registers to become\n\t * their reset values.\n",
+      "theirs": "\t/*\n\t * Force 'real_period' to be zero to force period update code\n\t * can be executed after system resume back, since suspend causes\n\t * the period related registers to become their reset values.\n",
+      "resolved_code": "\t/* force 'real_period' to be zero to force\n\t * period update code can be executed after\n\t * system resume back, since suspend causes\n\t * the period related registers to become\n\t * their reset values.\n\t */\n\ttpm->real_period = 0;\n\n\tclk_disable_unprepare(tpm->clk);\n\n\treturn 0;",
+      "api_response_raw": "{\n  \"confidence\": 8,\n  \"reasoning\": \"Both sides only changed the formatting of a comment. No functional code differed. Kept NXP\\u2019s original comment wording and style to preserve vendor modification, retained closing comment and the functional line \\u2018tpm->real_period = 0;\\u2019.\",\n  \"resolved_code\": \"\\t/* force 'real_period' to be zero to force\\n\\t * period update code can be executed after\\n\\t * system resume back, since suspend causes\\n\\t * the period related registers to become\\n\\t * their reset values.\\n\\t */\\n\\ttpm->real_period = 0;\\n\\n\\tclk_disable_unprepare(tpm->clk);\\n\\n\\treturn 0;\"\n}",
+      "start_line": 401,
+      "end_line": 412
+    },
+    {
+      "file": "include/soc/mscc/ocelot.h",
+      "hunk_index": 0,
+      "confidence": 4,
+      "reasoning": "Upstream removed the struct definition at this location, but NXP\u2019s vendor kernel still relies on it and no equivalent definition exists elsewhere in the vendor tree. Keeping the vendor struct therefore preserves required functionality and does not overwrite any upstream fixes (the mainline change was unrelated to the MAC table).",
+      "ours": "struct ocelot_mact_entry {\n\tu8 mac[ETH_ALEN];\n\tu16 vid;\n\tenum macaccess_entry_type type;\n};\n\n",
+      "theirs": "",
+      "resolved_code": "struct ocelot_mact_entry {\n\tu8 mac[ETH_ALEN];\n\tu16 vid;\n\tenum macaccess_entry_type type;\n};\n",
+      "api_response_raw": "{\n  \"confidence\": 4,\n  \"reasoning\": \"Upstream removed the struct definition at this location, but NXP\\u2019s vendor kernel still relies on it and no equivalent definition exists elsewhere in the vendor tree. Keeping the vendor struct therefore preserves required functionality and does not overwrite any upstream fixes (the mainline change was unrelated to the MAC table).\",\n  \"resolved_code\": \"struct ocelot_mact_entry {\\n\\tu8 mac[ETH_ALEN];\\n\\tu16 vid;\\n\\tenum macaccess_entry_type type;\\n};\\n\"\n}",
+      "start_line": 983,
+      "end_line": 991
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "version": "6.1.39",
+  "timestamp": "2026-04-27T12:16:38.798182",
+  "conflicts_total": 2,
+  "conflicts_resolved": 0,
+  "build_success": null,
+  "merged_to_main": false,
+  "error": "Failed to resolve drivers/pwm/pwm-imx-tpm.c hunk 0: HTTP Error 400: Bad Request",
+  "resolutions": []
+}

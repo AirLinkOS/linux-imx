@@ -1,0 +1,83 @@
+{
+  "version": "6.1.56",
+  "timestamp": "2026-04-27T13:21:16.449264",
+  "conflicts_total": 23,
+  "conflicts_resolved": 6,
+  "build_success": null,
+  "merged_to_main": false,
+  "error": "Failed to resolve drivers/media/i2c/ov5640.c hunk 2: Invalid control character at: line 4 column 21 (char 453)",
+  "resolutions": [
+    {
+      "file": "arch/arm/boot/dts/imx6qdl-sabresd.dtsi",
+      "hunk_index": 0,
+      "confidence": 7,
+      "reasoning": "Only the node name differs: NXP kept the old non-generic \"charger-led\" while mainline renamed it to the generic, binding-compliant \"led-red\". The body of the node is identical, so no vendor-specific functionality is lost by adopting the upstream name. Using the generic name applies the stable fix without removing any NXP content.",
+      "ours": "\t\tcharger-led {\n",
+      "theirs": "\t\tled-red {\n",
+      "resolved_code": "\t\tled-red {\n\t\t\tgpios = <&gpio1 2 0>;\n\t\t\tlinux,default-trigger = \"max8903-charger-charging\";\n\t\t\tretain-state-suspended;\n\t\t\tdefault-state = \"off\";\n\t\t};\n\t};",
+      "api_response_raw": "{\n  \"confidence\": 7,\n  \"reasoning\": \"Only the node name differs: NXP kept the old non-generic \\\"charger-led\\\" while mainline renamed it to the generic, binding-compliant \\\"led-red\\\". The body of the node is identical, so no vendor-specific functionality is lost by adopting the upstream name. Using the generic name applies the stable fix without removing any NXP content.\",\n  \"resolved_code\": \"\\t\\tled-red {\\n\\t\\t\\tgpios = <&gpio1 2 0>;\\n\\t\\t\\tlinux,default-trigger = \\\"max8903-charger-charging\\\";\\n\\t\\t\\tretain-state-suspended;\\n\\t\\t\\tdefault-state = \\\"off\\\";\\n\\t\\t};\\n\\t};\"\n}",
+      "start_line": 226,
+      "end_line": 230
+    },
+    {
+      "file": "arch/arm64/boot/dts/freescale/Makefile",
+      "hunk_index": 0,
+      "confidence": 8,
+      "reasoning": "NXP tree had no entries in this spot, so no vendor code to preserve. Mainline adds new dtb build targets, one of which (imx8mm-prt8mm.dtb) is from the stable patch. None of these are duplicated elsewhere in NXP list, so we simply add all of them, keeping their original order and leaving the surrounding context unchanged.",
+      "ours": "",
+      "theirs": "dtb-$(CONFIG_ARCH_MXC) += imx8mm-phyboard-polis-rdk.dtb\ndtb-$(CONFIG_ARCH_MXC) += imx8mm-prt8mm.dtb\ndtb-$(CONFIG_ARCH_MXC) += imx8mm-tqma8mqml-mba8mx.dtb\ndtb-$(CONFIG_ARCH_MXC) += imx8mm-var-som-symphony.dtb\ndtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw71xx-0x.dtb\ndtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw72xx-0x.dtb\ndtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw73xx-0x.dtb\ndtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw7901.dtb\ndtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw7902.dtb\ndtb-$(CONFIG_ARCH_MXC) += im",
+      "resolved_code": "dtb-$(CONFIG_ARCH_MXC) += imx8mm-phyboard-polis-rdk.dtb\ndtb-$(CONFIG_ARCH_MXC) += imx8mm-prt8mm.dtb\ndtb-$(CONFIG_ARCH_MXC) += imx8mm-tqma8mqml-mba8mx.dtb\ndtb-$(CONFIG_ARCH_MXC) += imx8mm-var-som-symphony.dtb\ndtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw71xx-0x.dtb\ndtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw72xx-0x.dtb\ndtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw73xx-0x.dtb\ndtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw7901.dtb\ndtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw7902.dtb\ndtb-$(CONFIG_ARCH_MXC) += im",
+      "api_response_raw": "{\n  \"confidence\": 8,\n  \"reasoning\": \"NXP tree had no entries in this spot, so no vendor code to preserve. Mainline adds new dtb build targets, one of which (imx8mm-prt8mm.dtb) is from the stable patch. None of these are duplicated elsewhere in NXP list, so we simply add all of them, keeping their original order and leaving the surrounding context unchanged.\",\n  \"resolved_code\": \"dtb-$(CONFIG_ARCH_MXC) += imx8mm-phyboard-polis-rdk.dtb\\ndtb-$(CONFIG_ARCH_MXC) += imx8mm-prt8mm.dtb\\ndtb-$(CONFIG_ARCH_MXC) += imx8mm-tqma8mqml-mba8mx.dtb\\ndtb-$(CONFIG_ARCH_MXC) += imx8mm-var-som-symphony.dtb\\ndtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw71xx-0x.dtb\\ndtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw72xx-0x.dtb\\ndtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw73xx-0x.dtb\\ndtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw7901.dtb\\ndtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw7902.dtb\\ndtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw7903.dtb\\ndtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw7904.dtb\\ndtb-$(CONFIG_ARCH_MXC) += imx8mm-",
+      "start_line": 96,
+      "end_line": 114
+    },
+    {
+      "file": "arch/arm64/boot/dts/freescale/imx8mm.dtsi",
+      "hunk_index": 0,
+      "confidence": 6,
+      "reasoning": "Vendor code adds display-subsystem; mainline adds an updated MIPI-CSI node for the same IP that is not present at this position in NXP tree (the vendor tree already has an older node earlier). To keep vendor additions and still carry the stable update, the resolved block keeps the display-subsystem node (closed locally) and then inserts the new mainline mipi_csi node. The mipi_csi node is left open so that the single closing brace that follows the conflict in the original file still balances the braces. This way no vendor code is lost and the stable improvements are retained.",
+      "ours": "\t\t\tdisplay-subsystem {\n\t\t\t\tcompatible = \"fsl,imx-display-subsystem\";\n\t\t\t\tports = <&lcdif_disp0>;\n",
+      "theirs": "\t\t\tmipi_csi: mipi-csi@32e30000 {\n\t\t\t\tcompatible = \"fsl,imx8mm-mipi-csi2\";\n\t\t\t\treg = <0x32e30000 0x1000>;\n\t\t\t\tinterrupts = <GIC_SPI 17 IRQ_TYPE_LEVEL_HIGH>;\n\t\t\t\tassigned-clocks = <&clk IMX8MM_CLK_CSI1_CORE>;\n\t\t\t\tassigned-clock-parents = <&clk IMX8MM_SYS_PLL2_1000M>;\n\n\t\t\t\tclock-frequency = <333000000>;\n\t\t\t\tclocks = <&clk IMX8MM_CLK_DISP_APB_ROOT>,\n\t\t\t\t\t <&clk IMX8MM_CLK_CSI1_ROOT>,\n\t\t\t\t\t <&clk IMX8MM_CLK_CSI1_PHY_REF>,\n\t\t\t\t\t <&clk IMX8MM_CLK_DISP_AXI_ROOT>;\n\t\t\t\tclock-names = \"pclk\", \"wrap\", \"phy\",",
+      "resolved_code": "            display-subsystem {\n                compatible = \"fsl,imx-display-subsystem\";\n                ports = <&lcdif_disp0>;\n            };\n\n            mipi_csi: mipi-csi@32e30000 {\n                compatible = \"fsl,imx8mm-mipi-csi2\";\n                reg = <0x32e30000 0x1000>;\n                interrupts = <GIC_SPI 17 IRQ_TYPE_LEVEL_HIGH>;\n                assigned-clocks = <&clk IMX8MM_CLK_CSI1_CORE>;\n                assigned-clock-parents = <&clk IMX8MM_SYS_PLL2_1000M>;\n\n                cl",
+      "api_response_raw": "{\n  \"confidence\": 6,\n  \"reasoning\": \"Vendor code adds display-subsystem; mainline adds an updated MIPI-CSI node for the same IP that is not present at this position in NXP tree (the vendor tree already has an older node earlier). To keep vendor additions and still carry the stable update, the resolved block keeps the display-subsystem node (closed locally) and then inserts the new mainline mipi_csi node. The mipi_csi node is left open so that the single closing brace that follows the conflict in the original file still balances the braces. This way no vendor code is lost and the stable improvements are retained.\",\n  \"resolved_code\": \"            display-subsystem {\\n                compatible = \\\"fsl,imx-display-subsystem\\\";\\n                ports = <&lcdif_disp0>;\\n            };\\n\\n            mipi_csi: mipi-csi@32e30000 {\\n                compatible = \\\"fsl,imx8mm-mipi-csi2\\\";\\n                reg = <0x32e30000 0x1000>;\\n                interrupts = <GIC_SPI 17 IRQ_TYPE_LEVEL_HIGH>;",
+      "start_line": 1281,
+      "end_line": 1318
+    },
+    {
+      "file": "drivers/gpu/drm/bridge/adv7511/adv7511_drv.c",
+      "hunk_index": 0,
+      "confidence": 6,
+      "reasoning": "Upstream changed the register selection so that only ADV7511 uses register 0xfb; all other variants (including ADV7535) use 0x4a. NXP earlier only special-cased ADV7535 but left all other variants (including any new ones) on 0xfb. To keep NXP\u2019s explicit ADV7535 handling while still inheriting the upstream fix for any other non-ADV7511 variants, the merged code: 1) keeps the upstream ADV7511 branch, 2) preserves NXP\u2019s explicit ADV7535 branch, and 3) adds an additional final else (same as upstream) to cover any other future chips. No code from either side is dropped.",
+      "ours": "\tif (adv7511->type == ADV7535)\n\t\tregmap_update_bits(adv7511->regmap, 0x4a,\n\t\t\t0xc, low_refresh_rate << 2);\n\telse\n\t\tregmap_update_bits(adv7511->regmap, 0xfb,\n\t\t\t0x6, low_refresh_rate << 1);\n",
+      "theirs": "\tif (adv7511->type == ADV7511)\n\t\tregmap_update_bits(adv7511->regmap, 0xfb,\n\t\t\t\t   0x6, low_refresh_rate << 1);\n\telse\n\t\tregmap_update_bits(adv7511->regmap, 0x4a,\n\t\t\t\t   0xc, low_refresh_rate << 2);\n",
+      "resolved_code": "    if (adv7511->type == ADV7511)\n        regmap_update_bits(adv7511->regmap, 0xfb,\n                           0x6, low_refresh_rate << 1);\n    else if (adv7511->type == ADV7535)\n        regmap_update_bits(adv7511->regmap, 0x4a,\n                           0xc, low_refresh_rate << 2);\n    else\n        regmap_update_bits(adv7511->regmap, 0x4a,\n                           0xc, low_refresh_rate << 2);\n\n    regmap_update_bits(adv7511->regmap, 0x17,\n        0x60, (vsync_polarity << 6) | (hsync_polarity",
+      "api_response_raw": "{\n  \"confidence\": 6,\n  \"reasoning\": \"Upstream changed the register selection so that only ADV7511 uses register 0xfb; all other variants (including ADV7535) use 0x4a. NXP earlier only special-cased ADV7535 but left all other variants (including any new ones) on 0xfb. To keep NXP\\u2019s explicit ADV7535 handling while still inheriting the upstream fix for any other non-ADV7511 variants, the merged code: 1) keeps the upstream ADV7511 branch, 2) preserves NXP\\u2019s explicit ADV7535 branch, and 3) adds an additional final else (same as upstream) to cover any other future chips. No code from either side is dropped.\",\n  \"resolved_code\": \"    if (adv7511->type == ADV7511)\\n        regmap_update_bits(adv7511->regmap, 0xfb,\\n                           0x6, low_refresh_rate << 1);\\n    else if (adv7511->type == ADV7535)\\n        regmap_update_bits(adv7511->regmap, 0x4a,\\n                           0xc, low_refresh_rate << 2);\\n    else\\n        regmap_update_bits(adv7511->regmap, 0x4a,\\n       ",
+      "start_line": 833,
+      "end_line": 847
+    },
+    {
+      "file": "drivers/media/i2c/ov5640.c",
+      "hunk_index": 0,
+      "confidence": 9,
+      "reasoning": "Mainline kept only a subset of the register initialisation table, while NXP vendor code programs four additional registers (0x4407, 0x460b, 0x460c, 0x3824). Following the rule to preserve all NXP additions and to keep both sides when non-conflicting, we retain NXP\u2019s complete sequence (which already includes mainline\u2019s entries) with unchanged formatting.",
+      "ours": "\t{0x501f, 0x00, 0, 0}, {0x4407, 0x04, 0, 0},\n\t{0x440e, 0x00, 0, 0}, {0x460b, 0x35, 0, 0}, {0x460c, 0x20, 0, 0},\n\t{0x4837, 0x0a, 0, 0}, {0x3824, 0x02, 0, 0},\n",
+      "theirs": "\t{0x501f, 0x00, 0, 0}, {0x440e, 0x00, 0, 0}, {0x4837, 0x0a, 0, 0},\n",
+      "resolved_code": "    {0x501f, 0x00, 0, 0}, {0x4407, 0x04, 0, 0},\n    {0x440e, 0x00, 0, 0}, {0x460b, 0x35, 0, 0}, {0x460c, 0x20, 0, 0},\n    {0x4837, 0x0a, 0, 0}, {0x3824, 0x02, 0, 0},",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"Mainline kept only a subset of the register initialisation table, while NXP vendor code programs four additional registers (0x4407, 0x460b, 0x460c, 0x3824). Following the rule to preserve all NXP additions and to keep both sides when non-conflicting, we retain NXP\\u2019s complete sequence (which already includes mainline\\u2019s entries) with unchanged formatting.\",\n  \"resolved_code\": \"    {0x501f, 0x00, 0, 0}, {0x4407, 0x04, 0, 0},\\n    {0x440e, 0x00, 0, 0}, {0x460b, 0x35, 0, 0}, {0x460c, 0x20, 0, 0},\\n    {0x4837, 0x0a, 0, 0}, {0x3824, 0x02, 0, 0},\"\n}",
+      "start_line": 571,
+      "end_line": 577
+    },
+    {
+      "file": "drivers/media/i2c/ov5640.c",
+      "hunk_index": 1,
+      "confidence": 8,
+      "reasoning": "Vendor code had 0x3824 write before 0x4407 and a final 0x3008 delay entry. Mainline added new 0x460b and 0x460c writes and kept rest identical, but omitted the vendor-specific 0x3008 entry. To preserve all NXP additions while incorporating mainline\u2019s new registers, kept vendor order for existing writes, appended the new 0x460b/0x460c entries after 0x4407, retained single 0x3824 write (dropping the duplicate as genuinely redundant), and preserved the vendor 0x3008 delay entry.",
+      "ours": "\t{0x4001, 0x02, 0, 0}, {0x4004, 0x02, 0, 0}, {0x3824, 0x02, 0, 0},\n\t{0x4407, 0x04, 0, 0}, {0x5001, 0xa3, 0, 0},\n\t{0x3008, 0x02, 0, 15},\n",
+      "theirs": "\t{0x4001, 0x02, 0, 0}, {0x4004, 0x02, 0, 0},\n\t{0x4407, 0x04, 0, 0}, {0x460b, 0x35, 0, 0}, {0x460c, 0x22, 0, 0},\n\t{0x3824, 0x02, 0, 0}, {0x5001, 0xa3, 0, 0},\n",
+      "resolved_code": "\t{0x4001, 0x02, 0, 0}, {0x4004, 0x02, 0, 0}, {0x3824, 0x02, 0, 0},\n\t{0x4407, 0x04, 0, 0}, {0x460b, 0x35, 0, 0}, {0x460c, 0x22, 0, 0},\n\t{0x5001, 0xa3, 0, 0},\n\t{0x3008, 0x02, 0, 15},",
+      "api_response_raw": "{\n  \"confidence\": 8,\n  \"reasoning\": \"Vendor code had 0x3824 write before 0x4407 and a final 0x3008 delay entry. Mainline added new 0x460b and 0x460c writes and kept rest identical, but omitted the vendor-specific 0x3008 entry. To preserve all NXP additions while incorporating mainline\\u2019s new registers, kept vendor order for existing writes, appended the new 0x460b/0x460c entries after 0x4407, retained single 0x3824 write (dropping the duplicate as genuinely redundant), and preserved the vendor 0x3008 delay entry.\",\n  \"resolved_code\": \"\\t{0x4001, 0x02, 0, 0}, {0x4004, 0x02, 0, 0}, {0x3824, 0x02, 0, 0},\\n\\t{0x4407, 0x04, 0, 0}, {0x460b, 0x35, 0, 0}, {0x460c, 0x22, 0, 0},\\n\\t{0x5001, 0xa3, 0, 0},\\n\\t{0x3008, 0x02, 0, 15},\"\n}",
+      "start_line": 642,
+      "end_line": 650
+    }
+  ]
+}

@@ -1,0 +1,235 @@
+2026-04-27 11:55:09,841 [INFO] Log file: /home/osaleem/repos/linux-imx/merge-logs/merge_20260427_115509.log
+2026-04-27 11:55:09,841 [INFO] Kernel Stable Merge Tool started
+2026-04-27 11:55:09,841 [INFO] Repo: /home/osaleem/repos/linux-imx
+2026-04-27 11:55:09,841 [INFO] Target: v6.1.60
+2026-04-27 11:55:09,841 [INFO] Provider: openai
+2026-04-27 11:55:09,841 [INFO] Dry run: False
+2026-04-27 11:55:09,841 [INFO] Fetching stable tags...
+2026-04-27 11:55:22,856 [INFO] Current kernel version: 6.1.36
+2026-04-27 11:55:22,856 [INFO] 
+============================================================
+Merge step: v6.1.36 -> v6.1.37
+Progress: -19/5
+============================================================
+2026-04-27 11:55:22,856 [INFO] Starting merge: v6.1.37
+2026-04-27 11:55:23,664 [INFO] Merge v6.1.37 completed cleanly — no conflicts!
+2026-04-27 11:55:23,664 [INFO] Building kernel (compile test)...
+2026-04-27 12:06:39,970 [INFO] Build succeeded.
+2026-04-27 12:06:43,356 [INFO] Merged v6.1.37 into lf-6.1.y-semtech
+2026-04-27 12:06:43,358 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.37_2026-04-27T11-55-22.856438.json
+2026-04-27 12:06:43,508 [INFO] Current kernel version: 6.1.37
+2026-04-27 12:06:43,508 [INFO] 
+============================================================
+Merge step: v6.1.37 -> v6.1.38
+Progress: -18/5
+============================================================
+2026-04-27 12:06:43,508 [INFO] Starting merge: v6.1.38
+2026-04-27 12:06:44,510 [INFO] Merge v6.1.38 completed cleanly — no conflicts!
+2026-04-27 12:06:44,510 [INFO] Building kernel (compile test)...
+2026-04-27 12:16:38,256 [INFO] Build succeeded.
+2026-04-27 12:16:38,639 [INFO] Merged v6.1.38 into lf-6.1.y-semtech
+2026-04-27 12:16:38,639 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.38_2026-04-27T12-06-43.509491.json
+2026-04-27 12:16:38,797 [INFO] Current kernel version: 6.1.38
+2026-04-27 12:16:38,797 [INFO] 
+============================================================
+Merge step: v6.1.38 -> v6.1.39
+Progress: -17/5
+============================================================
+2026-04-27 12:16:38,798 [INFO] Starting merge: v6.1.39
+2026-04-27 12:16:40,222 [INFO] Merge v6.1.39 has 2 conflicted files
+2026-04-27 12:16:40,222 [INFO]   drivers/pwm/pwm-imx-tpm.c: 1 conflict hunks
+2026-04-27 12:16:40,223 [INFO]   include/soc/mscc/ocelot.h: 1 conflict hunks
+2026-04-27 12:16:40,223 [INFO] Resolving drivers/pwm/pwm-imx-tpm.c hunk 1...
+2026-04-27 12:16:40,289 [DEBUG] Prompt for drivers/pwm/pwm-imx-tpm.c hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/pwm/pwm-imx-tpm.c
+
+We are merging mainline stable v6.1.39 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.38..v6.1.39):
+c8fa254b77a3 pwm: imx-tpm: force 'real_period' to be zero in suspend
+
+Context BEFORE the conflict:
+```
+
+	mutex_lock(&tpm->lock);
+	ret = pwm_imx_tpm_apply_hw(chip, &param, &real_state, pwm);
+	mutex_unlock(&tpm->lock);
+
+	return ret;
+}
+
+static int pwm_imx_tpm_request(struct pwm_chip *chip, struct pwm_device *pwm)
+{
+	struct imx_tpm_pwm_chip *tpm = to_imx_tpm_pwm_chip(chip);
+
+	mutex_lock(&tpm->lock);
+	tpm->user_count++;
+	mutex_unlock(&tpm->lock);
+
+	return 0;
+}
+
+static void pwm_imx_tpm_free(struct pwm_chip *chip, struct pwm_device *pwm)
+{
+	struct imx_tpm_pwm_chip *tpm = to_imx_tpm_pwm_chip(chip);
+
+	mutex_lock(&tpm->lock);
+	tpm->user_count--;
+	mutex_unlock(&tpm->lock);
+}
+
+static const struct pwm_ops imx_tpm_pwm_ops = {
+	.request = pwm_imx_tpm_request,
+	.free = pwm_imx_tpm_free,
+	.get_state = pwm_imx_tpm_get_state,
+	.apply = pwm_imx_tpm_apply,
+	.owner = THIS_MODULE,
+};
+
+static int pwm_imx_tpm_probe(struct platform_device *pdev)
+{
+	struct imx_tpm_pwm_chip *tpm;
+	int ret;
+	u32 val;
+
+	tpm = devm_kzalloc(&pdev->dev, sizeof(*tpm), GFP_KERNEL);
+	if (!tpm)
+		return -ENOMEM;
+
+	platform_set_drvdata(pdev, tpm);
+
+	tpm->base = devm_platform_ioremap_resource(pdev, 0);
+	if (IS_ERR(tpm->base))
+		return PTR_ERR(tpm->base);
+
+	tpm->clk = devm_clk_get(&pdev->dev, NULL);
+	if (IS_ERR(tpm->clk))
+		return dev_err_probe(&pdev->dev, PTR_ERR(tpm->clk),
+				     "failed to get PWM clock\n");
+
+	ret = clk_prepare_enable(tpm->clk);
+	if (ret) {
+		dev_err(&pdev->dev,
+			"failed to prepare or enable clock: %d\n", ret);
+		return ret;
+	}
+
+	tpm->chip.dev = &pdev->dev;
+	tpm->chip.ops = &imx_tpm_pwm_ops;
+
+	/* get number of channels */
+	val = readl(tpm->base + PWM_IMX_TPM_PARAM);
+	tpm->chip.npwm = FIELD_GET(PWM_IMX_TPM_PARAM_CHAN, val);
+
+	mutex_init(&tpm->lock);
+
+	ret = pwmchip_add(&tpm->chip);
+	if (ret) {
+		dev_err(&pdev->dev, "failed to add PWM chip: %d\n", ret);
+		clk_disable_unprepare(tpm->clk);
+	}
+
+	return ret;
+}
+
+static int pwm_imx_tpm_remove(struct platform_device *pdev)
+{
+	struct imx_tpm_pwm_chip *tpm = platform_get_drvdata(pdev);
+
+	pwmchip_remove(&tpm->chip);
+
+	clk_disable_unprepare(tpm->clk);
+
+	return 0;
+}
+
+static int __maybe_unused pwm_imx_tpm_suspend(struct device *dev)
+{
+	struct imx_tpm_pwm_chip *tpm = dev_get_drvdata(dev);
+
+	if (tpm->enable_count > 0)
+		return -EBUSY;
+
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+	/* force 'real_period' to be zero to force
+	 * period update code can be executed after
+	 * system resume back, since suspend causes
+	 * the period related registers to become
+	 * their reset values.
+
+```
+
+THEIR side (mainline stable):
+```
+	/*
+	 * Force 'real_period' to be zero to force period update code
+	 * can be executed after system resume back, since suspend causes
+	 * the period related registers to become their reset values.
+
+```
+
+Context AFTER the conflict:
+```
+	 */
+	tpm->real_period = 0;
+
+	clk_disable_unprepare(tpm->clk);
+
+	return 0;
+}
+
+static int __maybe_unused pwm_imx_tpm_resume(struct device *dev)
+{
+	struct imx_tpm_pwm_chip *tpm = dev_get_drvdata(dev);
+	int ret = 0;
+
+	ret = clk_prepare_enable(tpm->clk);
+	if (ret)
+		dev_err(dev, "failed to prepare or enable clock: %d\n", ret);
+
+	return ret;
+}
+
+static SIMPLE_DEV_PM_OPS(imx_tpm_pwm_pm,
+			 pwm_imx_tpm_suspend, pwm_imx_tpm_resume);
+
+static const struct of_device_id imx_tpm_pwm_dt_ids[] = {
+	{ .compatible = "fsl,imx7ulp-pwm", },
+	{ /* sentinel */ }
+};
+MODULE_DEVICE_TABLE(of, imx_tpm_pwm_dt_ids);
+
+static struct platform_driver imx_tpm_pwm_driver = {
+	.driver = {
+		.name = "imx7ulp-tpm-pwm",
+		.of_match_table = imx_tpm_pwm_dt_ids,
+		.pm = &imx_tpm_pwm_pm,
+	},
+	.probe	= pwm_imx_tpm_probe,
+	.remove = pwm_imx_tpm_remove,
+};
+module_platform_driver(imx_tpm_pwm_driver);
+
+MODULE_AUTHOR("Anson Huang <Anson.Huang@nxp.com>");
+MODULE_DESCRIPTION("i.MX TPM PWM Driver");
+MODULE_LICENSE("GPL v2");
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 12:16:41,600 [WARNING] API error (attempt 1/3): 400 {
+  "error": {
+    "message": "Unsupported value: 'temperature' does not support 0 with this model. Only the default (1) value is supported.",
+    "type": "invalid_request_error",
+    "param": "temper
+2026-04-27 12:16:41,600 [ERROR] Failed to resolve drivers/pwm/pwm-imx-tpm.c hunk 0: HTTP Error 400: Bad Request
+2026-04-27 12:16:41,601 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.39_2026-04-27T12-16-38.798182.json
+2026-04-27 12:16:41,601 [ERROR] Stopping due to error at v6.1.39. Fix manually and re-run with --resume.
+2026-04-27 12:16:41,601 [INFO] Done.

@@ -1,0 +1,667 @@
+2026-04-27 13:07:08,694 [INFO] Log file: /home/osaleem/repos/linux-imx/merge-logs/merge_20260427_130708.log
+2026-04-27 13:07:08,694 [INFO] Kernel Stable Merge Tool started
+2026-04-27 13:07:08,694 [INFO] Repo: /home/osaleem/repos/linux-imx
+2026-04-27 13:07:08,694 [INFO] Target: v6.1.50
+2026-04-27 13:07:08,694 [INFO] Provider: openai
+2026-04-27 13:07:08,694 [INFO] Dry run: False
+2026-04-27 13:07:08,694 [INFO] Fetching stable tags...
+2026-04-27 13:07:09,759 [INFO] Current kernel version: 6.1.38
+2026-04-27 13:07:09,759 [INFO] 
+============================================================
+Merge step: v6.1.38 -> v6.1.39
+Progress: -17/-5
+============================================================
+2026-04-27 13:07:09,759 [INFO] Starting merge: v6.1.39
+2026-04-27 13:07:10,891 [INFO] Merge v6.1.39 has 2 conflicted files
+2026-04-27 13:07:10,892 [INFO]   drivers/pwm/pwm-imx-tpm.c: 1 conflict hunks
+2026-04-27 13:07:10,892 [INFO]   include/soc/mscc/ocelot.h: 1 conflict hunks
+2026-04-27 13:07:10,892 [INFO] Resolving drivers/pwm/pwm-imx-tpm.c hunk 1...
+2026-04-27 13:07:10,932 [DEBUG] Prompt for drivers/pwm/pwm-imx-tpm.c hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/pwm/pwm-imx-tpm.c
+
+We are merging mainline stable v6.1.39 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.38..v6.1.39):
+c8fa254b77a3 pwm: imx-tpm: force 'real_period' to be zero in suspend
+
+Context BEFORE the conflict:
+```
+
+	mutex_lock(&tpm->lock);
+	ret = pwm_imx_tpm_apply_hw(chip, &param, &real_state, pwm);
+	mutex_unlock(&tpm->lock);
+
+	return ret;
+}
+
+static int pwm_imx_tpm_request(struct pwm_chip *chip, struct pwm_device *pwm)
+{
+	struct imx_tpm_pwm_chip *tpm = to_imx_tpm_pwm_chip(chip);
+
+	mutex_lock(&tpm->lock);
+	tpm->user_count++;
+	mutex_unlock(&tpm->lock);
+
+	return 0;
+}
+
+static void pwm_imx_tpm_free(struct pwm_chip *chip, struct pwm_device *pwm)
+{
+	struct imx_tpm_pwm_chip *tpm = to_imx_tpm_pwm_chip(chip);
+
+	mutex_lock(&tpm->lock);
+	tpm->user_count--;
+	mutex_unlock(&tpm->lock);
+}
+
+static const struct pwm_ops imx_tpm_pwm_ops = {
+	.request = pwm_imx_tpm_request,
+	.free = pwm_imx_tpm_free,
+	.get_state = pwm_imx_tpm_get_state,
+	.apply = pwm_imx_tpm_apply,
+	.owner = THIS_MODULE,
+};
+
+static int pwm_imx_tpm_probe(struct platform_device *pdev)
+{
+	struct imx_tpm_pwm_chip *tpm;
+	int ret;
+	u32 val;
+
+	tpm = devm_kzalloc(&pdev->dev, sizeof(*tpm), GFP_KERNEL);
+	if (!tpm)
+		return -ENOMEM;
+
+	platform_set_drvdata(pdev, tpm);
+
+	tpm->base = devm_platform_ioremap_resource(pdev, 0);
+	if (IS_ERR(tpm->base))
+		return PTR_ERR(tpm->base);
+
+	tpm->clk = devm_clk_get(&pdev->dev, NULL);
+	if (IS_ERR(tpm->clk))
+		return dev_err_probe(&pdev->dev, PTR_ERR(tpm->clk),
+				     "failed to get PWM clock\n");
+
+	ret = clk_prepare_enable(tpm->clk);
+	if (ret) {
+		dev_err(&pdev->dev,
+			"failed to prepare or enable clock: %d\n", ret);
+		return ret;
+	}
+
+	tpm->chip.dev = &pdev->dev;
+	tpm->chip.ops = &imx_tpm_pwm_ops;
+
+	/* get number of channels */
+	val = readl(tpm->base + PWM_IMX_TPM_PARAM);
+	tpm->chip.npwm = FIELD_GET(PWM_IMX_TPM_PARAM_CHAN, val);
+
+	mutex_init(&tpm->lock);
+
+	ret = pwmchip_add(&tpm->chip);
+	if (ret) {
+		dev_err(&pdev->dev, "failed to add PWM chip: %d\n", ret);
+		clk_disable_unprepare(tpm->clk);
+	}
+
+	return ret;
+}
+
+static int pwm_imx_tpm_remove(struct platform_device *pdev)
+{
+	struct imx_tpm_pwm_chip *tpm = platform_get_drvdata(pdev);
+
+	pwmchip_remove(&tpm->chip);
+
+	clk_disable_unprepare(tpm->clk);
+
+	return 0;
+}
+
+static int __maybe_unused pwm_imx_tpm_suspend(struct device *dev)
+{
+	struct imx_tpm_pwm_chip *tpm = dev_get_drvdata(dev);
+
+	if (tpm->enable_count > 0)
+		return -EBUSY;
+
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+	/* force 'real_period' to be zero to force
+	 * period update code can be executed after
+	 * system resume back, since suspend causes
+	 * the period related registers to become
+	 * their reset values.
+
+```
+
+THEIR side (mainline stable):
+```
+	/*
+	 * Force 'real_period' to be zero to force period update code
+	 * can be executed after system resume back, since suspend causes
+	 * the period related registers to become their reset values.
+
+```
+
+Context AFTER the conflict:
+```
+	 */
+	tpm->real_period = 0;
+
+	clk_disable_unprepare(tpm->clk);
+
+	return 0;
+}
+
+static int __maybe_unused pwm_imx_tpm_resume(struct device *dev)
+{
+	struct imx_tpm_pwm_chip *tpm = dev_get_drvdata(dev);
+	int ret = 0;
+
+	ret = clk_prepare_enable(tpm->clk);
+	if (ret)
+		dev_err(dev, "failed to prepare or enable clock: %d\n", ret);
+
+	return ret;
+}
+
+static SIMPLE_DEV_PM_OPS(imx_tpm_pwm_pm,
+			 pwm_imx_tpm_suspend, pwm_imx_tpm_resume);
+
+static const struct of_device_id imx_tpm_pwm_dt_ids[] = {
+	{ .compatible = "fsl,imx7ulp-pwm", },
+	{ /* sentinel */ }
+};
+MODULE_DEVICE_TABLE(of, imx_tpm_pwm_dt_ids);
+
+static struct platform_driver imx_tpm_pwm_driver = {
+	.driver = {
+		.name = "imx7ulp-tpm-pwm",
+		.of_match_table = imx_tpm_pwm_dt_ids,
+		.pm = &imx_tpm_pwm_pm,
+	},
+	.probe	= pwm_imx_tpm_probe,
+	.remove = pwm_imx_tpm_remove,
+};
+module_platform_driver(imx_tpm_pwm_driver);
+
+MODULE_AUTHOR("Anson Huang <Anson.Huang@nxp.com>");
+MODULE_DESCRIPTION("i.MX TPM PWM Driver");
+MODULE_LICENSE("GPL v2");
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 13:07:28,512 [INFO]   Resolved drivers/pwm/pwm-imx-tpm.c hunk 0: confidence=8/10 — Both sides only changed the formatting of a comment. No functional code differed. Kept NXP’s origina
+2026-04-27 13:07:28,513 [DEBUG] Applied resolution to drivers/pwm/pwm-imx-tpm.c hunk 0
+2026-04-27 13:07:28,513 [INFO] Resolving include/soc/mscc/ocelot.h hunk 1...
+2026-04-27 13:07:28,543 [DEBUG] Prompt for include/soc/mscc/ocelot.h hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: include/soc/mscc/ocelot.h
+
+We are merging mainline stable v6.1.39 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.38..v6.1.39):
+e9dda2b68cb9 net: mscc: ocelot: don't keep PTP configuration of all ports in single structure
+
+Context BEFORE the conflict:
+```
+	OCELOT_STAT_ETHTOOL(DROP_GREEN_PRIO_7, "drop_green_prio_7")
+
+struct ocelot_stats_region {
+	struct list_head node;
+	u32 base;
+	int count;
+	u32 *buf;
+};
+
+enum ocelot_tag_prefix {
+	OCELOT_TAG_PREFIX_DISABLED	= 0,
+	OCELOT_TAG_PREFIX_NONE,
+	OCELOT_TAG_PREFIX_SHORT,
+	OCELOT_TAG_PREFIX_LONG,
+};
+
+struct ocelot;
+
+struct ocelot_ops {
+	struct net_device *(*port_to_netdev)(struct ocelot *ocelot, int port);
+	int (*netdev_to_port)(struct net_device *dev);
+	int (*reset)(struct ocelot *ocelot);
+	u16 (*wm_enc)(u16 value);
+	u16 (*wm_dec)(u16 value);
+	void (*wm_stat)(u32 val, u32 *inuse, u32 *maxuse);
+	void (*psfp_init)(struct ocelot *ocelot);
+	int (*psfp_filter_add)(struct ocelot *ocelot, int port,
+			       struct flow_cls_offload *f);
+	int (*psfp_filter_del)(struct ocelot *ocelot, struct flow_cls_offload *f);
+	int (*psfp_stats_get)(struct ocelot *ocelot, struct flow_cls_offload *f,
+			      struct flow_stats *stats);
+	void (*cut_through_fwd)(struct ocelot *ocelot);
+	void (*tas_clock_adjust)(struct ocelot *ocelot);
+	void (*update_stats)(struct ocelot *ocelot);
+};
+
+struct ocelot_vcap_policer {
+	struct list_head pol_list;
+	u16 base;
+	u16 max;
+	u16 base2;
+	u16 max2;
+};
+
+struct ocelot_vcap_block {
+	struct list_head rules;
+	int count;
+};
+
+struct ocelot_bridge_vlan {
+	u16 vid;
+	unsigned long portmask;
+	unsigned long untagged;
+	struct list_head list;
+};
+
+enum ocelot_port_tag_config {
+	/* all VLANs are egress-untagged */
+	OCELOT_PORT_TAG_DISABLED = 0,
+	/* all VLANs except the native VLAN and VID 0 are egress-tagged */
+	OCELOT_PORT_TAG_NATIVE = 1,
+	/* all VLANs except VID 0 are egress-tagged */
+	OCELOT_PORT_TAG_TRUNK_NO_VID0 = 2,
+	/* all VLANs are egress-tagged */
+	OCELOT_PORT_TAG_TRUNK = 3,
+};
+
+struct ocelot_psfp_list {
+	struct list_head stream_list;
+	struct list_head sfi_list;
+	struct list_head sgi_list;
+	/* Serialize access to the lists */
+	struct mutex lock;
+};
+
+enum ocelot_sb {
+	OCELOT_SB_BUF,
+	OCELOT_SB_REF,
+	OCELOT_SB_NUM,
+};
+
+enum ocelot_sb_pool {
+	OCELOT_SB_POOL_ING,
+	OCELOT_SB_POOL_EGR,
+	OCELOT_SB_POOL_NUM,
+};
+
+/* MAC table entry types.
+ * ENTRYTYPE_NORMAL is subject to aging.
+ * ENTRYTYPE_LOCKED is not subject to aging.
+ * ENTRYTYPE_MACv4 is not subject to aging. For IPv4 multicast.
+ * ENTRYTYPE_MACv6 is not subject to aging. For IPv6 multicast.
+ */
+enum macaccess_entry_type {
+	ENTRYTYPE_NORMAL = 0,
+	ENTRYTYPE_LOCKED,
+	ENTRYTYPE_MACv4,
+	ENTRYTYPE_MACv6,
+};
+
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+struct ocelot_mact_entry {
+	u8 mac[ETH_ALEN];
+	u16 vid;
+	enum macaccess_entry_type type;
+};
+
+
+```
+
+THEIR side (mainline stable):
+```
+
+```
+
+Context AFTER the conflict:
+```
+enum ocelot_proto {
+	OCELOT_PROTO_PTP_L2 = BIT(0),
+	OCELOT_PROTO_PTP_L4 = BIT(1),
+};
+
+#define OCELOT_QUIRK_PCS_PERFORMS_RATE_ADAPTATION	BIT(0)
+#define OCELOT_QUIRK_QSGMII_PORTS_MUST_BE_UP		BIT(1)
+
+struct ocelot_lag_fdb {
+	unsigned char addr[ETH_ALEN];
+	u16 vid;
+	struct net_device *bond;
+	struct list_head list;
+};
+
+struct ocelot_mirror {
+	refcount_t refcount;
+	int to;
+};
+
+struct ocelot_port;
+
+struct ocelot_port {
+	struct ocelot			*ocelot;
+
+	struct regmap			*target;
+
+	struct net_device		*bond;
+	struct net_device		*bridge;
+
+	struct ocelot_port		*dsa_8021q_cpu;
+
+	/* VLAN that untagged frames are classified to, on ingress */
+	const struct ocelot_bridge_vlan	*pvid_vlan;
+
+	struct tc_taprio_qopt_offload	*taprio;
+
+	phy_interface_t			phy_mode;
+
+	unsigned int			ptp_skbs_in_flight;
+	struct sk_buff_head		tx_skbs;
+
+	unsigned int			trap_proto;
+
+	u16				mrp_ring_id;
+
+	u8				ptp_cmd;
+	u8				ts_id;
+
+	u8				index;
+
+	u8				stp_state;
+	bool				vlan_aware;
+	bool				is_dsa_8021q_cpu;
+	bool				learn_ena;
+
+	bool				lag_tx_active;
+
+	int				bridge_num;
+
+	bool				force_forward;
+	u8				cut_thru;
+	u8				preemptable_prios;
+
+	int				speed;
+};
+
+struct ocelot {
+	struct device			*dev;
+	struct devlink			*devlink;
+	struct devlink_port		*devlink_ports;
+
+	const struct ocelot_ops		*ops;
+	struct regmap			*targets[TARGET_MAX];
+	struct regmap_field		*regfields[REGFIELD_MAX];
+	const u32 *const		*map;
+	const struct ocelot_stat_layout	*stats_layout;
+	struct list_head		stats_regions;
+
+	u32				pool_size[OCELOT_SB_NUM][OCELOT_SB_POOL_NUM];
+	int				packet_buffer_size;
+	int				num_frame_refs;
+	int				num_mact_rows;
+
+	struct ocelot_port		**ports;
+
+	u8				base_mac[ETH_ALEN];
+
+	struct list_head		vlans;
+	struct list_head		traps;
+	struct list_head		lag_fdbs;
+
+	/* Switches like VSC9959 have flooding per traffic class */
+	int				num_flooding_pgids;
+
+	/* In tables like ANA:PORT and the ANA:PGID:PGID mask,
+	 * the CPU is located after the physical ports (at the
+	 * num_phys_ports index).
+	 */
+	u8				num_phys_ports;
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 13:08:01,892 [INFO]   Resolved include/soc/mscc/ocelot.h hunk 0: confidence=4/10 — Upstream removed the struct definition at this location, but NXP’s vendor kernel still relies on it 
+2026-04-27 13:08:01,892 [DEBUG] Applied resolution to include/soc/mscc/ocelot.h hunk 0
+2026-04-27 13:08:02,330 [INFO] All conflicts resolved. Confidence: min=4, avg=6.0
+2026-04-27 13:08:02,331 [INFO] Building kernel (compile test)...
+2026-04-27 13:19:09,938 [INFO] Build succeeded.
+2026-04-27 13:19:11,082 [INFO] Successfully merged v6.1.39 into lf-6.1.y-semtech
+2026-04-27 13:19:11,083 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.39_2026-04-27T13-07-09.759991.json
+2026-04-27 13:19:11,336 [INFO] Current kernel version: 6.1.39
+2026-04-27 13:19:11,337 [INFO] 
+============================================================
+Merge step: v6.1.39 -> v6.1.40
+Progress: -16/-5
+============================================================
+2026-04-27 13:19:11,337 [INFO] Starting merge: v6.1.40
+2026-04-27 13:19:12,322 [INFO] Merge v6.1.40 has 1 conflicted files
+2026-04-27 13:19:12,323 [INFO]   drivers/usb/host/xhci.h: 1 conflict hunks
+2026-04-27 13:19:12,324 [INFO] Resolving drivers/usb/host/xhci.h hunk 1...
+2026-04-27 13:19:12,358 [DEBUG] Prompt for drivers/usb/host/xhci.h hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/usb/host/xhci.h
+
+We are merging mainline stable v6.1.40 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.39..v6.1.40):
+610ddd79fc6a xhci: Show ZHAOXIN xHCI root hub speed correctly
+892ef7593000 xhci: Fix TRB prefetch issue of ZHAOXIN hosts
+
+Context BEFORE the conflict:
+```
+ timer that set it) should stop touching
+ * hardware immediately.  Interrupt handlers should return immediately when
+ * they see this status (any time they drop and re-acquire xhci->lock).
+ * xhci_urb_dequeue() should call usb_hcd_check_unlink_urb() and return without
+ * putting the TD on the canceled list, etc.
+ *
+ * There are no reports of xHCI host controllers that display this issue.
+ */
+#define XHCI_STATE_DYING	(1 << 0)
+#define XHCI_STATE_HALTED	(1 << 1)
+#define XHCI_STATE_REMOVING	(1 << 2)
+	unsigned long long	quirks;
+#define	XHCI_LINK_TRB_QUIRK	BIT_ULL(0)
+#define XHCI_RESET_EP_QUIRK	BIT_ULL(1) /* Deprecated */
+#define XHCI_NEC_HOST		BIT_ULL(2)
+#define XHCI_AMD_PLL_FIX	BIT_ULL(3)
+#define XHCI_SPURIOUS_SUCCESS	BIT_ULL(4)
+/*
+ * Certain Intel host controllers have a limit to the number of endpoint
+ * contexts they can handle.  Ideally, they would signal that they can't handle
+ * anymore endpoint contexts by returning a Resource Error for the Configure
+ * Endpoint command, but they don't.  Instead they expect software to keep track
+ * of the number of active endpoints for them, across configure endpoint
+ * commands, reset device commands, disable slot commands, and address device
+ * commands.
+ */
+#define XHCI_EP_LIMIT_QUIRK	BIT_ULL(5)
+#define XHCI_BROKEN_MSI		BIT_ULL(6)
+#define XHCI_RESET_ON_RESUME	BIT_ULL(7)
+#define	XHCI_SW_BW_CHECKING	BIT_ULL(8)
+#define XHCI_AMD_0x96_HOST	BIT_ULL(9)
+#define XHCI_TRUST_TX_LENGTH	BIT_ULL(10)
+#define XHCI_LPM_SUPPORT	BIT_ULL(11)
+#define XHCI_INTEL_HOST		BIT_ULL(12)
+#define XHCI_SPURIOUS_REBOOT	BIT_ULL(13)
+#define XHCI_COMP_MODE_QUIRK	BIT_ULL(14)
+#define XHCI_AVOID_BEI		BIT_ULL(15)
+#define XHCI_PLAT		BIT_ULL(16)
+#define XHCI_SLOW_SUSPEND	BIT_ULL(17)
+#define XHCI_SPURIOUS_WAKEUP	BIT_ULL(18)
+/* For controllers with a broken beyond repair streams implementation */
+#define XHCI_BROKEN_STREAMS	BIT_ULL(19)
+#define XHCI_PME_STUCK_QUIRK	BIT_ULL(20)
+#define XHCI_MTK_HOST		BIT_ULL(21)
+#define XHCI_SSIC_PORT_UNUSED	BIT_ULL(22)
+#define XHCI_NO_64BIT_SUPPORT	BIT_ULL(23)
+#define XHCI_MISSING_CAS	BIT_ULL(24)
+/* For controller with a broken Port Disable implementation */
+#define XHCI_BROKEN_PORT_PED	BIT_ULL(25)
+#define XHCI_LIMIT_ENDPOINT_INTERVAL_7	BIT_ULL(26)
+#define XHCI_U2_DISABLE_WAKE	BIT_ULL(27)
+#define XHCI_ASMEDIA_MODIFY_FLOWCONTROL	BIT_ULL(28)
+#define XHCI_HW_LPM_DISABLE	BIT_ULL(29)
+#define XHCI_SUSPEND_DELAY	BIT_ULL(30)
+#define XHCI_INTEL_USB_ROLE_SW	BIT_ULL(31)
+#define XHCI_ZERO_64B_REGS	BIT_ULL(32)
+#define XHCI_DEFAULT_PM_RUNTIME_ALLOW	BIT_ULL(33)
+#define XHCI_RESET_PLL_ON_DISCONNECT	BIT_ULL(34)
+#define XHCI_SNPS_BROKEN_SUSPEND    BIT_ULL(35)
+#define XHCI_RENESAS_FW_QUIRK	BIT_ULL(36)
+#define XHCI_SKIP_PHY_INIT	BIT_ULL(37)
+#define XHCI_DISABLE_SPARSE	BIT_ULL(38)
+#define XHCI_SG_TRB_CACHE_SIZE_QUIRK	BIT_ULL(39)
+#define XHCI_NO_SOFT_RETRY	BIT_ULL(40)
+#define XHCI_BROKEN_D3COLD_S2I	BIT_ULL(41)
+#define XHCI_EP_CTX_BROKEN_DCS	BIT_ULL(42)
+#define XHCI_SUSPEND_RESUME_CLKS	BIT_ULL(43)
+#define XHCI_RESET_TO_DEFAULT	BIT_ULL(44)
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+#define XHCI_CDNS_HOST		BIT_ULL(45)
+
+```
+
+THEIR side (mainline stable):
+```
+#define XHCI_ZHAOXIN_TRB_FETCH	BIT_ULL(45)
+#define XHCI_ZHAOXIN_HOST	BIT_ULL(46)
+
+```
+
+Context AFTER the conflict:
+```
+
+	unsigned int		num_active_eps;
+	unsigned int		limit_active_eps;
+	struct xhci_port	*hw_ports;
+	struct xhci_hub		usb2_rhub;
+	struct xhci_hub		usb3_rhub;
+	/* support xHCI 1.0 spec USB2 hardware LPM */
+	unsigned		hw_lpm_support:1;
+	/* Broken Suspend flag for SNPS Suspend resume issue */
+	unsigned		broken_suspend:1;
+	/* Indicates that omitting hcd is supported if root hub has no ports */
+	unsigned		allow_single_roothub:1;
+	/* cached usb2 extened protocol capabilites */
+	u32                     *ext_caps;
+	unsigned int            num_ext_caps;
+	/* cached extended protocol port capabilities */
+	struct xhci_port_cap	*port_caps;
+	unsigned int		num_port_caps;
+	/* Compliance Mode Recovery Data */
+	struct timer_list	comp_mode_recovery_timer;
+	u32			port_status_u0;
+	u16			test_mode;
+/* Compliance Mode Timer Triggered every 2 seconds */
+#define COMP_MODE_RCVRY_MSECS 2000
+
+	struct dentry		*debugfs_root;
+	struct dentry		*debugfs_slots;
+	struct list_head	regset_list;
+
+	void			*dbc;
+	/* platform-specific data -- must come last */
+	unsigned long		priv[] __aligned(sizeof(s64));
+};
+
+/* Platform specific overrides to generic XHCI hc_driver ops */
+struct xhci_driver_overrides {
+	size_t extra_priv_size;
+	int (*reset)(struct usb_hcd *hcd);
+	int (*start)(struct usb_hcd *hcd);
+	int (*add_endpoint)(struct usb_hcd *hcd, struct usb_device *udev,
+			    struct usb_host_endpoint *ep);
+	int (*drop_endpoint)(struct usb_hcd *hcd, struct usb_device *udev,
+			     struct usb_host_endpoint *ep);
+	int (*check_bandwidth)(struct usb_hcd *, struct usb_device *);
+	void (*reset_bandwidth)(struct usb_hcd *, struct usb_device *);
+	int (*bus_suspend)(struct usb_hcd *hcd);
+	int (*update_hub_device)(struct usb_hcd *hcd, struct usb_device *hdev,
+			    struct usb_tt *tt, gfp_t mem_flags);
+};
+
+#define	XHCI_CFC_DELAY		10
+
+/* convert between an HCD pointer and the corresponding EHCI_HCD */
+static inline struct xhci_hcd *hcd_to_xhci(struct usb_hcd *hcd)
+{
+	struct usb_hcd *primary_hcd;
+
+	if (usb_hcd_is_primary_hcd(hcd))
+		primary_hcd = hcd;
+	else
+		primary_hcd = hcd->primary_hcd;
+
+	return (struct xhci_hcd *) (primary_hcd->hcd_priv);
+}
+
+static inline struct usb_hcd *xhci_to_hcd(struct xhci_hcd *xhci)
+{
+	return xhci->main_hcd;
+}
+
+static inline struct usb_hcd *xhci_get_usb3_hcd(struct xhci_hcd *xhci)
+{
+	if (xhci->shared_hcd)
+		return xhci->shared_hcd;
+
+	if (!xhci->usb2_rhub.num_ports)
+		return xhci->main_hcd;
+
+	return NULL;
+}
+
+static inline bool xhci_hcd_is_usb3(struct usb_hcd *hcd)
+{
+	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
+
+	return hcd == xhci_get_usb3_hcd(xhci);
+}
+
+static inline bool xhci_has_one_roothub(struct xhci_hcd *xhci)
+{
+	return xhci->allow_single_roothub &&
+	       (!xhci->usb2_rhub.num_ports || !xhci->usb3_rhub.num_ports);
+}
+
+#define xhci_dbg(xhci, fmt, args...) \
+	dev_dbg(xhci_to_hcd(xhci)->self.controller , fmt , ## args)
+#define xhci_err(xhci, fmt, args...) \
+	dev_err(xhci_to_hcd(xhci)->self.controller , fmt , ## args)
+#define xhci_warn(xhci, fmt, args...) \
+	dev_warn(xhci_to_hcd(xhci
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-27 13:19:30,102 [INFO]   Resolved drivers/usb/host/xhci.h hunk 0: confidence=6/10 — Vendor tree already defined bit 45 for XHCI_CDNS_HOST. Upstream adds two new quirks at bits 45 and 4
+2026-04-27 13:19:30,103 [DEBUG] Applied resolution to drivers/usb/host/xhci.h hunk 0
+2026-04-27 13:19:30,465 [INFO] All conflicts resolved. Confidence: min=6, avg=6.0
+2026-04-27 13:19:30,465 [INFO] Building kernel (compile test)...

@@ -186,7 +186,7 @@ static struct imx_usbmisc_data *usbmisc_get_init_data(struct device *dev)
 			&data->dc_vol_level_adjust))
 		data->dc_vol_level_adjust = -1;
 	if (of_property_read_u32(np, "fsl,picophy-rise-fall-time-adjust",
-			&data->rise_fall_time_adjust))
+				&data->rise_fall_time_adjust))
 		data->rise_fall_time_adjust = -1;
 
 	return data;

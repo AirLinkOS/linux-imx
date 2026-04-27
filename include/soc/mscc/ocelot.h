@@ -986,7 +986,6 @@ struct ocelot_mact_entry {
 	u16 vid;
 	enum macaccess_entry_type type;
 };
-
 enum ocelot_proto {
 	OCELOT_PROTO_PTP_L2 = BIT(0),
 	OCELOT_PROTO_PTP_L4 = BIT(1),
