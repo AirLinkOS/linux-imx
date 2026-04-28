@@ -1,0 +1,895 @@
+2026-04-28 09:07:16,961 [INFO] Log file: /home/osaleem/repos/linux-imx/merge-logs/merge_20260428_090716.log
+2026-04-28 09:07:16,961 [INFO] Kernel Stable Merge Tool started
+2026-04-28 09:07:16,961 [INFO] Repo: /home/osaleem/repos/linux-imx
+2026-04-28 09:07:16,961 [INFO] Target: v6.1.65
+2026-04-28 09:07:16,961 [INFO] Provider: openai
+2026-04-28 09:07:16,961 [INFO] Interactive: False
+2026-04-28 09:07:16,961 [INFO] Dry run: False
+2026-04-28 09:07:16,961 [INFO] Fetching stable tags...
+2026-04-28 09:07:17,949 [INFO] Using override start version: 6.1.63
+2026-04-28 09:07:17,949 [INFO] 
+============================================================
+Merge step: v6.1.63 -> v6.1.64
+Progress: 1/2
+============================================================
+2026-04-28 09:07:17,949 [INFO] Starting merge: v6.1.64
+2026-04-28 09:07:19,130 [INFO] Merge v6.1.64 has 3 conflicted files
+2026-04-28 09:07:19,131 [INFO]   arch/arm64/boot/dts/freescale/fsl-ls208xa.dtsi: 1 conflict hunks
+2026-04-28 09:07:19,131 [INFO]   drivers/i3c/master/svc-i3c-master.c: 1 conflict hunks
+2026-04-28 09:07:19,132 [INFO]   drivers/usb/dwc3/core.c: 1 conflict hunks
+2026-04-28 09:07:19,132 [INFO] Resolving arch/arm64/boot/dts/freescale/fsl-ls208xa.dtsi hunk 1...
+2026-04-28 09:07:19,158 [DEBUG] Prompt for arch/arm64/boot/dts/freescale/fsl-ls208xa.dtsi hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: arch/arm64/boot/dts/freescale/fsl-ls208xa.dtsi
+
+We are merging mainline stable v6.1.64 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.63..v6.1.64):
+c68535657f3c arm64: dts: ls208xa: use a pseudo-bus to constrain usb dma size
+
+Context BEFORE the conflict:
+```
+			dma-coherent;
+			num-viewport = <6>;
+			bus-range = <0x0 0xff>;
+			msi-parent = <&its>;
+			#interrupt-cells = <1>;
+			interrupt-map-mask = <0 0 0 7>;
+			interrupt-map = <0000 0 0 1 &gic 0 0 0 109 4>,
+					<0000 0 0 2 &gic 0 0 0 110 4>,
+					<0000 0 0 3 &gic 0 0 0 111 4>,
+					<0000 0 0 4 &gic 0 0 0 112 4>;
+			iommu-map = <0 &smmu 0 1>; /* Fixed-up by bootloader */
+			status = "disabled";
+		};
+
+		pcie2: pcie@3500000 {
+			compatible = "fsl,ls2080a-pcie", "fsl,ls2085a-pcie";
+			reg-names = "regs", "config";
+			interrupts = <0 113 IRQ_TYPE_LEVEL_HIGH>;
+			interrupt-names = "aer";
+			#address-cells = <3>;
+			#size-cells = <2>;
+			device_type = "pci";
+			dma-coherent;
+			num-viewport = <6>;
+			bus-range = <0x0 0xff>;
+			msi-parent = <&its>;
+			#interrupt-cells = <1>;
+			interrupt-map-mask = <0 0 0 7>;
+			interrupt-map = <0000 0 0 1 &gic 0 0 0 114 4>,
+					<0000 0 0 2 &gic 0 0 0 115 4>,
+					<0000 0 0 3 &gic 0 0 0 116 4>,
+					<0000 0 0 4 &gic 0 0 0 117 4>;
+			iommu-map = <0 &smmu 0 1>; /* Fixed-up by bootloader */
+			status = "disabled";
+		};
+
+		pcie3: pcie@3600000 {
+			compatible = "fsl,ls2080a-pcie", "fsl,ls2085a-pcie";
+			reg-names = "regs", "config";
+			interrupts = <0 118 IRQ_TYPE_LEVEL_HIGH>;
+			interrupt-names = "aer";
+			#address-cells = <3>;
+			#size-cells = <2>;
+			device_type = "pci";
+			dma-coherent;
+			num-viewport = <256>;
+			bus-range = <0x0 0xff>;
+			msi-parent = <&its>;
+			#interrupt-cells = <1>;
+			interrupt-map-mask = <0 0 0 7>;
+			interrupt-map = <0000 0 0 1 &gic 0 0 0 119 4>,
+					<0000 0 0 2 &gic 0 0 0 120 4>,
+					<0000 0 0 3 &gic 0 0 0 121 4>,
+					<0000 0 0 4 &gic 0 0 0 122 4>;
+			iommu-map = <0 &smmu 0 1>; /* Fixed-up by bootloader */
+			status = "disabled";
+		};
+
+		pcie4: pcie@3700000 {
+			compatible = "fsl,ls2080a-pcie", "fsl,ls2085a-pcie";
+			reg-names = "regs", "config";
+			interrupts = <0 123 IRQ_TYPE_LEVEL_HIGH>;
+			interrupt-names = "aer";
+			#address-cells = <3>;
+			#size-cells = <2>;
+			device_type = "pci";
+			dma-coherent;
+			num-viewport = <6>;
+			bus-range = <0x0 0xff>;
+			msi-parent = <&its>;
+			#interrupt-cells = <1>;
+			interrupt-map-mask = <0 0 0 7>;
+			interrupt-map = <0000 0 0 1 &gic 0 0 0 124 4>,
+					<0000 0 0 2 &gic 0 0 0 125 4>,
+					<0000 0 0 3 &gic 0 0 0 126 4>,
+					<0000 0 0 4 &gic 0 0 0 127 4>;
+			iommu-map = <0 &smmu 0 1>; /* Fixed-up by bootloader */
+			status = "disabled";
+		};
+
+		sata0: sata@3200000 {
+			status = "disabled";
+			compatible = "fsl,ls2080a-ahci";
+			reg = <0x0 0x3200000 0x0 0x10000>;
+			interrupts = <0 133 0x4>; /* Level high type */
+			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
+					    QORIQ_CLK_PLL_DIV(4)>;
+			dma-coherent;
+		};
+
+		sata1: sata@3210000 {
+			status = "disabled";
+			compatible = "fsl,ls2080a-ahci";
+			reg = <0x0 0x3210000 0x0 0x10000>;
+			interrupts = <0 136 0x4>; /* Level high type */
+			clocks = <&clockgen QORIQ_CLK_PLATFORM_PLL
+					    QORIQ_CLK_PLL_DIV(4)>;
+			dma-coherent;
+		};
+
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+		usb0: usb@3100000 {
+			status = "disabled";
+			compatible = "fsl,ls2088a-dwc3", "snps,dwc3";
+			reg = <0x0 0x3100000 0x0 0x10000>;
+			interrupts = <0 80 0x4>; /* Level high type */
+			dr_mode = "host";
+			snps,quirk-frame-length-adjustment = <0x20>;
+			snps,dis_rxdet_inp3_quirk;
+			snps,incr-burst-type-adjustment = <1>, <4>, <8>, <16>;
+			snps,host-vbus-glitches;
+		};
+
+		usb1: usb@3110000 {
+			status = "disabled";
+			compatible = "fsl,ls2088a-dwc3", "snps,dwc3";
+			reg = <0x0 0x3110000 0x0 0x10000>;
+			interrupts = <0 81 0x4>; /* Level high type */
+			dr_mode = "host";
+			snps,quirk-frame-length-adjustment = <0x20>;
+			snps,dis_rxdet_inp3_quirk;
+			snps,incr-burst-type-adjustment = <1>, <4>, <8>, <16>;
+			snps,host-vbus-glitches;
+
+```
+
+THEIR side (mainline stable):
+```
+		bus: bus {
+			#address-cells = <2>;
+			#size-cells = <2>;
+			compatible = "simple-bus";
+			ranges;
+			dma-ranges = <0x0 0x0 0x0 0x0 0x100 0x00000000>;
+
+			usb0: usb@3100000 {
+				compatible = "snps,dwc3";
+				reg = <0x0 0x3100000 0x0 0x10000>;
+				interrupts = <0 80 0x4>; /* Level high type */
+				dr_mode = "host";
+				snps,quirk-frame-length-adjustment = <0x20>;
+				snps,dis_rxdet_inp3_quirk;
+				snps,incr-burst-type-adjustment = <1>, <4>, <8>, <16>;
+				status = "disabled";
+			};
+
+			usb1: usb@3110000 {
+				compatible = "snps,dwc3";
+				reg = <0x0 0x3110000 0x0 0x10000>;
+				interrupts = <0 81 0x4>; /* Level high type */
+				dr_mode = "host";
+				snps,quirk-frame-length-adjustment = <0x20>;
+				snps,dis_rxdet_inp3_quirk;
+				snps,incr-burst-type-adjustment = <1>, <4>, <8>, <16>;
+				status = "disabled";
+			};
+
+```
+
+Context AFTER the conflict:
+```
+		};
+
+		ccn@4000000 {
+			compatible = "arm,ccn-504";
+			reg = <0x0 0x04000000 0x0 0x01000000>;
+			interrupts = <0 12 4>;
+		};
+
+		rcpm: power-controller@1e34040 {
+			compatible = "fsl,ls208xa-rcpm", "fsl,qoriq-rcpm-2.1+";
+			reg = <0x0 0x1e34040 0x0 0x18>;
+			#fsl,rcpm-wakeup-cells = <6>;
+			little-endian;
+		};
+
+		ftm_alarm0: timer@2800000 {
+			compatible = "fsl,ls208xa-ftm-alarm";
+			reg = <0x0 0x2800000 0x0 0x10000>;
+			fsl,rcpm-wakeup = <&rcpm 0x0 0x0 0x0 0x0 0x4000 0x0>;
+			interrupts = <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH>;
+		};
+	};
+
+	ddr1: memory-controller@1080000 {
+		compatible = "fsl,qoriq-memory-controller";
+		reg = <0x0 0x1080000 0x0 0x1000>;
+		interrupts = <0 17 0x4>;
+		little-endian;
+	};
+
+	ddr2: memory-controller@1090000 {
+		compatible = "fsl,qoriq-memory-controller";
+		reg = <0x0 0x1090000 0x0 0x1000>;
+		interrupts = <0 18 0x4>;
+		little-endian;
+	};
+
+	firmware {
+		optee {
+			compatible = "linaro,optee-tz";
+			method = "smc";
+		};
+	};
+};
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-28 09:07:43,407 [INFO]   Resolved arch/arm64/boot/dts/freescale/fsl-ls208xa.dtsi hunk 0: confidence=8/10 — Mainline adds a simple-bus wrapper with dma-ranges limiting USB DMA to 256 MiB. NXP already had usb0
+2026-04-28 09:07:43,408 [DEBUG] Applied resolution to arch/arm64/boot/dts/freescale/fsl-ls208xa.dtsi hunk 0
+2026-04-28 09:07:43,408 [INFO] Resolving drivers/i3c/master/svc-i3c-master.c hunk 1...
+2026-04-28 09:07:43,624 [DEBUG] Prompt for drivers/i3c/master/svc-i3c-master.c hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/i3c/master/svc-i3c-master.c
+
+We are merging mainline stable v6.1.64 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.63..v6.1.64):
+e841a59ac1d8 i3c: master: svc: fix random hot join failure since timeout error
+a807a44189d1 i3c: master: svc: add NACK check after start byte sent
+3ddb2fa5ec1c i3c: master: svc: fix SDA keep low when polling IBIWON timeout happen
+1ea1fb221662 i3c: master: svc: fix check wrong status register in irq handler
+65d9f61324fc i3c: master: svc: fix ibi may not return mandatory data byte
+e32e9cba564e i3c: master: svc: fix wrong data return when IBI happen during start frame
+3a8e03f133c0 i3c: master: svc: fix race condition in ibi work thread
+
+Context BEFORE the conflict:
+```
+IELD_PREP(BIT(24), (x))
+#define   SVC_I3C_MCONFIG_SKEW(x) FIELD_PREP(GENMASK(27, 25), (x))
+#define   SVC_I3C_MCONFIG_I2CBAUD(x) FIELD_PREP(GENMASK(31, 28), (x))
+
+#define SVC_I3C_MCTRL        0x084
+#define   SVC_I3C_MCTRL_REQUEST_MASK GENMASK(2, 0)
+#define   SVC_I3C_MCTRL_REQUEST_NONE 0
+#define   SVC_I3C_MCTRL_REQUEST_START_ADDR 1
+#define   SVC_I3C_MCTRL_REQUEST_STOP 2
+#define   SVC_I3C_MCTRL_REQUEST_IBI_ACKNACK 3
+#define   SVC_I3C_MCTRL_REQUEST_PROC_DAA 4
+#define   SVC_I3C_MCTRL_REQUEST_AUTO_IBI 7
+#define   SVC_I3C_MCTRL_TYPE_I3C 0
+#define   SVC_I3C_MCTRL_TYPE_I2C BIT(4)
+#define   SVC_I3C_MCTRL_IBIRESP_AUTO 0
+#define   SVC_I3C_MCTRL_IBIRESP_ACK_WITHOUT_BYTE 0
+#define   SVC_I3C_MCTRL_IBIRESP_ACK_WITH_BYTE BIT(7)
+#define   SVC_I3C_MCTRL_IBIRESP_NACK BIT(6)
+#define   SVC_I3C_MCTRL_IBIRESP_MANUAL GENMASK(7, 6)
+#define   SVC_I3C_MCTRL_DIR(x) FIELD_PREP(BIT(8), (x))
+#define   SVC_I3C_MCTRL_DIR_WRITE 0
+#define   SVC_I3C_MCTRL_DIR_READ 1
+#define   SVC_I3C_MCTRL_ADDR(x) FIELD_PREP(GENMASK(15, 9), (x))
+#define   SVC_I3C_MCTRL_RDTERM(x) FIELD_PREP(GENMASK(23, 16), (x))
+
+#define SVC_I3C_MSTATUS      0x088
+#define   SVC_I3C_MSTATUS_STATE(x) FIELD_GET(GENMASK(2, 0), (x))
+#define   SVC_I3C_MSTATUS_STATE_DAA(x) (SVC_I3C_MSTATUS_STATE(x) == 5)
+#define   SVC_I3C_MSTATUS_STATE_IDLE(x) (SVC_I3C_MSTATUS_STATE(x) == 0)
+#define   SVC_I3C_MSTATUS_BETWEEN(x) FIELD_GET(BIT(4), (x))
+#define   SVC_I3C_MSTATUS_NACKED(x) FIELD_GET(BIT(5), (x))
+#define   SVC_I3C_MSTATUS_IBITYPE(x) FIELD_GET(GENMASK(7, 6), (x))
+#define   SVC_I3C_MSTATUS_IBITYPE_IBI 1
+#define   SVC_I3C_MSTATUS_IBITYPE_MASTER_REQUEST 2
+#define   SVC_I3C_MSTATUS_IBITYPE_HOT_JOIN 3
+#define   SVC_I3C_MINT_SLVSTART BIT(8)
+#define   SVC_I3C_MINT_MCTRLDONE BIT(9)
+#define   SVC_I3C_MINT_COMPLETE BIT(10)
+#define   SVC_I3C_MINT_RXPEND BIT(11)
+#define   SVC_I3C_MINT_TXNOTFULL BIT(12)
+#define   SVC_I3C_MINT_IBIWON BIT(13)
+#define   SVC_I3C_MINT_ERRWARN BIT(15)
+#define   SVC_I3C_MSTATUS_SLVSTART(x) FIELD_GET(SVC_I3C_MINT_SLVSTART, (x))
+#define   SVC_I3C_MSTATUS_MCTRLDONE(x) FIELD_GET(SVC_I3C_MINT_MCTRLDONE, (x))
+#define   SVC_I3C_MSTATUS_COMPLETE(x) FIELD_GET(SVC_I3C_MINT_COMPLETE, (x))
+#define   SVC_I3C_MSTATUS_RXPEND(x) FIELD_GET(SVC_I3C_MINT_RXPEND, (x))
+#define   SVC_I3C_MSTATUS_TXNOTFULL(x) FIELD_GET(SVC_I3C_MINT_TXNOTFULL, (x))
+#define   SVC_I3C_MSTATUS_IBIWON(x) FIELD_GET(SVC_I3C_MINT_IBIWON, (x))
+#define   SVC_I3C_MSTATUS_ERRWARN(x) FIELD_GET(SVC_I3C_MINT_ERRWARN, (x))
+#define   SVC_I3C_MSTATUS_IBIADDR(x) FIELD_GET(GENMASK(30, 24), (x))
+
+#define SVC_I3C_IBIRULES     0x08C
+#define   SVC_I3C_IBIRULES_ADDR(slot, addr) FIELD_PREP(GENMASK(29, 0), \
+						       ((addr) & 0x3F) << ((slot) * 6))
+#define   SVC_I3C_IBIRULES_ADDRS 5
+#define   SVC_I3C_IBIRULES_MSB0 BIT(30)
+#define   SVC_I3C_IBIRULES_NOBYTE BIT(31)
+#define   SVC_I3C_IBIRULES_MANDBYTE 0
+#define SVC_I3C_MINTSET      0x090
+#define SVC_I3C_MINTCLR      0x094
+#define SVC_I3C_MINTMASKED   0x098
+#define SVC_I3C_MERRWARN     0x09C
+#define   SVC_I3C_MERRWARN_NACK BIT(2)
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+
+```
+
+THEIR side (mainline stable):
+```
+#define   SVC_I3C_MERRWARN_TIMEOUT BIT(20)
+
+```
+
+Context AFTER the conflict:
+```
+#define SVC_I3C_MDMACTRL     0x0A0
+#define SVC_I3C_MDATACTRL    0x0AC
+#define   SVC_I3C_MDATACTRL_FLUSHTB BIT(0)
+#define   SVC_I3C_MDATACTRL_FLUSHRB BIT(1)
+#define   SVC_I3C_MDATACTRL_UNLOCK_TRIG BIT(3)
+#define   SVC_I3C_MDATACTRL_TXTRIG_FIFO_NOT_FULL GENMASK(5, 4)
+#define   SVC_I3C_MDATACTRL_RXTRIG_FIFO_NOT_EMPTY 0
+#define   SVC_I3C_MDATACTRL_RXCOUNT(x) FIELD_GET(GENMASK(28, 24), (x))
+#define   SVC_I3C_MDATACTRL_TXFULL BIT(30)
+#define   SVC_I3C_MDATACTRL_RXEMPTY BIT(31)
+
+#define SVC_I3C_MWDATAB      0x0B0
+#define   SVC_I3C_MWDATAB_END BIT(8)
+
+#define SVC_I3C_MWDATABE     0x0B4
+#define SVC_I3C_MWDATAH      0x0B8
+#define SVC_I3C_MWDATAHE     0x0BC
+#define SVC_I3C_MRDATAB      0x0C0
+#define SVC_I3C_MRDATAH      0x0C8
+#define SVC_I3C_MWMSG_SDR    0x0D0
+#define SVC_I3C_MRMSG_SDR    0x0D4
+#define SVC_I3C_MWMSG_DDR    0x0D8
+#define SVC_I3C_MRMSG_DDR    0x0DC
+
+#define SVC_I3C_MDYNADDR     0x0E4
+#define   SVC_MDYNADDR_VALID BIT(0)
+#define   SVC_MDYNADDR_ADDR(x) FIELD_PREP(GENMASK(7, 1), (x))
+
+#define SVC_I3C_MAX_DEVS 32
+#define SVC_I3C_PM_TIMEOUT_MS 1000
+
+/* This parameter depends on the implementation and may be tuned */
+#define SVC_I3C_FIFO_SIZE 16
+
+struct svc_i3c_cmd {
+	u8 addr;
+	bool rnw;
+	u8 *in;
+	const void *out;
+	unsigned int len;
+	unsigned int read_len;
+	bool continued;
+};
+
+struct svc_i3c_xfer {
+	struct list_head node;
+	struct completion comp;
+	int ret;
+	unsigned int type;
+	unsigned int ncmds;
+	struct svc_i3c_cmd cmds[];
+};
+
+struct svc_i3c_regs_save {
+	u32 mconfig;
+	u32 mdynaddr;
+};
+
+/**
+ * struct svc_i3c_master - Silvaco I3C Master structure
+ * @base: I3C master controller
+ * @dev: Corresponding device
+ * @regs: Memory mapping
+ * @free_slots: Bit array of available slots
+ * @addrs: Array containing the dynamic addresses of each attached device
+ * @descs: Array of descriptors, one per attached device
+ * @hj_work: Hot-join work
+ * @ibi_work: IBI work
+ * @irq: Main interrupt
+ * @pclk: System clock
+ * @fclk: Fast clock (bus)
+ * @sclk: Slow clock (other events)
+ * @xferqueue: Transfer queue structure
+ * @xferqueue.list: List member
+ * @xferqueue.cur: Current ongoing transfer
+ * @xferqueue.lock: Queue lock
+ * @ibi: IBI structure
+ * @ibi.num_slots: Number of slots available in @ibi.slots
+ * @ibi.slots: Available IBI slots
+ * @ibi.tbq_slot: To be queued IBI slot
+ * @ibi.lock: IBI lock
+ * @lock: Transfer lock, protect between IBI work thread and callbacks from master
+ */
+struct svc_i3c_master {
+	struct i3c_master_controller base;
+	struct device *dev;
+	void __iomem *regs;
+	struct svc_i3c_regs_save saved_regs;
+	u32 free_slots;
+	u8 addrs[SVC_I3C_MAX_DEVS];
+	struct i3c_dev_desc *descs[SVC_I3C_MAX_DEVS];
+	struct work_struct hj_work;
+	struct work_struct ibi_work;
+	int irq;
+	struct clk *pclk;
+	struct clk *fclk;
+	struct clk *sclk;
+	struct {
+		struct list_head list;
+		struct svc_i3c_xfer *cur;
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-28 09:08:04,856 [INFO]   Resolved drivers/i3c/master/svc-i3c-master.c hunk 0: confidence=9/10 — Mainline added definition for timeout bit while vendor had no change. Keeping vendor code unchanged 
+2026-04-28 09:08:04,857 [DEBUG] Applied resolution to drivers/i3c/master/svc-i3c-master.c hunk 0
+2026-04-28 09:08:04,857 [INFO] Resolving drivers/usb/dwc3/core.c hunk 1...
+2026-04-28 09:08:05,032 [DEBUG] Prompt for drivers/usb/dwc3/core.c hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/usb/dwc3/core.c
+
+We are merging mainline stable v6.1.64 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.63..v6.1.64):
+7932afa9bb61 usb: dwc3: core: configure TX/RX threshold for DWC3_IP
+
+Context BEFORE the conflict:
+```
+	ntype = device_property_count_u32(dev, "snps,incr-burst-type-adjustment");
+	if (ntype <= 0)
+		return;
+
+	vals = kcalloc(ntype, sizeof(u32), GFP_KERNEL);
+	if (!vals)
+		return;
+
+	/* Get INCR burst type, and parse it */
+	ret = device_property_read_u32_array(dev,
+			"snps,incr-burst-type-adjustment", vals, ntype);
+	if (ret) {
+		kfree(vals);
+		dev_err(dev, "Error to get property\n");
+		return;
+	}
+
+	incrx_size = *vals;
+
+	if (ntype > 1) {
+		/* INCRX (undefined length) burst mode */
+		incrx_mode = INCRX_UNDEF_LENGTH_BURST_MODE;
+		for (i = 1; i < ntype; i++) {
+			if (vals[i] > incrx_size)
+				incrx_size = vals[i];
+		}
+	} else {
+		/* INCRX burst mode */
+		incrx_mode = INCRX_BURST_MODE;
+	}
+
+	kfree(vals);
+
+	/* Enable Undefined Length INCR Burst and Enable INCRx Burst */
+	cfg &= ~DWC3_GSBUSCFG0_INCRBRST_MASK;
+	if (incrx_mode)
+		cfg |= DWC3_GSBUSCFG0_INCRBRSTENA;
+	switch (incrx_size) {
+	case 256:
+		cfg |= DWC3_GSBUSCFG0_INCR256BRSTENA;
+		break;
+	case 128:
+		cfg |= DWC3_GSBUSCFG0_INCR128BRSTENA;
+		break;
+	case 64:
+		cfg |= DWC3_GSBUSCFG0_INCR64BRSTENA;
+		break;
+	case 32:
+		cfg |= DWC3_GSBUSCFG0_INCR32BRSTENA;
+		break;
+	case 16:
+		cfg |= DWC3_GSBUSCFG0_INCR16BRSTENA;
+		break;
+	case 8:
+		cfg |= DWC3_GSBUSCFG0_INCR8BRSTENA;
+		break;
+	case 4:
+		cfg |= DWC3_GSBUSCFG0_INCR4BRSTENA;
+		break;
+	case 1:
+		break;
+	default:
+		dev_err(dev, "Invalid property\n");
+		break;
+	}
+
+	dwc3_writel(dwc->regs, DWC3_GSBUSCFG0, cfg);
+}
+
+static void dwc3_set_power_down_clk_scale(struct dwc3 *dwc)
+{
+	u32 scale;
+	u32 reg;
+
+	if (!dwc->susp_clk)
+		return;
+
+	/*
+	 * The power down scale field specifies how many suspend_clk
+	 * periods fit into a 16KHz clock period. When performing
+	 * the division, round up the remainder.
+	 *
+	 * The power down scale value is calculated using the fastest
+	 * frequency of the suspend_clk. If it isn't fixed (but within
+	 * the accuracy requirement), the driver may not know the max
+	 * rate of the suspend_clk, so only update the power down scale
+	 * if the default is less than the calculated value from
+	 * clk_get_rate() or if the default is questionably high
+	 * (3x or more) to be within the requirement.
+	 */
+	scale = DIV_ROUND_UP(clk_get_rate(dwc->susp_clk), 16000);
+	reg = dwc3_readl(dwc->regs, DWC3_GCTL);
+	if ((reg & DWC3_GCTL_PWRDNSCALE_MASK) < DWC3_GCTL_PWRDNSCALE(scale) ||
+	    (reg & DWC3_GCTL_PWRDNSCALE_MASK) > DWC3_GCTL_PWRDNSCALE(scale*3)) {
+		reg &= ~(DWC3_GCTL_PWRDNSCALE_MASK);
+		reg |= DWC3_GCTL_PWRDNSCALE(scale);
+		dwc3_writel(dwc->regs, DWC3_GCTL, reg);
+	}
+}
+
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+#ifdef CONFIG_OF
+struct dwc3_cache_type {
+	u8 transfer_type_datard;
+	u8 transfer_type_descrd;
+	u8 transfer_type_datawr;
+	u8 transfer_type_descwr;
+};
+
+static const struct dwc3_cache_type ls1088a_dwc3_cache_type = {
+	.transfer_type_datard = 2,
+	.transfer_type_descrd = 2,
+	.transfer_type_datawr = 2,
+	.transfer_type_descwr = 2,
+};
+
+/**
+ * dwc3_set_cache_type - Configure cache type registers
+ * @dwc: Pointer to our controller context structure
+ */
+static void dwc3_set_cache_type(struct dwc3 *dwc)
+{
+	u32 tmp, reg;
+	const struct dwc3_cache_type *cache_type =
+		device_get_match_data(dwc->dev);
+
+	if (cache_type) {
+		reg = dwc3_readl(dwc->regs,  DWC3_GSBUSCFG0);
+		tmp = reg;
+
+		reg &= ~DWC3_GSBUSCFG0_DATARD(~0);
+		reg |= DWC3_GSBUSCFG0_DATARD(cache_type->transfer_type_datard);
+
+		reg &= ~DWC3_GSBUSCFG0_DESCRD(~0);
+		reg |= DWC3_GSBUSCFG0_DESCRD(cache_type->transfer_type_descrd);
+
+		reg &= ~DWC3_GSBUSCFG0_DATAWR(~0);
+		reg |= DWC3_GSBUSCFG0_DATAWR(cache_type->transfer_type_datawr);
+
+		reg &= ~DWC3_GSBUSCFG0_DESCWR(~0);
+		reg |= DWC3_GSBUSCFG0_DESCWR(cache_type->transfer_type_descwr);
+
+		if (tmp != reg)
+			dwc3_writel(dwc->regs, DWC3_GSBUSCFG0, reg);
+	}
+}
+#endif
+
+```
+
+THEIR side (mainline stable):
+```
+static void dwc3_config_threshold(struct dwc3 *dwc)
+{
+	u32 reg;
+	u8 rx_thr_num;
+	u8 rx_maxburst;
+	u8 tx_thr_num;
+	u8 tx_maxburst;
+
+	/*
+	 * Must config both number of packets and max burst settings to enable
+	 * RX and/or TX threshold.
+	 */
+	if (!DWC3_IP_IS(DWC3) && dwc->dr_mode == USB_DR_MODE_HOST) {
+		rx_thr_num = dwc->rx_thr_num_pkt_prd;
+		rx_maxburst = dwc->rx_max_burst_prd;
+		tx_thr_num = dwc->tx_thr_num_pkt_prd;
+		tx_maxburst = dwc->tx_max_burst_prd;
+
+		if (rx_thr_num && rx_maxburst) {
+			reg = dwc3_readl(dwc->regs, DWC3_GRXTHRCFG);
+			reg |= DWC31_RXTHRNUMPKTSEL_PRD;
+
+			reg &= ~DWC31_RXTHRNUMPKT_PRD(~0);
+			reg |= DWC31_RXTHRNUMPKT_PRD(rx_thr_num);
+
+			reg &= ~DWC31_MAXRXBURSTSIZE_PRD(~0);
+			reg |= DWC31_MAXRXBURSTSIZE_PRD(rx_maxburst);
+
+			dwc3_writel(dwc->regs, DWC3_GRXTHRCFG, reg);
+		}
+
+		if (tx_thr_num && tx_maxburst) {
+			reg = dwc3_readl(dwc->regs, DWC3_GTXTHRCFG);
+			reg |= DWC31_TXTHRNUMPKTSEL_PRD;
+
+			reg &= ~DWC31_TXTHRNUMPKT_PRD(~0);
+			reg |= DWC31_TXTHRNUMPKT_PRD(tx_thr_num);
+
+			reg &= ~DWC31_MAXTXBURSTSIZE_PRD(~0);
+			reg |= DWC31_MAXTXBURSTSIZE_PRD(tx_maxburst);
+
+			dwc3_writel(dwc->regs, DWC3_GTXTHRCFG, reg);
+		}
+	}
+
+	rx_thr_num = dwc->rx_thr_num_pkt;
+	rx_maxburst = dwc->rx_max_burst;
+	tx_thr_num = dwc->tx_thr_num_pkt;
+	tx_maxburst = dwc->tx_max_burst;
+
+	if (DWC3_IP_IS(DWC3)) {
+		if (rx_thr_num && rx_maxburst) {
+			reg = dwc3_readl(dwc->regs, DWC3_GRXTHRCFG);
+			reg |= DWC3_GRXTHRCFG_PKTCNTSEL;
+
+			reg &= ~DWC3_GRXTHRCFG_RXPKTCNT(~0);
+			reg |= DWC3_GRXTHRCFG_RXPKTCNT(rx_thr_num);
+
+			reg &= ~DWC3_GRXTHRCFG_MAXRXBURSTSIZE(~0);
+			reg |= DWC3_GRXTHRCFG_MAXRXBURSTSIZE(rx_maxburst);
+
+			dwc3_writel(dwc->regs, DWC3_GRXTHRCFG, reg);
+		}
+
+		if (tx_thr_num && tx_maxburst) {
+			reg = dwc3_readl(dwc->regs, DWC3_GTXTHRCFG);
+			reg |= DWC3_GTXTHRCFG_PKTCNTSEL;
+
+			reg &= ~DWC3_GTXTHRCFG_TXPKTCNT(~0);
+			reg |= DWC3_GTXTHRCFG_TXPKTCNT(tx_thr_num);
+
+			reg &= ~DWC3_GTXTHRCFG_MAXTXBURSTSIZE(~0);
+			reg |= DWC3_GTXTHRCFG_MAXTXBURSTSIZE(tx_maxburst);
+
+			dwc3_writel(dwc->regs, DWC3_GTXTHRCFG, reg);
+		}
+	} else {
+		if (rx_thr_num && rx_maxburst) {
+			reg = dwc3_readl(dwc->regs, DWC3_GRXTHRCFG);
+			reg |= DWC31_GRXTHRCFG_PKTCNTSEL;
+
+			reg &= ~DWC31_GRXTHRCFG_RXPKTCNT(~0);
+			reg |= DWC31_GRXTHRCFG_RXPKTCNT(rx_thr_num);
+
+			reg &= ~DWC31_GRXTHRCFG_MAXRXBURSTSIZE(~0);
+			reg |= DWC31_GRXTHRCFG_MAXRXBURSTSIZE(rx_maxburst);
+
+			dwc3_writel(dwc->regs, DWC3_GRXTHRCFG, reg);
+		}
+
+		if (tx_thr_num && tx_maxburst) {
+			reg = dwc3_readl(dwc->regs, DWC3_GTXTHRCFG);
+			reg |= DWC31_GTXTHRCFG_PKTCNTSEL;
+
+			reg &= ~DWC31_GTXTHRCFG_TXPKTCNT(~0);
+			reg |= DWC31_GTXTHRCFG_TXPKTCNT(tx_thr_num);
+
+			reg &= ~DWC31_GTXTHRCFG_MAXTXBURSTSIZE(~0);
+			reg |= DWC31_GTXTHRCFG_MAXTXBURSTSIZE(tx_maxburst);
+
+			dwc3_writel(dwc->regs, DWC3_GTXTHRCFG, reg);
+		}
+	}
+}
+
+```
+
+Context AFTER the conflict:
+```
+
+/**
+ * dwc3_core_init - Low-level initialization of DWC3 Core
+ * @dwc: Pointer to our controller context structure
+ *
+ * Returns 0 on success otherwise negative errno.
+ */
+static int dwc3_core_init(struct dwc3 *dwc)
+{
+	unsigned int		hw_mode;
+	u32			reg;
+	int			ret;
+
+	hw_mode = DWC3_GHWPARAMS0_MODE(dwc->hwparams.hwparams0);
+
+	/*
+	 * Write Linux Version Code to our GUID register so it's easy to figure
+	 * out which kernel version a bug was found.
+	 */
+	dwc3_writel(dwc->regs, DWC3_GUID, LINUX_VERSION_CODE);
+
+	ret = dwc3_phy_setup(dwc);
+	if (ret)
+		goto err0;
+
+	if (!dwc->ulpi_ready) {
+		ret = dwc3_core_ulpi_init(dwc);
+		if (ret) {
+			if (ret == -ETIMEDOUT) {
+				dwc3_core_soft_reset(dwc);
+				ret = -EPROBE_DEFER;
+			}
+			goto err0;
+		}
+		dwc->ulpi_ready = true;
+	}
+
+	if (!dwc->phys_ready) {
+		ret = dwc3_core_get_phy(dwc);
+		if (ret)
+			goto err0a;
+		dwc->phys_ready = true;
+	}
+
+	usb_phy_init(dwc->usb2_phy);
+	usb_phy_init(dwc->usb3_phy);
+	ret = phy_init(dwc->usb2_generic_phy);
+	if (ret < 0)
+		goto err0a;
+
+	ret = phy_init(dwc->usb3_generic_phy);
+	if (ret < 0) {
+		phy_exit(dwc->usb2_generic_phy);
+		goto err0a;
+	}
+
+	ret = dwc3_core_soft_reset(dwc);
+	if (ret)
+		goto err1;
+
+	if (hw_mode == DWC3_GHWPARAMS0_MODE_DRD &&
+	    !DWC3_VER_IS_WITHIN(DWC3, ANY, 194A)) {
+		if (!dwc->dis_u3_susphy_quirk) {
+			reg = dwc3_readl(dwc->regs, DWC3_GUSB3PIPECTL(0));
+			reg |= DWC3_GUSB3PIPECTL_SUSPHY;
+			dwc3_writel(dwc->regs, DWC3_GUSB3PIPECTL(0), reg);
+		}
+
+		if (!dwc->dis_u2_susphy_quirk) {
+			reg = dwc3_readl(dwc->regs, DWC3_GUSB2PHYCFG(0));
+			reg |= DWC3_GUSB2PHYCFG_SUSPHY;
+			dwc3_writel(dwc->regs, DWC3_GUSB2PHYCFG(0), reg);
+		}
+	}
+
+	dwc3_core_setup_global_control(dwc);
+	dwc3_core_num_eps(dwc);
+
+	ret = dwc3_setup_scratch_buffers(dwc);
+	if (ret)
+		goto err1;
+
+	/* Set power down scale of suspend_clk */
+	dwc3_set_power_down_clk_scale(dwc);
+
+	/* Adjust Frame Length */
+	dwc3_frame_length_adjustment(dwc);
+
+	/* Adjust Reference Clock Period */
+	dwc3_ref_clk_period(dwc);
+
+	dwc3_set_incr_burst_type(dwc);
+
+#ifdef CONFIG_OF
+	dwc3_set_cache_type(dwc);
+#endif
+
+	usb_phy_set_suspend(dwc->usb2_phy, 0);
+	usb_phy_set_suspend(dwc->usb3_phy, 0);
+	ret = phy_power_on(dwc->usb2_generic_phy);
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-28 09:09:33,786 [INFO]   Resolved drivers/usb/dwc3/core.c hunk 0: confidence=8/10 — Upstream added a new function dwc3_config_threshold(), vendor added cache-type configuration. They t
+2026-04-28 09:09:33,788 [DEBUG] Applied resolution to drivers/usb/dwc3/core.c hunk 0
+2026-04-28 09:09:35,045 [INFO] All conflicts resolved. Confidence: min=8, avg=8.3
+2026-04-28 09:09:35,046 [INFO] Building kernel (compile test)...
+2026-04-28 09:09:45,278 [ERROR] Build failed:
+fsl-ls208xa.dtsi:1247.8-33 syntax error
+FATAL ERROR: Unable to parse input tree
+make[2]: *** [scripts/Makefile.lib:406: arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb] Error 1
+make[2]: *** Waiting for unfinished jobs....
+make[2]: *** [scripts/Makefile.lib:406: arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb] Error 1
+make[2]: *** [scripts/Makefile.lib:406: arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb] Error 1
+make[2]: *** [scripts/Makefile.lib:406: arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb] Error 1
+make[2]: *** [scripts/Makefile.lib:406: arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb] Error 1
+Error: arch/arm64/boot/dts/freescale/fsl-ls208xa.dtsi:1247.8-33 syntax error
+FATAL ERROR: Unable to parse input tree
+make[2]: *** [scripts/Makefile.lib:406: arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb] Error 1
+make[1]: *** [scripts/Makefile.build:500: arch/arm64/boot/dts/freescale] Error 2
+make: *** [Makefile:1478: dtbs] Error 2
+make: *** Waiting for unfinished jobs....
+
+2026-04-28 09:09:45,278 [DEBUG] Build stdout (last 2000 chars):
+make: Entering directory '/home/osaleem/repos/linux-imx'
+  SYNC    include/config/auto.conf.cmd
+  UPD     include/generated/uapi/linux/version.h
+  UPD     include/config/kernel.release
+  UPD     include/generated/utsrelease.h
+  CC      scripts/mod/devicetable-offsets.s
+  HOSTCC  scripts/mod/file2alias.o
+  DTC     arch/arm64/boot/dts/freescale/fsl-ls2080a-rdb.dtb
+  DTC     arch/arm64/boot/dts/freescale/fsl-ls2080a-qds.dtb
+  DTC     arch/arm64/boot/dts/freescale/fsl-ls2081a-rdb.dtb
+  DTC     arch/arm64/boot/dts/freescale/fsl-ls2080a-simu.dtb
+  DTC     arch/arm64/boot/dts/freescale/fsl-ls2088a-qds.dtb
+  DTC     arch/arm64/boot/dts/freescale/fsl-ls2088a-rdb.dtb
+  DTC     arch/arm64/boot/dts/freescale/imx8mm-ab2.dtb
+  DTC     arch/arm64/boot/dts/freescale/imx8mm-ab2-m4.dtb
+  DTC     arch/arm64/boot/dts/freescale/imx8mm-ddr4-ab2.dtb
+  DTC     arch/arm64/boot/dts/freescale/imx8mm-ddr4-ab2-m4.dtb
+  DTC     arch/arm64/boot/dts/freescale/imx8mm-ddr4-ab2-revb.dtb
+  DTC     arch/arm64/boot/dts/freescale/imx8mm-ddr4-ab2-m4-revb.dtb
+  DTC     arch/arm64/boot/dts/freescale/imx8mm-evk.dtb
+  DTC     arch/arm64/boot/dts/freescale/imx8mm-evk-rpmsg.dtb
+  DTC     arch/arm64/boot/dts/freescale/imx8mm-evk-rm67191.dtb
+  HOSTLD  scripts/mod/modpost
+  CC      arch/arm64/kernel/asm-offsets.s
+  CALL    scripts/checksyscalls.sh
+make: Leaving directory '/home/osaleem/repos/linux-imx'
+
+2026-04-28 09:09:45,278 [ERROR] Build failed after resolving conflicts for v6.1.64. Manual intervention needed on branch merge/v6.1.64.
+2026-04-28 09:09:45,278 [INFO] To fix manually:
+  cd /home/osaleem/repos/linux-imx
+  # fix the build errors
+  git add -A && git commit --amend
+  git checkout lf-6.1.y-semtech
+  git merge merge/v6.1.64
+  # then re-run this tool with --resume
+2026-04-28 09:09:45,279 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.64_2026-04-28T09-07-17.949727.json
+2026-04-28 09:09:45,279 [ERROR] Stopping due to error at v6.1.64. Fix manually and re-run with --resume.
+2026-04-28 09:09:45,279 [INFO] Done.

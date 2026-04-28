@@ -1,0 +1,47 @@
+{
+  "version": "6.1.64",
+  "timestamp": "2026-04-28T09:07:17.949727",
+  "conflicts_total": 3,
+  "conflicts_resolved": 3,
+  "build_success": false,
+  "merged_to_main": false,
+  "error": "Build failed after resolving conflicts for v6.1.64. Manual intervention needed on branch merge/v6.1.64.",
+  "resolutions": [
+    {
+      "file": "arch/arm64/boot/dts/freescale/fsl-ls208xa.dtsi",
+      "hunk_index": 0,
+      "confidence": 8,
+      "reasoning": "Mainline adds a simple-bus wrapper with dma-ranges limiting USB DMA to 256 MiB. NXP already had usb0/1 nodes with additional vendor compatible string and the snps,host-vbus-glitches property. The merge keeps the new pseudo-bus and dma-ranges from mainline while preserving NXP\u2019s extra compatible string and property for both USB controllers. No code from either side was dropped.",
+      "ours": "\t\tusb0: usb@3100000 {\n\t\t\tstatus = \"disabled\";\n\t\t\tcompatible = \"fsl,ls2088a-dwc3\", \"snps,dwc3\";\n\t\t\treg = <0x0 0x3100000 0x0 0x10000>;\n\t\t\tinterrupts = <0 80 0x4>; /* Level high type */\n\t\t\tdr_mode = \"host\";\n\t\t\tsnps,quirk-frame-length-adjustment = <0x20>;\n\t\t\tsnps,dis_rxdet_inp3_quirk;\n\t\t\tsnps,incr-burst-type-adjustment = <1>, <4>, <8>, <16>;\n\t\t\tsnps,host-vbus-glitches;\n\t\t};\n\n\t\tusb1: usb@3110000 {\n\t\t\tstatus = \"disabled\";\n\t\t\tcompatible = \"fsl,ls2088a-dwc3\", \"snps,dwc3\";\n\t\t\treg = <0x0 0x3110000 0x0 0x1",
+      "theirs": "\t\tbus: bus {\n\t\t\t#address-cells = <2>;\n\t\t\t#size-cells = <2>;\n\t\t\tcompatible = \"simple-bus\";\n\t\t\tranges;\n\t\t\tdma-ranges = <0x0 0x0 0x0 0x0 0x100 0x00000000>;\n\n\t\t\tusb0: usb@3100000 {\n\t\t\t\tcompatible = \"snps,dwc3\";\n\t\t\t\treg = <0x0 0x3100000 0x0 0x10000>;\n\t\t\t\tinterrupts = <0 80 0x4>; /* Level high type */\n\t\t\t\tdr_mode = \"host\";\n\t\t\t\tsnps,quirk-frame-length-adjustment = <0x20>;\n\t\t\t\tsnps,dis_rxdet_inp3_quirk;\n\t\t\t\tsnps,incr-burst-type-adjustment = <1>, <4>, <8>, <16>;\n\t\t\t\tstatus = \"disabled\";\n\t\t\t};\n\n\t\t\tusb1: u",
+      "resolved_code": "        bus: bus {\n            #address-cells = <2>;\n            #size-cells = <2>;\n            compatible = \"simple-bus\";\n            ranges;\n            dma-ranges = <0x0 0x0 0x0 0x0 0x100 0x00000000>;\n\n            usb0: usb@3100000 {\n                status = \"disabled\";\n                compatible = \"fsl,ls2088a-dwc3\", \"snps,dwc3\";\n                reg = <0x0 0x3100000 0x0 0x10000>;\n                interrupts = <0 80 0x4>; /* Level high type */\n                dr_mode = \"host\";\n                ",
+      "api_response_raw": "{\n  \"confidence\": 8,\n  \"reasoning\": \"Mainline adds a simple-bus wrapper with dma-ranges limiting USB DMA to 256 MiB. NXP already had usb0/1 nodes with additional vendor compatible string and the snps,host-vbus-glitches property. The merge keeps the new pseudo-bus and dma-ranges from mainline while preserving NXP\\u2019s extra compatible string and property for both USB controllers. No code from either side was dropped.\",\n  \"resolved_code\": \"        bus: bus {\\n            #address-cells = <2>;\\n            #size-cells = <2>;\\n            compatible = \\\"simple-bus\\\";\\n            ranges;\\n            dma-ranges = <0x0 0x0 0x0 0x0 0x100 0x00000000>;\\n\\n            usb0: usb@3100000 {\\n                status = \\\"disabled\\\";\\n                compatible = \\\"fsl,ls2088a-dwc3\\\", \\\"snps,dwc3\\\";\\n                reg = <0x0 0x3100000 0x0 0x10000>;\\n                interrupts = <0 80 0x4>; /* Level high type */\\n                dr_mode = \\\"host\\\";\\n                snps,quirk-frame-length-adjustmen",
+      "start_line": 1192,
+      "end_line": 1244
+    },
+    {
+      "file": "drivers/i3c/master/svc-i3c-master.c",
+      "hunk_index": 0,
+      "confidence": 9,
+      "reasoning": "Mainline added definition for timeout bit while vendor had no change. Keeping vendor code unchanged and adding new define satisfies rules.",
+      "ours": "",
+      "theirs": "#define   SVC_I3C_MERRWARN_TIMEOUT BIT(20)\n",
+      "resolved_code": "#define   SVC_I3C_MERRWARN_TIMEOUT BIT(20)\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"Mainline added definition for timeout bit while vendor had no change. Keeping vendor code unchanged and adding new define satisfies rules.\",\n  \"resolved_code\": \"#define   SVC_I3C_MERRWARN_TIMEOUT BIT(20)\\n\"\n}",
+      "start_line": 95,
+      "end_line": 98
+    },
+    {
+      "file": "drivers/usb/dwc3/core.c",
+      "hunk_index": 0,
+      "confidence": 8,
+      "reasoning": "Upstream added a new function dwc3_config_threshold(), vendor added cache-type configuration. They touch same insertion point but are independent. Merged by keeping both: first add upstream function (unconditional), then retain NXP\u2019s #ifdef CONFIG_OF block with struct and dwc3_set_cache_type(). Original surrounding context lines remain unchanged so other code (dwc3_set_power_down_clk_scale) follows unmodified.",
+      "ours": "#ifdef CONFIG_OF\nstruct dwc3_cache_type {\n\tu8 transfer_type_datard;\n\tu8 transfer_type_descrd;\n\tu8 transfer_type_datawr;\n\tu8 transfer_type_descwr;\n};\n\nstatic const struct dwc3_cache_type ls1088a_dwc3_cache_type = {\n\t.transfer_type_datard = 2,\n\t.transfer_type_descrd = 2,\n\t.transfer_type_datawr = 2,\n\t.transfer_type_descwr = 2,\n};\n\n/**\n * dwc3_set_cache_type - Configure cache type registers\n * @dwc: Pointer to our controller context structure\n */\nstatic void dwc3_set_cache_type(struct dwc3 *dwc)\n{\n\t",
+      "theirs": "static void dwc3_config_threshold(struct dwc3 *dwc)\n{\n\tu32 reg;\n\tu8 rx_thr_num;\n\tu8 rx_maxburst;\n\tu8 tx_thr_num;\n\tu8 tx_maxburst;\n\n\t/*\n\t * Must config both number of packets and max burst settings to enable\n\t * RX and/or TX threshold.\n\t */\n\tif (!DWC3_IP_IS(DWC3) && dwc->dr_mode == USB_DR_MODE_HOST) {\n\t\trx_thr_num = dwc->rx_thr_num_pkt_prd;\n\t\trx_maxburst = dwc->rx_max_burst_prd;\n\t\ttx_thr_num = dwc->tx_thr_num_pkt_prd;\n\t\ttx_maxburst = dwc->tx_max_burst_prd;\n\n\t\tif (rx_thr_num && rx_maxburst) {\n\t\t\tr",
+      "resolved_code": "static void dwc3_config_threshold(struct dwc3 *dwc)\n{\n    u32 reg;\n    u8 rx_thr_num;\n    u8 rx_maxburst;\n    u8 tx_thr_num;\n    u8 tx_maxburst;\n\n    /*\n     * Must config both number of packets and max burst settings to enable\n     * RX and/or TX threshold.\n     */\n    if (!DWC3_IP_IS(DWC3) && dwc->dr_mode == USB_DR_MODE_HOST) {\n        rx_thr_num = dwc->rx_thr_num_pkt_prd;\n        rx_maxburst = dwc->rx_max_burst_prd;\n        tx_thr_num = dwc->tx_thr_num_pkt_prd;\n        tx_maxburst = dwc->tx_m",
+      "api_response_raw": "{\n  \"confidence\": 8,\n  \"reasoning\": \"Upstream added a new function dwc3_config_threshold(), vendor added cache-type configuration. They touch same insertion point but are independent. Merged by keeping both: first add upstream function (unconditional), then retain NXP\\u2019s #ifdef CONFIG_OF block with struct and dwc3_set_cache_type(). Original surrounding context lines remain unchanged so other code (dwc3_set_power_down_clk_scale) follows unmodified.\",\n  \"resolved_code\": \"static void dwc3_config_threshold(struct dwc3 *dwc)\\n{\\n    u32 reg;\\n    u8 rx_thr_num;\\n    u8 rx_maxburst;\\n    u8 tx_thr_num;\\n    u8 tx_maxburst;\\n\\n    /*\\n     * Must config both number of packets and max burst settings to enable\\n     * RX and/or TX threshold.\\n     */\\n    if (!DWC3_IP_IS(DWC3) && dwc->dr_mode == USB_DR_MODE_HOST) {\\n        rx_thr_num = dwc->rx_thr_num_pkt_prd;\\n        rx_maxburst = dwc->rx_max_burst_prd;\\n        tx_thr_num = dwc->tx_thr_num_pkt_prd;\\n        tx_maxburst = dwc->tx_max_bur",
+      "start_line": 1123,
+      "end_line": 1275
+    }
+  ]
+}
