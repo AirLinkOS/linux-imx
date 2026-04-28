@@ -1,0 +1,1014 @@
+2026-04-28 16:05:45,956 [INFO] Log file: /home/osaleem/repos/linux-imx/merge-logs/merge_20260428_160545.log
+2026-04-28 16:05:45,956 [INFO] Kernel Stable Merge Tool started
+2026-04-28 16:05:45,956 [INFO] Repo: /home/osaleem/repos/linux-imx
+2026-04-28 16:05:45,956 [INFO] Target: v6.1.80
+2026-04-28 16:05:45,956 [INFO] Provider: openai
+2026-04-28 16:05:45,956 [INFO] Interactive: False
+2026-04-28 16:05:45,956 [INFO] Dry run: False
+2026-04-28 16:05:45,956 [INFO] Fetching stable tags...
+2026-04-28 16:05:46,944 [INFO] Using override start version: 6.1.75
+2026-04-28 16:05:46,944 [INFO] 
+============================================================
+Merge step: v6.1.75 -> v6.1.76
+Progress: 1/5
+============================================================
+2026-04-28 16:05:46,944 [INFO] Starting merge: v6.1.76
+2026-04-28 16:05:48,054 [INFO] Merge v6.1.76 completed cleanly — no conflicts!
+2026-04-28 16:05:48,054 [INFO] Building kernel (compile test)...
+2026-04-28 16:16:44,730 [INFO] Build succeeded.
+2026-04-28 16:16:45,452 [INFO] Merged v6.1.76 into lf-6.1.y-semtech
+2026-04-28 16:16:45,452 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.76_2026-04-28T16-05-46.945033.json
+2026-04-28 16:16:45,670 [INFO] Current kernel version: 6.1.76
+2026-04-28 16:16:45,670 [INFO] 
+============================================================
+Merge step: v6.1.76 -> v6.1.77
+Progress: 2/5
+============================================================
+2026-04-28 16:16:45,670 [INFO] Starting merge: v6.1.77
+2026-04-28 16:16:46,922 [INFO] Merge v6.1.77 has 2 conflicted files
+2026-04-28 16:16:46,923 [INFO]   drivers/clk/imx/clk-imx8qxp.c: 4 conflict hunks
+2026-04-28 16:16:46,925 [INFO]   drivers/scsi/scsi_error.c: 1 conflict hunks
+2026-04-28 16:16:46,925 [INFO] Resolving drivers/clk/imx/clk-imx8qxp.c hunk 1...
+2026-04-28 16:16:46,949 [DEBUG] Prompt for drivers/clk/imx/clk-imx8qxp.c hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/clk/imx/clk-imx8qxp.c
+
+We are merging mainline stable v6.1.77 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.76..v6.1.77):
+aade0a07609b clk: imx: clk-imx8qxp: fix LVDS bypass, pixel and phy clocks
+
+Context BEFORE the conflict:
+```
+// SPDX-License-Identifier: GPL-2.0+
+/*
+ * Copyright 2018-2021 NXP
+ *	Dong Aisheng <aisheng.dong@nxp.com>
+ */
+
+#include <linux/clk-provider.h>
+#include <linux/err.h>
+#include <linux/io.h>
+#include <linux/module.h>
+#include <linux/of.h>
+#include <linux/of_device.h>
+#include <linux/platform_device.h>
+#include <linux/slab.h>
+
+#include "clk-scu.h"
+
+#include <dt-bindings/firmware/imx/rsrc.h>
+
+static const char *dc0_sels[] = {
+	"clk_dummy",
+	"clk_dummy",
+	"dc0_pll0_clk",
+	"dc0_pll1_clk",
+	"dc0_bypass0_clk",
+};
+
+static const char * const dc1_sels[] = {
+	"clk_dummy",
+	"clk_dummy",
+	"dc1_pll0_clk",
+	"dc1_pll1_clk",
+	"dc1_bypass0_clk",
+};
+
+static const char * const enet0_rgmii_txc_sels[] = {
+	"enet0_ref_div",
+	"clk_dummy",
+};
+
+static const char * const enet1_rgmii_txc_sels[] = {
+	"enet1_ref_div",
+	"clk_dummy",
+};
+
+static const char * const hdmi_sels[] = {
+	"clk_dummy",
+	"hdmi_dig_pll_clk",
+	"clk_dummy",
+	"clk_dummy",
+	"hdmi_av_pll_clk",
+};
+
+static const char * const hdmi_rx_sels[] = {
+	"clk_dummy",
+	"hdmi_rx_dig_pll_clk",
+	"clk_dummy",
+	"clk_dummy",
+	"hdmi_rx_bypass_clk",
+};
+
+static const char * const lcd_pxl_sels[] = {
+	"clk_dummy",
+	"clk_dummy",
+	"clk_dummy",
+	"clk_dummy",
+	"lcd_pxl_bypass_div_clk",
+};
+
+static const char *const lvds0_sels[] = {
+	"clk_dummy",
+	"clk_dummy",
+	"clk_dummy",
+	"clk_dummy",
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+	"lvds0_bypass_clk",
+};
+
+static const char * const lvds1_sels[] = {
+
+```
+
+THEIR side (mainline stable):
+```
+	"mipi0_lvds_bypass_clk",
+};
+
+static const char *const lvds1_sels[] = {
+
+```
+
+Context AFTER the conflict:
+```
+	"clk_dummy",
+	"clk_dummy",
+	"clk_dummy",
+	"clk_dummy",
+<<<<<<< HEAD
+	"lvds1_bypass_clk",
+=======
+	"mipi1_lvds_bypass_clk",
+>>>>>>> v6.1.77
+};
+
+static const char * const mipi_sels[] = {
+	"clk_dummy",
+	"clk_dummy",
+	"mipi_pll_div2_clk",
+	"clk_dummy",
+	"clk_dummy",
+};
+
+static const char * const lcd_sels[] = {
+	"clk_dummy",
+	"clk_dummy",
+	"clk_dummy",
+	"clk_dummy",
+	"elcdif_pll",
+};
+
+static const char * const pi_pll0_sels[] = {
+	"clk_dummy",
+	"pi_dpll_clk",
+	"clk_dummy",
+	"clk_dummy",
+	"clk_dummy",
+};
+
+static inline bool clk_on_imx8dxl(struct device_node *node)
+{
+	return of_device_is_compatible(node, "fsl,imx8dxl-clk") != 0;
+}
+
+static int imx8qxp_clk_probe(struct platform_device *pdev)
+{
+	struct device_node *ccm_node = pdev->dev.of_node;
+	const struct imx_clk_scu_rsrc_table *rsrc_table;
+	int ret;
+
+	rsrc_table = of_device_get_match_data(&pdev->dev);
+	ret = imx_clk_scu_init(ccm_node, rsrc_table);
+	if (ret)
+		return ret;
+
+	/* ARM core */
+	imx_clk_scu("a35_clk", IMX_SC_R_A35, IMX_SC_PM_CLK_CPU);
+	imx_clk_scu("a53_clk", IMX_SC_R_A53, IMX_SC_PM_CLK_CPU);
+	imx_clk_scu("a72_clk", IMX_SC_R_A72, IMX_SC_PM_CLK_CPU);
+
+	/* LSIO SS */
+	imx_clk_scu("pwm0_clk", IMX_SC_R_PWM_0, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("pwm1_clk", IMX_SC_R_PWM_1, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("pwm2_clk", IMX_SC_R_PWM_2, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("pwm3_clk", IMX_SC_R_PWM_3, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("pwm4_clk", IMX_SC_R_PWM_4, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("pwm5_clk", IMX_SC_R_PWM_5, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("pwm6_clk", IMX_SC_R_PWM_6, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("pwm7_clk", IMX_SC_R_PWM_7, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("gpt1_clk", IMX_SC_R_GPT_1, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("gpt2_clk", IMX_SC_R_GPT_2, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("gpt3_clk", IMX_SC_R_GPT_3, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("gpt4_clk", IMX_SC_R_GPT_4, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("fspi0_clk", IMX_SC_R_FSPI_0, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("fspi1_clk", IMX_SC_R_FSPI_1, IMX_SC_PM_CLK_PER);
+
+	/* DMA SS */
+	imx_clk_scu("uart0_clk", IMX_SC_R_UART_0, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("uart1_clk", IMX_SC_R_UART_1, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("uart2_clk", IMX_SC_R_UART_2, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("uart3_clk", IMX_SC_R_UART_3, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("uart4_clk", IMX_SC_R_UART_4, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("sim0_clk",  IMX_SC_R_EMVSIM_0, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("spi0_clk",  IMX_SC_R_SPI_0, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("spi1_clk",  IMX_SC_R_SPI_1, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("spi2_clk",  IMX_SC_R_SPI_2, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("spi3_clk",  IMX_SC_R_SPI_3, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("can0_clk",  IMX_SC_R_CAN_0, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("can1_clk",  IMX_SC_R_CAN_1, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("can2_clk",  IMX_SC_R_CAN_2, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("i2c0_clk",  IMX_SC_R_I2C_0, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("i2c1_clk",  IMX_SC_R_I2C_1, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("i2c2_clk",  IMX_SC_R_I2C_2, IMX_SC_PM_C
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-28 16:17:16,462 [INFO]   Resolved drivers/clk/imx/clk-imx8qxp.c hunk 0: confidence=8/10 — Mainline stable fixes the LVDS selector parent names to reference the correctly registered MIPI/LVDS
+2026-04-28 16:17:16,463 [DEBUG] Applied resolution to drivers/clk/imx/clk-imx8qxp.c hunk 0
+2026-04-28 16:17:16,463 [INFO] Resolving drivers/clk/imx/clk-imx8qxp.c hunk 2...
+2026-04-28 16:17:16,489 [DEBUG] Prompt for drivers/clk/imx/clk-imx8qxp.c hunk 1:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/clk/imx/clk-imx8qxp.c
+
+We are merging mainline stable v6.1.77 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.76..v6.1.77):
+aade0a07609b clk: imx: clk-imx8qxp: fix LVDS bypass, pixel and phy clocks
+
+Context BEFORE the conflict:
+```
+// SPDX-License-Identifier: GPL-2.0+
+/*
+ * Copyright 2018-2021 NXP
+ *	Dong Aisheng <aisheng.dong@nxp.com>
+ */
+
+#include <linux/clk-provider.h>
+#include <linux/err.h>
+#include <linux/io.h>
+#include <linux/module.h>
+#include <linux/of.h>
+#include <linux/of_device.h>
+#include <linux/platform_device.h>
+#include <linux/slab.h>
+
+#include "clk-scu.h"
+
+#include <dt-bindings/firmware/imx/rsrc.h>
+
+static const char *dc0_sels[] = {
+	"clk_dummy",
+	"clk_dummy",
+	"dc0_pll0_clk",
+	"dc0_pll1_clk",
+	"dc0_bypass0_clk",
+};
+
+static const char * const dc1_sels[] = {
+	"clk_dummy",
+	"clk_dummy",
+	"dc1_pll0_clk",
+	"dc1_pll1_clk",
+	"dc1_bypass0_clk",
+};
+
+static const char * const enet0_rgmii_txc_sels[] = {
+	"enet0_ref_div",
+	"clk_dummy",
+};
+
+static const char * const enet1_rgmii_txc_sels[] = {
+	"enet1_ref_div",
+	"clk_dummy",
+};
+
+static const char * const hdmi_sels[] = {
+	"clk_dummy",
+	"hdmi_dig_pll_clk",
+	"clk_dummy",
+	"clk_dummy",
+	"hdmi_av_pll_clk",
+};
+
+static const char * const hdmi_rx_sels[] = {
+	"clk_dummy",
+	"hdmi_rx_dig_pll_clk",
+	"clk_dummy",
+	"clk_dummy",
+	"hdmi_rx_bypass_clk",
+};
+
+static const char * const lcd_pxl_sels[] = {
+	"clk_dummy",
+	"clk_dummy",
+	"clk_dummy",
+	"clk_dummy",
+	"lcd_pxl_bypass_div_clk",
+};
+
+static const char *const lvds0_sels[] = {
+	"clk_dummy",
+	"clk_dummy",
+	"clk_dummy",
+	"clk_dummy",
+<<<<<<< HEAD
+	"lvds0_bypass_clk",
+};
+
+static const char * const lvds1_sels[] = {
+=======
+	"mipi0_lvds_bypass_clk",
+};
+
+static const char *const lvds1_sels[] = {
+>>>>>>> v6.1.77
+	"clk_dummy",
+	"clk_dummy",
+	"clk_dummy",
+	"clk_dummy",
+
+```
+
+CONFLICT (hunk 2):
+OUR side (NXP vendor kernel):
+```
+	"lvds1_bypass_clk",
+
+```
+
+THEIR side (mainline stable):
+```
+	"mipi1_lvds_bypass_clk",
+
+```
+
+Context AFTER the conflict:
+```
+};
+
+static const char * const mipi_sels[] = {
+	"clk_dummy",
+	"clk_dummy",
+	"mipi_pll_div2_clk",
+	"clk_dummy",
+	"clk_dummy",
+};
+
+static const char * const lcd_sels[] = {
+	"clk_dummy",
+	"clk_dummy",
+	"clk_dummy",
+	"clk_dummy",
+	"elcdif_pll",
+};
+
+static const char * const pi_pll0_sels[] = {
+	"clk_dummy",
+	"pi_dpll_clk",
+	"clk_dummy",
+	"clk_dummy",
+	"clk_dummy",
+};
+
+static inline bool clk_on_imx8dxl(struct device_node *node)
+{
+	return of_device_is_compatible(node, "fsl,imx8dxl-clk") != 0;
+}
+
+static int imx8qxp_clk_probe(struct platform_device *pdev)
+{
+	struct device_node *ccm_node = pdev->dev.of_node;
+	const struct imx_clk_scu_rsrc_table *rsrc_table;
+	int ret;
+
+	rsrc_table = of_device_get_match_data(&pdev->dev);
+	ret = imx_clk_scu_init(ccm_node, rsrc_table);
+	if (ret)
+		return ret;
+
+	/* ARM core */
+	imx_clk_scu("a35_clk", IMX_SC_R_A35, IMX_SC_PM_CLK_CPU);
+	imx_clk_scu("a53_clk", IMX_SC_R_A53, IMX_SC_PM_CLK_CPU);
+	imx_clk_scu("a72_clk", IMX_SC_R_A72, IMX_SC_PM_CLK_CPU);
+
+	/* LSIO SS */
+	imx_clk_scu("pwm0_clk", IMX_SC_R_PWM_0, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("pwm1_clk", IMX_SC_R_PWM_1, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("pwm2_clk", IMX_SC_R_PWM_2, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("pwm3_clk", IMX_SC_R_PWM_3, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("pwm4_clk", IMX_SC_R_PWM_4, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("pwm5_clk", IMX_SC_R_PWM_5, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("pwm6_clk", IMX_SC_R_PWM_6, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("pwm7_clk", IMX_SC_R_PWM_7, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("gpt1_clk", IMX_SC_R_GPT_1, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("gpt2_clk", IMX_SC_R_GPT_2, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("gpt3_clk", IMX_SC_R_GPT_3, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("gpt4_clk", IMX_SC_R_GPT_4, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("fspi0_clk", IMX_SC_R_FSPI_0, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("fspi1_clk", IMX_SC_R_FSPI_1, IMX_SC_PM_CLK_PER);
+
+	/* DMA SS */
+	imx_clk_scu("uart0_clk", IMX_SC_R_UART_0, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("uart1_clk", IMX_SC_R_UART_1, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("uart2_clk", IMX_SC_R_UART_2, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("uart3_clk", IMX_SC_R_UART_3, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("uart4_clk", IMX_SC_R_UART_4, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("sim0_clk",  IMX_SC_R_EMVSIM_0, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("spi0_clk",  IMX_SC_R_SPI_0, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("spi1_clk",  IMX_SC_R_SPI_1, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("spi2_clk",  IMX_SC_R_SPI_2, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("spi3_clk",  IMX_SC_R_SPI_3, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("can0_clk",  IMX_SC_R_CAN_0, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("can1_clk",  IMX_SC_R_CAN_1, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("can2_clk",  IMX_SC_R_CAN_2, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("i2c0_clk",  IMX_SC_R_I2C_0, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("i2c1_clk",  IMX_SC_R_I2C_1, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("i2c2_clk",  IMX_SC_R_I2C_2, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("i2c3_clk",  IMX_SC_R_I2C_3, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("i2c4_clk",  IMX_SC_R_I2C_4, IMX_SC_PM_CLK_PER);
+	imx_cl
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-28 16:17:33,774 [INFO]   Resolved drivers/clk/imx/clk-imx8qxp.c hunk 1: confidence=9/10 — NXP vendor used the old LVDS bypass clock name "lvds1_bypass_clk" while mainline stable changes it t
+2026-04-28 16:17:33,774 [DEBUG] Applied resolution to drivers/clk/imx/clk-imx8qxp.c hunk 1
+2026-04-28 16:17:33,774 [INFO] Resolving drivers/clk/imx/clk-imx8qxp.c hunk 3...
+2026-04-28 16:17:33,800 [DEBUG] Prompt for drivers/clk/imx/clk-imx8qxp.c hunk 2:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/clk/imx/clk-imx8qxp.c
+
+We are merging mainline stable v6.1.77 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.76..v6.1.77):
+aade0a07609b clk: imx: clk-imx8qxp: fix LVDS bypass, pixel and phy clocks
+
+Context BEFORE the conflict:
+```
+scu("audio_rec_clk0_clk", IMX_SC_R_AUDIO_PLL_0, IMX_SC_PM_CLK_MISC1);
+	imx_clk_scu("audio_rec_clk1_clk", IMX_SC_R_AUDIO_PLL_1, IMX_SC_PM_CLK_MISC1);
+
+	/* Connectivity */
+	imx_clk_scu("sdhc0_clk", IMX_SC_R_SDHC_0, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("sdhc1_clk", IMX_SC_R_SDHC_1, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("sdhc2_clk", IMX_SC_R_SDHC_2, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("enet0_root_clk", IMX_SC_R_ENET_0, IMX_SC_PM_CLK_PER);
+	imx_clk_divider_gpr_scu("enet0_ref_div", "enet0_root_clk", IMX_SC_R_ENET_0, IMX_SC_C_CLKDIV);
+	imx_clk_mux_gpr_scu("enet0_rgmii_txc_sel", enet0_rgmii_txc_sels, ARRAY_SIZE(enet0_rgmii_txc_sels), IMX_SC_R_ENET_0, IMX_SC_C_TXCLK);
+	imx_clk_scu("enet0_bypass_clk", IMX_SC_R_ENET_0, IMX_SC_PM_CLK_BYPASS);
+	imx_clk_gate_gpr_scu("enet0_ref_50_clk", "clk_dummy", IMX_SC_R_ENET_0, IMX_SC_C_DISABLE_50, true);
+	if (!clk_on_imx8dxl(ccm_node)) {
+		imx_clk_scu("enet0_rgmii_rx_clk", IMX_SC_R_ENET_0, IMX_SC_PM_CLK_MISC0);
+		imx_clk_scu("enet1_rgmii_rx_clk", IMX_SC_R_ENET_1, IMX_SC_PM_CLK_MISC0);
+	}
+	imx_clk_scu("enet1_root_clk", IMX_SC_R_ENET_1, IMX_SC_PM_CLK_PER);
+	imx_clk_divider_gpr_scu("enet1_ref_div", "enet1_root_clk", IMX_SC_R_ENET_1, IMX_SC_C_CLKDIV);
+	imx_clk_mux_gpr_scu("enet1_rgmii_txc_sel", enet1_rgmii_txc_sels, ARRAY_SIZE(enet1_rgmii_txc_sels), IMX_SC_R_ENET_1, IMX_SC_C_TXCLK);
+	imx_clk_scu("enet1_bypass_clk", IMX_SC_R_ENET_1, IMX_SC_PM_CLK_BYPASS);
+	imx_clk_gate_gpr_scu("enet1_ref_50_clk", "clk_dummy", IMX_SC_R_ENET_1, IMX_SC_C_DISABLE_50, true);
+	imx_clk_scu("gpmi_io_clk", IMX_SC_R_NAND, IMX_SC_PM_CLK_MST_BUS);
+	imx_clk_scu("gpmi_bch_clk", IMX_SC_R_NAND, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("usb3_aclk_div", IMX_SC_R_USB_2, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("usb3_bus_div", IMX_SC_R_USB_2, IMX_SC_PM_CLK_MST_BUS);
+	imx_clk_scu("usb3_lpm_div", IMX_SC_R_USB_2, IMX_SC_PM_CLK_MISC);
+
+	/* Display controller SS */
+	imx_clk_scu2("dc0_disp0_clk", dc0_sels, ARRAY_SIZE(dc0_sels), IMX_SC_R_DC_0, IMX_SC_PM_CLK_MISC0);
+	imx_clk_scu2("dc0_disp1_clk", dc0_sels, ARRAY_SIZE(dc0_sels), IMX_SC_R_DC_0, IMX_SC_PM_CLK_MISC1);
+	imx_clk_scu("dc0_pll0_clk", IMX_SC_R_DC_0_PLL_0, IMX_SC_PM_CLK_PLL);
+	imx_clk_scu("dc0_pll1_clk", IMX_SC_R_DC_0_PLL_1, IMX_SC_PM_CLK_PLL);
+	imx_clk_scu("dc0_bypass0_clk", IMX_SC_R_DC_0_VIDEO0, IMX_SC_PM_CLK_BYPASS);
+	imx_clk_scu("dc0_bypass1_clk", IMX_SC_R_DC_0_VIDEO1, IMX_SC_PM_CLK_BYPASS);
+
+	imx_clk_scu2("dc1_disp0_clk", dc1_sels, ARRAY_SIZE(dc1_sels), IMX_SC_R_DC_1, IMX_SC_PM_CLK_MISC0);
+	imx_clk_scu2("dc1_disp1_clk", dc1_sels, ARRAY_SIZE(dc1_sels), IMX_SC_R_DC_1, IMX_SC_PM_CLK_MISC1);
+	imx_clk_scu("dc1_pll0_clk", IMX_SC_R_DC_1_PLL_0, IMX_SC_PM_CLK_PLL);
+	imx_clk_scu("dc1_pll1_clk", IMX_SC_R_DC_1_PLL_1, IMX_SC_PM_CLK_PLL);
+	imx_clk_scu("dc1_bypass0_clk", IMX_SC_R_DC_1_VIDEO0, IMX_SC_PM_CLK_BYPASS);
+	imx_clk_scu("dc1_bypass1_clk", IMX_SC_R_DC_1_VIDEO1, IMX_SC_PM_CLK_BYPASS);
+
+	/* MIPI-LVDS SS */
+	imx_clk_scu("mipi0_bypass_clk", IMX_SC_R_MIPI_0, IMX_SC_PM_CLK_BYPASS);
+	imx_clk_scu("mipi0_pixel_clk", IMX_SC_R_MIPI_0, IMX_SC_PM_CLK_PER);
+
+```
+
+CONFLICT (hunk 3):
+OUR side (NXP vendor kernel):
+```
+	imx_clk_scu("lvds0_bypass_clk", IMX_SC_R_LVDS_0, IMX_SC_PM_CLK_BYPASS);
+	imx_clk_scu2("lvds0_pixel_clk", lvds0_sels, ARRAY_SIZE(lvds0_sels), IMX_SC_R_LVDS_0, IMX_SC_PM_CLK_MISC2);
+	imx_clk_scu2("lvds0_phy_clk", lvds0_sels, ARRAY_SIZE(lvds0_sels), IMX_SC_R_LVDS_0, IMX_SC_PM_CLK_MISC3);
+
+```
+
+THEIR side (mainline stable):
+```
+	imx_clk_scu("mipi0_lvds_bypass_clk", IMX_SC_R_LVDS_0, IMX_SC_PM_CLK_BYPASS);
+	imx_clk_scu2("mipi0_lvds_pixel_clk", lvds0_sels, ARRAY_SIZE(lvds0_sels), IMX_SC_R_LVDS_0, IMX_SC_PM_CLK_MISC2);
+	imx_clk_scu2("mipi0_lvds_phy_clk", lvds0_sels, ARRAY_SIZE(lvds0_sels), IMX_SC_R_LVDS_0, IMX_SC_PM_CLK_MISC3);
+
+```
+
+Context AFTER the conflict:
+```
+	imx_clk_scu2("mipi0_dsi_tx_esc_clk", mipi_sels, ARRAY_SIZE(mipi_sels), IMX_SC_R_MIPI_0, IMX_SC_PM_CLK_MST_BUS);
+	imx_clk_scu2("mipi0_dsi_rx_esc_clk", mipi_sels, ARRAY_SIZE(mipi_sels), IMX_SC_R_MIPI_0, IMX_SC_PM_CLK_SLV_BUS);
+	imx_clk_scu2("mipi0_dsi_phy_clk", mipi_sels, ARRAY_SIZE(mipi_sels), IMX_SC_R_MIPI_0, IMX_SC_PM_CLK_PHY);
+	imx_clk_scu("mipi0_i2c0_clk", IMX_SC_R_MIPI_0_I2C_0, IMX_SC_PM_CLK_MISC2);
+	imx_clk_scu("mipi0_i2c1_clk", IMX_SC_R_MIPI_0_I2C_1, IMX_SC_PM_CLK_MISC2);
+	imx_clk_scu("mipi0_pwm0_clk", IMX_SC_R_MIPI_0_PWM_0, IMX_SC_PM_CLK_PER);
+
+	imx_clk_scu("mipi1_bypass_clk", IMX_SC_R_MIPI_1, IMX_SC_PM_CLK_BYPASS);
+	imx_clk_scu("mipi1_pixel_clk", IMX_SC_R_MIPI_1, IMX_SC_PM_CLK_PER);
+<<<<<<< HEAD
+	imx_clk_scu("lvds1_bypass_clk", IMX_SC_R_LVDS_1, IMX_SC_PM_CLK_BYPASS);
+	imx_clk_scu2("lvds1_pixel_clk", lvds1_sels, ARRAY_SIZE(lvds1_sels), IMX_SC_R_LVDS_1, IMX_SC_PM_CLK_MISC2);
+	imx_clk_scu2("lvds1_phy_clk", lvds1_sels, ARRAY_SIZE(lvds1_sels), IMX_SC_R_LVDS_1, IMX_SC_PM_CLK_MISC3);
+=======
+	imx_clk_scu("mipi1_lvds_bypass_clk", IMX_SC_R_LVDS_1, IMX_SC_PM_CLK_BYPASS);
+	imx_clk_scu2("mipi1_lvds_pixel_clk", lvds1_sels, ARRAY_SIZE(lvds1_sels), IMX_SC_R_LVDS_1, IMX_SC_PM_CLK_MISC2);
+	imx_clk_scu2("mipi1_lvds_phy_clk", lvds1_sels, ARRAY_SIZE(lvds1_sels), IMX_SC_R_LVDS_1, IMX_SC_PM_CLK_MISC3);
+
+>>>>>>> v6.1.77
+	imx_clk_scu2("mipi1_dsi_tx_esc_clk", mipi_sels, ARRAY_SIZE(mipi_sels), IMX_SC_R_MIPI_1, IMX_SC_PM_CLK_MST_BUS);
+	imx_clk_scu2("mipi1_dsi_rx_esc_clk", mipi_sels, ARRAY_SIZE(mipi_sels), IMX_SC_R_MIPI_1, IMX_SC_PM_CLK_SLV_BUS);
+	imx_clk_scu2("mipi1_dsi_phy_clk", mipi_sels, ARRAY_SIZE(mipi_sels), IMX_SC_R_MIPI_1, IMX_SC_PM_CLK_PHY);
+	imx_clk_scu("mipi1_i2c0_clk", IMX_SC_R_MIPI_1_I2C_0, IMX_SC_PM_CLK_MISC2);
+	imx_clk_scu("mipi1_i2c1_clk", IMX_SC_R_MIPI_1_I2C_1, IMX_SC_PM_CLK_MISC2);
+	imx_clk_scu("mipi1_pwm0_clk", IMX_SC_R_MIPI_1_PWM_0, IMX_SC_PM_CLK_PER);
+
+	imx_clk_scu("lvds0_i2c0_clk", IMX_SC_R_LVDS_0_I2C_0, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("lvds0_i2c1_clk", IMX_SC_R_LVDS_0_I2C_1, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("lvds0_pwm0_clk", IMX_SC_R_LVDS_0_PWM_0, IMX_SC_PM_CLK_PER);
+
+	imx_clk_scu("lvds1_i2c0_clk", IMX_SC_R_LVDS_1_I2C_0, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("lvds1_i2c1_clk", IMX_SC_R_LVDS_1_I2C_1, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("lvds1_pwm0_clk", IMX_SC_R_LVDS_1_PWM_0, IMX_SC_PM_CLK_PER);
+
+	/* MIPI CSI SS */
+	imx_clk_scu("mipi_csi0_core_clk", IMX_SC_R_CSI_0, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("mipi_csi0_esc_clk",  IMX_SC_R_CSI_0, IMX_SC_PM_CLK_MISC);
+	imx_clk_scu("mipi_csi0_i2c0_clk", IMX_SC_R_CSI_0_I2C_0, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("mipi_csi0_pwm0_clk", IMX_SC_R_CSI_0_PWM_0, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("mipi_csi1_core_clk", IMX_SC_R_CSI_1, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("mipi_csi1_esc_clk",  IMX_SC_R_CSI_1, IMX_SC_PM_CLK_MISC);
+	imx_clk_scu("mipi_csi1_i2c0_clk", IMX_SC_R_CSI_1_I2C_0, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("mipi_csi1_pwm0_clk", IMX_SC_R_CSI_1_PWM_0, IMX_SC_PM_CLK_PER);
+
+	/* Parallel Interface SS */
+	imx_clk_scu("pi_dpll_cl
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-28 16:18:19,724 [INFO]   Resolved drivers/clk/imx/clk-imx8qxp.c hunk 2: confidence=8/10 — Both sides register the same LVDS0 bypass, pixel, and phy clocks with the same SCU resources and clo
+2026-04-28 16:18:19,724 [DEBUG] Applied resolution to drivers/clk/imx/clk-imx8qxp.c hunk 2
+2026-04-28 16:18:19,724 [INFO] Resolving drivers/clk/imx/clk-imx8qxp.c hunk 4...
+2026-04-28 16:18:19,750 [DEBUG] Prompt for drivers/clk/imx/clk-imx8qxp.c hunk 3:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/clk/imx/clk-imx8qxp.c
+
+We are merging mainline stable v6.1.77 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.76..v6.1.77):
+aade0a07609b clk: imx: clk-imx8qxp: fix LVDS bypass, pixel and phy clocks
+
+Context BEFORE the conflict:
+```
+enet1_bypass_clk", IMX_SC_R_ENET_1, IMX_SC_PM_CLK_BYPASS);
+	imx_clk_gate_gpr_scu("enet1_ref_50_clk", "clk_dummy", IMX_SC_R_ENET_1, IMX_SC_C_DISABLE_50, true);
+	imx_clk_scu("gpmi_io_clk", IMX_SC_R_NAND, IMX_SC_PM_CLK_MST_BUS);
+	imx_clk_scu("gpmi_bch_clk", IMX_SC_R_NAND, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("usb3_aclk_div", IMX_SC_R_USB_2, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("usb3_bus_div", IMX_SC_R_USB_2, IMX_SC_PM_CLK_MST_BUS);
+	imx_clk_scu("usb3_lpm_div", IMX_SC_R_USB_2, IMX_SC_PM_CLK_MISC);
+
+	/* Display controller SS */
+	imx_clk_scu2("dc0_disp0_clk", dc0_sels, ARRAY_SIZE(dc0_sels), IMX_SC_R_DC_0, IMX_SC_PM_CLK_MISC0);
+	imx_clk_scu2("dc0_disp1_clk", dc0_sels, ARRAY_SIZE(dc0_sels), IMX_SC_R_DC_0, IMX_SC_PM_CLK_MISC1);
+	imx_clk_scu("dc0_pll0_clk", IMX_SC_R_DC_0_PLL_0, IMX_SC_PM_CLK_PLL);
+	imx_clk_scu("dc0_pll1_clk", IMX_SC_R_DC_0_PLL_1, IMX_SC_PM_CLK_PLL);
+	imx_clk_scu("dc0_bypass0_clk", IMX_SC_R_DC_0_VIDEO0, IMX_SC_PM_CLK_BYPASS);
+	imx_clk_scu("dc0_bypass1_clk", IMX_SC_R_DC_0_VIDEO1, IMX_SC_PM_CLK_BYPASS);
+
+	imx_clk_scu2("dc1_disp0_clk", dc1_sels, ARRAY_SIZE(dc1_sels), IMX_SC_R_DC_1, IMX_SC_PM_CLK_MISC0);
+	imx_clk_scu2("dc1_disp1_clk", dc1_sels, ARRAY_SIZE(dc1_sels), IMX_SC_R_DC_1, IMX_SC_PM_CLK_MISC1);
+	imx_clk_scu("dc1_pll0_clk", IMX_SC_R_DC_1_PLL_0, IMX_SC_PM_CLK_PLL);
+	imx_clk_scu("dc1_pll1_clk", IMX_SC_R_DC_1_PLL_1, IMX_SC_PM_CLK_PLL);
+	imx_clk_scu("dc1_bypass0_clk", IMX_SC_R_DC_1_VIDEO0, IMX_SC_PM_CLK_BYPASS);
+	imx_clk_scu("dc1_bypass1_clk", IMX_SC_R_DC_1_VIDEO1, IMX_SC_PM_CLK_BYPASS);
+
+	/* MIPI-LVDS SS */
+	imx_clk_scu("mipi0_bypass_clk", IMX_SC_R_MIPI_0, IMX_SC_PM_CLK_BYPASS);
+	imx_clk_scu("mipi0_pixel_clk", IMX_SC_R_MIPI_0, IMX_SC_PM_CLK_PER);
+<<<<<<< HEAD
+	imx_clk_scu("lvds0_bypass_clk", IMX_SC_R_LVDS_0, IMX_SC_PM_CLK_BYPASS);
+	imx_clk_scu2("lvds0_pixel_clk", lvds0_sels, ARRAY_SIZE(lvds0_sels), IMX_SC_R_LVDS_0, IMX_SC_PM_CLK_MISC2);
+	imx_clk_scu2("lvds0_phy_clk", lvds0_sels, ARRAY_SIZE(lvds0_sels), IMX_SC_R_LVDS_0, IMX_SC_PM_CLK_MISC3);
+=======
+	imx_clk_scu("mipi0_lvds_bypass_clk", IMX_SC_R_LVDS_0, IMX_SC_PM_CLK_BYPASS);
+	imx_clk_scu2("mipi0_lvds_pixel_clk", lvds0_sels, ARRAY_SIZE(lvds0_sels), IMX_SC_R_LVDS_0, IMX_SC_PM_CLK_MISC2);
+	imx_clk_scu2("mipi0_lvds_phy_clk", lvds0_sels, ARRAY_SIZE(lvds0_sels), IMX_SC_R_LVDS_0, IMX_SC_PM_CLK_MISC3);
+>>>>>>> v6.1.77
+	imx_clk_scu2("mipi0_dsi_tx_esc_clk", mipi_sels, ARRAY_SIZE(mipi_sels), IMX_SC_R_MIPI_0, IMX_SC_PM_CLK_MST_BUS);
+	imx_clk_scu2("mipi0_dsi_rx_esc_clk", mipi_sels, ARRAY_SIZE(mipi_sels), IMX_SC_R_MIPI_0, IMX_SC_PM_CLK_SLV_BUS);
+	imx_clk_scu2("mipi0_dsi_phy_clk", mipi_sels, ARRAY_SIZE(mipi_sels), IMX_SC_R_MIPI_0, IMX_SC_PM_CLK_PHY);
+	imx_clk_scu("mipi0_i2c0_clk", IMX_SC_R_MIPI_0_I2C_0, IMX_SC_PM_CLK_MISC2);
+	imx_clk_scu("mipi0_i2c1_clk", IMX_SC_R_MIPI_0_I2C_1, IMX_SC_PM_CLK_MISC2);
+	imx_clk_scu("mipi0_pwm0_clk", IMX_SC_R_MIPI_0_PWM_0, IMX_SC_PM_CLK_PER);
+
+	imx_clk_scu("mipi1_bypass_clk", IMX_SC_R_MIPI_1, IMX_SC_PM_CLK_BYPASS);
+	imx_clk_scu("mipi1_pixel_clk", IMX_SC_R_MIPI_1, IMX_SC_PM_CLK_PER);
+
+```
+
+CONFLICT (hunk 4):
+OUR side (NXP vendor kernel):
+```
+	imx_clk_scu("lvds1_bypass_clk", IMX_SC_R_LVDS_1, IMX_SC_PM_CLK_BYPASS);
+	imx_clk_scu2("lvds1_pixel_clk", lvds1_sels, ARRAY_SIZE(lvds1_sels), IMX_SC_R_LVDS_1, IMX_SC_PM_CLK_MISC2);
+	imx_clk_scu2("lvds1_phy_clk", lvds1_sels, ARRAY_SIZE(lvds1_sels), IMX_SC_R_LVDS_1, IMX_SC_PM_CLK_MISC3);
+
+```
+
+THEIR side (mainline stable):
+```
+	imx_clk_scu("mipi1_lvds_bypass_clk", IMX_SC_R_LVDS_1, IMX_SC_PM_CLK_BYPASS);
+	imx_clk_scu2("mipi1_lvds_pixel_clk", lvds1_sels, ARRAY_SIZE(lvds1_sels), IMX_SC_R_LVDS_1, IMX_SC_PM_CLK_MISC2);
+	imx_clk_scu2("mipi1_lvds_phy_clk", lvds1_sels, ARRAY_SIZE(lvds1_sels), IMX_SC_R_LVDS_1, IMX_SC_PM_CLK_MISC3);
+
+
+```
+
+Context AFTER the conflict:
+```
+	imx_clk_scu2("mipi1_dsi_tx_esc_clk", mipi_sels, ARRAY_SIZE(mipi_sels), IMX_SC_R_MIPI_1, IMX_SC_PM_CLK_MST_BUS);
+	imx_clk_scu2("mipi1_dsi_rx_esc_clk", mipi_sels, ARRAY_SIZE(mipi_sels), IMX_SC_R_MIPI_1, IMX_SC_PM_CLK_SLV_BUS);
+	imx_clk_scu2("mipi1_dsi_phy_clk", mipi_sels, ARRAY_SIZE(mipi_sels), IMX_SC_R_MIPI_1, IMX_SC_PM_CLK_PHY);
+	imx_clk_scu("mipi1_i2c0_clk", IMX_SC_R_MIPI_1_I2C_0, IMX_SC_PM_CLK_MISC2);
+	imx_clk_scu("mipi1_i2c1_clk", IMX_SC_R_MIPI_1_I2C_1, IMX_SC_PM_CLK_MISC2);
+	imx_clk_scu("mipi1_pwm0_clk", IMX_SC_R_MIPI_1_PWM_0, IMX_SC_PM_CLK_PER);
+
+	imx_clk_scu("lvds0_i2c0_clk", IMX_SC_R_LVDS_0_I2C_0, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("lvds0_i2c1_clk", IMX_SC_R_LVDS_0_I2C_1, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("lvds0_pwm0_clk", IMX_SC_R_LVDS_0_PWM_0, IMX_SC_PM_CLK_PER);
+
+	imx_clk_scu("lvds1_i2c0_clk", IMX_SC_R_LVDS_1_I2C_0, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("lvds1_i2c1_clk", IMX_SC_R_LVDS_1_I2C_1, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("lvds1_pwm0_clk", IMX_SC_R_LVDS_1_PWM_0, IMX_SC_PM_CLK_PER);
+
+	/* MIPI CSI SS */
+	imx_clk_scu("mipi_csi0_core_clk", IMX_SC_R_CSI_0, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("mipi_csi0_esc_clk",  IMX_SC_R_CSI_0, IMX_SC_PM_CLK_MISC);
+	imx_clk_scu("mipi_csi0_i2c0_clk", IMX_SC_R_CSI_0_I2C_0, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("mipi_csi0_pwm0_clk", IMX_SC_R_CSI_0_PWM_0, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("mipi_csi1_core_clk", IMX_SC_R_CSI_1, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("mipi_csi1_esc_clk",  IMX_SC_R_CSI_1, IMX_SC_PM_CLK_MISC);
+	imx_clk_scu("mipi_csi1_i2c0_clk", IMX_SC_R_CSI_1_I2C_0, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("mipi_csi1_pwm0_clk", IMX_SC_R_CSI_1_PWM_0, IMX_SC_PM_CLK_PER);
+
+	/* Parallel Interface SS */
+	imx_clk_scu("pi_dpll_clk", IMX_SC_R_PI_0_PLL, IMX_SC_PM_CLK_PLL);
+	imx_clk_scu2("pi_per_div_clk", pi_pll0_sels, ARRAY_SIZE(pi_pll0_sels), IMX_SC_R_PI_0, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("pi_mclk_div_clk", IMX_SC_R_PI_0, IMX_SC_PM_CLK_MISC0);
+	imx_clk_scu("pi_i2c0_div_clk", IMX_SC_R_PI_0_I2C_0, IMX_SC_PM_CLK_PER);
+
+	/* GPU SS */
+	imx_clk_scu("gpu_core0_clk",	 IMX_SC_R_GPU_0_PID0, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("gpu_shader0_clk", IMX_SC_R_GPU_0_PID0, IMX_SC_PM_CLK_MISC);
+
+	imx_clk_scu("gpu_core1_clk",	 IMX_SC_R_GPU_1_PID0, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("gpu_shader1_clk", IMX_SC_R_GPU_1_PID0, IMX_SC_PM_CLK_MISC);
+
+	 /* CM40 SS */
+	imx_clk_scu("cm40_i2c_div", IMX_SC_R_M4_0_I2C, IMX_SC_PM_CLK_PER);
+	imx_clk_scu("cm40_lpuart_div", IMX_SC_R_M4_0_UART, IMX_SC_PM_CLK_PER);
+
+	 /* CM41 SS */
+	imx_clk_scu("cm41_i2c_div", IMX_SC_R_M4_1_I2C, IMX_SC_PM_CLK_PER);
+
+	/* HDMI TX SS */
+	imx_clk_scu("hdmi_dig_pll_clk",  IMX_SC_R_HDMI_PLL_0, IMX_SC_PM_CLK_PLL);
+	imx_clk_scu("hdmi_av_pll_clk", IMX_SC_R_HDMI_PLL_1, IMX_SC_PM_CLK_PLL);
+	imx_clk_scu2("hdmi_pixel_mux_clk", hdmi_sels, ARRAY_SIZE(hdmi_sels), IMX_SC_R_HDMI, IMX_SC_PM_CLK_MISC0);
+	imx_clk_scu2("hdmi_pixel_link_clk", hdmi_sels, ARRAY_SIZE(hdmi_sels), IMX_SC_R_HDMI, IMX_SC_PM_CLK_MISC1);
+	imx_clk_scu("hdmi_ipg_clk", IMX_SC_R_HDMI, IMX_SC_PM_CLK_MISC4);
+	imx_clk_scu("hdmi_i2c0_clk", IMX_SC_R
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-28 16:19:55,766 [INFO]   Resolved drivers/clk/imx/clk-imx8qxp.c hunk 3: confidence=7/10 — NXP kept the existing lvds1_* clock names, while stable renamed the same LVDS_1 bypass/pixel/phy clo
+2026-04-28 16:19:55,766 [DEBUG] Applied resolution to drivers/clk/imx/clk-imx8qxp.c hunk 3
+2026-04-28 16:19:55,767 [INFO] Resolving drivers/scsi/scsi_error.c hunk 1...
+2026-04-28 16:19:55,794 [DEBUG] Prompt for drivers/scsi/scsi_error.c hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/scsi/scsi_error.c
+
+We are merging mainline stable v6.1.77 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.76..v6.1.77):
+db6338f45971 scsi: core: Move scsi_host_busy() out of host lock for waking up EH handler
+
+Context BEFORE the conflict:
+```
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ *  scsi_error.c Copyright (C) 1997 Eric Youngdale
+ *
+ *  SCSI error/timeout handling
+ *      Initial versions: Eric Youngdale.  Based upon conversations with
+ *                        Leonard Zubkoff and David Miller at Linux Expo,
+ *                        ideas originating from all over the place.
+ *
+ *	Restructured scsi_unjam_host and associated functions.
+ *	September 04, 2002 Mike Anderson (andmike@us.ibm.com)
+ *
+ *	Forward port of Russell King's (rmk@arm.linux.org.uk) changes and
+ *	minor cleanups.
+ *	September 30, 2002 Mike Anderson (andmike@us.ibm.com)
+ */
+
+#include <linux/module.h>
+#include <linux/sched.h>
+#include <linux/gfp.h>
+#include <linux/timer.h>
+#include <linux/string.h>
+#include <linux/kernel.h>
+#include <linux/freezer.h>
+#include <linux/kthread.h>
+#include <linux/interrupt.h>
+#include <linux/blkdev.h>
+#include <linux/delay.h>
+#include <linux/jiffies.h>
+
+#include <scsi/scsi.h>
+#include <scsi/scsi_cmnd.h>
+#include <scsi/scsi_dbg.h>
+#include <scsi/scsi_device.h>
+#include <scsi/scsi_driver.h>
+#include <scsi/scsi_eh.h>
+#include <scsi/scsi_common.h>
+#include <scsi/scsi_transport.h>
+#include <scsi/scsi_host.h>
+#include <scsi/scsi_ioctl.h>
+#include <scsi/scsi_dh.h>
+#include <scsi/scsi_devinfo.h>
+#include <scsi/sg.h>
+
+#include "scsi_priv.h"
+#include "scsi_logging.h"
+#include "scsi_transport_api.h"
+
+#include <trace/events/scsi.h>
+
+#include <asm/unaligned.h>
+
+/*
+ * These should *probably* be handled by the host itself.
+ * Since it is allowed to sleep, it probably should.
+ */
+#define BUS_RESET_SETTLE_TIME   (10)
+#define HOST_RESET_SETTLE_TIME  (10)
+
+static int scsi_eh_try_stu(struct scsi_cmnd *scmd);
+static enum scsi_disposition scsi_try_to_abort_cmd(struct scsi_host_template *,
+						   struct scsi_cmnd *);
+
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+#ifdef CONFIG_AHCI_IMX
+extern void *sg_io_buffer_hack;
+#else
+#define sg_io_buffer_hack NULL
+#endif
+
+/* called with shost->host_lock held */
+void scsi_eh_wakeup(struct Scsi_Host *shost)
+
+```
+
+THEIR side (mainline stable):
+```
+void scsi_eh_wakeup(struct Scsi_Host *shost, unsigned int busy)
+
+```
+
+Context AFTER the conflict:
+```
+{
+	lockdep_assert_held(shost->host_lock);
+
+	if (busy == shost->host_failed) {
+		trace_scsi_eh_wakeup(shost);
+		wake_up_process(shost->ehandler);
+		SCSI_LOG_ERROR_RECOVERY(5, shost_printk(KERN_INFO, shost,
+			"Waking error handler thread\n"));
+	} else if ((shost->host_failed > 0) || (sg_io_buffer_hack != NULL)) {
+		trace_scsi_eh_wakeup(shost);
+		wake_up_process(shost->ehandler);
+		SCSI_LOG_ERROR_RECOVERY(5, shost_printk(KERN_INFO, shost,
+			"Waking error handler thread\n"));
+	}
+}
+
+/**
+ * scsi_schedule_eh - schedule EH for SCSI host
+ * @shost:	SCSI host to invoke error handling on.
+ *
+ * Schedule SCSI EH without scmd.
+ */
+void scsi_schedule_eh(struct Scsi_Host *shost)
+{
+	unsigned long flags;
+
+	spin_lock_irqsave(shost->host_lock, flags);
+
+	if (scsi_host_set_state(shost, SHOST_RECOVERY) == 0 ||
+	    scsi_host_set_state(shost, SHOST_CANCEL_RECOVERY) == 0) {
+		shost->host_eh_scheduled++;
+		scsi_eh_wakeup(shost, scsi_host_busy(shost));
+	}
+
+	spin_unlock_irqrestore(shost->host_lock, flags);
+}
+EXPORT_SYMBOL_GPL(scsi_schedule_eh);
+
+static int scsi_host_eh_past_deadline(struct Scsi_Host *shost)
+{
+	if (!shost->last_reset || shost->eh_deadline == -1)
+		return 0;
+
+	/*
+	 * 32bit accesses are guaranteed to be atomic
+	 * (on all supported architectures), so instead
+	 * of using a spinlock we can as well double check
+	 * if eh_deadline has been set to 'off' during the
+	 * time_before call.
+	 */
+	if (time_before(jiffies, shost->last_reset + shost->eh_deadline) &&
+	    shost->eh_deadline > -1)
+		return 0;
+
+	return 1;
+}
+
+static bool scsi_cmd_retry_allowed(struct scsi_cmnd *cmd)
+{
+	if (cmd->allowed == SCSI_CMD_RETRIES_NO_LIMIT)
+		return true;
+
+	return ++cmd->retries <= cmd->allowed;
+}
+
+static bool scsi_eh_should_retry_cmd(struct scsi_cmnd *cmd)
+{
+	struct scsi_device *sdev = cmd->device;
+	struct Scsi_Host *host = sdev->host;
+
+	if (host->hostt->eh_should_retry_cmd)
+		return  host->hostt->eh_should_retry_cmd(cmd);
+
+	return true;
+}
+
+/**
+ * scmd_eh_abort_handler - Handle command aborts
+ * @work:	command to be aborted.
+ *
+ * Note: this function must be called only for a command that has timed out.
+ * Because the block layer marks a request as complete before it calls
+ * scsi_timeout(), a .scsi_done() call from the LLD for a command that has
+ * timed out do not have any effect. Hence it is safe to call
+ * scsi_finish_command() from this function.
+ */
+void
+scmd_eh_abort_handler(struct work_struct *work)
+{
+	struct scsi_cmnd *scmd =
+		container_of(work, struct scsi_cmnd, abort_work.work);
+	struct scsi_device *sdev = scmd->device;
+	struct Scsi_Host *shost = sdev->host;
+	enum scsi_disposition rtn;
+	unsigned long flags;
+
+	if (scsi_host_eh_past_deadline(shost)) {
+		SCSI_LOG_ERROR_RECOVERY(3,
+			scmd_printk(KERN_INFO, scmd,
+				    "eh timeout, not aborting\n"));
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-28 16:20:07,964 [INFO]   Resolved drivers/scsi/scsi_error.c hunk 0: confidence=9/10 — NXP added the CONFIG_AHCI_IMX sg_io_buffer_hack declaration/NULL fallback and retained a comment doc
+2026-04-28 16:20:07,965 [DEBUG] Applied resolution to drivers/scsi/scsi_error.c hunk 0
+2026-04-28 16:20:08,461 [INFO] All conflicts resolved. Confidence: min=7, avg=8.2
+2026-04-28 16:20:08,462 [INFO] Building kernel (compile test)...
+2026-04-28 16:25:06,742 [ERROR] Build failed:
+  290 |         bool is_consumer_mode[2];
+      |              ^~~~~~~~~~~~~~~~
+sound/soc/fsl/fsl_sai.c:711:13: warning: the comparison will always evaluate as ‘true’ for the address of ‘is_consumer_mode’ will never be NULL [-Waddress]
+  711 |             !sai->is_consumer_mode)
+      |             ^
+sound/soc/fsl/fsl_sai.h:290:14: note: ‘is_consumer_mode’ declared here
+  290 |         bool is_consumer_mode[2];
+      |              ^~~~~~~~~~~~~~~~
+drivers/clk/imx/clk-imx8qxp.c:85:9: error: expected identifier or ‘(’ before string constant
+   85 |         "clk_dummy",
+      |         ^~~~~~~~~~~
+make[4]: *** [scripts/Makefile.build:250: drivers/clk/imx/clk-imx8qxp.o] Error 1
+make[3]: *** [scripts/Makefile.build:500: drivers/clk/imx] Error 2
+make[2]: *** [scripts/Makefile.build:500: drivers/clk] Error 2
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [scripts/Makefile.build:500: drivers] Error 2
+make[1]: *** Waiting for unfinished jobs....
+make: *** [Makefile:2014: .] Error 2
+
+2026-04-28 16:25:06,742 [DEBUG] Build stdout (last 2000 chars):
+ fs/btrfs/export.o
+  CC      fs/nfs/callback_proc.o
+  CC [M]  fs/btrfs/tree-log.o
+  CC [M]  fs/btrfs/free-space-cache.o
+  CC [M]  fs/btrfs/zlib.o
+  CC      fs/nfs/nfs4namespace.o
+  CC [M]  fs/btrfs/lzo.o
+  CC      fs/nfs/nfs4getroot.o
+  CC [M]  fs/btrfs/zstd.o
+  CC      fs/nfs/nfs4client.o
+  CC [M]  fs/btrfs/compression.o
+  AR      kernel/bpf/built-in.a
+  CC      fs/nfs/nfs4session.o
+  AR      kernel/built-in.a
+  CC [M]  fs/btrfs/delayed-ref.o
+  CC      fs/nfs/dns_resolve.o
+  CC      fs/nfs/nfs4trace.o
+  CC [M]  fs/btrfs/relocation.o
+  CC      fs/nfs/nfs4sysctl.o
+  CC [M]  fs/btrfs/delayed-inode.o
+  CC      fs/nfs/pnfs.o
+  CC [M]  fs/btrfs/scrub.o
+  CC      fs/nfs/pnfs_dev.o
+  CC      fs/nfs/pnfs_nfs.o
+  CC [M]  fs/btrfs/backref.o
+  CC      fs/nfs/nfs42proc.o
+  CC      fs/nfs/nfs42xattr.o
+  CC [M]  fs/btrfs/ulist.o
+  CC      fs/nfs/filelayout/filelayout.o
+  CC      fs/nfs/flexfilelayout/flexfilelayout.o
+  CC      fs/nfs/filelayout/filelayoutdev.o
+  CC      fs/nfs/flexfilelayout/flexfilelayoutdev.o
+  CC [M]  fs/btrfs/qgroup.o
+  CC [M]  fs/nfs/blocklayout/blocklayout.o
+  CC [M]  fs/btrfs/send.o
+  CC [M]  fs/nfs/blocklayout/dev.o
+  CC [M]  fs/btrfs/dev-replace.o
+  CC [M]  fs/btrfs/raid56.o
+  CC [M]  fs/nfs/blocklayout/extent_tree.o
+  AR      fs/nfs/filelayout/built-in.a
+  CC [M]  fs/btrfs/uuid-tree.o
+  CC [M]  fs/nfs/blocklayout/rpc_pipefs.o
+  CC [M]  fs/btrfs/props.o
+  CC [M]  fs/btrfs/free-space-tree.o
+  CC [M]  fs/btrfs/tree-checker.o
+  CC [M]  fs/btrfs/space-info.o
+  CC [M]  fs/btrfs/block-rsv.o
+  CC [M]  fs/btrfs/delalloc-space.o
+  CC [M]  fs/btrfs/block-group.o
+  AR      fs/nfs/flexfilelayout/built-in.a
+  CC [M]  fs/btrfs/discard.o
+  CC [M]  fs/btrfs/reflink.o
+  CC [M]  fs/btrfs/subpage.o
+  AR      fs/nfs/built-in.a
+  CC [M]  fs/btrfs/tree-mod-log.o
+  CC [M]  fs/btrfs/extent-io-tree.o
+  LD [M]  fs/nfs/blocklayout/blocklayoutdriver.o
+  AR      fs/built-in.a
+  CC [M]  fs/btrfs/acl.o
+  LD [M]  fs/btrfs/btrfs.o
+make: Leaving directory '/home/osaleem/repos/linux-imx'
+
+2026-04-28 16:25:06,742 [ERROR] Build failed after resolving conflicts for v6.1.77. Manual intervention needed on branch merge/v6.1.77.
+2026-04-28 16:25:06,742 [INFO] To fix manually:
+  cd /home/osaleem/repos/linux-imx
+  # fix the build errors
+  git add -A && git commit --amend
+  git checkout lf-6.1.y-semtech
+  git merge merge/v6.1.77
+  # then re-run this tool with --resume
+2026-04-28 16:25:06,743 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.77_2026-04-28T16-16-45.670501.json
+2026-04-28 16:25:06,743 [ERROR] Stopping due to error at v6.1.77. Fix manually and re-run with --resume.
+2026-04-28 16:25:06,743 [INFO] Done.

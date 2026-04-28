@@ -1,0 +1,23 @@
+{
+  "version": "6.1.75",
+  "timestamp": "2026-04-28T15:44:16.224039",
+  "conflicts_total": 1,
+  "conflicts_resolved": 1,
+  "build_success": true,
+  "merged_to_main": true,
+  "error": null,
+  "resolutions": [
+    {
+      "file": "arch/arm64/boot/dts/freescale/imx8mm.dtsi",
+      "hunk_index": 0,
+      "confidence": 7,
+      "reasoning": "NXP replaced this mainline GPU/VPU block with its PCIe endpoint node and has vendor VPU nodes immediately after the SoC block, so reintroducing the mainline VPU nodes would duplicate labels and conflict with NXP's implementation. The stable change only adjusts clock rates in mainline GPU nodes that are not present in this vendor section, so the correct resolution preserves the NXP PCIe endpoint block and does not re-add the removed mainline nodes here.",
+      "ours": "\t\tpcie0_ep: pcie_ep@33800000 {\n\t\t\tcompatible = \"fsl,imx8mm-pcie-ep\";\n\t\t\treg = <0x33800000 0x000400000>,\n\t\t\t      <0x18000000 0x08000000>;\n\t\t\treg-names = \"regs\", \"addr_space\";\n\t\t\tnum-lanes = <1>;\n\t\t\tinterrupts = <GIC_SPI 127 IRQ_TYPE_LEVEL_HIGH>; /* eDMA */\n\t\t\tinterrupt-names = \"dma\";\n\t\t\tfsl,max-link-speed = <2>;\n\t\t\tpower-domains = <&pgc_pcie>;\n\t\t\tresets = <&src IMX8MQ_RESET_PCIE_CTRL_APPS_EN>,\n\t\t\t\t <&src IMX8MQ_RESET_PCIE_CTRL_APPS_TURNOFF>;\n\t\t\treset-names = \"apps\", \"turnoff\";\n\t\t\tphys = <&pcie_p",
+      "theirs": "\t\tgpu_3d: gpu@38000000 {\n\t\t\tcompatible = \"vivante,gc\";\n\t\t\treg = <0x38000000 0x8000>;\n\t\t\tinterrupts = <GIC_SPI 3 IRQ_TYPE_LEVEL_HIGH>;\n\t\t\tclocks = <&clk IMX8MM_CLK_GPU_AHB>,\n\t\t\t\t <&clk IMX8MM_CLK_GPU_BUS_ROOT>,\n\t\t\t\t <&clk IMX8MM_CLK_GPU3D_ROOT>,\n\t\t\t\t <&clk IMX8MM_CLK_GPU3D_ROOT>;\n\t\t\tclock-names = \"reg\", \"bus\", \"core\", \"shader\";\n\t\t\tassigned-clocks = <&clk IMX8MM_CLK_GPU3D_CORE>,\n\t\t\t\t\t  <&clk IMX8MM_GPU_PLL_OUT>;\n\t\t\tassigned-clock-parents = <&clk IMX8MM_GPU_PLL_OUT>;\n\t\t\tassigned-clock-rates = <0>, ",
+      "resolved_code": "\t\tpcie0_ep: pcie_ep@33800000 {\n\t\t\tcompatible = \"fsl,imx8mm-pcie-ep\";\n\t\t\treg = <0x33800000 0x000400000>,\n\t\t\t      <0x18000000 0x08000000>;\n\t\t\treg-names = \"regs\", \"addr_space\";\n\t\t\tnum-lanes = <1>;\n\t\t\tinterrupts = <GIC_SPI 127 IRQ_TYPE_LEVEL_HIGH>; /* eDMA */\n\t\t\tinterrupt-names = \"dma\";\n\t\t\tfsl,max-link-speed = <2>;\n\t\t\tpower-domains = <&pgc_pcie>;\n\t\t\tresets = <&src IMX8MQ_RESET_PCIE_CTRL_APPS_EN>,\n\t\t\t\t <&src IMX8MQ_RESET_PCIE_CTRL_APPS_TURNOFF>;\n\t\t\treset-names = \"apps\", \"turnoff\";\n\t\t\tphys = <&pcie_p",
+      "api_response_raw": "{\n  \"confidence\": 7,\n  \"reasoning\": \"NXP replaced this mainline GPU/VPU block with its PCIe endpoint node and has vendor VPU nodes immediately after the SoC block, so reintroducing the mainline VPU nodes would duplicate labels and conflict with NXP's implementation. The stable change only adjusts clock rates in mainline GPU nodes that are not present in this vendor section, so the correct resolution preserves the NXP PCIe endpoint block and does not re-add the removed mainline nodes here.\",\n  \"resolved_code\": \"\\t\\tpcie0_ep: pcie_ep@33800000 {\\n\\t\\t\\tcompatible = \\\"fsl,imx8mm-pcie-ep\\\";\\n\\t\\t\\treg = <0x33800000 0x000400000>,\\n\\t\\t\\t      <0x18000000 0x08000000>;\\n\\t\\t\\treg-names = \\\"regs\\\", \\\"addr_space\\\";\\n\\t\\t\\tnum-lanes = <1>;\\n\\t\\t\\tinterrupts = <GIC_SPI 127 IRQ_TYPE_LEVEL_HIGH>; /* eDMA */\\n\\t\\t\\tinterrupt-names = \\\"dma\\\";\\n\\t\\t\\tfsl,max-link-speed = <2>;\\n\\t\\t\\tpower-domains = <&pgc_pcie>;\\n\\t\\t\\tresets = <&src IMX8MQ_RESET_PCIE_CTRL_APPS_EN>,\\n\\t\\t\\t\\t <&src IMX8MQ_RESET_PCIE_CTR",
+      "start_line": 1402,
+      "end_line": 1467
+    }
+  ]
+}

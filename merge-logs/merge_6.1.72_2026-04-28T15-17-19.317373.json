@@ -1,0 +1,35 @@
+{
+  "version": "6.1.72",
+  "timestamp": "2026-04-28T15:17:19.317373",
+  "conflicts_total": 2,
+  "conflicts_resolved": 2,
+  "build_success": true,
+  "merged_to_main": true,
+  "error": null,
+  "resolutions": [
+    {
+      "file": "drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c",
+      "hunk_index": 0,
+      "confidence": 8,
+      "reasoning": "Mainline stable added a recycle_rx_buf flag for the RX buffer lifetime fix, and the conflict also included mainline's existing dpaa2_fas declaration. NXP's vendor code has no fas usage in this function, so reintroducing that declaration would be unused and would not preserve the vendor change. The stable fix is applied by adding only the recycle_rx_buf flag used later in the function.",
+      "ours": "",
+      "theirs": "\tstruct dpaa2_fas *fas;\n\tbool recycle_rx_buf = false;\n",
+      "resolved_code": "\tbool recycle_rx_buf = false;\n",
+      "api_response_raw": "{\n  \"confidence\": 8,\n  \"reasoning\": \"Mainline stable added a recycle_rx_buf flag for the RX buffer lifetime fix, and the conflict also included mainline's existing dpaa2_fas declaration. NXP's vendor code has no fas usage in this function, so reintroducing that declaration would be unused and would not preserve the vendor change. The stable fix is applied by adding only the recycle_rx_buf flag used later in the function.\",\n  \"resolved_code\": \"\\tbool recycle_rx_buf = false;\\n\"\n}",
+      "start_line": 605,
+      "end_line": 609
+    },
+    {
+      "file": "drivers/net/ethernet/freescale/dpaa2/dpaa2-ethtool.c",
+      "hunk_index": 0,
+      "confidence": 9,
+      "reasoning": "Mainline only rearranged the local variable declarations, separating buf_cnt after the other counters. NXP added buf_cnt_total initialized to 0 and later uses it to accumulate buffer pool counts. The merge preserves NXP's buf_cnt_total while keeping mainline's declaration ordering/style.",
+      "ours": "\tu32 buf_cnt, buf_cnt_total = 0;\n\tint j, k, err, num_cnt, i = 0;\n\tu32 fcnt, bcnt;\n",
+      "theirs": "\tint j, k, err, num_cnt, i = 0;\n\tu32 fcnt, bcnt;\n\tu32 buf_cnt;\n",
+      "resolved_code": "\tint j, k, err, num_cnt, i = 0;\n\tu32 fcnt, bcnt;\n\tu32 buf_cnt, buf_cnt_total = 0;\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"Mainline only rearranged the local variable declarations, separating buf_cnt after the other counters. NXP added buf_cnt_total initialized to 0 and later uses it to accumulate buffer pool counts. The merge preserves NXP's buf_cnt_total while keeping mainline's declaration ordering/style.\",\n  \"resolved_code\": \"\\tint j, k, err, num_cnt, i = 0;\\n\\tu32 fcnt, bcnt;\\n\\tu32 buf_cnt, buf_cnt_total = 0;\\n\"\n}",
+      "start_line": 269,
+      "end_line": 277
+    }
+  ]
+}
