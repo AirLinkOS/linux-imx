@@ -1,0 +1,35 @@
+2026-04-28 10:58:53,940 [INFO] Log file: /home/osaleem/repos/linux-imx/merge-logs/merge_20260428_105853.log
+2026-04-28 10:58:53,940 [INFO] Kernel Stable Merge Tool started
+2026-04-28 10:58:53,940 [INFO] Repo: /home/osaleem/repos/linux-imx
+2026-04-28 10:58:53,940 [INFO] Target: v6.1.66
+2026-04-28 10:58:53,940 [INFO] Provider: openai
+2026-04-28 10:58:53,940 [INFO] Interactive: False
+2026-04-28 10:58:53,940 [INFO] Dry run: False
+2026-04-28 10:58:53,940 [INFO] Fetching stable tags...
+2026-04-28 10:58:54,968 [INFO] Using override start version: 6.1.64
+2026-04-28 10:58:54,968 [INFO] 
+============================================================
+Merge step: v6.1.64 -> v6.1.65
+Progress: 1/2
+============================================================
+2026-04-28 10:58:54,968 [INFO] Starting merge: v6.1.65
+2026-04-28 10:58:55,876 [INFO] Merge v6.1.65 completed cleanly — no conflicts!
+2026-04-28 10:58:55,876 [INFO] Building kernel (compile test)...
+2026-04-28 11:10:02,076 [INFO] Build succeeded.
+2026-04-28 11:10:02,706 [INFO] Merged v6.1.65 into lf-6.1.y-semtech
+2026-04-28 11:10:02,707 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.65_2026-04-28T10-58-54.968611.json
+2026-04-28 11:10:02,886 [INFO] Current kernel version: 6.1.65
+2026-04-28 11:10:02,886 [INFO] 
+============================================================
+Merge step: v6.1.65 -> v6.1.66
+Progress: 2/2
+============================================================
+2026-04-28 11:10:02,886 [INFO] Starting merge: v6.1.66
+2026-04-28 11:10:03,945 [INFO] Merge v6.1.66 completed cleanly — no conflicts!
+2026-04-28 11:10:03,945 [INFO] Building kernel (compile test)...
+2026-04-28 11:21:10,763 [INFO] Build succeeded.
+2026-04-28 11:21:11,382 [INFO] Merged v6.1.66 into lf-6.1.y-semtech
+2026-04-28 11:21:11,382 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.66_2026-04-28T11-10-02.886944.json
+2026-04-28 11:21:11,580 [INFO] Current kernel version: 6.1.66
+2026-04-28 11:21:11,580 [INFO] Reached target version 6.1.66. Done!
+2026-04-28 11:21:11,581 [INFO] Done.
