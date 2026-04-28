@@ -1,0 +1,823 @@
+2026-04-28 13:54:33,228 [INFO] Log file: /home/osaleem/repos/linux-imx/merge-logs/merge_20260428_135433.log
+2026-04-28 13:54:33,228 [INFO] Kernel Stable Merge Tool started
+2026-04-28 13:54:33,228 [INFO] Repo: /home/osaleem/repos/linux-imx
+2026-04-28 13:54:33,228 [INFO] Target: v6.1.70
+2026-04-28 13:54:33,228 [INFO] Provider: openai
+2026-04-28 13:54:33,228 [INFO] Interactive: False
+2026-04-28 13:54:33,228 [INFO] Dry run: False
+2026-04-28 13:54:33,228 [INFO] Fetching stable tags...
+2026-04-28 13:54:34,053 [INFO] Using override start version: 6.1.68
+2026-04-28 13:54:34,054 [INFO] 
+============================================================
+Merge step: v6.1.68 -> v6.1.69
+Progress: 1/2
+============================================================
+2026-04-28 13:54:34,054 [INFO] Starting merge: v6.1.69
+2026-04-28 13:54:34,963 [INFO] Merge v6.1.69 has 1 conflicted files
+2026-04-28 13:54:34,966 [INFO]   drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c: 3 conflict hunks
+2026-04-28 13:54:34,967 [INFO] Resolving drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c hunk 1...
+2026-04-28 13:54:34,979 [DEBUG] Prompt for drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c
+
+We are merging mainline stable v6.1.69 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.68..v6.1.69):
+9aac81639e52 dpaa2-switch: do not ask for MDB, VLAN and FDB replay
+
+Context BEFORE the conflict:
+```
+	if (!port_priv->vlans[vid])
+		return -ENOENT;
+
+	if (port_priv->vlans[vid] & ETHSW_VLAN_PVID) {
+		/* If we are deleting the PVID of a port, use VLAN 4095 instead
+		 * as we are sure that neither the bridge nor the 8021q module
+		 * will use it
+		 */
+		err = dpaa2_switch_port_set_pvid(port_priv, 4095);
+		if (err)
+			return err;
+	}
+
+	vcfg.num_ifs = 1;
+	vcfg.if_id[0] = port_priv->idx;
+	if (port_priv->vlans[vid] & ETHSW_VLAN_UNTAGGED) {
+		err = dpsw_vlan_remove_if_untagged(ethsw->mc_io, 0,
+						   ethsw->dpsw_handle,
+						   vid, &vcfg);
+		if (err) {
+			netdev_err(netdev,
+				   "dpsw_vlan_remove_if_untagged err %d\n",
+				   err);
+		}
+		port_priv->vlans[vid] &= ~ETHSW_VLAN_UNTAGGED;
+	}
+
+	if (port_priv->vlans[vid] & ETHSW_VLAN_MEMBER) {
+		err = dpsw_vlan_remove_if(ethsw->mc_io, 0, ethsw->dpsw_handle,
+					  vid, &vcfg);
+		if (err) {
+			netdev_err(netdev,
+				   "dpsw_vlan_remove_if err %d\n", err);
+			return err;
+		}
+		port_priv->vlans[vid] &= ~ETHSW_VLAN_MEMBER;
+
+		/* Delete VLAN from switch if it is no longer configured on
+		 * any port
+		 */
+		for (i = 0; i < ethsw->sw_attr.num_ifs; i++) {
+			if (ethsw->ports[i] &&
+			    ethsw->ports[i]->vlans[vid] & ETHSW_VLAN_MEMBER)
+				return 0; /* Found a port member in VID */
+		}
+
+		ethsw->vlans[vid] &= ~ETHSW_VLAN_GLOBAL;
+
+		err = dpaa2_switch_dellink(ethsw, vid);
+		if (err)
+			return err;
+	}
+
+	return 0;
+}
+
+int dpaa2_switch_port_vlans_del(struct net_device *netdev,
+				const struct switchdev_obj_port_vlan *vlan)
+{
+	struct ethsw_port_priv *port_priv = netdev_priv(netdev);
+
+	if (netif_is_bridge_master(vlan->obj.orig_dev))
+		return -EOPNOTSUPP;
+
+	return dpaa2_switch_port_del_vlan(port_priv, vlan->vid);
+}
+
+static int dpaa2_switch_port_mdb_del(struct net_device *netdev,
+				     const struct switchdev_obj_port_mdb *mdb)
+{
+	struct ethsw_port_priv *port_priv = netdev_priv(netdev);
+	int err;
+
+	if (!dpaa2_switch_port_lookup_address(netdev, 0, mdb->addr))
+		return -ENOENT;
+
+	err = dpaa2_switch_port_fdb_del_mc(port_priv, mdb->addr);
+	if (err)
+		return err;
+
+	err = dev_mc_del(netdev, mdb->addr);
+	if (err) {
+		netdev_err(netdev, "dev_mc_del err %d\n", err);
+		return err;
+	}
+
+	return err;
+}
+
+static int dpaa2_switch_port_attr_set_event(struct net_device *netdev,
+					    struct switchdev_notifier_port_attr_info *ptr)
+{
+	int err;
+
+	err = switchdev_handle_port_attr_set(netdev, ptr,
+					     dpaa2_switch_port_dev_check,
+					     dpaa2_switch_port_attr_set);
+	return notifier_from_errno(err);
+}
+
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+static struct notifier_block dpaa2_switch_port_switchdev_nb;
+static struct notifier_block dpaa2_switch_port_switchdev_blocking_nb;
+
+static struct net_device *dpaa2_switch_port_to_bridge_port(struct ethsw_port_priv *port_priv)
+{
+	if (!port_priv->fdb->bridge_dev)
+		return NULL;
+
+	if (port_priv->lag)
+		return port_priv->lag->bond_dev;
+
+	return port_priv->netdev;
+}
+
+
+```
+
+THEIR side (mainline stable):
+```
+
+```
+
+Context AFTER the conflict:
+```
+static int dpaa2_switch_port_bridge_join(struct net_device *netdev,
+					 struct net_device *upper_dev,
+					 struct netlink_ext_ack *extack)
+{
+	struct ethsw_port_priv *port_priv = netdev_priv(netdev);
+	struct ethsw_core *ethsw = port_priv->ethsw_data;
+	struct dpaa2_switch_fdb *old_fdb = port_priv->fdb;
+	struct ethsw_port_priv *other_port_priv;
+	struct net_device *other_dev, *brport_dev;
+	struct list_head *iter;
+	bool learn_ena;
+	int err;
+
+	netdev_for_each_lower_dev(upper_dev, other_dev, iter) {
+		if (!dpaa2_switch_port_dev_check(other_dev))
+			continue;
+
+		other_port_priv = netdev_priv(other_dev);
+		if (other_port_priv->ethsw_data != port_priv->ethsw_data) {
+			NL_SET_ERR_MSG_MOD(extack,
+					   "Interface from a different DPSW is in the bridge already");
+			return -EINVAL;
+		}
+	}
+
+	/* Delete the previously manually installed VLAN 1 */
+	err = dpaa2_switch_port_del_vlan(port_priv, 1);
+	if (err)
+		return err;
+
+	dpaa2_switch_port_set_fdb(port_priv, upper_dev);
+
+	/* Inherit the initial bridge port learning state */
+	learn_ena = br_port_flag_is_set(netdev, BR_LEARNING);
+	err = dpaa2_switch_port_set_learning(port_priv, learn_ena);
+	port_priv->learn_ena = learn_ena;
+
+	/* Setup the egress flood policy (broadcast, unknown unicast) */
+	err = dpaa2_switch_fdb_set_egress_flood(ethsw, port_priv->fdb->fdb_id);
+	if (err)
+		goto err_egress_flood;
+
+<<<<<<< HEAD
+	/* Recreate the egress flood domain of the FDB that we just left. */
+	err = dpaa2_switch_fdb_set_egress_flood(ethsw, old_fdb->fdb_id);
+	if (err)
+		goto err_egress_flood;
+
+	brport_dev = dpaa2_switch_port_to_bridge_port(port_priv);
+	err = switchdev_bridge_port_offload(brport_dev, netdev, port_priv,
+					    &dpaa2_switch_port_switchdev_nb,
+					    &dpaa2_switch_port_switchdev_blocking_nb,
+					    false, extack);
+=======
+	err = switchdev_bridge_port_offload(netdev, netdev, NULL,
+					    NULL, NULL, false, extack);
+>>>>>>> v6.1.69
+	if (err)
+		goto err_switchdev_offload;
+
+	return 0;
+
+err_switchdev_offload:
+err_egress_flood:
+	dpaa2_switch_port_set_fdb(port_priv, NULL);
+	return err;
+}
+
+static int dpaa2_switch_port_clear_rxvlan(struct net_device *vdev, int vid, void *arg)
+{
+	__be16 vlan_proto = htons(ETH_P_8021Q);
+
+	if (vdev)
+		vlan_proto = vlan_dev_vlan_proto(vdev);
+
+	return dpaa2_switch_port_vlan_kill(arg, vlan_proto, vid);
+}
+
+static int dpaa2_switch_port_restore_rxvlan(struct net_device *vdev, int vid, void *arg)
+{
+	__be16 vlan_proto = htons(ETH_P_8021Q);
+
+	if (vdev)
+		vlan_proto = vlan_dev_vlan_proto(vdev);
+
+	return dpaa2_switch_port_vlan_add(arg, vlan_proto, vid);
+}
+
+static void dpaa2_switch_port_pre_bridge_leave(struct net_device *netdev)
+{
+<<<<<<< HEAD
+	struct ethsw_port_priv *port_priv = netdev_priv(netdev);
+	struct net_device *brport_dev;
+
+	brport_dev = dpaa2_switch_port_to_bridge_port(port_priv);
+
+	switchdev_bridge_port_unoffload(brport_dev, port_priv,
+					&dpaa2_switch_port_switchdev_nb,
+					&dpaa2_switch_port_switchdev_blocking_nb);
+=======
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-28 13:56:27,792 [INFO]   Resolved drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c hunk 0: confidence=8/10 — NXP added switchdev notifier forward declarations, a helper to map a port to the correct bridge port
+2026-04-28 13:56:27,793 [DEBUG] Applied resolution to drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c hunk 0
+2026-04-28 13:56:27,793 [INFO] Resolving drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c hunk 2...
+2026-04-28 13:56:27,816 [DEBUG] Prompt for drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c hunk 1:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c
+
+We are merging mainline stable v6.1.69 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.68..v6.1.69):
+9aac81639e52 dpaa2-switch: do not ask for MDB, VLAN and FDB replay
+
+Context BEFORE the conflict:
+```
+	struct ethsw_port_priv *port_priv = netdev_priv(netdev);
+
+	if (netif_is_bridge_master(vlan->obj.orig_dev))
+		return -EOPNOTSUPP;
+
+	return dpaa2_switch_port_del_vlan(port_priv, vlan->vid);
+}
+
+static int dpaa2_switch_port_mdb_del(struct net_device *netdev,
+				     const struct switchdev_obj_port_mdb *mdb)
+{
+	struct ethsw_port_priv *port_priv = netdev_priv(netdev);
+	int err;
+
+	if (!dpaa2_switch_port_lookup_address(netdev, 0, mdb->addr))
+		return -ENOENT;
+
+	err = dpaa2_switch_port_fdb_del_mc(port_priv, mdb->addr);
+	if (err)
+		return err;
+
+	err = dev_mc_del(netdev, mdb->addr);
+	if (err) {
+		netdev_err(netdev, "dev_mc_del err %d\n", err);
+		return err;
+	}
+
+	return err;
+}
+
+static int dpaa2_switch_port_attr_set_event(struct net_device *netdev,
+					    struct switchdev_notifier_port_attr_info *ptr)
+{
+	int err;
+
+	err = switchdev_handle_port_attr_set(netdev, ptr,
+					     dpaa2_switch_port_dev_check,
+					     dpaa2_switch_port_attr_set);
+	return notifier_from_errno(err);
+}
+
+<<<<<<< HEAD
+static struct notifier_block dpaa2_switch_port_switchdev_nb;
+static struct notifier_block dpaa2_switch_port_switchdev_blocking_nb;
+
+static struct net_device *dpaa2_switch_port_to_bridge_port(struct ethsw_port_priv *port_priv)
+{
+	if (!port_priv->fdb->bridge_dev)
+		return NULL;
+
+	if (port_priv->lag)
+		return port_priv->lag->bond_dev;
+
+	return port_priv->netdev;
+}
+
+=======
+>>>>>>> v6.1.69
+static int dpaa2_switch_port_bridge_join(struct net_device *netdev,
+					 struct net_device *upper_dev,
+					 struct netlink_ext_ack *extack)
+{
+	struct ethsw_port_priv *port_priv = netdev_priv(netdev);
+	struct ethsw_core *ethsw = port_priv->ethsw_data;
+	struct dpaa2_switch_fdb *old_fdb = port_priv->fdb;
+	struct ethsw_port_priv *other_port_priv;
+	struct net_device *other_dev, *brport_dev;
+	struct list_head *iter;
+	bool learn_ena;
+	int err;
+
+	netdev_for_each_lower_dev(upper_dev, other_dev, iter) {
+		if (!dpaa2_switch_port_dev_check(other_dev))
+			continue;
+
+		other_port_priv = netdev_priv(other_dev);
+		if (other_port_priv->ethsw_data != port_priv->ethsw_data) {
+			NL_SET_ERR_MSG_MOD(extack,
+					   "Interface from a different DPSW is in the bridge already");
+			return -EINVAL;
+		}
+	}
+
+	/* Delete the previously manually installed VLAN 1 */
+	err = dpaa2_switch_port_del_vlan(port_priv, 1);
+	if (err)
+		return err;
+
+	dpaa2_switch_port_set_fdb(port_priv, upper_dev);
+
+	/* Inherit the initial bridge port learning state */
+	learn_ena = br_port_flag_is_set(netdev, BR_LEARNING);
+	err = dpaa2_switch_port_set_learning(port_priv, learn_ena);
+	port_priv->learn_ena = learn_ena;
+
+	/* Setup the egress flood policy (broadcast, unknown unicast) */
+	err = dpaa2_switch_fdb_set_egress_flood(ethsw, port_priv->fdb->fdb_id);
+	if (err)
+		goto err_egress_flood;
+
+
+```
+
+CONFLICT (hunk 2):
+OUR side (NXP vendor kernel):
+```
+	/* Recreate the egress flood domain of the FDB that we just left. */
+	err = dpaa2_switch_fdb_set_egress_flood(ethsw, old_fdb->fdb_id);
+	if (err)
+		goto err_egress_flood;
+
+	brport_dev = dpaa2_switch_port_to_bridge_port(port_priv);
+	err = switchdev_bridge_port_offload(brport_dev, netdev, port_priv,
+					    &dpaa2_switch_port_switchdev_nb,
+					    &dpaa2_switch_port_switchdev_blocking_nb,
+					    false, extack);
+
+```
+
+THEIR side (mainline stable):
+```
+	err = switchdev_bridge_port_offload(netdev, netdev, NULL,
+					    NULL, NULL, false, extack);
+
+```
+
+Context AFTER the conflict:
+```
+	if (err)
+		goto err_switchdev_offload;
+
+	return 0;
+
+err_switchdev_offload:
+err_egress_flood:
+	dpaa2_switch_port_set_fdb(port_priv, NULL);
+	return err;
+}
+
+static int dpaa2_switch_port_clear_rxvlan(struct net_device *vdev, int vid, void *arg)
+{
+	__be16 vlan_proto = htons(ETH_P_8021Q);
+
+	if (vdev)
+		vlan_proto = vlan_dev_vlan_proto(vdev);
+
+	return dpaa2_switch_port_vlan_kill(arg, vlan_proto, vid);
+}
+
+static int dpaa2_switch_port_restore_rxvlan(struct net_device *vdev, int vid, void *arg)
+{
+	__be16 vlan_proto = htons(ETH_P_8021Q);
+
+	if (vdev)
+		vlan_proto = vlan_dev_vlan_proto(vdev);
+
+	return dpaa2_switch_port_vlan_add(arg, vlan_proto, vid);
+}
+
+static void dpaa2_switch_port_pre_bridge_leave(struct net_device *netdev)
+{
+<<<<<<< HEAD
+	struct ethsw_port_priv *port_priv = netdev_priv(netdev);
+	struct net_device *brport_dev;
+
+	brport_dev = dpaa2_switch_port_to_bridge_port(port_priv);
+
+	switchdev_bridge_port_unoffload(brport_dev, port_priv,
+					&dpaa2_switch_port_switchdev_nb,
+					&dpaa2_switch_port_switchdev_blocking_nb);
+=======
+	switchdev_bridge_port_unoffload(netdev, NULL, NULL, NULL);
+>>>>>>> v6.1.69
+}
+
+static int dpaa2_switch_port_bridge_leave(struct net_device *netdev)
+{
+	struct ethsw_port_priv *port_priv = netdev_priv(netdev);
+	struct dpaa2_switch_fdb *old_fdb = port_priv->fdb;
+	struct ethsw_core *ethsw = port_priv->ethsw_data;
+	int err;
+
+	/* First of all, fast age any learn FDB addresses on this switch port */
+	dpaa2_switch_port_fast_age(port_priv);
+
+	/* Clear all RX VLANs installed through vlan_vid_add() either as VLAN
+	 * upper devices or otherwise from the FDB table that we are about to
+	 * leave
+	 */
+	err = vlan_for_each(netdev, dpaa2_switch_port_clear_rxvlan, netdev);
+	if (err)
+		netdev_err(netdev, "Unable to clear RX VLANs from old FDB table, err (%d)\n", err);
+
+	dpaa2_switch_port_set_fdb(port_priv, NULL);
+
+	/* Restore all RX VLANs into the new FDB table that we just joined */
+	err = vlan_for_each(netdev, dpaa2_switch_port_restore_rxvlan, netdev);
+	if (err)
+		netdev_err(netdev, "Unable to restore RX VLANs to the new FDB, err (%d)\n", err);
+
+	/* Reset the flooding state to denote that this port can send any
+	 * packet in standalone mode. With this, we are also ensuring that any
+	 * later bridge join will have the flooding flag on.
+	 */
+	port_priv->bcast_flood = true;
+	port_priv->ucast_flood = true;
+
+	/* Setup the egress flood policy (broadcast, unknown unicast).
+	 * When the port is not under a bridge, only the CTRL interface is part
+	 * of the flooding domain besides the actual port
+	 */
+	err = dpaa2_switch_fdb_set_egress_flood(ethsw, port_priv->fdb->fdb_id);
+	if (err)
+		return err;
+
+	/* Recreate the egress flood domain of the FDB that we just left */
+	err = dpaa2_switch_fdb_set_egress_flood(ethsw, old_fdb->fdb_id);
+	if (err)
+		return err;
+
+	/* No HW learning when not under a bridge */
+	err = dpaa2_switch_port_set_learning(port_priv, false);
+	if (err)
+		return err;
+	port_priv->learn_ena = false;
+
+	/* Add the VLAN 1 as PVID when not under 
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-28 13:57:23,857 [WARNING] API error (attempt 1/3): 502 error code: 502
+2026-04-28 13:57:23,857 [INFO] Retrying in 5s...
+2026-04-28 13:59:09,220 [INFO]   Resolved drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c hunk 1: confidence=8/10 — NXP added recreation of the old FDB flood domain and uses a LAG-aware bridge port device via dpaa2_s
+2026-04-28 13:59:09,221 [DEBUG] Applied resolution to drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c hunk 1
+2026-04-28 13:59:09,221 [INFO] Resolving drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c hunk 3...
+2026-04-28 13:59:09,243 [DEBUG] Prompt for drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c hunk 2:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c
+
+We are merging mainline stable v6.1.69 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.68..v6.1.69):
+9aac81639e52 dpaa2-switch: do not ask for MDB, VLAN and FDB replay
+
+Context BEFORE the conflict:
+```
+		return NULL;
+
+	if (port_priv->lag)
+		return port_priv->lag->bond_dev;
+
+	return port_priv->netdev;
+}
+
+=======
+>>>>>>> v6.1.69
+static int dpaa2_switch_port_bridge_join(struct net_device *netdev,
+					 struct net_device *upper_dev,
+					 struct netlink_ext_ack *extack)
+{
+	struct ethsw_port_priv *port_priv = netdev_priv(netdev);
+	struct ethsw_core *ethsw = port_priv->ethsw_data;
+	struct dpaa2_switch_fdb *old_fdb = port_priv->fdb;
+	struct ethsw_port_priv *other_port_priv;
+	struct net_device *other_dev, *brport_dev;
+	struct list_head *iter;
+	bool learn_ena;
+	int err;
+
+	netdev_for_each_lower_dev(upper_dev, other_dev, iter) {
+		if (!dpaa2_switch_port_dev_check(other_dev))
+			continue;
+
+		other_port_priv = netdev_priv(other_dev);
+		if (other_port_priv->ethsw_data != port_priv->ethsw_data) {
+			NL_SET_ERR_MSG_MOD(extack,
+					   "Interface from a different DPSW is in the bridge already");
+			return -EINVAL;
+		}
+	}
+
+	/* Delete the previously manually installed VLAN 1 */
+	err = dpaa2_switch_port_del_vlan(port_priv, 1);
+	if (err)
+		return err;
+
+	dpaa2_switch_port_set_fdb(port_priv, upper_dev);
+
+	/* Inherit the initial bridge port learning state */
+	learn_ena = br_port_flag_is_set(netdev, BR_LEARNING);
+	err = dpaa2_switch_port_set_learning(port_priv, learn_ena);
+	port_priv->learn_ena = learn_ena;
+
+	/* Setup the egress flood policy (broadcast, unknown unicast) */
+	err = dpaa2_switch_fdb_set_egress_flood(ethsw, port_priv->fdb->fdb_id);
+	if (err)
+		goto err_egress_flood;
+
+<<<<<<< HEAD
+	/* Recreate the egress flood domain of the FDB that we just left. */
+	err = dpaa2_switch_fdb_set_egress_flood(ethsw, old_fdb->fdb_id);
+	if (err)
+		goto err_egress_flood;
+
+	brport_dev = dpaa2_switch_port_to_bridge_port(port_priv);
+	err = switchdev_bridge_port_offload(brport_dev, netdev, port_priv,
+					    &dpaa2_switch_port_switchdev_nb,
+					    &dpaa2_switch_port_switchdev_blocking_nb,
+					    false, extack);
+=======
+	err = switchdev_bridge_port_offload(netdev, netdev, NULL,
+					    NULL, NULL, false, extack);
+>>>>>>> v6.1.69
+	if (err)
+		goto err_switchdev_offload;
+
+	return 0;
+
+err_switchdev_offload:
+err_egress_flood:
+	dpaa2_switch_port_set_fdb(port_priv, NULL);
+	return err;
+}
+
+static int dpaa2_switch_port_clear_rxvlan(struct net_device *vdev, int vid, void *arg)
+{
+	__be16 vlan_proto = htons(ETH_P_8021Q);
+
+	if (vdev)
+		vlan_proto = vlan_dev_vlan_proto(vdev);
+
+	return dpaa2_switch_port_vlan_kill(arg, vlan_proto, vid);
+}
+
+static int dpaa2_switch_port_restore_rxvlan(struct net_device *vdev, int vid, void *arg)
+{
+	__be16 vlan_proto = htons(ETH_P_8021Q);
+
+	if (vdev)
+		vlan_proto = vlan_dev_vlan_proto(vdev);
+
+	return dpaa2_switch_port_vlan_add(arg, vlan_proto, vid);
+}
+
+static void dpaa2_switch_port_pre_bridge_leave(struct net_device *netdev)
+{
+
+```
+
+CONFLICT (hunk 3):
+OUR side (NXP vendor kernel):
+```
+	struct ethsw_port_priv *port_priv = netdev_priv(netdev);
+	struct net_device *brport_dev;
+
+	brport_dev = dpaa2_switch_port_to_bridge_port(port_priv);
+
+	switchdev_bridge_port_unoffload(brport_dev, port_priv,
+					&dpaa2_switch_port_switchdev_nb,
+					&dpaa2_switch_port_switchdev_blocking_nb);
+
+```
+
+THEIR side (mainline stable):
+```
+	switchdev_bridge_port_unoffload(netdev, NULL, NULL, NULL);
+
+```
+
+Context AFTER the conflict:
+```
+}
+
+static int dpaa2_switch_port_bridge_leave(struct net_device *netdev)
+{
+	struct ethsw_port_priv *port_priv = netdev_priv(netdev);
+	struct dpaa2_switch_fdb *old_fdb = port_priv->fdb;
+	struct ethsw_core *ethsw = port_priv->ethsw_data;
+	int err;
+
+	/* First of all, fast age any learn FDB addresses on this switch port */
+	dpaa2_switch_port_fast_age(port_priv);
+
+	/* Clear all RX VLANs installed through vlan_vid_add() either as VLAN
+	 * upper devices or otherwise from the FDB table that we are about to
+	 * leave
+	 */
+	err = vlan_for_each(netdev, dpaa2_switch_port_clear_rxvlan, netdev);
+	if (err)
+		netdev_err(netdev, "Unable to clear RX VLANs from old FDB table, err (%d)\n", err);
+
+	dpaa2_switch_port_set_fdb(port_priv, NULL);
+
+	/* Restore all RX VLANs into the new FDB table that we just joined */
+	err = vlan_for_each(netdev, dpaa2_switch_port_restore_rxvlan, netdev);
+	if (err)
+		netdev_err(netdev, "Unable to restore RX VLANs to the new FDB, err (%d)\n", err);
+
+	/* Reset the flooding state to denote that this port can send any
+	 * packet in standalone mode. With this, we are also ensuring that any
+	 * later bridge join will have the flooding flag on.
+	 */
+	port_priv->bcast_flood = true;
+	port_priv->ucast_flood = true;
+
+	/* Setup the egress flood policy (broadcast, unknown unicast).
+	 * When the port is not under a bridge, only the CTRL interface is part
+	 * of the flooding domain besides the actual port
+	 */
+	err = dpaa2_switch_fdb_set_egress_flood(ethsw, port_priv->fdb->fdb_id);
+	if (err)
+		return err;
+
+	/* Recreate the egress flood domain of the FDB that we just left */
+	err = dpaa2_switch_fdb_set_egress_flood(ethsw, old_fdb->fdb_id);
+	if (err)
+		return err;
+
+	/* No HW learning when not under a bridge */
+	err = dpaa2_switch_port_set_learning(port_priv, false);
+	if (err)
+		return err;
+	port_priv->learn_ena = false;
+
+	/* Add the VLAN 1 as PVID when not under a bridge. We need this since
+	 * the dpaa2 switch interfaces are not capable to be VLAN unaware
+	 */
+	return dpaa2_switch_port_add_vlan(port_priv, DEFAULT_VLAN_ID,
+					  BRIDGE_VLAN_INFO_UNTAGGED | BRIDGE_VLAN_INFO_PVID);
+}
+
+static int dpaa2_switch_prevent_bridging_with_8021q_upper(struct net_device *netdev)
+{
+	struct net_device *upper_dev;
+	struct list_head *iter;
+
+	/* RCU read lock not necessary because we have write-side protection
+	 * (rtnl_mutex), however a non-rcu iterator does not exist.
+	 */
+	netdev_for_each_upper_dev_rcu(netdev, upper_dev, iter)
+		if (is_vlan_dev(upper_dev))
+			return -EOPNOTSUPP;
+
+	return 0;
+}
+
+static int
+dpaa2_switch_prechangeupper_sanity_checks(struct net_device *netdev,
+					  struct net_device *upper_dev,
+					  struct netlink_ext_ack *extack)
+{
+	int err;
+
+	if (!br_vlan_enabled(upper_dev)) {
+		NL_SET_ERR_MSG_MOD(extack, "Cannot join a VLAN-unaware bridge");
+		return -EOPNOTSUPP;
+	}
+
+	err = dpaa2_switch_prevent_bridging_with_8021q_upper(netdev);
+	if (err) {
+		NL_SET_ERR_MSG_MOD(extack,
+				   "Cannot join a bridge while VLAN uppers are present");
+		return 0;
+	}
+
+	retur
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-28 14:00:30,386 [INFO]   Resolved drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c hunk 2: confidence=8/10 — Mainline stable removes the switchdev notifier blocks from unoffload to match the fix that avoids re
+2026-04-28 14:00:30,388 [DEBUG] Applied resolution to drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c hunk 2
+2026-04-28 14:00:30,797 [INFO] All conflicts resolved. Confidence: min=8, avg=8.0
+2026-04-28 14:00:30,797 [INFO] Building kernel (compile test)...
+2026-04-28 14:09:30,148 [ERROR] Build failed:
+b;
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c:2107:30: warning: ‘dpaa2_switch_port_switchdev_nb’ defined but not used [-Wunused-variable]
+ 2107 | static struct notifier_block dpaa2_switch_port_switchdev_nb;
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+make[6]: *** [scripts/Makefile.build:250: drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.o] Error 1
+make[5]: *** [scripts/Makefile.build:500: drivers/net/ethernet/freescale/dpaa2] Error 2
+make[5]: *** Waiting for unfinished jobs....
+make[4]: *** [scripts/Makefile.build:500: drivers/net/ethernet/freescale] Error 2
+make[4]: *** Waiting for unfinished jobs....
+make[3]: *** [scripts/Makefile.build:500: drivers/net/ethernet] Error 2
+make[2]: *** [scripts/Makefile.build:500: drivers/net] Error 2
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [scripts/Makefile.build:500: drivers] Error 2
+make: *** [Makefile:2014: .] Error 2
+
+2026-04-28 14:09:30,148 [DEBUG] Build stdout (last 2000 chars):
+d827d.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/head907d.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/head917d.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/headc37d.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/headc57d.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/wimm.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/wimmc37b.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/wndw.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/wndwc37e.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/wndwc57e.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/wndwc67e.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/base.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/base507c.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/base827c.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/base907c.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/base917c.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/curs.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/curs507a.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/curs907a.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/cursc37a.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/oimm.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/oimm507b.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/ovly.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/ovly507e.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/ovly827e.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/ovly907e.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/ovly917e.o
+  CC [M]  drivers/gpu/drm/nouveau/nouveau_abi16.o
+  CC [M]  drivers/gpu/drm/nouveau/nouveau_chan.o
+  CC [M]  drivers/gpu/drm/nouveau/nouveau_dma.o
+  CC [M]  drivers/gpu/drm/nouveau/nouveau_fence.o
+  CC [M]  drivers/gpu/drm/nouveau/nv04_fence.o
+  CC [M]  drivers/gpu/drm/nouveau/nv10_fence.o
+  CC [M]  drivers/gpu/drm/nouveau/nv17_fence.o
+  CC [M]  drivers/gpu/drm/nouveau/nv50_fence.o
+  CC [M]  drivers/gpu/drm/nouveau/nv84_fence.o
+  CC [M]  drivers/gpu/drm/nouveau/nvc0_fence.o
+  LD [M]  drivers/gpu/drm/nouveau/nouveau.o
+  AR      drivers/gpu/built-in.a
+make: Leaving directory '/home/osaleem/repos/linux-imx'
+
+2026-04-28 14:09:30,148 [ERROR] Build failed after resolving conflicts for v6.1.69. Manual intervention needed on branch merge/v6.1.69.
+2026-04-28 14:09:30,148 [INFO] To fix manually:
+  cd /home/osaleem/repos/linux-imx
+  # fix the build errors
+  git add -A && git commit --amend
+  git checkout lf-6.1.y-semtech
+  git merge merge/v6.1.69
+  # then re-run this tool with --resume
+2026-04-28 14:09:30,149 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.69_2026-04-28T13-54-34.054311.json
+2026-04-28 14:09:30,149 [ERROR] Stopping due to error at v6.1.69. Fix manually and re-run with --resume.
+2026-04-28 14:09:30,149 [INFO] Done.

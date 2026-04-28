@@ -1,0 +1,47 @@
+{
+  "version": "6.1.69",
+  "timestamp": "2026-04-28T13:54:34.054311",
+  "conflicts_total": 3,
+  "conflicts_resolved": 3,
+  "build_success": false,
+  "merged_to_main": false,
+  "error": "Build failed after resolving conflicts for v6.1.69. Manual intervention needed on branch merge/v6.1.69.",
+  "resolutions": [
+    {
+      "file": "drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c",
+      "hunk_index": 0,
+      "confidence": 8,
+      "reasoning": "NXP added switchdev notifier forward declarations, a helper to map a port to the correct bridge port device for LAG/bond cases, and logic to recreate the old FDB egress flood domain. The stable patch changes switchdev offload/unoffload calls to pass NULL context/notifiers so the bridge does not replay MDB/VLAN/FDB objects. The merge keeps NXP's helper, LAG-aware brport_dev handling, and old FDB flood recreation, while applying the stable fix by passing NULL context and notifier arguments to switchdev_bridge_port_offload/unoffload.",
+      "ours": "static struct notifier_block dpaa2_switch_port_switchdev_nb;\nstatic struct notifier_block dpaa2_switch_port_switchdev_blocking_nb;\n\nstatic struct net_device *dpaa2_switch_port_to_bridge_port(struct ethsw_port_priv *port_priv)\n{\n\tif (!port_priv->fdb->bridge_dev)\n\t\treturn NULL;\n\n\tif (port_priv->lag)\n\t\treturn port_priv->lag->bond_dev;\n\n\treturn port_priv->netdev;\n}\n\n",
+      "theirs": "",
+      "resolved_code": "static struct notifier_block dpaa2_switch_port_switchdev_nb;\nstatic struct notifier_block dpaa2_switch_port_switchdev_blocking_nb;\n\nstatic struct net_device *dpaa2_switch_port_to_bridge_port(struct ethsw_port_priv *port_priv)\n{\n\tif (!port_priv->fdb->bridge_dev)\n\t\treturn NULL;\n\n\tif (port_priv->lag)\n\t\treturn port_priv->lag->bond_dev;\n\n\treturn port_priv->netdev;\n}\n\nstatic int dpaa2_switch_port_bridge_join(struct net_device *netdev,\n\t\t\t\t\t\t struct net_device *upper_dev,\n\t\t\t\t\t\t struct netlink_ext_ack ",
+      "api_response_raw": "{\n  \"confidence\": 8,\n  \"reasoning\": \"NXP added switchdev notifier forward declarations, a helper to map a port to the correct bridge port device for LAG/bond cases, and logic to recreate the old FDB egress flood domain. The stable patch changes switchdev offload/unoffload calls to pass NULL context/notifiers so the bridge does not replay MDB/VLAN/FDB objects. The merge keeps NXP's helper, LAG-aware brport_dev handling, and old FDB flood recreation, while applying the stable fix by passing NULL context and notifier arguments to switchdev_bridge_port_offload/unoffload.\",\n  \"resolved_code\": \"static struct notifier_block dpaa2_switch_port_switchdev_nb;\\nstatic struct notifier_block dpaa2_switch_port_switchdev_blocking_nb;\\n\\nstatic struct net_device *dpaa2_switch_port_to_bridge_port(struct ethsw_port_priv *port_priv)\\n{\\n\\tif (!port_priv->fdb->bridge_dev)\\n\\t\\treturn NULL;\\n\\n\\tif (port_priv->lag)\\n\\t\\treturn port_priv->lag->bond_dev;\\n\\n\\treturn port_priv->netdev;\\n}\\n\\nstatic int dpaa2_s",
+      "start_line": 2106,
+      "end_line": 2122
+    },
+    {
+      "file": "drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c",
+      "hunk_index": 1,
+      "confidence": 8,
+      "reasoning": "NXP added recreation of the old FDB flood domain and uses a LAG-aware bridge port device via dpaa2_switch_port_to_bridge_port(). Mainline stable fixes unwanted MDB/VLAN/FDB replay by passing NULL context and notifier blocks to switchdev_bridge_port_offload(). The merge keeps NXP's flood-domain and bridge-port handling while applying the stable NULL arguments to avoid replay.",
+      "ours": "\t/* Recreate the egress flood domain of the FDB that we just left. */\n\terr = dpaa2_switch_fdb_set_egress_flood(ethsw, old_fdb->fdb_id);\n\tif (err)\n\t\tgoto err_egress_flood;\n\n\tbrport_dev = dpaa2_switch_port_to_bridge_port(port_priv);\n\terr = switchdev_bridge_port_offload(brport_dev, netdev, port_priv,\n\t\t\t\t\t    &dpaa2_switch_port_switchdev_nb,\n\t\t\t\t\t    &dpaa2_switch_port_switchdev_blocking_nb,\n\t\t\t\t\t    false, extack);\n",
+      "theirs": "\terr = switchdev_bridge_port_offload(netdev, netdev, NULL,\n\t\t\t\t\t    NULL, NULL, false, extack);\n",
+      "resolved_code": "\t/* Recreate the egress flood domain of the FDB that we just left. */\n\terr = dpaa2_switch_fdb_set_egress_flood(ethsw, old_fdb->fdb_id);\n\tif (err)\n\t\tgoto err_egress_flood;\n\n\tbrport_dev = dpaa2_switch_port_to_bridge_port(port_priv);\n\terr = switchdev_bridge_port_offload(brport_dev, netdev, NULL,\n\t\t\t\t\t    NULL, NULL, false, extack);\n",
+      "api_response_raw": "{\n  \"confidence\": 8,\n  \"reasoning\": \"NXP added recreation of the old FDB flood domain and uses a LAG-aware bridge port device via dpaa2_switch_port_to_bridge_port(). Mainline stable fixes unwanted MDB/VLAN/FDB replay by passing NULL context and notifier blocks to switchdev_bridge_port_offload(). The merge keeps NXP's flood-domain and bridge-port handling while applying the stable NULL arguments to avoid replay.\",\n  \"resolved_code\": \"\\t/* Recreate the egress flood domain of the FDB that we just left. */\\n\\terr = dpaa2_switch_fdb_set_egress_flood(ethsw, old_fdb->fdb_id);\\n\\tif (err)\\n\\t\\tgoto err_egress_flood;\\n\\n\\tbrport_dev = dpaa2_switch_port_to_bridge_port(port_priv);\\n\\terr = switchdev_bridge_port_offload(brport_dev, netdev, NULL,\\n\\t\\t\\t\\t\\t    NULL, NULL, false, extack);\\n\"\n}",
+      "start_line": 2165,
+      "end_line": 2179
+    },
+    {
+      "file": "drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c",
+      "hunk_index": 2,
+      "confidence": 8,
+      "reasoning": "Mainline stable removes the switchdev notifier blocks from unoffload to match the fix that avoids requesting MDB/VLAN/FDB replay. NXP adds bridge-port resolution via dpaa2_switch_port_to_bridge_port() and uses port_priv as the switchdev context, likely for its LAG/bridge-port handling. The merge keeps NXP's bridge-port lookup and context while applying the stable fix by passing NULL notifier blocks.",
+      "ours": "\tstruct ethsw_port_priv *port_priv = netdev_priv(netdev);\n\tstruct net_device *brport_dev;\n\n\tbrport_dev = dpaa2_switch_port_to_bridge_port(port_priv);\n\n\tswitchdev_bridge_port_unoffload(brport_dev, port_priv,\n\t\t\t\t\t&dpaa2_switch_port_switchdev_nb,\n\t\t\t\t\t&dpaa2_switch_port_switchdev_blocking_nb);\n",
+      "theirs": "\tswitchdev_bridge_port_unoffload(netdev, NULL, NULL, NULL);\n",
+      "resolved_code": "\tstruct ethsw_port_priv *port_priv = netdev_priv(netdev);\n\tstruct net_device *brport_dev;\n\n\tbrport_dev = dpaa2_switch_port_to_bridge_port(port_priv);\n\n\tswitchdev_bridge_port_unoffload(brport_dev, port_priv, NULL, NULL);\n\n",
+      "api_response_raw": "{\n  \"confidence\": 8,\n  \"reasoning\": \"Mainline stable removes the switchdev notifier blocks from unoffload to match the fix that avoids requesting MDB/VLAN/FDB replay. NXP adds bridge-port resolution via dpaa2_switch_port_to_bridge_port() and uses port_priv as the switchdev context, likely for its LAG/bridge-port handling. The merge keeps NXP's bridge-port lookup and context while applying the stable fix by passing NULL notifier blocks.\",\n  \"resolved_code\": \"\\tstruct ethsw_port_priv *port_priv = netdev_priv(netdev);\\n\\tstruct net_device *brport_dev;\\n\\n\\tbrport_dev = dpaa2_switch_port_to_bridge_port(port_priv);\\n\\n\\tswitchdev_bridge_port_unoffload(brport_dev, port_priv, NULL, NULL);\\n\\n\"\n}",
+      "start_line": 2213,
+      "end_line": 2224
+    }
+  ]
+}

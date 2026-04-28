@@ -1,0 +1,10 @@
+{
+  "version": "6.1.69",
+  "timestamp": "2026-04-28T13:51:26.678268",
+  "conflicts_total": 3,
+  "conflicts_resolved": 0,
+  "build_success": null,
+  "merged_to_main": false,
+  "error": "Failed to resolve drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c hunk 0: The read operation timed out",
+  "resolutions": []
+}
