@@ -1,0 +1,2053 @@
+2026-04-29 13:01:57,985 [INFO] Log file: /home/osaleem/repos/linux-imx/merge-logs/merge_20260429_130157.log
+2026-04-29 13:01:57,986 [INFO] Kernel Stable Merge Tool started
+2026-04-29 13:01:57,986 [INFO] Repo: /home/osaleem/repos/linux-imx
+2026-04-29 13:01:57,986 [INFO] Target: v6.1.90
+2026-04-29 13:01:57,986 [INFO] Provider: claude
+2026-04-29 13:01:57,986 [INFO] Interactive: False
+2026-04-29 13:01:57,986 [INFO] Dry run: False
+2026-04-29 13:01:57,986 [INFO] Fetching stable tags...
+2026-04-29 13:01:58,960 [INFO] Using override start version: 6.1.85
+2026-04-29 13:01:58,961 [INFO] 
+============================================================
+Merge step: v6.1.85 -> v6.1.86
+Progress: 1/5
+============================================================
+2026-04-29 13:01:58,961 [INFO] Starting merge: v6.1.86
+2026-04-29 13:01:59,925 [INFO] Merge v6.1.86 completed cleanly — no conflicts!
+2026-04-29 13:01:59,925 [INFO] Building kernel (compile test)...
+2026-04-29 13:13:07,227 [INFO] Build succeeded.
+2026-04-29 13:13:07,881 [INFO] Merged v6.1.86 into lf-6.1.y-semtech
+2026-04-29 13:13:07,882 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.86_2026-04-29T13-01-58.961208.json
+2026-04-29 13:13:08,112 [INFO] Current kernel version: 6.1.86
+2026-04-29 13:13:08,112 [INFO] 
+============================================================
+Merge step: v6.1.86 -> v6.1.87
+Progress: 2/5
+============================================================
+2026-04-29 13:13:08,112 [INFO] Starting merge: v6.1.87
+2026-04-29 13:13:09,081 [INFO] Merge v6.1.87 has 1 conflicted files
+2026-04-29 13:13:09,081 [INFO]   arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi: 3 conflict hunks
+2026-04-29 13:13:09,081 [INFO] Resolving arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi hunk 1...
+2026-04-29 13:13:09,092 [DEBUG] Prompt for arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi
+
+We are merging mainline stable v6.1.87 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.86..v6.1.87):
+24c0c5867ad2 arm64: dts: imx8-ss-conn: fix usdhc wrong lpcg clock order
+
+Context BEFORE the conflict:
+```
+// SPDX-License-Identifier: GPL-2.0+
+/*
+ * Copyright 2018-2019 NXP
+ *	Dong Aisheng <aisheng.dong@nxp.com>
+ */
+
+#include <dt-bindings/clock/imx8-lpcg.h>
+#include <dt-bindings/firmware/imx/rsrc.h>
+
+conn_subsys: bus@5b000000 {
+	compatible = "simple-bus";
+	#address-cells = <1>;
+	#size-cells = <1>;
+	ranges = <0x5b000000 0x0 0x5b000000 0x1000000>;
+
+	conn_axi_clk: clock-conn-axi {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <333333333>;
+		clock-output-names = "conn_axi_clk";
+	};
+
+	conn_ahb_clk: clock-conn-ahb {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <166666666>;
+		clock-output-names = "conn_ahb_clk";
+	};
+
+	conn_ipg_clk: clock-conn-ipg {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <83333333>;
+		clock-output-names = "conn_ipg_clk";
+	};
+
+	conn_bch_clk: clock-conn-bch {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <400000000>;
+		clock-output-names = "conn_bch_clk";
+	};
+
+	usbotg1: usb@5b0d0000 {
+		compatible = "fsl,imx8qm-usb", "fsl,imx7ulp-usb",
+			"fsl,imx27-usb";
+		reg = <0x5b0d0000 0x200>;
+		interrupt-parent = <&gic>;
+		interrupts = <GIC_SPI 267 IRQ_TYPE_LEVEL_HIGH>;
+		fsl,usbphy = <&usbphy1>;
+		fsl,usbmisc = <&usbmisc1 0>;
+		clocks = <&usb2_lpcg 0>;
+		ahb-burst-config = <0x0>;
+		tx-burst-size-dword = <0x10>;
+		rx-burst-size-dword = <0x10>;
+		power-domains = <&pd IMX_SC_R_USB_0>;
+		status = "disabled";
+	};
+
+	usbmisc1: usbmisc@5b0d0200 {
+		#index-cells = <1>;
+		compatible = "fsl,imx7ulp-usbmisc", "fsl,imx6q-usbmisc";
+		reg = <0x5b0d0200 0x200>;
+	};
+
+	usbphy1: usbphy@5b100000 {
+		compatible = "fsl,imx8qm-usbphy", "fsl,imx7ulp-usbphy",
+			"fsl,imx6ul-usbphy", "fsl,imx23-usbphy";
+		reg = <0x5b100000 0x1000>;
+		clocks = <&usb2_lpcg 1>;
+		power-domains = <&pd IMX_SC_R_USB_0_PHY>;
+		status = "disabled";
+	};
+
+	usdhc1: mmc@5b010000 {
+		interrupts = <GIC_SPI 232 IRQ_TYPE_LEVEL_HIGH>;
+		reg = <0x5b010000 0x10000>;
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+		clocks = <&sdhc0_lpcg 1>,
+			 <&sdhc0_lpcg 2>,
+			 <&sdhc0_lpcg 0>;
+
+```
+
+THEIR side (mainline stable):
+```
+		clocks = <&sdhc0_lpcg IMX_LPCG_CLK_4>,
+			 <&sdhc0_lpcg IMX_LPCG_CLK_5>,
+			 <&sdhc0_lpcg IMX_LPCG_CLK_0>;
+
+```
+
+Context AFTER the conflict:
+```
+		clock-names = "ipg", "ahb", "per";
+		assigned-clocks = <&clk IMX_SC_R_SDHC_0 IMX_SC_PM_CLK_PER>;
+		assigned-clock-rates = <400000000>;
+		power-domains = <&pd IMX_SC_R_SDHC_0>;
+		fsl,tuning-start-tap = <20>;
+		fsl,tuning-step= <2>;
+		status = "disabled";
+	};
+
+	usdhc2: mmc@5b020000 {
+		interrupts = <GIC_SPI 233 IRQ_TYPE_LEVEL_HIGH>;
+		reg = <0x5b020000 0x10000>;
+<<<<<<< HEAD
+		clocks = <&sdhc1_lpcg 1>,
+			 <&sdhc1_lpcg 2>,
+			 <&sdhc1_lpcg 0>;
+=======
+		clocks = <&sdhc1_lpcg IMX_LPCG_CLK_4>,
+			 <&sdhc1_lpcg IMX_LPCG_CLK_5>,
+			 <&sdhc1_lpcg IMX_LPCG_CLK_0>;
+>>>>>>> v6.1.87
+		clock-names = "ipg", "ahb", "per";
+		assigned-clocks = <&clk IMX_SC_R_SDHC_1 IMX_SC_PM_CLK_PER>;
+		assigned-clock-rates = <200000000>;
+		power-domains = <&pd IMX_SC_R_SDHC_1>;
+		fsl,tuning-start-tap = <20>;
+		fsl,tuning-step = <2>;
+		status = "disabled";
+	};
+
+	usdhc3: mmc@5b030000 {
+		interrupts = <GIC_SPI 234 IRQ_TYPE_LEVEL_HIGH>;
+		reg = <0x5b030000 0x10000>;
+<<<<<<< HEAD
+		clocks = <&sdhc2_lpcg 1>,
+			 <&sdhc2_lpcg 2>,
+			 <&sdhc2_lpcg 0>;
+=======
+		clocks = <&sdhc2_lpcg IMX_LPCG_CLK_4>,
+			 <&sdhc2_lpcg IMX_LPCG_CLK_5>,
+			 <&sdhc2_lpcg IMX_LPCG_CLK_0>;
+>>>>>>> v6.1.87
+		clock-names = "ipg", "ahb", "per";
+		assigned-clocks = <&clk IMX_SC_R_SDHC_2 IMX_SC_PM_CLK_PER>;
+		assigned-clock-rates = <200000000>;
+		power-domains = <&pd IMX_SC_R_SDHC_2>;
+		fsl,tuning-start-tap = <20>;
+		fsl,tuning-step= <2>;
+		status = "disabled";
+	};
+
+	fec1: ethernet@5b040000 {
+		reg = <0x5b040000 0x10000>;
+		interrupts = <GIC_SPI 258 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 257 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 259 IRQ_TYPE_LEVEL_HIGH>;
+		clocks = <&enet0_lpcg 4>,
+			 <&enet0_lpcg 2>,
+			 <&enet0_lpcg 3>,
+			 <&enet0_lpcg 0>,
+			 <&enet0_lpcg 1>;
+		clock-names = "ipg", "ahb", "enet_clk_ref", "ptp", "enet_2x_txclk";
+		assigned-clocks = <&clk IMX_SC_R_ENET_0 IMX_SC_PM_CLK_PER>,
+				  <&clk IMX_SC_R_ENET_0 IMX_SC_C_CLKDIV>;
+		assigned-clock-rates = <250000000>, <125000000>;
+		fsl,num-tx-queues = <3>;
+		fsl,num-rx-queues = <3>;
+		power-domains = <&pd IMX_SC_R_ENET_0>;
+		status = "disabled";
+	};
+
+	fec2: ethernet@5b050000 {
+		reg = <0x5b050000 0x10000>;
+		interrupts = <GIC_SPI 262 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 260 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 261 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 263 IRQ_TYPE_LEVEL_HIGH>;
+		clocks = <&enet1_lpcg 4>,
+			 <&enet1_lpcg 2>,
+			 <&enet1_lpcg 3>,
+			 <&enet1_lpcg 0>,
+			 <&enet1_lpcg 1>;
+		clock-names = "ipg", "ahb", "enet_clk_ref", "ptp", "enet_2x_txclk";
+		assigned-clocks = <&clk IMX_SC_R_ENET_1 IMX_SC_PM_CLK_PER>,
+				  <&clk IMX_SC_R_ENET_1 IMX_SC_C_CLKDIV>;
+		assigned-clock-rates = <250000000>, <125000000>;
+		fsl,num-tx-queues = <3>;
+		fsl,num-rx-queues = <3>;
+		power-domains = <&pd IMX_SC_R_ENET_1>;
+		status = "disabled";
+	};
+
+	usb3_phy: usb-phy@5b160000 {
+		compatible = "nxp,salvo-phy";
+		reg = <0x5B160000 0x40000>;
+		clocks = <&usb3_lpcg 4>;
+		clock-names = "salvo_phy_clk";
+		power-domains = <&pd IMX_SC_R_USB_
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-29 13:13:14,942 [INFO]   Resolved arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi hunk 0: confidence=9/10 — Mainline replaces magic numbers with IMX_LPCG_CLK_* macros but the order changes from (1,2,0) to (4,
+2026-04-29 13:13:14,943 [DEBUG] Applied resolution to arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi hunk 0
+2026-04-29 13:13:14,943 [INFO] Resolving arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi hunk 2...
+2026-04-29 13:13:14,962 [DEBUG] Prompt for arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi hunk 1:
+Resolve this merge conflict in the Linux kernel.
+
+File: arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi
+
+We are merging mainline stable v6.1.87 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.86..v6.1.87):
+24c0c5867ad2 arm64: dts: imx8-ss-conn: fix usdhc wrong lpcg clock order
+
+Context BEFORE the conflict:
+```
+// SPDX-License-Identifier: GPL-2.0+
+/*
+ * Copyright 2018-2019 NXP
+ *	Dong Aisheng <aisheng.dong@nxp.com>
+ */
+
+#include <dt-bindings/clock/imx8-lpcg.h>
+#include <dt-bindings/firmware/imx/rsrc.h>
+
+conn_subsys: bus@5b000000 {
+	compatible = "simple-bus";
+	#address-cells = <1>;
+	#size-cells = <1>;
+	ranges = <0x5b000000 0x0 0x5b000000 0x1000000>;
+
+	conn_axi_clk: clock-conn-axi {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <333333333>;
+		clock-output-names = "conn_axi_clk";
+	};
+
+	conn_ahb_clk: clock-conn-ahb {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <166666666>;
+		clock-output-names = "conn_ahb_clk";
+	};
+
+	conn_ipg_clk: clock-conn-ipg {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <83333333>;
+		clock-output-names = "conn_ipg_clk";
+	};
+
+	conn_bch_clk: clock-conn-bch {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <400000000>;
+		clock-output-names = "conn_bch_clk";
+	};
+
+	usbotg1: usb@5b0d0000 {
+		compatible = "fsl,imx8qm-usb", "fsl,imx7ulp-usb",
+			"fsl,imx27-usb";
+		reg = <0x5b0d0000 0x200>;
+		interrupt-parent = <&gic>;
+		interrupts = <GIC_SPI 267 IRQ_TYPE_LEVEL_HIGH>;
+		fsl,usbphy = <&usbphy1>;
+		fsl,usbmisc = <&usbmisc1 0>;
+		clocks = <&usb2_lpcg 0>;
+		ahb-burst-config = <0x0>;
+		tx-burst-size-dword = <0x10>;
+		rx-burst-size-dword = <0x10>;
+		power-domains = <&pd IMX_SC_R_USB_0>;
+		status = "disabled";
+	};
+
+	usbmisc1: usbmisc@5b0d0200 {
+		#index-cells = <1>;
+		compatible = "fsl,imx7ulp-usbmisc", "fsl,imx6q-usbmisc";
+		reg = <0x5b0d0200 0x200>;
+	};
+
+	usbphy1: usbphy@5b100000 {
+		compatible = "fsl,imx8qm-usbphy", "fsl,imx7ulp-usbphy",
+			"fsl,imx6ul-usbphy", "fsl,imx23-usbphy";
+		reg = <0x5b100000 0x1000>;
+		clocks = <&usb2_lpcg 1>;
+		power-domains = <&pd IMX_SC_R_USB_0_PHY>;
+		status = "disabled";
+	};
+
+	usdhc1: mmc@5b010000 {
+		interrupts = <GIC_SPI 232 IRQ_TYPE_LEVEL_HIGH>;
+		reg = <0x5b010000 0x10000>;
+<<<<<<< HEAD
+		clocks = <&sdhc0_lpcg 1>,
+			 <&sdhc0_lpcg 2>,
+			 <&sdhc0_lpcg 0>;
+=======
+		clocks = <&sdhc0_lpcg IMX_LPCG_CLK_4>,
+			 <&sdhc0_lpcg IMX_LPCG_CLK_5>,
+			 <&sdhc0_lpcg IMX_LPCG_CLK_0>;
+>>>>>>> v6.1.87
+		clock-names = "ipg", "ahb", "per";
+		assigned-clocks = <&clk IMX_SC_R_SDHC_0 IMX_SC_PM_CLK_PER>;
+		assigned-clock-rates = <400000000>;
+		power-domains = <&pd IMX_SC_R_SDHC_0>;
+		fsl,tuning-start-tap = <20>;
+		fsl,tuning-step= <2>;
+		status = "disabled";
+	};
+
+	usdhc2: mmc@5b020000 {
+		interrupts = <GIC_SPI 233 IRQ_TYPE_LEVEL_HIGH>;
+		reg = <0x5b020000 0x10000>;
+
+```
+
+CONFLICT (hunk 2):
+OUR side (NXP vendor kernel):
+```
+		clocks = <&sdhc1_lpcg 1>,
+			 <&sdhc1_lpcg 2>,
+			 <&sdhc1_lpcg 0>;
+
+```
+
+THEIR side (mainline stable):
+```
+		clocks = <&sdhc1_lpcg IMX_LPCG_CLK_4>,
+			 <&sdhc1_lpcg IMX_LPCG_CLK_5>,
+			 <&sdhc1_lpcg IMX_LPCG_CLK_0>;
+
+```
+
+Context AFTER the conflict:
+```
+		clock-names = "ipg", "ahb", "per";
+		assigned-clocks = <&clk IMX_SC_R_SDHC_1 IMX_SC_PM_CLK_PER>;
+		assigned-clock-rates = <200000000>;
+		power-domains = <&pd IMX_SC_R_SDHC_1>;
+		fsl,tuning-start-tap = <20>;
+		fsl,tuning-step = <2>;
+		status = "disabled";
+	};
+
+	usdhc3: mmc@5b030000 {
+		interrupts = <GIC_SPI 234 IRQ_TYPE_LEVEL_HIGH>;
+		reg = <0x5b030000 0x10000>;
+<<<<<<< HEAD
+		clocks = <&sdhc2_lpcg 1>,
+			 <&sdhc2_lpcg 2>,
+			 <&sdhc2_lpcg 0>;
+=======
+		clocks = <&sdhc2_lpcg IMX_LPCG_CLK_4>,
+			 <&sdhc2_lpcg IMX_LPCG_CLK_5>,
+			 <&sdhc2_lpcg IMX_LPCG_CLK_0>;
+>>>>>>> v6.1.87
+		clock-names = "ipg", "ahb", "per";
+		assigned-clocks = <&clk IMX_SC_R_SDHC_2 IMX_SC_PM_CLK_PER>;
+		assigned-clock-rates = <200000000>;
+		power-domains = <&pd IMX_SC_R_SDHC_2>;
+		fsl,tuning-start-tap = <20>;
+		fsl,tuning-step= <2>;
+		status = "disabled";
+	};
+
+	fec1: ethernet@5b040000 {
+		reg = <0x5b040000 0x10000>;
+		interrupts = <GIC_SPI 258 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 257 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 259 IRQ_TYPE_LEVEL_HIGH>;
+		clocks = <&enet0_lpcg 4>,
+			 <&enet0_lpcg 2>,
+			 <&enet0_lpcg 3>,
+			 <&enet0_lpcg 0>,
+			 <&enet0_lpcg 1>;
+		clock-names = "ipg", "ahb", "enet_clk_ref", "ptp", "enet_2x_txclk";
+		assigned-clocks = <&clk IMX_SC_R_ENET_0 IMX_SC_PM_CLK_PER>,
+				  <&clk IMX_SC_R_ENET_0 IMX_SC_C_CLKDIV>;
+		assigned-clock-rates = <250000000>, <125000000>;
+		fsl,num-tx-queues = <3>;
+		fsl,num-rx-queues = <3>;
+		power-domains = <&pd IMX_SC_R_ENET_0>;
+		status = "disabled";
+	};
+
+	fec2: ethernet@5b050000 {
+		reg = <0x5b050000 0x10000>;
+		interrupts = <GIC_SPI 262 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 260 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 261 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 263 IRQ_TYPE_LEVEL_HIGH>;
+		clocks = <&enet1_lpcg 4>,
+			 <&enet1_lpcg 2>,
+			 <&enet1_lpcg 3>,
+			 <&enet1_lpcg 0>,
+			 <&enet1_lpcg 1>;
+		clock-names = "ipg", "ahb", "enet_clk_ref", "ptp", "enet_2x_txclk";
+		assigned-clocks = <&clk IMX_SC_R_ENET_1 IMX_SC_PM_CLK_PER>,
+				  <&clk IMX_SC_R_ENET_1 IMX_SC_C_CLKDIV>;
+		assigned-clock-rates = <250000000>, <125000000>;
+		fsl,num-tx-queues = <3>;
+		fsl,num-rx-queues = <3>;
+		power-domains = <&pd IMX_SC_R_ENET_1>;
+		status = "disabled";
+	};
+
+	usb3_phy: usb-phy@5b160000 {
+		compatible = "nxp,salvo-phy";
+		reg = <0x5B160000 0x40000>;
+		clocks = <&usb3_lpcg 4>;
+		clock-names = "salvo_phy_clk";
+		power-domains = <&pd IMX_SC_R_USB_2_PHY>;
+		#phy-cells = <0>;
+		status = "disabled";
+        };
+
+	usbotg3: usb@5b110000 {
+		compatible = "fsl,imx8qm-usb3";
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+		reg = <0x5B110000 0x10000>;
+		clocks = <&usb3_lpcg 1>,
+			 <&usb3_lpcg 0>,
+			 <&usb3_lpcg 5>,
+			 <&usb3_lpcg 2>,
+			 <&usb3_lpcg 3>;
+		clock-names = "usb3_lpm_clk", "usb3_bus_clk", "usb3_aclk",
+			"usb3_ipg_clk", "usb3_core_pclk";
+		assigned-clocks = <&clk IMX_SC_R_USB_2 IMX_SC_PM_CLK_PER>,
+			<&clk IMX_SC_R_USB_2 IMX_SC_PM_CLK_MISC>,
+			<&clk IMX_SC_R_USB_2 IMX_SC_PM_CLK_MST_BUS>;
+		assigned-cloc
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-29 13:13:19,799 [INFO]   Resolved arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi hunk 1: confidence=9/10 — Mainline stable fix uses IMX_LPCG_CLK_* macros which is the same indices but more readable and is a 
+2026-04-29 13:13:19,800 [DEBUG] Applied resolution to arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi hunk 1
+2026-04-29 13:13:19,800 [INFO] Resolving arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi hunk 3...
+2026-04-29 13:13:19,818 [DEBUG] Prompt for arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi hunk 2:
+Resolve this merge conflict in the Linux kernel.
+
+File: arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi
+
+We are merging mainline stable v6.1.87 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.86..v6.1.87):
+24c0c5867ad2 arm64: dts: imx8-ss-conn: fix usdhc wrong lpcg clock order
+
+Context BEFORE the conflict:
+```
+		clock-output-names = "conn_axi_clk";
+	};
+
+	conn_ahb_clk: clock-conn-ahb {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <166666666>;
+		clock-output-names = "conn_ahb_clk";
+	};
+
+	conn_ipg_clk: clock-conn-ipg {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <83333333>;
+		clock-output-names = "conn_ipg_clk";
+	};
+
+	conn_bch_clk: clock-conn-bch {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <400000000>;
+		clock-output-names = "conn_bch_clk";
+	};
+
+	usbotg1: usb@5b0d0000 {
+		compatible = "fsl,imx8qm-usb", "fsl,imx7ulp-usb",
+			"fsl,imx27-usb";
+		reg = <0x5b0d0000 0x200>;
+		interrupt-parent = <&gic>;
+		interrupts = <GIC_SPI 267 IRQ_TYPE_LEVEL_HIGH>;
+		fsl,usbphy = <&usbphy1>;
+		fsl,usbmisc = <&usbmisc1 0>;
+		clocks = <&usb2_lpcg 0>;
+		ahb-burst-config = <0x0>;
+		tx-burst-size-dword = <0x10>;
+		rx-burst-size-dword = <0x10>;
+		power-domains = <&pd IMX_SC_R_USB_0>;
+		status = "disabled";
+	};
+
+	usbmisc1: usbmisc@5b0d0200 {
+		#index-cells = <1>;
+		compatible = "fsl,imx7ulp-usbmisc", "fsl,imx6q-usbmisc";
+		reg = <0x5b0d0200 0x200>;
+	};
+
+	usbphy1: usbphy@5b100000 {
+		compatible = "fsl,imx8qm-usbphy", "fsl,imx7ulp-usbphy",
+			"fsl,imx6ul-usbphy", "fsl,imx23-usbphy";
+		reg = <0x5b100000 0x1000>;
+		clocks = <&usb2_lpcg 1>;
+		power-domains = <&pd IMX_SC_R_USB_0_PHY>;
+		status = "disabled";
+	};
+
+	usdhc1: mmc@5b010000 {
+		interrupts = <GIC_SPI 232 IRQ_TYPE_LEVEL_HIGH>;
+		reg = <0x5b010000 0x10000>;
+<<<<<<< HEAD
+		clocks = <&sdhc0_lpcg 1>,
+			 <&sdhc0_lpcg 2>,
+			 <&sdhc0_lpcg 0>;
+=======
+		clocks = <&sdhc0_lpcg IMX_LPCG_CLK_4>,
+			 <&sdhc0_lpcg IMX_LPCG_CLK_5>,
+			 <&sdhc0_lpcg IMX_LPCG_CLK_0>;
+>>>>>>> v6.1.87
+		clock-names = "ipg", "ahb", "per";
+		assigned-clocks = <&clk IMX_SC_R_SDHC_0 IMX_SC_PM_CLK_PER>;
+		assigned-clock-rates = <400000000>;
+		power-domains = <&pd IMX_SC_R_SDHC_0>;
+		fsl,tuning-start-tap = <20>;
+		fsl,tuning-step= <2>;
+		status = "disabled";
+	};
+
+	usdhc2: mmc@5b020000 {
+		interrupts = <GIC_SPI 233 IRQ_TYPE_LEVEL_HIGH>;
+		reg = <0x5b020000 0x10000>;
+<<<<<<< HEAD
+		clocks = <&sdhc1_lpcg 1>,
+			 <&sdhc1_lpcg 2>,
+			 <&sdhc1_lpcg 0>;
+=======
+		clocks = <&sdhc1_lpcg IMX_LPCG_CLK_4>,
+			 <&sdhc1_lpcg IMX_LPCG_CLK_5>,
+			 <&sdhc1_lpcg IMX_LPCG_CLK_0>;
+>>>>>>> v6.1.87
+		clock-names = "ipg", "ahb", "per";
+		assigned-clocks = <&clk IMX_SC_R_SDHC_1 IMX_SC_PM_CLK_PER>;
+		assigned-clock-rates = <200000000>;
+		power-domains = <&pd IMX_SC_R_SDHC_1>;
+		fsl,tuning-start-tap = <20>;
+		fsl,tuning-step = <2>;
+		status = "disabled";
+	};
+
+	usdhc3: mmc@5b030000 {
+		interrupts = <GIC_SPI 234 IRQ_TYPE_LEVEL_HIGH>;
+		reg = <0x5b030000 0x10000>;
+
+```
+
+CONFLICT (hunk 3):
+OUR side (NXP vendor kernel):
+```
+		clocks = <&sdhc2_lpcg 1>,
+			 <&sdhc2_lpcg 2>,
+			 <&sdhc2_lpcg 0>;
+
+```
+
+THEIR side (mainline stable):
+```
+		clocks = <&sdhc2_lpcg IMX_LPCG_CLK_4>,
+			 <&sdhc2_lpcg IMX_LPCG_CLK_5>,
+			 <&sdhc2_lpcg IMX_LPCG_CLK_0>;
+
+```
+
+Context AFTER the conflict:
+```
+		clock-names = "ipg", "ahb", "per";
+		assigned-clocks = <&clk IMX_SC_R_SDHC_2 IMX_SC_PM_CLK_PER>;
+		assigned-clock-rates = <200000000>;
+		power-domains = <&pd IMX_SC_R_SDHC_2>;
+		fsl,tuning-start-tap = <20>;
+		fsl,tuning-step= <2>;
+		status = "disabled";
+	};
+
+	fec1: ethernet@5b040000 {
+		reg = <0x5b040000 0x10000>;
+		interrupts = <GIC_SPI 258 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 257 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 259 IRQ_TYPE_LEVEL_HIGH>;
+		clocks = <&enet0_lpcg 4>,
+			 <&enet0_lpcg 2>,
+			 <&enet0_lpcg 3>,
+			 <&enet0_lpcg 0>,
+			 <&enet0_lpcg 1>;
+		clock-names = "ipg", "ahb", "enet_clk_ref", "ptp", "enet_2x_txclk";
+		assigned-clocks = <&clk IMX_SC_R_ENET_0 IMX_SC_PM_CLK_PER>,
+				  <&clk IMX_SC_R_ENET_0 IMX_SC_C_CLKDIV>;
+		assigned-clock-rates = <250000000>, <125000000>;
+		fsl,num-tx-queues = <3>;
+		fsl,num-rx-queues = <3>;
+		power-domains = <&pd IMX_SC_R_ENET_0>;
+		status = "disabled";
+	};
+
+	fec2: ethernet@5b050000 {
+		reg = <0x5b050000 0x10000>;
+		interrupts = <GIC_SPI 262 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 260 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 261 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 263 IRQ_TYPE_LEVEL_HIGH>;
+		clocks = <&enet1_lpcg 4>,
+			 <&enet1_lpcg 2>,
+			 <&enet1_lpcg 3>,
+			 <&enet1_lpcg 0>,
+			 <&enet1_lpcg 1>;
+		clock-names = "ipg", "ahb", "enet_clk_ref", "ptp", "enet_2x_txclk";
+		assigned-clocks = <&clk IMX_SC_R_ENET_1 IMX_SC_PM_CLK_PER>,
+				  <&clk IMX_SC_R_ENET_1 IMX_SC_C_CLKDIV>;
+		assigned-clock-rates = <250000000>, <125000000>;
+		fsl,num-tx-queues = <3>;
+		fsl,num-rx-queues = <3>;
+		power-domains = <&pd IMX_SC_R_ENET_1>;
+		status = "disabled";
+	};
+
+	usb3_phy: usb-phy@5b160000 {
+		compatible = "nxp,salvo-phy";
+		reg = <0x5B160000 0x40000>;
+		clocks = <&usb3_lpcg 4>;
+		clock-names = "salvo_phy_clk";
+		power-domains = <&pd IMX_SC_R_USB_2_PHY>;
+		#phy-cells = <0>;
+		status = "disabled";
+        };
+
+	usbotg3: usb@5b110000 {
+		compatible = "fsl,imx8qm-usb3";
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+		reg = <0x5B110000 0x10000>;
+		clocks = <&usb3_lpcg 1>,
+			 <&usb3_lpcg 0>,
+			 <&usb3_lpcg 5>,
+			 <&usb3_lpcg 2>,
+			 <&usb3_lpcg 3>;
+		clock-names = "usb3_lpm_clk", "usb3_bus_clk", "usb3_aclk",
+			"usb3_ipg_clk", "usb3_core_pclk";
+		assigned-clocks = <&clk IMX_SC_R_USB_2 IMX_SC_PM_CLK_PER>,
+			<&clk IMX_SC_R_USB_2 IMX_SC_PM_CLK_MISC>,
+			<&clk IMX_SC_R_USB_2 IMX_SC_PM_CLK_MST_BUS>;
+		assigned-clock-rates = <125000000>, <12000000>, <250000000>;
+		power-domains = <&pd IMX_SC_R_USB_2>;
+		status = "disabled";
+
+		usbotg3_cdns3: usb@5b120000 {
+			compatible = "cdns,usb3";
+			#address-cells = <1>;
+			#size-cells = <1>;
+			interrupt-parent = <&gic>;
+			interrupts = <GIC_SPI 271 IRQ_TYPE_LEVEL_HIGH>,
+					<GIC_SPI 271 IRQ_TYPE_LEVEL_HIGH>,
+					<GIC_SPI 271 IRQ_TYPE_LEVEL_HIGH>,
+					<GIC_SPI 271 IRQ_TYPE_LEVEL_HIGH>;
+			interrupt-names = "host", "peripheral", "otg", "wakeup";
+			reg = <0x5B130000 0x10000>,     /* memory area for HOST registers */
+				<0x5B140000 0x10000>,   /
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-29 13:13:25,215 [INFO]   Resolved arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi hunk 2: confidence=9/10 — Mainline fix uses IMX_LPCG_CLK_* macros for correct clock ordering. The numeric mapping in NXP (1,2,
+2026-04-29 13:13:25,215 [DEBUG] Applied resolution to arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi hunk 2
+2026-04-29 13:13:25,644 [INFO] All conflicts resolved. Confidence: min=9, avg=9.0
+2026-04-29 13:13:25,644 [INFO] Building kernel (compile test)...
+2026-04-29 13:24:36,150 [INFO] Build succeeded.
+2026-04-29 13:24:36,712 [INFO] Successfully merged v6.1.87 into lf-6.1.y-semtech
+2026-04-29 13:24:36,713 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.87_2026-04-29T13-13-08.112939.json
+2026-04-29 13:24:36,946 [INFO] Current kernel version: 6.1.87
+2026-04-29 13:24:36,946 [INFO] 
+============================================================
+Merge step: v6.1.87 -> v6.1.88
+Progress: 3/5
+============================================================
+2026-04-29 13:24:36,946 [INFO] Starting merge: v6.1.88
+2026-04-29 13:24:38,090 [INFO] Merge v6.1.88 completed cleanly — no conflicts!
+2026-04-29 13:24:38,090 [INFO] Building kernel (compile test)...
+2026-04-29 13:35:50,491 [INFO] Build succeeded.
+2026-04-29 13:35:51,229 [INFO] Merged v6.1.88 into lf-6.1.y-semtech
+2026-04-29 13:35:51,230 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.88_2026-04-29T13-24-36.946568.json
+2026-04-29 13:35:51,435 [INFO] Current kernel version: 6.1.88
+2026-04-29 13:35:51,435 [INFO] 
+============================================================
+Merge step: v6.1.88 -> v6.1.89
+Progress: 4/5
+============================================================
+2026-04-29 13:35:51,435 [INFO] Starting merge: v6.1.89
+2026-04-29 13:35:52,331 [INFO] Merge v6.1.89 completed cleanly — no conflicts!
+2026-04-29 13:35:52,331 [INFO] Building kernel (compile test)...
+2026-04-29 13:40:05,450 [INFO] Build succeeded.
+2026-04-29 13:40:05,816 [INFO] Merged v6.1.89 into lf-6.1.y-semtech
+2026-04-29 13:40:05,817 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.89_2026-04-29T13-35-51.435817.json
+2026-04-29 13:40:06,021 [INFO] Current kernel version: 6.1.89
+2026-04-29 13:40:06,021 [INFO] 
+============================================================
+Merge step: v6.1.89 -> v6.1.90
+Progress: 5/5
+============================================================
+2026-04-29 13:40:06,021 [INFO] Starting merge: v6.1.90
+2026-04-29 13:40:07,026 [INFO] Merge v6.1.90 has 1 conflicted files
+2026-04-29 13:40:07,027 [INFO]   drivers/phy/freescale/phy-fsl-imx8m-pcie.c: 5 conflict hunks
+2026-04-29 13:40:07,027 [INFO] Resolving drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 1...
+2026-04-29 13:40:07,053 [DEBUG] Prompt for drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/phy/freescale/phy-fsl-imx8m-pcie.c
+
+We are merging mainline stable v6.1.90 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.89..v6.1.90):
+4723dfe76de0 phy: freescale: imx8m-pcie: fix pcie link-up instability
+ed4b981b1d86 phy: freescale: imx8m-pcie: Refine i.MX8MM PCIe PHY driver
+
+Context BEFORE the conflict:
+```
+// SPDX-License-Identifier: GPL-2.0+
+/*
+ * Copyright 2021 NXP
+ */
+
+#include <linux/bitfield.h>
+#include <linux/clk.h>
+#include <linux/delay.h>
+#include <linux/io.h>
+#include <linux/iopoll.h>
+#include <linux/mfd/syscon.h>
+#include <linux/mfd/syscon/imx7-iomuxc-gpr.h>
+#include <linux/module.h>
+#include <linux/of_device.h>
+#include <linux/phy/phy.h>
+#include <linux/platform_device.h>
+#include <linux/regmap.h>
+#include <linux/reset.h>
+
+#include <dt-bindings/phy/phy-imx8-pcie.h>
+
+#define IMX8MM_PCIE_PHY_CMN_REG061	0x184
+#define  ANA_PLL_CLK_OUT_TO_EXT_IO_EN	BIT(0)
+#define IMX8MM_PCIE_PHY_CMN_REG062	0x188
+#define  ANA_PLL_CLK_OUT_TO_EXT_IO_SEL	BIT(3)
+#define IMX8MM_PCIE_PHY_CMN_REG063	0x18C
+#define  AUX_PLL_REFCLK_SEL_SYS_PLL	GENMASK(7, 6)
+#define IMX8MM_PCIE_PHY_CMN_REG064	0x190
+#define  ANA_AUX_RX_TX_SEL_TX		BIT(7)
+#define  ANA_AUX_RX_TERM_GND_EN		BIT(3)
+#define  ANA_AUX_TX_TERM		BIT(2)
+#define IMX8MM_PCIE_PHY_CMN_REG065	0x194
+#define  ANA_AUX_RX_TERM		(BIT(7) | BIT(4))
+#define  ANA_AUX_TX_LVL			GENMASK(3, 0)
+#define IMX8MM_PCIE_PHY_CMN_REG075	0x1D4
+#define  ANA_PLL_DONE			0x3
+#define PCIE_PHY_TRSV_REG5		0x414
+#define PCIE_PHY_TRSV_REG6		0x418
+
+#define IMX8MM_GPR_PCIE_REF_CLK_SEL	GENMASK(25, 24)
+#define IMX8MM_GPR_PCIE_REF_CLK_PLL	FIELD_PREP(IMX8MM_GPR_PCIE_REF_CLK_SEL, 0x3)
+#define IMX8MM_GPR_PCIE_REF_CLK_EXT	FIELD_PREP(IMX8MM_GPR_PCIE_REF_CLK_SEL, 0x2)
+#define IMX8MM_GPR_PCIE_AUX_EN		BIT(19)
+#define IMX8MM_GPR_PCIE_CMN_RST		BIT(18)
+#define IMX8MM_GPR_PCIE_POWER_OFF	BIT(17)
+#define IMX8MM_GPR_PCIE_SSC_EN		BIT(16)
+#define IMX8MM_GPR_PCIE_AUX_EN_OVERRIDE	BIT(9)
+
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+#define IMX8MP_PCIE_PHY_TRSV_REG001	0x404
+#define  LN0_OVRD_TX_DRV_LVL_G1		0x3F
+#define IMX8MP_PCIE_PHY_TRSV_REG002	0x408
+#define  LN0_OVRD_TX_DRV_LVL_G2		0x1F
+#define IMX8MP_PCIE_PHY_TRSV_REG003	0x40C
+#define  LN0_OVRD_TX_DRV_LVL_G3		0x1F
+#define IMX8MP_PCIE_PHY_TRSV_REG005	0x414
+#define  LN0_OVRD_TX_DRV_PST_LVL_G1	0x2B
+#define IMX8MP_PCIE_PHY_TRSV_REG006	0x418
+#define  LN0_OVRD_TX_DRV_PST_LVL_G2	0xB
+#define IMX8MP_PCIE_PHY_TRSV_REG007	0x41C
+#define  LN0_OVRD_TX_DRV_PST_LVL_G3	0xB
+#define IMX8MP_PCIE_PHY_TRSV_REG009	0x424
+#define  LN0_OVRD_TX_DRV_PRE_LVL_G1	0x15
+#define IMX8MP_PCIE_PHY_TRSV_REG00A	0x428
+#define  LN0_OVRD_TX_DRV_PRE_LVL_G23	0x55
+#define IMX8MP_PCIE_PHY_TRSV_REG059	0x4EC
+#define  LN0_OVRD_RX_CTLE_RS1_G1	0x13
+#define IMX8MP_PCIE_PHY_TRSV_REG060	0x4F0
+#define  LN0_OVRD_RX_CTLE_RS1_G2_G3	0x25
+#define IMX8MP_PCIE_PHY_TRSV_REG069	0x514
+#define  LN0_ANA_RX_CTLE_IBLEED		0x7
+#define IMX8MP_PCIE_PHY_TRSV_REG107	0x5AC
+#define  LN0_OVRD_RX_RTERM_VCM_EN	0xB8
+#define IMX8MP_PCIE_PHY_TRSV_REG109	0x5B4
+#define  LN0_ANA_OVRD_RX_SQHS_DIFN_OC	0xD4
+#define IMX8MP_PCIE_PHY_TRSV_REG110	0x5B8
+#define  LN0_ANA_OVRD_RX_SQHS_DIFP_OC	0x6A
+#define IMX8MP_PCIE_PHY_TRSV_REG158	0x678
+#define  LN0_RX_CDR_FBB_FINE_G1_G2	0x55
+#define IMX8MP_PCIE_PHY_TRSV_REG159	0x67C
+#define  LN0_RX_CDR_FBB_FINE_G3_G4	0x53
+#define IMX8MP_PCIE_PHY_TRSV_REG206	0x738
+#define  LN0_TG_RX_SIGVAL_LBF_DELAY	0x4
+
+static int imx8_pcie_phy_tuned;
+enum imx8_pcie_phy_type {
+	IMX8MM,
+	IMX8MP,
+
+```
+
+THEIR side (mainline stable):
+```
+enum imx8_pcie_phy_type {
+	IMX8MM,
+
+```
+
+Context AFTER the conflict:
+```
+};
+
+struct imx8_pcie_phy_drvdata {
+	const	char			*gpr;
+	enum	imx8_pcie_phy_type	variant;
+};
+
+struct imx8_pcie_phy {
+	void __iomem		*base;
+	struct clk		*clk;
+	struct phy		*phy;
+	struct regmap		*iomuxc_gpr;
+	struct reset_control	*perst;
+	struct reset_control	*reset;
+	u32			refclk_pad_mode;
+	u32			tx_deemph_gen1;
+	u32			tx_deemph_gen2;
+	bool			clkreq_unused;
+	const struct imx8_pcie_phy_drvdata	*drvdata;
+};
+
+static int imx8_pcie_phy_power_on(struct phy *phy)
+{
+	int ret;
+	u32 val, pad_mode;
+	struct imx8_pcie_phy *imx8_phy = phy_get_drvdata(phy);
+
+	pad_mode = imx8_phy->refclk_pad_mode;
+	switch (imx8_phy->drvdata->variant) {
+	case IMX8MM:
+<<<<<<< HEAD
+		reset_control_assert(imx8_phy->reset);
+
+		/* Tune PHY de-emphasis setting to pass PCIe compliance. */
+		if (imx8_phy->tx_deemph_gen1)
+			writel(imx8_phy->tx_deemph_gen1,
+			       imx8_phy->base + PCIE_PHY_TRSV_REG5);
+		if (imx8_phy->tx_deemph_gen2)
+			writel(imx8_phy->tx_deemph_gen2,
+			       imx8_phy->base + PCIE_PHY_TRSV_REG6);
+		break;
+	case IMX8MP: /* Do nothing. */
+		break;
+	}
+=======
+		/* Tune PHY de-emphasis setting to pass PCIe compliance. */
+		if (imx8_phy->tx_deemph_gen1)
+			writel(imx8_phy->tx_deemph_gen1,
+			       imx8_phy->base + PCIE_PHY_TRSV_REG5);
+		if (imx8_phy->tx_deemph_gen2)
+			writel(imx8_phy->tx_deemph_gen2,
+			       imx8_phy->base + PCIE_PHY_TRSV_REG6);
+		break;
+	}
+
+	if (pad_mode == IMX8_PCIE_REFCLK_PAD_INPUT ||
+	    pad_mode == IMX8_PCIE_REFCLK_PAD_UNUSED) {
+		/* Configure the pad as input */
+		val = readl(imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG061);
+		writel(val & ~ANA_PLL_CLK_OUT_TO_EXT_IO_EN,
+		       imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG061);
+	} else {
+		/* Configure the PHY to output the refclock via pad */
+		writel(ANA_PLL_CLK_OUT_TO_EXT_IO_EN,
+		       imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG061);
+	}
+
+	if (pad_mode == IMX8_PCIE_REFCLK_PAD_OUTPUT ||
+	    pad_mode == IMX8_PCIE_REFCLK_PAD_UNUSED) {
+		/* Source clock from SoC internal PLL */
+		writel(ANA_PLL_CLK_OUT_TO_EXT_IO_SEL,
+		       imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG062);
+		if (imx8_phy->drvdata->variant != IMX8MM) {
+			writel(AUX_PLL_REFCLK_SEL_SYS_PLL,
+			       imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG063);
+		}
+		val = ANA_AUX_RX_TX_SEL_TX | ANA_AUX_TX_TERM;
+		writel(val | ANA_AUX_RX_TERM_GND_EN,
+		       imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG064);
+		writel(ANA_AUX_RX_TERM | ANA_AUX_TX_LVL,
+		       imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG065);
+	}
+
+	/* Set AUX_EN_OVERRIDE 1'b0, when the CLKREQ# isn't hooked */
+	regmap_update_bits(imx8_phy->iomuxc_gpr, IOMUXC_GPR14,
+			   IMX8MM_GPR_PCIE_AUX_EN_OVERRIDE,
+			   imx8_phy->clkreq_unused ?
+			   0 : IMX8MM_GPR_PCIE_AUX_EN_OVERRIDE);
+	regmap_update_bits(imx8_phy->iomuxc_gpr, IOMUXC_GPR14,
+			   IMX8MM_GPR_PCIE_AUX_EN,
+			   IMX8MM_GPR_PCIE_AUX_EN);
+	regmap_update_bits(imx8_phy->iomuxc_gpr, IOMUXC_GPR14,
+			   IMX8MM_GPR_PCIE_POWER_OFF, 0);
+	regmap_update_bits(imx8_phy->iomuxc_gpr, IOMUXC_GPR14,
+			   IMX8MM_GPR_PCIE_SSC_EN, 0);
+
+	regmap_update_bits(imx8_phy->
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-29 13:40:24,082 [INFO]   Resolved drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 0: confidence=8/10 — OUR side (NXP) adds IMX8MP support with many new register definitions and an IMX8MP enum variant, pl
+2026-04-29 13:40:24,082 [DEBUG] Applied resolution to drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 0
+2026-04-29 13:40:24,082 [INFO] Resolving drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 2...
+2026-04-29 13:40:24,105 [DEBUG] Prompt for drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 1:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/phy/freescale/phy-fsl-imx8m-pcie.c
+
+We are merging mainline stable v6.1.90 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.89..v6.1.90):
+4723dfe76de0 phy: freescale: imx8m-pcie: fix pcie link-up instability
+ed4b981b1d86 phy: freescale: imx8m-pcie: Refine i.MX8MM PCIe PHY driver
+
+Context BEFORE the conflict:
+```
+Y_CMN_REG064	0x190
+#define  ANA_AUX_RX_TX_SEL_TX		BIT(7)
+#define  ANA_AUX_RX_TERM_GND_EN		BIT(3)
+#define  ANA_AUX_TX_TERM		BIT(2)
+#define IMX8MM_PCIE_PHY_CMN_REG065	0x194
+#define  ANA_AUX_RX_TERM		(BIT(7) | BIT(4))
+#define  ANA_AUX_TX_LVL			GENMASK(3, 0)
+#define IMX8MM_PCIE_PHY_CMN_REG075	0x1D4
+#define  ANA_PLL_DONE			0x3
+#define PCIE_PHY_TRSV_REG5		0x414
+#define PCIE_PHY_TRSV_REG6		0x418
+
+#define IMX8MM_GPR_PCIE_REF_CLK_SEL	GENMASK(25, 24)
+#define IMX8MM_GPR_PCIE_REF_CLK_PLL	FIELD_PREP(IMX8MM_GPR_PCIE_REF_CLK_SEL, 0x3)
+#define IMX8MM_GPR_PCIE_REF_CLK_EXT	FIELD_PREP(IMX8MM_GPR_PCIE_REF_CLK_SEL, 0x2)
+#define IMX8MM_GPR_PCIE_AUX_EN		BIT(19)
+#define IMX8MM_GPR_PCIE_CMN_RST		BIT(18)
+#define IMX8MM_GPR_PCIE_POWER_OFF	BIT(17)
+#define IMX8MM_GPR_PCIE_SSC_EN		BIT(16)
+#define IMX8MM_GPR_PCIE_AUX_EN_OVERRIDE	BIT(9)
+
+<<<<<<< HEAD
+#define IMX8MP_PCIE_PHY_TRSV_REG001	0x404
+#define  LN0_OVRD_TX_DRV_LVL_G1		0x3F
+#define IMX8MP_PCIE_PHY_TRSV_REG002	0x408
+#define  LN0_OVRD_TX_DRV_LVL_G2		0x1F
+#define IMX8MP_PCIE_PHY_TRSV_REG003	0x40C
+#define  LN0_OVRD_TX_DRV_LVL_G3		0x1F
+#define IMX8MP_PCIE_PHY_TRSV_REG005	0x414
+#define  LN0_OVRD_TX_DRV_PST_LVL_G1	0x2B
+#define IMX8MP_PCIE_PHY_TRSV_REG006	0x418
+#define  LN0_OVRD_TX_DRV_PST_LVL_G2	0xB
+#define IMX8MP_PCIE_PHY_TRSV_REG007	0x41C
+#define  LN0_OVRD_TX_DRV_PST_LVL_G3	0xB
+#define IMX8MP_PCIE_PHY_TRSV_REG009	0x424
+#define  LN0_OVRD_TX_DRV_PRE_LVL_G1	0x15
+#define IMX8MP_PCIE_PHY_TRSV_REG00A	0x428
+#define  LN0_OVRD_TX_DRV_PRE_LVL_G23	0x55
+#define IMX8MP_PCIE_PHY_TRSV_REG059	0x4EC
+#define  LN0_OVRD_RX_CTLE_RS1_G1	0x13
+#define IMX8MP_PCIE_PHY_TRSV_REG060	0x4F0
+#define  LN0_OVRD_RX_CTLE_RS1_G2_G3	0x25
+#define IMX8MP_PCIE_PHY_TRSV_REG069	0x514
+#define  LN0_ANA_RX_CTLE_IBLEED		0x7
+#define IMX8MP_PCIE_PHY_TRSV_REG107	0x5AC
+#define  LN0_OVRD_RX_RTERM_VCM_EN	0xB8
+#define IMX8MP_PCIE_PHY_TRSV_REG109	0x5B4
+#define  LN0_ANA_OVRD_RX_SQHS_DIFN_OC	0xD4
+#define IMX8MP_PCIE_PHY_TRSV_REG110	0x5B8
+#define  LN0_ANA_OVRD_RX_SQHS_DIFP_OC	0x6A
+#define IMX8MP_PCIE_PHY_TRSV_REG158	0x678
+#define  LN0_RX_CDR_FBB_FINE_G1_G2	0x55
+#define IMX8MP_PCIE_PHY_TRSV_REG159	0x67C
+#define  LN0_RX_CDR_FBB_FINE_G3_G4	0x53
+#define IMX8MP_PCIE_PHY_TRSV_REG206	0x738
+#define  LN0_TG_RX_SIGVAL_LBF_DELAY	0x4
+
+static int imx8_pcie_phy_tuned;
+enum imx8_pcie_phy_type {
+	IMX8MM,
+	IMX8MP,
+=======
+enum imx8_pcie_phy_type {
+	IMX8MM,
+>>>>>>> v6.1.90
+};
+
+struct imx8_pcie_phy_drvdata {
+	const	char			*gpr;
+	enum	imx8_pcie_phy_type	variant;
+};
+
+struct imx8_pcie_phy {
+	void __iomem		*base;
+	struct clk		*clk;
+	struct phy		*phy;
+	struct regmap		*iomuxc_gpr;
+	struct reset_control	*perst;
+	struct reset_control	*reset;
+	u32			refclk_pad_mode;
+	u32			tx_deemph_gen1;
+	u32			tx_deemph_gen2;
+	bool			clkreq_unused;
+	const struct imx8_pcie_phy_drvdata	*drvdata;
+};
+
+static int imx8_pcie_phy_power_on(struct phy *phy)
+{
+	int ret;
+	u32 val, pad_mode;
+	struct imx8_pcie_phy *imx8_phy = phy_get_drvdata(phy);
+
+	pad_mode = imx8_phy->refclk_pad_mode;
+	switch (imx8_phy->drvdata->variant) {
+	case IMX8MM:
+
+```
+
+CONFLICT (hunk 2):
+OUR side (NXP vendor kernel):
+```
+		reset_control_assert(imx8_phy->reset);
+
+		/* Tune PHY de-emphasis setting to pass PCIe compliance. */
+		if (imx8_phy->tx_deemph_gen1)
+			writel(imx8_phy->tx_deemph_gen1,
+			       imx8_phy->base + PCIE_PHY_TRSV_REG5);
+		if (imx8_phy->tx_deemph_gen2)
+			writel(imx8_phy->tx_deemph_gen2,
+			       imx8_phy->base + PCIE_PHY_TRSV_REG6);
+		break;
+	case IMX8MP: /* Do nothing. */
+		break;
+	}
+
+```
+
+THEIR side (mainline stable):
+```
+		/* Tune PHY de-emphasis setting to pass PCIe compliance. */
+		if (imx8_phy->tx_deemph_gen1)
+			writel(imx8_phy->tx_deemph_gen1,
+			       imx8_phy->base + PCIE_PHY_TRSV_REG5);
+		if (imx8_phy->tx_deemph_gen2)
+			writel(imx8_phy->tx_deemph_gen2,
+			       imx8_phy->base + PCIE_PHY_TRSV_REG6);
+		break;
+	}
+
+	if (pad_mode == IMX8_PCIE_REFCLK_PAD_INPUT ||
+	    pad_mode == IMX8_PCIE_REFCLK_PAD_UNUSED) {
+		/* Configure the pad as input */
+		val = readl(imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG061);
+		writel(val & ~ANA_PLL_CLK_OUT_TO_EXT_IO_EN,
+		       imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG061);
+	} else {
+		/* Configure the PHY to output the refclock via pad */
+		writel(ANA_PLL_CLK_OUT_TO_EXT_IO_EN,
+		       imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG061);
+	}
+
+	if (pad_mode == IMX8_PCIE_REFCLK_PAD_OUTPUT ||
+	    pad_mode == IMX8_PCIE_REFCLK_PAD_UNUSED) {
+		/* Source clock from SoC internal PLL */
+		writel(ANA_PLL_CLK_OUT_TO_EXT_IO_SEL,
+		       imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG062);
+		if (imx8_phy->drvdata->variant != IMX8MM) {
+			writel(AUX_PLL_REFCLK_SEL_SYS_PLL,
+			       imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG063);
+		}
+		val = ANA_AUX_RX_TX_SEL_TX | ANA_AUX_TX_TERM;
+		writel(val | ANA_AUX_RX_TERM_GND_EN,
+		       imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG064);
+		writel(ANA_AUX_RX_TERM | ANA_AUX_TX_LVL,
+		       imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG065);
+	}
+
+	/* Set AUX_EN_OVERRIDE 1'b0, when the CLKREQ# isn't hooked */
+	regmap_update_bits(imx8_phy->iomuxc_gpr, IOMUXC_GPR14,
+			   IMX8MM_GPR_PCIE_AUX_EN_OVERRIDE,
+			   imx8_phy->clkreq_unused ?
+			   0 : IMX8MM_GPR_PCIE_AUX_EN_OVERRIDE);
+	regmap_update_bits(imx8_phy->iomuxc_gpr, IOMUXC_GPR14,
+			   IMX8MM_GPR_PCIE_AUX_EN,
+			   IMX8MM_GPR_PCIE_AUX_EN);
+	regmap_update_bits(imx8_phy->iomuxc_gpr, IOMUXC_GPR14,
+			   IMX8MM_GPR_PCIE_POWER_OFF, 0);
+	regmap_update_bits(imx8_phy->iomuxc_gpr, IOMUXC_GPR14,
+			   IMX8MM_GPR_PCIE_SSC_EN, 0);
+
+	regmap_update_bits(imx8_phy->iomuxc_gpr, IOMUXC_GPR14,
+			   IMX8MM_GPR_PCIE_REF_CLK_SEL,
+			   pad_mode == IMX8_PCIE_REFCLK_PAD_INPUT ?
+			   IMX8MM_GPR_PCIE_REF_CLK_EXT :
+			   IMX8MM_GPR_PCIE_REF_CLK_PLL);
+	usleep_range(100, 200);
+
+	/* Do the PHY common block reset */
+	regmap_update_bits(imx8_phy->iomuxc_gpr, IOMUXC_GPR14,
+			   IMX8MM_GPR_PCIE_CMN_RST,
+			   IMX8MM_GPR_PCIE_CMN_RST);
+
+```
+
+Context AFTER the conflict:
+```
+
+	switch (imx8_phy->drvdata->variant) {
+	case IMX8MM:
+		reset_control_deassert(imx8_phy->reset);
+		usleep_range(200, 500);
+		break;
+	}
+
+<<<<<<< HEAD
+	if (pad_mode == IMX8_PCIE_REFCLK_PAD_OUTPUT ||
+	    pad_mode == IMX8_PCIE_REFCLK_PAD_UNUSED) {
+		/* Source clock from SoC internal PLL */
+		writel(ANA_PLL_CLK_OUT_TO_EXT_IO_SEL,
+		       imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG062);
+		writel(AUX_PLL_REFCLK_SEL_SYS_PLL,
+		       imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG063);
+		val = ANA_AUX_RX_TX_SEL_TX | ANA_AUX_TX_TERM;
+		writel(val | ANA_AUX_RX_TERM_GND_EN,
+		       imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG064);
+		writel(ANA_AUX_RX_TERM | ANA_AUX_TX_LVL,
+		       imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG065);
+	}
+
+	/* Set AUX_EN_OVERRIDE 1'b0, when the CLKREQ# isn't hooked */
+	regmap_update_bits(imx8_phy->iomuxc_gpr, IOMUXC_GPR14,
+			   IMX8MM_GPR_PCIE_AUX_EN_OVERRIDE,
+			   imx8_phy->clkreq_unused ?
+			   0 : IMX8MM_GPR_PCIE_AUX_EN_OVERRIDE);
+	regmap_update_bits(imx8_phy->iomuxc_gpr, IOMUXC_GPR14,
+			   IMX8MM_GPR_PCIE_AUX_EN,
+			   IMX8MM_GPR_PCIE_AUX_EN);
+	regmap_update_bits(imx8_phy->iomuxc_gpr, IOMUXC_GPR14,
+			   IMX8MM_GPR_PCIE_POWER_OFF, 0);
+	regmap_update_bits(imx8_phy->iomuxc_gpr, IOMUXC_GPR14,
+			   IMX8MM_GPR_PCIE_SSC_EN, 0);
+
+	regmap_update_bits(imx8_phy->iomuxc_gpr, IOMUXC_GPR14,
+			   IMX8MM_GPR_PCIE_REF_CLK_SEL,
+			   pad_mode == IMX8_PCIE_REFCLK_PAD_INPUT ?
+			   IMX8MM_GPR_PCIE_REF_CLK_EXT :
+			   IMX8MM_GPR_PCIE_REF_CLK_PLL);
+	usleep_range(100, 200);
+
+	/*
+	 * Fine tune the parameters of the PHY, let PCIe link up to Gen3
+	 * between two i.MX8MP EVK boards in the EP/RC validation system.
+	 */
+	if (imx8_pcie_phy_tuned && (imx8_phy->drvdata->variant == IMX8MP)) {
+		writel(LN0_OVRD_TX_DRV_LVL_G1,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG001);
+		writel(LN0_OVRD_TX_DRV_LVL_G2,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG002);
+		writel(LN0_OVRD_TX_DRV_LVL_G3,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG003);
+		writel(LN0_OVRD_TX_DRV_PST_LVL_G1,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG005);
+		writel(LN0_OVRD_TX_DRV_PST_LVL_G2,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG006);
+		writel(LN0_OVRD_TX_DRV_PST_LVL_G3,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG007);
+		writel(LN0_OVRD_TX_DRV_PRE_LVL_G1,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG009);
+		writel(LN0_OVRD_TX_DRV_PRE_LVL_G23,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG00A);
+		writel(LN0_OVRD_RX_CTLE_RS1_G1,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG059);
+		writel(LN0_OVRD_RX_CTLE_RS1_G2_G3,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG060);
+		writel(LN0_ANA_RX_CTLE_IBLEED,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG069);
+		writel(LN0_OVRD_RX_RTERM_VCM_EN,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG107);
+		writel(LN0_ANA_OVRD_RX_SQHS_DIFN_OC,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG109);
+		writel(LN0_ANA_OVRD_RX_SQHS_DIFP_OC,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG110);
+		writel(LN0
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-29 13:40:39,268 [INFO]   Resolved drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 1: confidence=3/10 — This conflict is complex. NXP vendor kernel supports both IMX8MM and IMX8MP variants with extensive 
+2026-04-29 13:40:39,269 [DEBUG] Applied resolution to drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 1
+2026-04-29 13:40:39,269 [INFO] Resolving drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 3...
+2026-04-29 13:40:39,291 [DEBUG] Prompt for drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 2:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/phy/freescale/phy-fsl-imx8m-pcie.c
+
+We are merging mainline stable v6.1.90 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.89..v6.1.90):
+4723dfe76de0 phy: freescale: imx8m-pcie: fix pcie link-up instability
+ed4b981b1d86 phy: freescale: imx8m-pcie: Refine i.MX8MM PCIe PHY driver
+
+Context BEFORE the conflict:
+```
+imx8_phy = phy_get_drvdata(phy);
+
+	pad_mode = imx8_phy->refclk_pad_mode;
+	switch (imx8_phy->drvdata->variant) {
+	case IMX8MM:
+<<<<<<< HEAD
+		reset_control_assert(imx8_phy->reset);
+
+		/* Tune PHY de-emphasis setting to pass PCIe compliance. */
+		if (imx8_phy->tx_deemph_gen1)
+			writel(imx8_phy->tx_deemph_gen1,
+			       imx8_phy->base + PCIE_PHY_TRSV_REG5);
+		if (imx8_phy->tx_deemph_gen2)
+			writel(imx8_phy->tx_deemph_gen2,
+			       imx8_phy->base + PCIE_PHY_TRSV_REG6);
+		break;
+	case IMX8MP: /* Do nothing. */
+		break;
+	}
+=======
+		/* Tune PHY de-emphasis setting to pass PCIe compliance. */
+		if (imx8_phy->tx_deemph_gen1)
+			writel(imx8_phy->tx_deemph_gen1,
+			       imx8_phy->base + PCIE_PHY_TRSV_REG5);
+		if (imx8_phy->tx_deemph_gen2)
+			writel(imx8_phy->tx_deemph_gen2,
+			       imx8_phy->base + PCIE_PHY_TRSV_REG6);
+		break;
+	}
+
+	if (pad_mode == IMX8_PCIE_REFCLK_PAD_INPUT ||
+	    pad_mode == IMX8_PCIE_REFCLK_PAD_UNUSED) {
+		/* Configure the pad as input */
+		val = readl(imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG061);
+		writel(val & ~ANA_PLL_CLK_OUT_TO_EXT_IO_EN,
+		       imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG061);
+	} else {
+		/* Configure the PHY to output the refclock via pad */
+		writel(ANA_PLL_CLK_OUT_TO_EXT_IO_EN,
+		       imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG061);
+	}
+
+	if (pad_mode == IMX8_PCIE_REFCLK_PAD_OUTPUT ||
+	    pad_mode == IMX8_PCIE_REFCLK_PAD_UNUSED) {
+		/* Source clock from SoC internal PLL */
+		writel(ANA_PLL_CLK_OUT_TO_EXT_IO_SEL,
+		       imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG062);
+		if (imx8_phy->drvdata->variant != IMX8MM) {
+			writel(AUX_PLL_REFCLK_SEL_SYS_PLL,
+			       imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG063);
+		}
+		val = ANA_AUX_RX_TX_SEL_TX | ANA_AUX_TX_TERM;
+		writel(val | ANA_AUX_RX_TERM_GND_EN,
+		       imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG064);
+		writel(ANA_AUX_RX_TERM | ANA_AUX_TX_LVL,
+		       imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG065);
+	}
+
+	/* Set AUX_EN_OVERRIDE 1'b0, when the CLKREQ# isn't hooked */
+	regmap_update_bits(imx8_phy->iomuxc_gpr, IOMUXC_GPR14,
+			   IMX8MM_GPR_PCIE_AUX_EN_OVERRIDE,
+			   imx8_phy->clkreq_unused ?
+			   0 : IMX8MM_GPR_PCIE_AUX_EN_OVERRIDE);
+	regmap_update_bits(imx8_phy->iomuxc_gpr, IOMUXC_GPR14,
+			   IMX8MM_GPR_PCIE_AUX_EN,
+			   IMX8MM_GPR_PCIE_AUX_EN);
+	regmap_update_bits(imx8_phy->iomuxc_gpr, IOMUXC_GPR14,
+			   IMX8MM_GPR_PCIE_POWER_OFF, 0);
+	regmap_update_bits(imx8_phy->iomuxc_gpr, IOMUXC_GPR14,
+			   IMX8MM_GPR_PCIE_SSC_EN, 0);
+
+	regmap_update_bits(imx8_phy->iomuxc_gpr, IOMUXC_GPR14,
+			   IMX8MM_GPR_PCIE_REF_CLK_SEL,
+			   pad_mode == IMX8_PCIE_REFCLK_PAD_INPUT ?
+			   IMX8MM_GPR_PCIE_REF_CLK_EXT :
+			   IMX8MM_GPR_PCIE_REF_CLK_PLL);
+	usleep_range(100, 200);
+
+	/* Do the PHY common block reset */
+	regmap_update_bits(imx8_phy->iomuxc_gpr, IOMUXC_GPR14,
+			   IMX8MM_GPR_PCIE_CMN_RST,
+			   IMX8MM_GPR_PCIE_CMN_RST);
+>>>>>>> v6.1.90
+
+	switch (imx8_phy->drvdata->variant) {
+	case IMX8MM:
+		reset_control_deassert(imx8_phy->reset);
+		usleep_range(200, 500);
+		break;
+	}
+
+
+```
+
+CONFLICT (hunk 3):
+OUR side (NXP vendor kernel):
+```
+	if (pad_mode == IMX8_PCIE_REFCLK_PAD_OUTPUT ||
+	    pad_mode == IMX8_PCIE_REFCLK_PAD_UNUSED) {
+		/* Source clock from SoC internal PLL */
+		writel(ANA_PLL_CLK_OUT_TO_EXT_IO_SEL,
+		       imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG062);
+		writel(AUX_PLL_REFCLK_SEL_SYS_PLL,
+		       imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG063);
+		val = ANA_AUX_RX_TX_SEL_TX | ANA_AUX_TX_TERM;
+		writel(val | ANA_AUX_RX_TERM_GND_EN,
+		       imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG064);
+		writel(ANA_AUX_RX_TERM | ANA_AUX_TX_LVL,
+		       imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG065);
+	}
+
+	/* Set AUX_EN_OVERRIDE 1'b0, when the CLKREQ# isn't hooked */
+	regmap_update_bits(imx8_phy->iomuxc_gpr, IOMUXC_GPR14,
+			   IMX8MM_GPR_PCIE_AUX_EN_OVERRIDE,
+			   imx8_phy->clkreq_unused ?
+			   0 : IMX8MM_GPR_PCIE_AUX_EN_OVERRIDE);
+	regmap_update_bits(imx8_phy->iomuxc_gpr, IOMUXC_GPR14,
+			   IMX8MM_GPR_PCIE_AUX_EN,
+			   IMX8MM_GPR_PCIE_AUX_EN);
+	regmap_update_bits(imx8_phy->iomuxc_gpr, IOMUXC_GPR14,
+			   IMX8MM_GPR_PCIE_POWER_OFF, 0);
+	regmap_update_bits(imx8_phy->iomuxc_gpr, IOMUXC_GPR14,
+			   IMX8MM_GPR_PCIE_SSC_EN, 0);
+
+	regmap_update_bits(imx8_phy->iomuxc_gpr, IOMUXC_GPR14,
+			   IMX8MM_GPR_PCIE_REF_CLK_SEL,
+			   pad_mode == IMX8_PCIE_REFCLK_PAD_INPUT ?
+			   IMX8MM_GPR_PCIE_REF_CLK_EXT :
+			   IMX8MM_GPR_PCIE_REF_CLK_PLL);
+	usleep_range(100, 200);
+
+	/*
+	 * Fine tune the parameters of the PHY, let PCIe link up to Gen3
+	 * between two i.MX8MP EVK boards in the EP/RC validation system.
+	 */
+	if (imx8_pcie_phy_tuned && (imx8_phy->drvdata->variant == IMX8MP)) {
+		writel(LN0_OVRD_TX_DRV_LVL_G1,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG001);
+		writel(LN0_OVRD_TX_DRV_LVL_G2,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG002);
+		writel(LN0_OVRD_TX_DRV_LVL_G3,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG003);
+		writel(LN0_OVRD_TX_DRV_PST_LVL_G1,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG005);
+		writel(LN0_OVRD_TX_DRV_PST_LVL_G2,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG006);
+		writel(LN0_OVRD_TX_DRV_PST_LVL_G3,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG007);
+		writel(LN0_OVRD_TX_DRV_PRE_LVL_G1,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG009);
+		writel(LN0_OVRD_TX_DRV_PRE_LVL_G23,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG00A);
+		writel(LN0_OVRD_RX_CTLE_RS1_G1,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG059);
+		writel(LN0_OVRD_RX_CTLE_RS1_G2_G3,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG060);
+		writel(LN0_ANA_RX_CTLE_IBLEED,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG069);
+		writel(LN0_OVRD_RX_RTERM_VCM_EN,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG107);
+		writel(LN0_ANA_OVRD_RX_SQHS_DIFN_OC,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG109);
+		writel(LN0_ANA_OVRD_RX_SQHS_DIFP_OC,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG110);
+		writel(LN0_RX_CDR_FBB_FINE_G1_G2,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG158);
+		writel(LN0_RX_CDR_FBB_FINE_G3_G4,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG159);
+		writel(LN0_TG_RX_SIGVAL_LBF_DELAY,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG206);
+	}
+
+	/* Do the PHY common block reset */
+	regmap_update_bits(imx8_phy->iomuxc_gpr, IOMUXC_GPR14,
+			   IMX8MM_GPR_PCIE_CMN_RST,
+			   IMX8MM_GPR_PCIE_CMN_RST);
+
+	switch (imx8_phy->drvdata->variant) {
+	case IMX8MP:
+		reset_control_deassert(imx8_phy->perst);
+		fallthrough;
+	case IMX8MM:
+		reset_control_deassert(imx8_phy->reset);
+		usleep_range(200, 500);
+		break;
+	}
+
+
+```
+
+THEIR side (mainline stable):
+```
+
+```
+
+Context AFTER the conflict:
+```
+	/* Polling to check the phy is ready or not. */
+	ret = readl_poll_timeout(imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG075,
+				 val, val == ANA_PLL_DONE, 10, 20000);
+	return ret;
+}
+
+static int imx8_pcie_phy_init(struct phy *phy)
+{
+	struct imx8_pcie_phy *imx8_phy = phy_get_drvdata(phy);
+
+	return clk_prepare_enable(imx8_phy->clk);
+}
+
+static int imx8_pcie_phy_exit(struct phy *phy)
+{
+	struct imx8_pcie_phy *imx8_phy = phy_get_drvdata(phy);
+
+	clk_disable_unprepare(imx8_phy->clk);
+
+	return 0;
+}
+
+static const struct phy_ops imx8_pcie_phy_ops = {
+	.init		= imx8_pcie_phy_init,
+	.exit		= imx8_pcie_phy_exit,
+	.power_on	= imx8_pcie_phy_power_on,
+	.owner		= THIS_MODULE,
+};
+
+static const struct imx8_pcie_phy_drvdata imx8mm_drvdata = {
+	.gpr = "fsl,imx8mm-iomuxc-gpr",
+	.variant = IMX8MM,
+};
+
+<<<<<<< HEAD
+static const struct imx8_pcie_phy_drvdata imx8mp_drvdata = {
+	.gpr = "fsl,imx8mp-iomuxc-gpr",
+	.variant = IMX8MP,
+};
+
+static const struct of_device_id imx8_pcie_phy_of_match[] = {
+	{.compatible = "fsl,imx8mm-pcie-phy", .data = &imx8mm_drvdata, },
+	{.compatible = "fsl,imx8mp-pcie-phy", .data = &imx8mp_drvdata, },
+=======
+static const struct of_device_id imx8_pcie_phy_of_match[] = {
+	{.compatible = "fsl,imx8mm-pcie-phy", .data = &imx8mm_drvdata, },
+>>>>>>> v6.1.90
+	{ },
+};
+MODULE_DEVICE_TABLE(of, imx8_pcie_phy_of_match);
+
+<<<<<<< HEAD
+static int __init imx8_pcie_phy_fine_tune(char *str)
+{
+	if (!strcmp(str, "yes")) {
+		pr_info("i.MX PCIe PHY is fine tuned in EP/RC SYS.\n");
+		imx8_pcie_phy_tuned = 1;
+	}
+	return 1;
+}
+
+__setup("pcie_phy_tuned=", imx8_pcie_phy_fine_tune);
+
+=======
+>>>>>>> v6.1.90
+static int imx8_pcie_phy_probe(struct platform_device *pdev)
+{
+	struct phy_provider *phy_provider;
+	struct device *dev = &pdev->dev;
+	struct device_node *np = dev->of_node;
+	struct imx8_pcie_phy *imx8_phy;
+	struct resource *res;
+
+	imx8_phy = devm_kzalloc(dev, sizeof(*imx8_phy), GFP_KERNEL);
+	if (!imx8_phy)
+		return -ENOMEM;
+
+	imx8_phy->drvdata = of_device_get_match_data(dev);
+
+	/* get PHY refclk pad mode */
+	of_property_read_u32(np, "fsl,refclk-pad-mode",
+			     &imx8_phy->refclk_pad_mode);
+
+	if (of_property_read_u32(np, "fsl,tx-deemph-gen1",
+				 &imx8_phy->tx_deemph_gen1))
+		imx8_phy->tx_deemph_gen1 = 0;
+
+	if (of_property_read_u32(np, "fsl,tx-deemph-gen2",
+				 &imx8_phy->tx_deemph_gen2))
+		imx8_phy->tx_deemph_gen2 = 0;
+
+	if (of_property_read_bool(np, "fsl,clkreq-unsupported"))
+		imx8_phy->clkreq_unused = true;
+	else
+		imx8_phy->clkreq_unused = false;
+
+	imx8_phy->clk = devm_clk_get(dev, "ref");
+	if (IS_ERR(imx8_phy->clk)) {
+		dev_err(dev, "failed to get imx pcie phy clock\n");
+		return PTR_ERR(imx8_phy->clk);
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-29 13:41:14,022 [INFO]   Resolved drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 2: confidence=8/10 — The mainline stable patches refine the IMX8MM PCIe PHY driver and fix link-up instability. NXP's ven
+2026-04-29 13:41:14,023 [DEBUG] Applied resolution to drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 2
+2026-04-29 13:41:14,023 [INFO] Resolving drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 4...
+2026-04-29 13:41:14,046 [DEBUG] Prompt for drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 3:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/phy/freescale/phy-fsl-imx8m-pcie.c
+
+We are merging mainline stable v6.1.90 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.89..v6.1.90):
+4723dfe76de0 phy: freescale: imx8m-pcie: fix pcie link-up instability
+ed4b981b1d86 phy: freescale: imx8m-pcie: Refine i.MX8MM PCIe PHY driver
+
+Context BEFORE the conflict:
+```
+GPR_PCIE_REF_CLK_PLL);
+	usleep_range(100, 200);
+
+	/*
+	 * Fine tune the parameters of the PHY, let PCIe link up to Gen3
+	 * between two i.MX8MP EVK boards in the EP/RC validation system.
+	 */
+	if (imx8_pcie_phy_tuned && (imx8_phy->drvdata->variant == IMX8MP)) {
+		writel(LN0_OVRD_TX_DRV_LVL_G1,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG001);
+		writel(LN0_OVRD_TX_DRV_LVL_G2,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG002);
+		writel(LN0_OVRD_TX_DRV_LVL_G3,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG003);
+		writel(LN0_OVRD_TX_DRV_PST_LVL_G1,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG005);
+		writel(LN0_OVRD_TX_DRV_PST_LVL_G2,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG006);
+		writel(LN0_OVRD_TX_DRV_PST_LVL_G3,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG007);
+		writel(LN0_OVRD_TX_DRV_PRE_LVL_G1,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG009);
+		writel(LN0_OVRD_TX_DRV_PRE_LVL_G23,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG00A);
+		writel(LN0_OVRD_RX_CTLE_RS1_G1,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG059);
+		writel(LN0_OVRD_RX_CTLE_RS1_G2_G3,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG060);
+		writel(LN0_ANA_RX_CTLE_IBLEED,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG069);
+		writel(LN0_OVRD_RX_RTERM_VCM_EN,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG107);
+		writel(LN0_ANA_OVRD_RX_SQHS_DIFN_OC,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG109);
+		writel(LN0_ANA_OVRD_RX_SQHS_DIFP_OC,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG110);
+		writel(LN0_RX_CDR_FBB_FINE_G1_G2,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG158);
+		writel(LN0_RX_CDR_FBB_FINE_G3_G4,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG159);
+		writel(LN0_TG_RX_SIGVAL_LBF_DELAY,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG206);
+	}
+
+	/* Do the PHY common block reset */
+	regmap_update_bits(imx8_phy->iomuxc_gpr, IOMUXC_GPR14,
+			   IMX8MM_GPR_PCIE_CMN_RST,
+			   IMX8MM_GPR_PCIE_CMN_RST);
+
+	switch (imx8_phy->drvdata->variant) {
+	case IMX8MP:
+		reset_control_deassert(imx8_phy->perst);
+		fallthrough;
+	case IMX8MM:
+		reset_control_deassert(imx8_phy->reset);
+		usleep_range(200, 500);
+		break;
+	}
+
+=======
+>>>>>>> v6.1.90
+	/* Polling to check the phy is ready or not. */
+	ret = readl_poll_timeout(imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG075,
+				 val, val == ANA_PLL_DONE, 10, 20000);
+	return ret;
+}
+
+static int imx8_pcie_phy_init(struct phy *phy)
+{
+	struct imx8_pcie_phy *imx8_phy = phy_get_drvdata(phy);
+
+	return clk_prepare_enable(imx8_phy->clk);
+}
+
+static int imx8_pcie_phy_exit(struct phy *phy)
+{
+	struct imx8_pcie_phy *imx8_phy = phy_get_drvdata(phy);
+
+	clk_disable_unprepare(imx8_phy->clk);
+
+	return 0;
+}
+
+static const struct phy_ops imx8_pcie_phy_ops = {
+	.init		= imx8_pcie_phy_init,
+	.exit		= imx8_pcie_phy_exit,
+	.power_on	= imx8_pcie_phy_power_on,
+	.owner		= THIS_MODULE,
+};
+
+static const struct imx8_pcie_phy_drvdata imx8mm_drvdata = {
+	.gpr = "fsl,imx8mm-iomuxc-gpr",
+	.variant = IMX8MM,
+};
+
+
+```
+
+CONFLICT (hunk 4):
+OUR side (NXP vendor kernel):
+```
+static const struct imx8_pcie_phy_drvdata imx8mp_drvdata = {
+	.gpr = "fsl,imx8mp-iomuxc-gpr",
+	.variant = IMX8MP,
+};
+
+static const struct of_device_id imx8_pcie_phy_of_match[] = {
+	{.compatible = "fsl,imx8mm-pcie-phy", .data = &imx8mm_drvdata, },
+	{.compatible = "fsl,imx8mp-pcie-phy", .data = &imx8mp_drvdata, },
+
+```
+
+THEIR side (mainline stable):
+```
+static const struct of_device_id imx8_pcie_phy_of_match[] = {
+	{.compatible = "fsl,imx8mm-pcie-phy", .data = &imx8mm_drvdata, },
+
+```
+
+Context AFTER the conflict:
+```
+	{ },
+};
+MODULE_DEVICE_TABLE(of, imx8_pcie_phy_of_match);
+
+<<<<<<< HEAD
+static int __init imx8_pcie_phy_fine_tune(char *str)
+{
+	if (!strcmp(str, "yes")) {
+		pr_info("i.MX PCIe PHY is fine tuned in EP/RC SYS.\n");
+		imx8_pcie_phy_tuned = 1;
+	}
+	return 1;
+}
+
+__setup("pcie_phy_tuned=", imx8_pcie_phy_fine_tune);
+
+=======
+>>>>>>> v6.1.90
+static int imx8_pcie_phy_probe(struct platform_device *pdev)
+{
+	struct phy_provider *phy_provider;
+	struct device *dev = &pdev->dev;
+	struct device_node *np = dev->of_node;
+	struct imx8_pcie_phy *imx8_phy;
+	struct resource *res;
+
+	imx8_phy = devm_kzalloc(dev, sizeof(*imx8_phy), GFP_KERNEL);
+	if (!imx8_phy)
+		return -ENOMEM;
+
+	imx8_phy->drvdata = of_device_get_match_data(dev);
+
+	/* get PHY refclk pad mode */
+	of_property_read_u32(np, "fsl,refclk-pad-mode",
+			     &imx8_phy->refclk_pad_mode);
+
+	if (of_property_read_u32(np, "fsl,tx-deemph-gen1",
+				 &imx8_phy->tx_deemph_gen1))
+		imx8_phy->tx_deemph_gen1 = 0;
+
+	if (of_property_read_u32(np, "fsl,tx-deemph-gen2",
+				 &imx8_phy->tx_deemph_gen2))
+		imx8_phy->tx_deemph_gen2 = 0;
+
+	if (of_property_read_bool(np, "fsl,clkreq-unsupported"))
+		imx8_phy->clkreq_unused = true;
+	else
+		imx8_phy->clkreq_unused = false;
+
+	imx8_phy->clk = devm_clk_get(dev, "ref");
+	if (IS_ERR(imx8_phy->clk)) {
+		dev_err(dev, "failed to get imx pcie phy clock\n");
+		return PTR_ERR(imx8_phy->clk);
+	}
+
+	/* Grab GPR config register range */
+	imx8_phy->iomuxc_gpr =
+		 syscon_regmap_lookup_by_compatible(imx8_phy->drvdata->gpr);
+	if (IS_ERR(imx8_phy->iomuxc_gpr)) {
+		dev_err(dev, "unable to find iomuxc registers\n");
+		return PTR_ERR(imx8_phy->iomuxc_gpr);
+	}
+
+	imx8_phy->reset = devm_reset_control_get_exclusive(dev, "pciephy");
+	if (IS_ERR(imx8_phy->reset)) {
+		dev_err(dev, "Failed to get PCIEPHY reset control\n");
+		return PTR_ERR(imx8_phy->reset);
+	}
+
+	if (imx8_phy->drvdata->variant == IMX8MP) {
+		imx8_phy->perst =
+			devm_reset_control_get_exclusive(dev, "perst");
+		if (IS_ERR(imx8_phy->perst))
+			dev_err_probe(dev, PTR_ERR(imx8_phy->perst),
+				      "Failed to get PCIE PHY PERST control\n");
+	}
+
+	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+	imx8_phy->base = devm_ioremap_resource(dev, res);
+	if (IS_ERR(imx8_phy->base))
+		return PTR_ERR(imx8_phy->base);
+
+	imx8_phy->phy = devm_phy_create(dev, NULL, &imx8_pcie_phy_ops);
+	if (IS_ERR(imx8_phy->phy))
+		return PTR_ERR(imx8_phy->phy);
+
+	phy_set_drvdata(imx8_phy->phy, imx8_phy);
+
+	phy_provider = devm_of_phy_provider_register(dev, of_phy_simple_xlate);
+
+	return PTR_ERR_OR_ZERO(phy_provider);
+}
+
+static struct platform_driver imx8_pcie_phy_driver = {
+	.probe	= imx8_pcie_phy_probe,
+	.driver = {
+		.name	= "imx8-pcie-phy",
+		.of_match_table	= imx8_pcie_phy_of_match,
+	}
+};
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-29 13:41:19,389 [INFO]   Resolved drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 3: confidence=9/10 — First conflict: NXP keeps imx8mp_drvdata and IMX8MP entry in match table which mainline doesn't have
+2026-04-29 13:41:19,389 [DEBUG] Applied resolution to drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 3
+2026-04-29 13:41:19,390 [INFO] Resolving drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 5...
+2026-04-29 13:41:19,411 [DEBUG] Prompt for drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 4:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/phy/freescale/phy-fsl-imx8m-pcie.c
+
+We are merging mainline stable v6.1.90 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.89..v6.1.90):
+4723dfe76de0 phy: freescale: imx8m-pcie: fix pcie link-up instability
+ed4b981b1d86 phy: freescale: imx8m-pcie: Refine i.MX8MM PCIe PHY driver
+
+Context BEFORE the conflict:
+```
+0_OVRD_TX_DRV_PST_LVL_G1,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG005);
+		writel(LN0_OVRD_TX_DRV_PST_LVL_G2,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG006);
+		writel(LN0_OVRD_TX_DRV_PST_LVL_G3,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG007);
+		writel(LN0_OVRD_TX_DRV_PRE_LVL_G1,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG009);
+		writel(LN0_OVRD_TX_DRV_PRE_LVL_G23,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG00A);
+		writel(LN0_OVRD_RX_CTLE_RS1_G1,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG059);
+		writel(LN0_OVRD_RX_CTLE_RS1_G2_G3,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG060);
+		writel(LN0_ANA_RX_CTLE_IBLEED,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG069);
+		writel(LN0_OVRD_RX_RTERM_VCM_EN,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG107);
+		writel(LN0_ANA_OVRD_RX_SQHS_DIFN_OC,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG109);
+		writel(LN0_ANA_OVRD_RX_SQHS_DIFP_OC,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG110);
+		writel(LN0_RX_CDR_FBB_FINE_G1_G2,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG158);
+		writel(LN0_RX_CDR_FBB_FINE_G3_G4,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG159);
+		writel(LN0_TG_RX_SIGVAL_LBF_DELAY,
+		       imx8_phy->base + IMX8MP_PCIE_PHY_TRSV_REG206);
+	}
+
+	/* Do the PHY common block reset */
+	regmap_update_bits(imx8_phy->iomuxc_gpr, IOMUXC_GPR14,
+			   IMX8MM_GPR_PCIE_CMN_RST,
+			   IMX8MM_GPR_PCIE_CMN_RST);
+
+	switch (imx8_phy->drvdata->variant) {
+	case IMX8MP:
+		reset_control_deassert(imx8_phy->perst);
+		fallthrough;
+	case IMX8MM:
+		reset_control_deassert(imx8_phy->reset);
+		usleep_range(200, 500);
+		break;
+	}
+
+=======
+>>>>>>> v6.1.90
+	/* Polling to check the phy is ready or not. */
+	ret = readl_poll_timeout(imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG075,
+				 val, val == ANA_PLL_DONE, 10, 20000);
+	return ret;
+}
+
+static int imx8_pcie_phy_init(struct phy *phy)
+{
+	struct imx8_pcie_phy *imx8_phy = phy_get_drvdata(phy);
+
+	return clk_prepare_enable(imx8_phy->clk);
+}
+
+static int imx8_pcie_phy_exit(struct phy *phy)
+{
+	struct imx8_pcie_phy *imx8_phy = phy_get_drvdata(phy);
+
+	clk_disable_unprepare(imx8_phy->clk);
+
+	return 0;
+}
+
+static const struct phy_ops imx8_pcie_phy_ops = {
+	.init		= imx8_pcie_phy_init,
+	.exit		= imx8_pcie_phy_exit,
+	.power_on	= imx8_pcie_phy_power_on,
+	.owner		= THIS_MODULE,
+};
+
+static const struct imx8_pcie_phy_drvdata imx8mm_drvdata = {
+	.gpr = "fsl,imx8mm-iomuxc-gpr",
+	.variant = IMX8MM,
+};
+
+<<<<<<< HEAD
+static const struct imx8_pcie_phy_drvdata imx8mp_drvdata = {
+	.gpr = "fsl,imx8mp-iomuxc-gpr",
+	.variant = IMX8MP,
+};
+
+static const struct of_device_id imx8_pcie_phy_of_match[] = {
+	{.compatible = "fsl,imx8mm-pcie-phy", .data = &imx8mm_drvdata, },
+	{.compatible = "fsl,imx8mp-pcie-phy", .data = &imx8mp_drvdata, },
+=======
+static const struct of_device_id imx8_pcie_phy_of_match[] = {
+	{.compatible = "fsl,imx8mm-pcie-phy", .data = &imx8mm_drvdata, },
+>>>>>>> v6.1.90
+	{ },
+};
+MODULE_DEVICE_TABLE(of, imx8_pcie_phy_of_match);
+
+
+```
+
+CONFLICT (hunk 5):
+OUR side (NXP vendor kernel):
+```
+static int __init imx8_pcie_phy_fine_tune(char *str)
+{
+	if (!strcmp(str, "yes")) {
+		pr_info("i.MX PCIe PHY is fine tuned in EP/RC SYS.\n");
+		imx8_pcie_phy_tuned = 1;
+	}
+	return 1;
+}
+
+__setup("pcie_phy_tuned=", imx8_pcie_phy_fine_tune);
+
+
+```
+
+THEIR side (mainline stable):
+```
+
+```
+
+Context AFTER the conflict:
+```
+static int imx8_pcie_phy_probe(struct platform_device *pdev)
+{
+	struct phy_provider *phy_provider;
+	struct device *dev = &pdev->dev;
+	struct device_node *np = dev->of_node;
+	struct imx8_pcie_phy *imx8_phy;
+	struct resource *res;
+
+	imx8_phy = devm_kzalloc(dev, sizeof(*imx8_phy), GFP_KERNEL);
+	if (!imx8_phy)
+		return -ENOMEM;
+
+	imx8_phy->drvdata = of_device_get_match_data(dev);
+
+	/* get PHY refclk pad mode */
+	of_property_read_u32(np, "fsl,refclk-pad-mode",
+			     &imx8_phy->refclk_pad_mode);
+
+	if (of_property_read_u32(np, "fsl,tx-deemph-gen1",
+				 &imx8_phy->tx_deemph_gen1))
+		imx8_phy->tx_deemph_gen1 = 0;
+
+	if (of_property_read_u32(np, "fsl,tx-deemph-gen2",
+				 &imx8_phy->tx_deemph_gen2))
+		imx8_phy->tx_deemph_gen2 = 0;
+
+	if (of_property_read_bool(np, "fsl,clkreq-unsupported"))
+		imx8_phy->clkreq_unused = true;
+	else
+		imx8_phy->clkreq_unused = false;
+
+	imx8_phy->clk = devm_clk_get(dev, "ref");
+	if (IS_ERR(imx8_phy->clk)) {
+		dev_err(dev, "failed to get imx pcie phy clock\n");
+		return PTR_ERR(imx8_phy->clk);
+	}
+
+	/* Grab GPR config register range */
+	imx8_phy->iomuxc_gpr =
+		 syscon_regmap_lookup_by_compatible(imx8_phy->drvdata->gpr);
+	if (IS_ERR(imx8_phy->iomuxc_gpr)) {
+		dev_err(dev, "unable to find iomuxc registers\n");
+		return PTR_ERR(imx8_phy->iomuxc_gpr);
+	}
+
+	imx8_phy->reset = devm_reset_control_get_exclusive(dev, "pciephy");
+	if (IS_ERR(imx8_phy->reset)) {
+		dev_err(dev, "Failed to get PCIEPHY reset control\n");
+		return PTR_ERR(imx8_phy->reset);
+	}
+
+	if (imx8_phy->drvdata->variant == IMX8MP) {
+		imx8_phy->perst =
+			devm_reset_control_get_exclusive(dev, "perst");
+		if (IS_ERR(imx8_phy->perst))
+			dev_err_probe(dev, PTR_ERR(imx8_phy->perst),
+				      "Failed to get PCIE PHY PERST control\n");
+	}
+
+	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+	imx8_phy->base = devm_ioremap_resource(dev, res);
+	if (IS_ERR(imx8_phy->base))
+		return PTR_ERR(imx8_phy->base);
+
+	imx8_phy->phy = devm_phy_create(dev, NULL, &imx8_pcie_phy_ops);
+	if (IS_ERR(imx8_phy->phy))
+		return PTR_ERR(imx8_phy->phy);
+
+	phy_set_drvdata(imx8_phy->phy, imx8_phy);
+
+	phy_provider = devm_of_phy_provider_register(dev, of_phy_simple_xlate);
+
+	return PTR_ERR_OR_ZERO(phy_provider);
+}
+
+static struct platform_driver imx8_pcie_phy_driver = {
+	.probe	= imx8_pcie_phy_probe,
+	.driver = {
+		.name	= "imx8-pcie-phy",
+		.of_match_table	= imx8_pcie_phy_of_match,
+	}
+};
+module_platform_driver(imx8_pcie_phy_driver);
+
+MODULE_DESCRIPTION("FSL IMX8 PCIE PHY driver");
+MODULE_LICENSE("GPL v2");
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-29 13:41:24,302 [INFO]   Resolved drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 4: confidence=9/10 — Hunk 5: NXP adds a __setup parameter for PHY fine-tuning. Mainline removes nothing here—it's just an
+2026-04-29 13:41:24,303 [DEBUG] Applied resolution to drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 4
+2026-04-29 13:41:24,722 [INFO] All conflicts resolved. Confidence: min=3, avg=7.4
+2026-04-29 13:41:24,723 [INFO] Building kernel (compile test)...
+2026-04-29 13:52:32,117 [INFO] Build succeeded.
+2026-04-29 13:52:32,728 [INFO] Successfully merged v6.1.90 into lf-6.1.y-semtech
+2026-04-29 13:52:32,729 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.90_2026-04-29T13-40-06.021616.json
+2026-04-29 13:52:32,948 [INFO] Current kernel version: 6.1.90
+2026-04-29 13:52:32,948 [INFO] Reached target version 6.1.90. Done!
+2026-04-29 13:52:32,948 [INFO] Done.

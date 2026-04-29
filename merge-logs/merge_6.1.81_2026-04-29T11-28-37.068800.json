@@ -1,0 +1,35 @@
+{
+  "version": "6.1.81",
+  "timestamp": "2026-04-29T11:28:37.068800",
+  "conflicts_total": 10,
+  "conflicts_resolved": 2,
+  "build_success": null,
+  "merged_to_main": false,
+  "error": "Failed to resolve drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 0: Expecting value: line 1 column 1 (char 0)",
+  "resolutions": [
+    {
+      "file": "arch/arm/boot/dts/imx6qdl.dtsi",
+      "hunk_index": 0,
+      "confidence": 9,
+      "reasoning": "NXP's vendor kernel has an additional caam-sm node that mainline doesn't have, and mainline renamed 'dma-apbh' to 'dma-controller' in the node name. We keep NXP's caam-sm node and apply the mainline node name fix (dma-controller@110000).",
+      "ours": "\t\tcaam_sm: caam-sm@100000 {\n\t\t\tcompatible = \"fsl,imx6q-caam-sm\";\n\t\t\treg = <0x100000 0x4000>;\n\t\t};\n\n\t\tdma_apbh: dma-apbh@110000 {\n",
+      "theirs": "\t\tdma_apbh: dma-controller@110000 {\n",
+      "resolved_code": "\t\tcaam_sm: caam-sm@100000 {\n\t\t\tcompatible = \"fsl,imx6q-caam-sm\";\n\t\t\treg = <0x100000 0x4000>;\n\t\t};\n\n\t\tdma_apbh: dma-controller@110000 {",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"NXP's vendor kernel has an additional caam-sm node that mainline doesn't have, and mainline renamed 'dma-apbh' to 'dma-controller' in the node name. We keep NXP's caam-sm node and apply the mainline node name fix (dma-controller@110000).\",\n  \"brace_check\": \"2 open, 2 close\",\n  \"resolved_code\": \"\\t\\tcaam_sm: caam-sm@100000 {\\n\\t\\t\\tcompatible = \\\"fsl,imx6q-caam-sm\\\";\\n\\t\\t\\treg = <0x100000 0x4000>;\\n\\t\\t};\\n\\n\\t\\tdma_apbh: dma-controller@110000 {\"\n}",
+      "start_line": 152,
+      "end_line": 161
+    },
+    {
+      "file": "drivers/dma/fsl-qdma.c",
+      "hunk_index": 0,
+      "confidence": 10,
+      "reasoning": "This is a trivial formatting difference. NXP's version splits the dev_err string across two lines, while mainline keeps it on one line. Both are functionally identical. Keeping NXP's version since we prefer to preserve vendor modifications.",
+      "ours": "\t\tdev_err(&pdev->dev,\n\t\t\t\"Can't register NXP Layerscape qDMA engine.\\n\");\n",
+      "theirs": "\t\tdev_err(&pdev->dev, \"Can't register NXP Layerscape qDMA engine.\\n\");\n",
+      "resolved_code": "\t\tdev_err(&pdev->dev,\n\t\t\t\"Can't register NXP Layerscape qDMA engine.\\n\");\n",
+      "api_response_raw": "{\n  \"confidence\": 10,\n  \"reasoning\": \"This is a trivial formatting difference. NXP's version splits the dev_err string across two lines, while mainline keeps it on one line. Both are functionally identical. Keeping NXP's version since we prefer to preserve vendor modifications.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\\t\\tdev_err(&pdev->dev,\\n\\t\\t\\t\\\"Can't register NXP Layerscape qDMA engine.\\\\n\\\");\\n\"\n}",
+      "start_line": 1255,
+      "end_line": 1260
+    }
+  ]
+}

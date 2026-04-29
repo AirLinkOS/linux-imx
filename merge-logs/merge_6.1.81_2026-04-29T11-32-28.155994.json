@@ -1,0 +1,131 @@
+{
+  "version": "6.1.81",
+  "timestamp": "2026-04-29T11:32:28.155994",
+  "conflicts_total": 10,
+  "conflicts_resolved": 10,
+  "build_success": true,
+  "merged_to_main": true,
+  "error": null,
+  "resolutions": [
+    {
+      "file": "arch/arm/boot/dts/imx6qdl.dtsi",
+      "hunk_index": 0,
+      "confidence": 9,
+      "reasoning": "NXP adds caam_sm node before dma_apbh. Mainline renames dma-apbh@110000 to dma-controller@110000. Keep NXP's caam_sm and apply the rename to the dma_apbh node.",
+      "ours": "\t\tcaam_sm: caam-sm@100000 {\n\t\t\tcompatible = \"fsl,imx6q-caam-sm\";\n\t\t\treg = <0x100000 0x4000>;\n\t\t};\n\n\t\tdma_apbh: dma-apbh@110000 {\n",
+      "theirs": "\t\tdma_apbh: dma-controller@110000 {\n",
+      "resolved_code": "\t\tcaam_sm: caam-sm@100000 {\n\t\t\tcompatible = \"fsl,imx6q-caam-sm\";\n\t\t\treg = <0x100000 0x4000>;\n\t\t};\n\n\t\tdma_apbh: dma-controller@110000 {\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"NXP adds caam_sm node before dma_apbh. Mainline renames dma-apbh@110000 to dma-controller@110000. Keep NXP's caam_sm and apply the rename to the dma_apbh node.\",\n  \"brace_check\": \"2 open, 1 close\",\n  \"resolved_code\": \"\\t\\tcaam_sm: caam-sm@100000 {\\n\\t\\t\\tcompatible = \\\"fsl,imx6q-caam-sm\\\";\\n\\t\\t\\treg = <0x100000 0x4000>;\\n\\t\\t};\\n\\n\\t\\tdma_apbh: dma-controller@110000 {\\n\"\n}",
+      "start_line": 152,
+      "end_line": 161
+    },
+    {
+      "file": "drivers/dma/fsl-qdma.c",
+      "hunk_index": 0,
+      "confidence": 9,
+      "reasoning": "Trivial formatting difference - NXP wraps the dev_err line for readability while mainline keeps it on one line. Keeping NXP's formatting per vendor preservation rules.",
+      "ours": "\t\tdev_err(&pdev->dev,\n\t\t\t\"Can't register NXP Layerscape qDMA engine.\\n\");\n",
+      "theirs": "\t\tdev_err(&pdev->dev, \"Can't register NXP Layerscape qDMA engine.\\n\");\n",
+      "resolved_code": "\t\tdev_err(&pdev->dev,\n\t\t\t\"Can't register NXP Layerscape qDMA engine.\\n\");\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"Trivial formatting difference - NXP wraps the dev_err line for readability while mainline keeps it on one line. Keeping NXP's formatting per vendor preservation rules.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\\t\\tdev_err(&pdev->dev,\\n\\t\\t\\t\\\"Can't register NXP Layerscape qDMA engine.\\\\n\\\");\\n\"\n}",
+      "start_line": 1255,
+      "end_line": 1260
+    },
+    {
+      "file": "drivers/pci/controller/dwc/pci-layerscape-ep.c",
+      "hunk_index": 0,
+      "confidence": 6,
+      "reasoning": "First conflict: NXP has PCIE_LINK_CAP related defines for their workaround, mainline adds PEX_PF0_CONFIG defines and renames bit macros to BIT(). Keep NXP's PCIE_LINK_CAP (used by their workaround code), add mainline's PEX_PF0_CONFIG. Use BIT() macros from mainline as they're cleaner and equivalent.",
+      "ours": "#define PCIE_LINK_CAP\t\t\t0x7C\t/* PCIe Link Capabilities*/\n#define MAX_LINK_SP_MASK\t\t0x0F\n#define MAX_LINK_W_MASK\t\t\t0x3F\n#define MAX_LINK_W_SHIFT\t\t4\n\n/* PEX PFa PCIE pme and message interrupt registers*/\n#define PEX_PF0_PME_MES_DR             0xC0020\n#define PEX_PF0_PME_MES_DR_LUD         (1 << 7)\n#define PEX_PF0_PME_MES_DR_LDD         (1 << 9)\n#define PEX_PF0_PME_MES_DR_HRD         (1 << 10)\n\n#define PEX_PF0_PME_MES_IER            0xC0028\n#define PEX_PF0_PME_MES_IER_LUDIE      (1 << 7)\n#define PE",
+      "theirs": "#define PEX_PF0_CONFIG\t\t\t0xC0014\n#define PEX_PF0_CFG_READY\t\tBIT(0)\n\n/* PEX PFa PCIE PME and message interrupt registers*/\n#define PEX_PF0_PME_MES_DR\t\t0xC0020\n#define PEX_PF0_PME_MES_DR_LUD\t\tBIT(7)\n#define PEX_PF0_PME_MES_DR_LDD\t\tBIT(9)\n#define PEX_PF0_PME_MES_DR_HRD\t\tBIT(10)\n\n#define PEX_PF0_PME_MES_IER\t\t0xC0028\n#define PEX_PF0_PME_MES_IER_LUDIE\tBIT(7)\n#define PEX_PF0_PME_MES_IER_LDDIE\tBIT(9)\n#define PEX_PF0_PME_MES_IER_HRDIE\tBIT(10)\n",
+      "resolved_code": "#define PCIE_LINK_CAP\t\t\t0x7C\t/* PCIe Link Capabilities*/\n#define MAX_LINK_SP_MASK\t\t0x0F\n#define MAX_LINK_W_MASK\t\t\t0x3F\n#define MAX_LINK_W_SHIFT\t\t4\n\n#define PEX_PF0_CONFIG\t\t\t0xC0014\n#define PEX_PF0_CFG_READY\t\tBIT(0)\n\n/* PEX PFa PCIE PME and message interrupt registers*/\n#define PEX_PF0_PME_MES_DR\t\t0xC0020\n#define PEX_PF0_PME_MES_DR_LUD\t\tBIT(7)\n#define PEX_PF0_PME_MES_DR_LDD\t\tBIT(9)\n#define PEX_PF0_PME_MES_DR_HRD\t\tBIT(10)\n\n#define PEX_PF0_PME_MES_IER\t\t0xC0028\n#define PEX_PF0_PME_MES_IER_LUDIE\tBIT(",
+      "api_response_raw": "{\n  \"confidence\": 6,\n  \"reasoning\": \"First conflict: NXP has PCIE_LINK_CAP related defines for their workaround, mainline adds PEX_PF0_CONFIG defines and renames bit macros to BIT(). Keep NXP's PCIE_LINK_CAP (used by their workaround code), add mainline's PEX_PF0_CONFIG. Use BIT() macros from mainline as they're cleaner and equivalent.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"#define PCIE_LINK_CAP\\t\\t\\t0x7C\\t/* PCIe Link Capabilities*/\\n#define MAX_LINK_SP_MASK\\t\\t0x0F\\n#define MAX_LINK_W_MASK\\t\\t\\t0x3F\\n#define MAX_LINK_W_SHIFT\\t\\t4\\n\\n#define PEX_PF0_CONFIG\\t\\t\\t0xC0014\\n#define PEX_PF0_CFG_READY\\t\\tBIT(0)\\n\\n/* PEX PFa PCIE PME and message interrupt registers*/\\n#define PEX_PF0_PME_MES_DR\\t\\t0xC0020\\n#define PEX_PF0_PME_MES_DR_LUD\\t\\tBIT(7)\\n#define PEX_PF0_PME_MES_DR_LDD\\t\\tBIT(9)\\n#define PEX_PF0_PME_MES_DR_HRD\\t\\tBIT(10)\\n\\n#define PEX_PF0_PME_MES_IER\\t\\t0xC0028\\n#define PEX_PF0_PME_MES_IER_LUDIE\\tBIT(7)\\n#define PEX_PF0_PME_MES_IER_LDDIE\\tBIT(9)\\n#define PEX_PF0",
+      "start_line": 20,
+      "end_line": 50
+    },
+    {
+      "file": "drivers/pci/controller/dwc/pci-layerscape-ep.c",
+      "hunk_index": 1,
+      "confidence": 8,
+      "reasoning": "Three conflicts: (1) Register defines - mainline uses BIT() macros and adds PEX_PF0_CONFIG. NXP uses PCIE_LINK_CAP approach for restoring link caps. Mainline's approach (using lnkcap saved from PCI_EXP_LNKCAP) supersedes NXP's max_speed/max_width approach for the same purpose. I'll keep both define styles by merging - taking mainline's BIT() form and adding PEX_PF0_CONFIG, since mainline's fix is more complete. (2) Struct fields - replace max_speed/max_width with lnkcap (mainline's approach). (3) Function signature whitespace and IRQ handler - take mainline's improved version which handles linkup notifier and restores lnkcap properly. The mainline fix supersedes NXP's similar-but-incomplete fix.",
+      "ours": "\tu8\t\t\t\tmax_speed;\n\tu8\t\t\t\tmax_width;\n\tbool\t\t\t\tbig_endian;\n\tint\t\t\t\tirq;\n",
+      "theirs": "\tint\t\t\t\tirq;\n\tu32\t\t\t\tlnkcap;\n\tbool\t\t\t\tbig_endian;\n",
+      "resolved_code": "#define PEX_PF0_CONFIG\t\t\t0xC0014\n#define PEX_PF0_CFG_READY\t\tBIT(0)\n\n/* PEX PFa PCIE PME and message interrupt registers*/\n#define PEX_PF0_PME_MES_DR\t\t0xC0020\n#define PEX_PF0_PME_MES_DR_LUD\t\tBIT(7)\n#define PEX_PF0_PME_MES_DR_LDD\t\tBIT(9)\n#define PEX_PF0_PME_MES_DR_HRD\t\tBIT(10)\n\n#define PEX_PF0_PME_MES_IER\t\t0xC0028\n#define PEX_PF0_PME_MES_IER_LUDIE\tBIT(7)\n#define PEX_PF0_PME_MES_IER_LDDIE\tBIT(9)\n#define PEX_PF0_PME_MES_IER_HRDIE\tBIT(10)",
+      "api_response_raw": "{\n  \"confidence\": 8,\n  \"reasoning\": \"Three conflicts: (1) Register defines - mainline uses BIT() macros and adds PEX_PF0_CONFIG. NXP uses PCIE_LINK_CAP approach for restoring link caps. Mainline's approach (using lnkcap saved from PCI_EXP_LNKCAP) supersedes NXP's max_speed/max_width approach for the same purpose. I'll keep both define styles by merging - taking mainline's BIT() form and adding PEX_PF0_CONFIG, since mainline's fix is more complete. (2) Struct fields - replace max_speed/max_width with lnkcap (mainline's approach). (3) Function signature whitespace and IRQ handler - take mainline's improved version which handles linkup notifier and restores lnkcap properly. The mainline fix supersedes NXP's similar-but-incomplete fix.\",\n  \"brace_check\": \"Conflict 1: 0/0, Conflict 2: 0/0, Conflict 3 (writel sig): 0/0, Conflict 4 (irq handler): 4 open / 4 close\",\n  \"resolved_code\": \"#define PEX_PF0_CONFIG\\t\\t\\t0xC0014\\n#define PEX_PF0_CFG_READY\\t\\tBIT(0)\\n\\n/* PEX PFa PCIE PME and message i",
+      "start_line": 64,
+      "end_line": 73
+    },
+    {
+      "file": "drivers/pci/controller/dwc/pci-layerscape-ep.c",
+      "hunk_index": 2,
+      "confidence": 9,
+      "reasoning": "Hunk 3 is a trivial formatting difference - mainline combines the function signature onto one line. Both versions are functionally identical. Using mainline's cleaner formatting.",
+      "ours": "static void ls_lut_writel(struct ls_pcie_ep *pcie, u32 offset,\n\t\t\t  u32 value)\n",
+      "theirs": "static void ls_lut_writel(struct ls_pcie_ep *pcie, u32 offset, u32 value)\n",
+      "resolved_code": "static void ls_lut_writel(struct ls_pcie_ep *pcie, u32 offset, u32 value)\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"Hunk 3 is a trivial formatting difference - mainline combines the function signature onto one line. Both versions are functionally identical. Using mainline's cleaner formatting.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"static void ls_lut_writel(struct ls_pcie_ep *pcie, u32 offset, u32 value)\\n\"\n}",
+      "start_line": 86,
+      "end_line": 91
+    },
+    {
+      "file": "drivers/pci/controller/dwc/pci-layerscape-ep.c",
+      "hunk_index": 3,
+      "confidence": 7,
+      "reasoning": "Hunk 1: NXP defines PCIE_LINK_CAP/MAX_LINK_SP_MASK/MAX_LINK_W_MASK/MAX_LINK_W_SHIFT for their workaround. Mainline adds PEX_PF0_CONFIG/PEX_PF0_CFG_READY for its workaround and reformats with BIT(). Both workarounds aim to restore link capabilities after reset. Mainline's approach is cleaner (uses dw_pcie_find_capability and saves lnkcap at probe). I'll take mainline's defines and keep both NXP's defines (for compatibility, in case used elsewhere) plus mainline's. Hunk 2: struct field \u2014 NXP has max_speed/max_width, mainline has lnkcap. Since the IRQ handler will use mainline's approach, drop max_speed/max_width and use lnkcap. Hunk 3: trivial whitespace. Hunk 4: IRQ handler \u2014 adopt mainline's improved version which includes ep_linkup notifier and proper lnkcap restore. Hunk 5: error message formatting \u2014 adopt mainline's cleaner version.\n\nSince the user wants the stable fix applied and NXP's code does the same workaround differently but less correctly (writing back stale dbi values rather than the original RCW lnkcap), the mainline version supersedes. I'll take mainline's version for all hunks since they implement the same intent better.",
+      "ours": "\tstruct ls_pcie_ep *pcie = (struct ls_pcie_ep *)dev_id;\n\tstruct dw_pcie *pci = pcie->pci;\n\tu32 val;\n\n\tval = ls_lut_readl(pcie, PEX_PF0_PME_MES_DR);\n\tif (!val)\n\t\treturn IRQ_NONE;\n\n\tif (val & PEX_PF0_PME_MES_DR_LUD)\n\t\tdev_info(pci->dev, \"Detect the link up state !\\n\");\n\telse if (val & PEX_PF0_PME_MES_DR_LDD)\n\t\tdev_info(pci->dev, \"Detect the link down state !\\n\");\n\telse if (val & PEX_PF0_PME_MES_DR_HRD)\n\t\tdev_info(pci->dev, \"Detect the hot reset state !\\n\");\n\n\tdw_pcie_dbi_ro_wr_en(pci);\n\tdw_pcie_wr",
+      "theirs": "\tstruct ls_pcie_ep *pcie = dev_id;\n\tstruct dw_pcie *pci = pcie->pci;\n\tu32 val, cfg;\n\tu8 offset;\n\n\tval = ls_lut_readl(pcie, PEX_PF0_PME_MES_DR);\n\tls_lut_writel(pcie, PEX_PF0_PME_MES_DR, val);\n\n\tif (!val)\n\t\treturn IRQ_NONE;\n\n\tif (val & PEX_PF0_PME_MES_DR_LUD) {\n\n\t\toffset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);\n\n\t\t/*\n\t\t * The values of the Maximum Link Width and Supported Link\n\t\t * Speed from the Link Capabilities Register will be lost\n\t\t * during link down or hot reset. Restore initial val",
+      "resolved_code": "\tstruct ls_pcie_ep *pcie = dev_id;\n\tstruct dw_pcie *pci = pcie->pci;\n\tu32 val, cfg;\n\tu8 offset;\n\n\tval = ls_lut_readl(pcie, PEX_PF0_PME_MES_DR);\n\tls_lut_writel(pcie, PEX_PF0_PME_MES_DR, val);\n\n\tif (!val)\n\t\treturn IRQ_NONE;\n\n\tif (val & PEX_PF0_PME_MES_DR_LUD) {\n\n\t\toffset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);\n\n\t\t/*\n\t\t * The values of the Maximum Link Width and Supported Link\n\t\t * Speed from the Link Capabilities Register will be lost\n\t\t * during link down or hot reset. Restore initial val",
+      "api_response_raw": "{\n  \"confidence\": 7,\n  \"reasoning\": \"Hunk 1: NXP defines PCIE_LINK_CAP/MAX_LINK_SP_MASK/MAX_LINK_W_MASK/MAX_LINK_W_SHIFT for their workaround. Mainline adds PEX_PF0_CONFIG/PEX_PF0_CFG_READY for its workaround and reformats with BIT(). Both workarounds aim to restore link capabilities after reset. Mainline's approach is cleaner (uses dw_pcie_find_capability and saves lnkcap at probe). I'll take mainline's defines and keep both NXP's defines (for compatibility, in case used elsewhere) plus mainline's. Hunk 2: struct field \\u2014 NXP has max_speed/max_width, mainline has lnkcap. Since the IRQ handler will use mainline's approach, drop max_speed/max_width and use lnkcap. Hunk 3: trivial whitespace. Hunk 4: IRQ handler \\u2014 adopt mainline's improved version which includes ep_linkup notifier and proper lnkcap restore. Hunk 5: error message formatting \\u2014 adopt mainline's cleaner version.\\n\\nSince the user wants the stable fix applied and NXP's code does the same workaround differently b",
+      "start_line": 103,
+      "end_line": 163
+    },
+    {
+      "file": "drivers/pci/controller/dwc/pci-layerscape-ep.c",
+      "hunk_index": 4,
+      "confidence": 7,
+      "reasoning": "NXP keeps the dev_err for 'Can't get pme irq' message, mainline stable just removed it. The error message style change (removing period, slight refactor) from mainline is cosmetic. I'll keep NXP's vendor style with the additional dev_err message but accept it as is since NXP's version is fine.",
+      "ours": "\tif (pcie->irq < 0) {\n\t\tdev_err(&pdev->dev, \"Can't get 'pme' irq.\\n\");\n\t\treturn pcie->irq;\n\t}\n\n\tret = devm_request_irq(&pdev->dev, pcie->irq,\n\t\t\t       ls_pcie_ep_event_handler, IRQF_SHARED,\n\t\t\t       pdev->name, pcie);\n\tif (ret) {\n\t\tdev_err(&pdev->dev, \"Can't register PCIe IRQ.\\n\");\n",
+      "theirs": "\tif (pcie->irq < 0)\n\t\treturn pcie->irq;\n\n\tret = devm_request_irq(&pdev->dev, pcie->irq, ls_pcie_ep_event_handler,\n\t\t\t       IRQF_SHARED, pdev->name, pcie);\n\tif (ret) {\n\t\tdev_err(&pdev->dev, \"Can't register PCIe IRQ\\n\");\n",
+      "resolved_code": "\tif (pcie->irq < 0) {\n\t\tdev_err(&pdev->dev, \"Can't get 'pme' irq.\\n\");\n\t\treturn pcie->irq;\n\t}\n\n\tret = devm_request_irq(&pdev->dev, pcie->irq,\n\t\t\t       ls_pcie_ep_event_handler, IRQF_SHARED,\n\t\t\t       pdev->name, pcie);\n\tif (ret) {\n\t\tdev_err(&pdev->dev, \"Can't register PCIe IRQ.\\n\");\n",
+      "api_response_raw": "{\n  \"confidence\": 7,\n  \"reasoning\": \"NXP keeps the dev_err for 'Can't get pme irq' message, mainline stable just removed it. The error message style change (removing period, slight refactor) from mainline is cosmetic. I'll keep NXP's vendor style with the additional dev_err message but accept it as is since NXP's version is fine.\",\n  \"brace_check\": \"2 open, 1 close\",\n  \"resolved_code\": \"\\tif (pcie->irq < 0) {\\n\\t\\tdev_err(&pdev->dev, \\\"Can't get 'pme' irq.\\\\n\\\");\\n\\t\\treturn pcie->irq;\\n\\t}\\n\\n\\tret = devm_request_irq(&pdev->dev, pcie->irq,\\n\\t\\t\\t       ls_pcie_ep_event_handler, IRQF_SHARED,\\n\\t\\t\\t       pdev->name, pcie);\\n\\tif (ret) {\\n\\t\\tdev_err(&pdev->dev, \\\"Can't register PCIe IRQ.\\\\n\\\");\\n\"\n}",
+      "start_line": 175,
+      "end_line": 194
+    },
+    {
+      "file": "drivers/pci/controller/dwc/pci-layerscape-ep.c",
+      "hunk_index": 5,
+      "confidence": 7,
+      "reasoning": "Hunk 6 is the variable declaration. NXP doesn't add a new variable here, mainline adds 'u8 offset;' for the lnkcap workaround. Since the second conflict (in body) will need 'offset', we need to add it. Keep the 'u8 offset;' declaration.",
+      "ours": "",
+      "theirs": "\tu8 offset;\n",
+      "resolved_code": "\tu8 offset;\n",
+      "api_response_raw": "{\n  \"confidence\": 7,\n  \"reasoning\": \"Hunk 6 is the variable declaration. NXP doesn't add a new variable here, mainline adds 'u8 offset;' for the lnkcap workaround. Since the second conflict (in body) will need 'offset', we need to add it. Keep the 'u8 offset;' declaration.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\\tu8 offset;\\n\"\n}",
+      "start_line": 300,
+      "end_line": 303
+    },
+    {
+      "file": "drivers/pci/controller/dwc/pci-layerscape-ep.c",
+      "hunk_index": 6,
+      "confidence": 4,
+      "reasoning": "NXP side reads max_speed/max_width from PCIE_LINK_CAP (likely at fixed offset) and sets DMA mask. Mainline stable adds lnkcap caching for the reset workaround using dw_pcie_find_capability. These serve different purposes but both read link capability info. Since NXP needs max_speed/max_width stored separately and mainline needs lnkcap for reset workaround, I'll keep both. The 'offset' variable was declared in the earlier conflict section (THEIR side added it). I need to preserve NXP's max_speed/max_width/DMA mask code AND add the mainline lnkcap reading.",
+      "ours": "\tpcie->max_speed = dw_pcie_readw_dbi(pci, PCIE_LINK_CAP) &\n\t\t\t  MAX_LINK_SP_MASK;\n\tpcie->max_width = (dw_pcie_readw_dbi(pci, PCIE_LINK_CAP) >>\n\t\t\t  MAX_LINK_W_SHIFT) & MAX_LINK_W_MASK;\n\n\t/* set 64-bit DMA mask and coherent DMA mask */\n\tif (dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64)))\n\t\tdev_warn(dev, \"Failed to set 64-bit DMA mask.\\n\");\n\n\tplatform_set_drvdata(pdev, pcie);\n\n\tret = dw_pcie_ep_init(&pci->ep);\n\tif (ret)\n\t\treturn  ret;\n\n\treturn  ls_pcie_ep_interrupt_init(pcie, pdev);\n",
+      "theirs": "\tplatform_set_drvdata(pdev, pcie);\n\n\toffset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);\n\tpcie->lnkcap = dw_pcie_readl_dbi(pci, offset + PCI_EXP_LNKCAP);\n\n\tret = dw_pcie_ep_init(&pci->ep);\n\tif (ret)\n\t\treturn ret;\n\n\treturn ls_pcie_ep_interrupt_init(pcie, pdev);\n",
+      "resolved_code": "\tpcie->max_speed = dw_pcie_readw_dbi(pci, PCIE_LINK_CAP) &\n\t\t\t  MAX_LINK_SP_MASK;\n\tpcie->max_width = (dw_pcie_readw_dbi(pci, PCIE_LINK_CAP) >>\n\t\t\t  MAX_LINK_W_SHIFT) & MAX_LINK_W_MASK;\n\n\t/* set 64-bit DMA mask and coherent DMA mask */\n\tif (dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64)))\n\t\tdev_warn(dev, \"Failed to set 64-bit DMA mask.\\n\");\n\n\tplatform_set_drvdata(pdev, pcie);\n\n\toffset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);\n\tpcie->lnkcap = dw_pcie_readl_dbi(pci, offset + PCI_EXP_LNKCAP);",
+      "api_response_raw": "{\n  \"confidence\": 4,\n  \"reasoning\": \"NXP side reads max_speed/max_width from PCIE_LINK_CAP (likely at fixed offset) and sets DMA mask. Mainline stable adds lnkcap caching for the reset workaround using dw_pcie_find_capability. These serve different purposes but both read link capability info. Since NXP needs max_speed/max_width stored separately and mainline needs lnkcap for reset workaround, I'll keep both. The 'offset' variable was declared in the earlier conflict section (THEIR side added it). I need to preserve NXP's max_speed/max_width/DMA mask code AND add the mainline lnkcap reading.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\\tpcie->max_speed = dw_pcie_readw_dbi(pci, PCIE_LINK_CAP) &\\n\\t\\t\\t  MAX_LINK_SP_MASK;\\n\\tpcie->max_width = (dw_pcie_readw_dbi(pci, PCIE_LINK_CAP) >>\\n\\t\\t\\t  MAX_LINK_W_SHIFT) & MAX_LINK_W_MASK;\\n\\n\\t/* set 64-bit DMA mask and coherent DMA mask */\\n\\tif (dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64)))\\n\\t\\tdev_warn(dev, \\\"Failed to set 64-",
+      "start_line": 338,
+      "end_line": 366
+    },
+    {
+      "file": "drivers/phy/freescale/phy-fsl-imx8-mipi-dphy.c",
+      "hunk_index": 0,
+      "confidence": 8,
+      "reasoning": "The mainline stable patch changes the alias name from 'mipi_dphy' to 'mipi-dphy' in of_alias_get_id(). NXP's side appears empty in this hunk, suggesting NXP either doesn't have this combo block here or it's structured differently. Since the stable fix is about alias naming and NXP shows nothing, I'll keep NXP's empty version - the combo handling is likely elsewhere in the NXP tree or was removed. Given NXP side is empty, the safest merge is to keep it empty (ours).",
+      "ours": "",
+      "theirs": "\tif (priv->devdata->is_combo) {\n\t\tpriv->lvds_regmap =\n\t\t\tsyscon_regmap_lookup_by_phandle(np, \"fsl,syscon\");\n\t\tif (IS_ERR(priv->lvds_regmap)) {\n\t\t\tret = PTR_ERR(priv->lvds_regmap);\n\t\t\tdev_err_probe(dev, ret, \"Failed to get LVDS regmap\\n\");\n\t\t\treturn ret;\n\t\t}\n\n\t\tpriv->id = of_alias_get_id(np, \"mipi-dphy\");\n\t\tif (priv->id < 0) {\n\t\t\tdev_err(dev, \"Failed to get phy node alias id: %d\\n\",\n\t\t\t\tpriv->id);\n\t\t\treturn priv->id;\n\t\t}\n\n\t\tret = imx_scu_get_handle(&priv->ipc_handle);\n\t\tif (ret) {\n\t\t\tdev_err_prob",
+      "resolved_code": "",
+      "api_response_raw": "{\n  \"confidence\": 8,\n  \"reasoning\": \"The mainline stable patch changes the alias name from 'mipi_dphy' to 'mipi-dphy' in of_alias_get_id(). NXP's side appears empty in this hunk, suggesting NXP either doesn't have this combo block here or it's structured differently. Since the stable fix is about alias naming and NXP shows nothing, I'll keep NXP's empty version - the combo handling is likely elsewhere in the NXP tree or was removed. Given NXP side is empty, the safest merge is to keep it empty (ours).\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\"\n}",
+      "start_line": 563,
+      "end_line": 589
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "version": "6.1.90",
+  "timestamp": "2026-04-29T13:40:06.021616",
+  "conflicts_total": 5,
+  "conflicts_resolved": 5,
+  "build_success": true,
+  "merged_to_main": true,
+  "error": null,
+  "resolutions": [
+    {
+      "file": "drivers/phy/freescale/phy-fsl-imx8m-pcie.c",
+      "hunk_index": 0,
+      "confidence": 8,
+      "reasoning": "OUR side (NXP) adds IMX8MP support with many new register definitions and an IMX8MP enum variant, plus handles both IMX8MM and IMX8MP cases in the switch. THEIR side (mainline stable) just removes the reset_control_assert() call as a fix. I keep all NXP additions and apply the stable fix by removing the reset_control_assert() call from the IMX8MM case while preserving the IMX8MP case.",
+      "ours": "#define IMX8MP_PCIE_PHY_TRSV_REG001\t0x404\n#define  LN0_OVRD_TX_DRV_LVL_G1\t\t0x3F\n#define IMX8MP_PCIE_PHY_TRSV_REG002\t0x408\n#define  LN0_OVRD_TX_DRV_LVL_G2\t\t0x1F\n#define IMX8MP_PCIE_PHY_TRSV_REG003\t0x40C\n#define  LN0_OVRD_TX_DRV_LVL_G3\t\t0x1F\n#define IMX8MP_PCIE_PHY_TRSV_REG005\t0x414\n#define  LN0_OVRD_TX_DRV_PST_LVL_G1\t0x2B\n#define IMX8MP_PCIE_PHY_TRSV_REG006\t0x418\n#define  LN0_OVRD_TX_DRV_PST_LVL_G2\t0xB\n#define IMX8MP_PCIE_PHY_TRSV_REG007\t0x41C\n#define  LN0_OVRD_TX_DRV_PST_LVL_G3\t0xB\n#define IMX8M",
+      "theirs": "enum imx8_pcie_phy_type {\n\tIMX8MM,\n",
+      "resolved_code": "#define IMX8MP_PCIE_PHY_TRSV_REG001\t0x404\n#define  LN0_OVRD_TX_DRV_LVL_G1\t\t0x3F\n#define IMX8MP_PCIE_PHY_TRSV_REG002\t0x408\n#define  LN0_OVRD_TX_DRV_LVL_G2\t\t0x1F\n#define IMX8MP_PCIE_PHY_TRSV_REG003\t0x40C\n#define  LN0_OVRD_TX_DRV_LVL_G3\t\t0x1F\n#define IMX8MP_PCIE_PHY_TRSV_REG005\t0x414\n#define  LN0_OVRD_TX_DRV_PST_LVL_G1\t0x2B\n#define IMX8MP_PCIE_PHY_TRSV_REG006\t0x418\n#define  LN0_OVRD_TX_DRV_PST_LVL_G2\t0xB\n#define IMX8MP_PCIE_PHY_TRSV_REG007\t0x41C\n#define  LN0_OVRD_TX_DRV_PST_LVL_G3\t0xB\n#define IMX8M",
+      "api_response_raw": "{\n  \"confidence\": 8,\n  \"reasoning\": \"OUR side (NXP) adds IMX8MP support with many new register definitions and an IMX8MP enum variant, plus handles both IMX8MM and IMX8MP cases in the switch. THEIR side (mainline stable) just removes the reset_control_assert() call as a fix. I keep all NXP additions and apply the stable fix by removing the reset_control_assert() call from the IMX8MM case while preserving the IMX8MP case.\",\n  \"brace_check\": \"2 open, 2 close\",\n  \"resolved_code\": \"#define IMX8MP_PCIE_PHY_TRSV_REG001\\t0x404\\n#define  LN0_OVRD_TX_DRV_LVL_G1\\t\\t0x3F\\n#define IMX8MP_PCIE_PHY_TRSV_REG002\\t0x408\\n#define  LN0_OVRD_TX_DRV_LVL_G2\\t\\t0x1F\\n#define IMX8MP_PCIE_PHY_TRSV_REG003\\t0x40C\\n#define  LN0_OVRD_TX_DRV_LVL_G3\\t\\t0x1F\\n#define IMX8MP_PCIE_PHY_TRSV_REG005\\t0x414\\n#define  LN0_OVRD_TX_DRV_PST_LVL_G1\\t0x2B\\n#define IMX8MP_PCIE_PHY_TRSV_REG006\\t0x418\\n#define  LN0_OVRD_TX_DRV_PST_LVL_G2\\t0xB\\n#define IMX8MP_PCIE_PHY_TRSV_REG007\\t0x41C\\n#define  LN0_OVRD_TX_DRV_PST_LVL_G3\\t0xB\\n#de",
+      "start_line": 48,
+      "end_line": 91
+    },
+    {
+      "file": "drivers/phy/freescale/phy-fsl-imx8m-pcie.c",
+      "hunk_index": 1,
+      "confidence": 3,
+      "reasoning": "This conflict is complex. NXP vendor kernel supports both IMX8MM and IMX8MP variants with extensive tuning code. Mainline stable backported commits that refine the IMX8MM driver and moved the pad_mode/clock configuration code to be inside the power_on function before the reset deassert. The hunk 1 conflict shows mainline removed IMX8MP enum and the IMX8MP register defines because the upstream version doesn't support IMX8MP yet. NXP's lf-6.1.y supports IMX8MP, so we must keep NXP's version. For hunk 2, NXP has the IMX8MP case in the switch, while mainline moved a block of code (pad config + GPR setup) to be after the switch. Since NXP needs IMX8MP support and already has its own structure with the pad_mode/GPR config later (in the after-context), we should keep NXP's version. The mainline fix (4723dfe76de0) appears to reorder operations. However, NXP's after-context already contains the equivalent code, so adding mainline's block would duplicate it. Best to keep NXP's version as-is.",
+      "ours": "\t\treset_control_assert(imx8_phy->reset);\n\n\t\t/* Tune PHY de-emphasis setting to pass PCIe compliance. */\n\t\tif (imx8_phy->tx_deemph_gen1)\n\t\t\twritel(imx8_phy->tx_deemph_gen1,\n\t\t\t       imx8_phy->base + PCIE_PHY_TRSV_REG5);\n\t\tif (imx8_phy->tx_deemph_gen2)\n\t\t\twritel(imx8_phy->tx_deemph_gen2,\n\t\t\t       imx8_phy->base + PCIE_PHY_TRSV_REG6);\n\t\tbreak;\n\tcase IMX8MP: /* Do nothing. */\n\t\tbreak;\n\t}\n",
+      "theirs": "\t\t/* Tune PHY de-emphasis setting to pass PCIe compliance. */\n\t\tif (imx8_phy->tx_deemph_gen1)\n\t\t\twritel(imx8_phy->tx_deemph_gen1,\n\t\t\t       imx8_phy->base + PCIE_PHY_TRSV_REG5);\n\t\tif (imx8_phy->tx_deemph_gen2)\n\t\t\twritel(imx8_phy->tx_deemph_gen2,\n\t\t\t       imx8_phy->base + PCIE_PHY_TRSV_REG6);\n\t\tbreak;\n\t}\n\n\tif (pad_mode == IMX8_PCIE_REFCLK_PAD_INPUT ||\n\t    pad_mode == IMX8_PCIE_REFCLK_PAD_UNUSED) {\n\t\t/* Configure the pad as input */\n\t\tval = readl(imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG061);\n\t\tw",
+      "resolved_code": "\t\treset_control_assert(imx8_phy->reset);\n\n\t\t/* Tune PHY de-emphasis setting to pass PCIe compliance. */\n\t\tif (imx8_phy->tx_deemph_gen1)\n\t\t\twritel(imx8_phy->tx_deemph_gen1,\n\t\t\t       imx8_phy->base + PCIE_PHY_TRSV_REG5);\n\t\tif (imx8_phy->tx_deemph_gen2)\n\t\t\twritel(imx8_phy->tx_deemph_gen2,\n\t\t\t       imx8_phy->base + PCIE_PHY_TRSV_REG6);\n\t\tbreak;\n\tcase IMX8MP: /* Do nothing. */\n\t\tbreak;\n\t}\n",
+      "api_response_raw": "{\n  \"confidence\": 3,\n  \"reasoning\": \"This conflict is complex. NXP vendor kernel supports both IMX8MM and IMX8MP variants with extensive tuning code. Mainline stable backported commits that refine the IMX8MM driver and moved the pad_mode/clock configuration code to be inside the power_on function before the reset deassert. The hunk 1 conflict shows mainline removed IMX8MP enum and the IMX8MP register defines because the upstream version doesn't support IMX8MP yet. NXP's lf-6.1.y supports IMX8MP, so we must keep NXP's version. For hunk 2, NXP has the IMX8MP case in the switch, while mainline moved a block of code (pad config + GPR setup) to be after the switch. Since NXP needs IMX8MP support and already has its own structure with the pad_mode/GPR config later (in the after-context), we should keep NXP's version. The mainline fix (4723dfe76de0) appears to reorder operations. However, NXP's after-context already contains the equivalent code, so adding mainline's block would duplicate it. ",
+      "start_line": 122,
+      "end_line": 199
+    },
+    {
+      "file": "drivers/phy/freescale/phy-fsl-imx8m-pcie.c",
+      "hunk_index": 2,
+      "confidence": 8,
+      "reasoning": "The mainline stable patches refine the IMX8MM PCIe PHY driver and fix link-up instability. NXP's vendor kernel has extensive IMX8MP support that mainline doesn't have. Looking at the conflict: NXP's version already places code outside the switch (matching mainline's intent in the previous hunk). For hunk 3, NXP's side has all the needed code plus IMX8MP-specific tuning. The mainline hunk 3 is empty because mainline already moved that code into the previous hunk (which we kept as NXP version). I'll keep NXP's version entirely since it preserves IMX8MP support and the structure already matches what mainline did. The key mainline fix (removing reset_control_assert from the switch and moving common code outside) was already in the previous hunk where I'd keep mainline's restructuring \u2014 but since the conflict shows NXP keeps the code outside the switch in this hunk, NXP version is correct here.",
+      "ours": "\tif (pad_mode == IMX8_PCIE_REFCLK_PAD_OUTPUT ||\n\t    pad_mode == IMX8_PCIE_REFCLK_PAD_UNUSED) {\n\t\t/* Source clock from SoC internal PLL */\n\t\twritel(ANA_PLL_CLK_OUT_TO_EXT_IO_SEL,\n\t\t       imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG062);\n\t\twritel(AUX_PLL_REFCLK_SEL_SYS_PLL,\n\t\t       imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG063);\n\t\tval = ANA_AUX_RX_TX_SEL_TX | ANA_AUX_TX_TERM;\n\t\twritel(val | ANA_AUX_RX_TERM_GND_EN,\n\t\t       imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG064);\n\t\twritel(ANA_AUX_RX_TERM | ANA_A",
+      "theirs": "",
+      "resolved_code": "\tif (pad_mode == IMX8_PCIE_REFCLK_PAD_OUTPUT ||\n\t    pad_mode == IMX8_PCIE_REFCLK_PAD_UNUSED) {\n\t\t/* Source clock from SoC internal PLL */\n\t\twritel(ANA_PLL_CLK_OUT_TO_EXT_IO_SEL,\n\t\t       imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG062);\n\t\twritel(AUX_PLL_REFCLK_SEL_SYS_PLL,\n\t\t       imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG063);\n\t\tval = ANA_AUX_RX_TX_SEL_TX | ANA_AUX_TX_TERM;\n\t\twritel(val | ANA_AUX_RX_TERM_GND_EN,\n\t\t       imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG064);\n\t\twritel(ANA_AUX_RX_TERM | ANA_A",
+      "api_response_raw": "{\n  \"confidence\": 8,\n  \"reasoning\": \"The mainline stable patches refine the IMX8MM PCIe PHY driver and fix link-up instability. NXP's vendor kernel has extensive IMX8MP support that mainline doesn't have. Looking at the conflict: NXP's version already places code outside the switch (matching mainline's intent in the previous hunk). For hunk 3, NXP's side has all the needed code plus IMX8MP-specific tuning. The mainline hunk 3 is empty because mainline already moved that code into the previous hunk (which we kept as NXP version). I'll keep NXP's version entirely since it preserves IMX8MP support and the structure already matches what mainline did. The key mainline fix (removing reset_control_assert from the switch and moving common code outside) was already in the previous hunk where I'd keep mainline's restructuring \\u2014 but since the conflict shows NXP keeps the code outside the switch in this hunk, NXP version is correct here.\",\n  \"brace_check\": \"matches NXP original\",\n  \"resolved_",
+      "start_line": 208,
+      "end_line": 300
+    },
+    {
+      "file": "drivers/phy/freescale/phy-fsl-imx8m-pcie.c",
+      "hunk_index": 3,
+      "confidence": 9,
+      "reasoning": "First conflict: NXP keeps imx8mp_drvdata and IMX8MP entry in match table which mainline doesn't have (mainline only handles IMX8MM in this driver variant). Keep NXP's version as it adds IMX8MP support. Second conflict: NXP adds the pcie_phy_tuned setup function which mainline doesn't have. Keep NXP's version.",
+      "ours": "static const struct imx8_pcie_phy_drvdata imx8mp_drvdata = {\n\t.gpr = \"fsl,imx8mp-iomuxc-gpr\",\n\t.variant = IMX8MP,\n};\n\nstatic const struct of_device_id imx8_pcie_phy_of_match[] = {\n\t{.compatible = \"fsl,imx8mm-pcie-phy\", .data = &imx8mm_drvdata, },\n\t{.compatible = \"fsl,imx8mp-pcie-phy\", .data = &imx8mp_drvdata, },\n",
+      "theirs": "static const struct of_device_id imx8_pcie_phy_of_match[] = {\n\t{.compatible = \"fsl,imx8mm-pcie-phy\", .data = &imx8mm_drvdata, },\n",
+      "resolved_code": "static const struct imx8_pcie_phy_drvdata imx8mp_drvdata = {\n\t.gpr = \"fsl,imx8mp-iomuxc-gpr\",\n\t.variant = IMX8MP,\n};\n\nstatic const struct of_device_id imx8_pcie_phy_of_match[] = {\n\t{.compatible = \"fsl,imx8mm-pcie-phy\", .data = &imx8mm_drvdata, },\n\t{.compatible = \"fsl,imx8mp-pcie-phy\", .data = &imx8mp_drvdata, },",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"First conflict: NXP keeps imx8mp_drvdata and IMX8MP entry in match table which mainline doesn't have (mainline only handles IMX8MM in this driver variant). Keep NXP's version as it adds IMX8MP support. Second conflict: NXP adds the pcie_phy_tuned setup function which mainline doesn't have. Keep NXP's version.\",\n  \"brace_check\": \"2 open, 2 close\",\n  \"resolved_code\": \"static const struct imx8_pcie_phy_drvdata imx8mp_drvdata = {\\n\\t.gpr = \\\"fsl,imx8mp-iomuxc-gpr\\\",\\n\\t.variant = IMX8MP,\\n};\\n\\nstatic const struct of_device_id imx8_pcie_phy_of_match[] = {\\n\\t{.compatible = \\\"fsl,imx8mm-pcie-phy\\\", .data = &imx8mm_drvdata, },\\n\\t{.compatible = \\\"fsl,imx8mp-pcie-phy\\\", .data = &imx8mp_drvdata, },\"\n}",
+      "start_line": 335,
+      "end_line": 347
+    },
+    {
+      "file": "drivers/phy/freescale/phy-fsl-imx8m-pcie.c",
+      "hunk_index": 4,
+      "confidence": 9,
+      "reasoning": "Hunk 5: NXP adds a __setup parameter for PHY fine-tuning. Mainline removes nothing here\u2014it's just an empty side because the surrounding context already preserves NXP's imx8mp_drvdata and of_match entries. Keep NXP's __setup code.",
+      "ours": "static int __init imx8_pcie_phy_fine_tune(char *str)\n{\n\tif (!strcmp(str, \"yes\")) {\n\t\tpr_info(\"i.MX PCIe PHY is fine tuned in EP/RC SYS.\\n\");\n\t\timx8_pcie_phy_tuned = 1;\n\t}\n\treturn 1;\n}\n\n__setup(\"pcie_phy_tuned=\", imx8_pcie_phy_fine_tune);\n\n",
+      "theirs": "",
+      "resolved_code": "static int __init imx8_pcie_phy_fine_tune(char *str)\n{\n\tif (!strcmp(str, \"yes\")) {\n\t\tpr_info(\"i.MX PCIe PHY is fine tuned in EP/RC SYS.\\n\");\n\t\timx8_pcie_phy_tuned = 1;\n\t}\n\treturn 1;\n}\n\n__setup(\"pcie_phy_tuned=\", imx8_pcie_phy_fine_tune);\n\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"Hunk 5: NXP adds a __setup parameter for PHY fine-tuning. Mainline removes nothing here\\u2014it's just an empty side because the surrounding context already preserves NXP's imx8mp_drvdata and of_match entries. Keep NXP's __setup code.\",\n  \"brace_check\": \"2 open, 2 close\",\n  \"resolved_code\": \"static int __init imx8_pcie_phy_fine_tune(char *str)\\n{\\n\\tif (!strcmp(str, \\\"yes\\\")) {\\n\\t\\tpr_info(\\\"i.MX PCIe PHY is fine tuned in EP/RC SYS.\\\\n\\\");\\n\\t\\timx8_pcie_phy_tuned = 1;\\n\\t}\\n\\treturn 1;\\n}\\n\\n__setup(\\\"pcie_phy_tuned=\\\", imx8_pcie_phy_fine_tune);\\n\\n\"\n}",
+      "start_line": 352,
+      "end_line": 365
+    }
+  ]
+}

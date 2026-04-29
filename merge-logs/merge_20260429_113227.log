@@ -1,0 +1,2445 @@
+2026-04-29 11:32:27,264 [INFO] Log file: /home/osaleem/repos/linux-imx/merge-logs/merge_20260429_113227.log
+2026-04-29 11:32:27,264 [INFO] Kernel Stable Merge Tool started
+2026-04-29 11:32:27,264 [INFO] Repo: /home/osaleem/repos/linux-imx
+2026-04-29 11:32:27,264 [INFO] Target: v6.1.85
+2026-04-29 11:32:27,264 [INFO] Provider: claude
+2026-04-29 11:32:27,264 [INFO] Interactive: False
+2026-04-29 11:32:27,264 [INFO] Dry run: False
+2026-04-29 11:32:27,264 [INFO] Fetching stable tags...
+2026-04-29 11:32:28,155 [INFO] Using override start version: 6.1.80
+2026-04-29 11:32:28,155 [INFO] 
+============================================================
+Merge step: v6.1.80 -> v6.1.81
+Progress: 1/5
+============================================================
+2026-04-29 11:32:28,155 [INFO] Starting merge: v6.1.81
+2026-04-29 11:32:29,141 [INFO] Merge v6.1.81 has 4 conflicted files
+2026-04-29 11:32:29,141 [INFO]   arch/arm/boot/dts/imx6qdl.dtsi: 1 conflict hunks
+2026-04-29 11:32:29,142 [INFO]   drivers/dma/fsl-qdma.c: 1 conflict hunks
+2026-04-29 11:32:29,142 [INFO]   drivers/pci/controller/dwc/pci-layerscape-ep.c: 7 conflict hunks
+2026-04-29 11:32:29,142 [INFO]   drivers/phy/freescale/phy-fsl-imx8-mipi-dphy.c: 1 conflict hunks
+2026-04-29 11:32:29,143 [INFO] Resolving arch/arm/boot/dts/imx6qdl.dtsi hunk 1...
+2026-04-29 11:32:29,162 [DEBUG] Prompt for arch/arm/boot/dts/imx6qdl.dtsi hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: arch/arm/boot/dts/imx6qdl.dtsi
+
+We are merging mainline stable v6.1.81 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.80..v6.1.81):
+0cea0c330a11 ARM: dts: imx: Adjust dma-apbh node name
+
+Context BEFORE the conflict:
+```
+		usbphy1 = &usbphy2;
+	};
+
+	clocks {
+		ckil {
+			compatible = "fixed-clock";
+			#clock-cells = <0>;
+			clock-frequency = <32768>;
+		};
+
+		ckih1 {
+			compatible = "fixed-clock";
+			#clock-cells = <0>;
+			clock-frequency = <0>;
+		};
+
+		osc {
+			compatible = "fixed-clock";
+			#clock-cells = <0>;
+			clock-frequency = <24000000>;
+		};
+	};
+
+	ldb: ldb {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		compatible = "fsl,imx6q-ldb", "fsl,imx53-ldb";
+		gpr = <&gpr>;
+		status = "disabled";
+
+		lvds-channel@0 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <0>;
+			status = "disabled";
+
+			port@0 {
+				reg = <0>;
+
+				lvds0_mux_0: endpoint {
+					remote-endpoint = <&ipu1_di0_lvds0>;
+				};
+			};
+
+			port@1 {
+				reg = <1>;
+
+				lvds0_mux_1: endpoint {
+					remote-endpoint = <&ipu1_di1_lvds0>;
+				};
+			};
+		};
+
+		lvds-channel@1 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <1>;
+			status = "disabled";
+
+			port@0 {
+				reg = <0>;
+
+				lvds1_mux_0: endpoint {
+					remote-endpoint = <&ipu1_di0_lvds1>;
+				};
+			};
+
+			port@1 {
+				reg = <1>;
+
+				lvds1_mux_1: endpoint {
+					remote-endpoint = <&ipu1_di1_lvds1>;
+				};
+			};
+		};
+	};
+
+	pmu: pmu {
+		compatible = "arm,cortex-a9-pmu";
+		interrupt-parent = <&gpc>;
+		interrupts = <0 94 IRQ_TYPE_LEVEL_HIGH>;
+	};
+
+	usbphynop1: usbphynop1 {
+		compatible = "usb-nop-xceiv";
+		#phy-cells = <0>;
+	};
+
+	usbphynop2: usbphynop2 {
+		compatible = "usb-nop-xceiv";
+		#phy-cells = <0>;
+	};
+
+	soc: soc {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		compatible = "simple-bus";
+		interrupt-parent = <&gpc>;
+		ranges;
+
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+		caam_sm: caam-sm@100000 {
+			compatible = "fsl,imx6q-caam-sm";
+			reg = <0x100000 0x4000>;
+		};
+
+		dma_apbh: dma-apbh@110000 {
+
+```
+
+THEIR side (mainline stable):
+```
+		dma_apbh: dma-controller@110000 {
+
+```
+
+Context AFTER the conflict:
+```
+			compatible = "fsl,imx6q-dma-apbh", "fsl,imx28-dma-apbh";
+			reg = <0x00110000 0x2000>;
+			interrupts = <0 13 IRQ_TYPE_LEVEL_HIGH>,
+				     <0 13 IRQ_TYPE_LEVEL_HIGH>,
+				     <0 13 IRQ_TYPE_LEVEL_HIGH>,
+				     <0 13 IRQ_TYPE_LEVEL_HIGH>;
+			interrupt-names = "gpmi0", "gpmi1", "gpmi2", "gpmi3";
+			#dma-cells = <1>;
+			dma-channels = <4>;
+			clocks = <&clks IMX6QDL_CLK_APBH_DMA>;
+		};
+
+		gpmi: nand-controller@112000 {
+			compatible = "fsl,imx6q-gpmi-nand";
+			reg = <0x00112000 0x2000>, <0x00114000 0x2000>;
+			reg-names = "gpmi-nand", "bch";
+			interrupts = <0 15 IRQ_TYPE_LEVEL_HIGH>;
+			interrupt-names = "bch";
+			clocks = <&clks IMX6QDL_CLK_GPMI_IO>,
+				 <&clks IMX6QDL_CLK_GPMI_APB>,
+				 <&clks IMX6QDL_CLK_GPMI_BCH>,
+				 <&clks IMX6QDL_CLK_GPMI_BCH_APB>,
+				 <&clks IMX6QDL_CLK_PER1_BCH>;
+			clock-names = "gpmi_io", "gpmi_apb", "gpmi_bch",
+				      "gpmi_bch_apb", "per1_bch";
+			dmas = <&dma_apbh 0>;
+			dma-names = "rx-tx";
+			status = "disabled";
+		};
+
+		hdmi: hdmi@120000 {
+			reg = <0x00120000 0x9000>;
+			interrupts = <0 115 0x04>;
+			gpr = <&gpr>;
+			clocks = <&clks IMX6QDL_CLK_HDMI_IAHB>,
+				 <&clks IMX6QDL_CLK_HDMI_ISFR>;
+			clock-names = "iahb", "isfr";
+			status = "disabled";
+
+			ports {
+				#address-cells = <1>;
+				#size-cells = <0>;
+
+				port@0 {
+					reg = <0>;
+
+					hdmi_mux_0: endpoint {
+						remote-endpoint = <&ipu1_di0_hdmi>;
+					};
+				};
+
+				port@1 {
+					reg = <1>;
+
+					hdmi_mux_1: endpoint {
+						remote-endpoint = <&ipu1_di1_hdmi>;
+					};
+				};
+			};
+		};
+
+		hdmi_core: hdmi_core@120000 {
+			compatible = "fsl,imx6q-hdmi-core";
+			reg = <0x120000 0x9000>;
+			clocks = <&clks IMX6QDL_CLK_HDMI_ISFR>,
+					<&clks IMX6QDL_CLK_HDMI_IAHB>,
+					<&clks IMX6QDL_CLK_HSI_TX>;
+			clock-names = "hdmi_isfr", "hdmi_iahb", "mipi_core";
+			status = "disabled";
+		};
+
+		hdmi_video: hdmi_video@20e0000 {
+			compatible = "fsl,imx6q-hdmi-video";
+			reg = <0x20e0000 0x1000>;
+			reg-names = "hdmi_gpr";
+			interrupts = <0 115 IRQ_TYPE_LEVEL_HIGH>;
+			clocks = <&clks IMX6QDL_CLK_HDMI_ISFR>,
+					<&clks IMX6QDL_CLK_HDMI_IAHB>,
+					<&clks IMX6QDL_CLK_HSI_TX>;
+			clock-names = "hdmi_isfr", "hdmi_iahb", "mipi_core";
+			status = "disabled";
+		};
+
+		hdmi_audio: hdmi_audio@120000 {
+			compatible = "fsl,imx6q-hdmi-audio";
+			clocks = <&clks IMX6QDL_CLK_HDMI_ISFR>,
+					<&clks IMX6QDL_CLK_HDMI_IAHB>,
+					<&clks IMX6QDL_CLK_HSI_TX>;
+			clock-names = "hdmi_isfr", "hdmi_iahb", "mipi_core";
+			dmas = <&sdma 2 26 0>;
+			dma-names = "tx";
+			status = "disabled";
+		};
+
+		hdmi_cec: hdmi_cec@120000 {
+			compatible = "fsl,imx6q-hdmi-cec";
+			interrupts = <0 115 IRQ_TYPE_LEVEL_HIGH>;
+			status = "disabled";
+		};
+
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-29 11:32:33,630 [INFO]   Resolved arch/arm/boot/dts/imx6qdl.dtsi hunk 0: confidence=9/10 — NXP adds caam_sm node before dma_apbh. Mainline renames dma-apbh@110000 to dma-controller@110000. Ke
+2026-04-29 11:32:33,631 [DEBUG] Applied resolution to arch/arm/boot/dts/imx6qdl.dtsi hunk 0
+2026-04-29 11:32:33,631 [INFO] Resolving drivers/dma/fsl-qdma.c hunk 1...
+2026-04-29 11:32:33,656 [DEBUG] Prompt for drivers/dma/fsl-qdma.c hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/dma/fsl-qdma.c
+
+We are merging mainline stable v6.1.81 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.80..v6.1.81):
+474d521da890 dmaengine: fsl-qdma: init irq after reg initialization
+237ecf1afe6c dmaengine: fsl-qdma: fix SoC may hang on 16 byte unaligned read
+
+Context BEFORE the conflict:
+```
+qdma->status = devm_kzalloc(&pdev->dev, len, GFP_KERNEL);
+	if (!fsl_qdma->status)
+		return -ENOMEM;
+
+	len = sizeof(int) * blk_num;
+	fsl_qdma->queue_irq = devm_kzalloc(&pdev->dev, len, GFP_KERNEL);
+	if (!fsl_qdma->queue_irq)
+		return -ENOMEM;
+
+	ret = of_property_read_u32(np, "fsl,dma-queues", &queues);
+	if (ret) {
+		dev_err(&pdev->dev, "Can't get queues.\n");
+		return ret;
+	}
+
+	fsl_qdma->desc_allocated = 0;
+	fsl_qdma->n_chans = chans;
+	fsl_qdma->n_queues = queues;
+	fsl_qdma->block_number = blk_num;
+	fsl_qdma->block_offset = blk_off;
+
+	mutex_init(&fsl_qdma->fsl_qdma_mutex);
+
+	for (i = 0; i < fsl_qdma->block_number; i++) {
+		fsl_qdma->status[i] = fsl_qdma_prep_status_queue(pdev);
+		if (!fsl_qdma->status[i])
+			return -ENOMEM;
+	}
+	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+	fsl_qdma->ctrl_base = devm_ioremap_resource(&pdev->dev, res);
+	if (IS_ERR(fsl_qdma->ctrl_base))
+		return PTR_ERR(fsl_qdma->ctrl_base);
+
+	res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
+	fsl_qdma->status_base = devm_ioremap_resource(&pdev->dev, res);
+	if (IS_ERR(fsl_qdma->status_base))
+		return PTR_ERR(fsl_qdma->status_base);
+
+	res = platform_get_resource(pdev, IORESOURCE_MEM, 2);
+	fsl_qdma->block_base = devm_ioremap_resource(&pdev->dev, res);
+	if (IS_ERR(fsl_qdma->block_base))
+		return PTR_ERR(fsl_qdma->block_base);
+	fsl_qdma->queue = fsl_qdma_alloc_queue_resources(pdev, fsl_qdma);
+	if (!fsl_qdma->queue)
+		return -ENOMEM;
+
+	fsl_qdma->irq_base = platform_get_irq_byname(pdev, "qdma-queue0");
+	if (fsl_qdma->irq_base < 0)
+		return fsl_qdma->irq_base;
+
+	fsl_qdma->feature = of_property_read_bool(np, "big-endian");
+	INIT_LIST_HEAD(&fsl_qdma->dma_dev.channels);
+
+	for (i = 0; i < fsl_qdma->n_chans; i++) {
+		struct fsl_qdma_chan *fsl_chan = &fsl_qdma->chans[i];
+
+		fsl_chan->qdma = fsl_qdma;
+		fsl_chan->queue = fsl_qdma->queue + i % (fsl_qdma->n_queues *
+							fsl_qdma->block_number);
+		fsl_chan->vchan.desc_free = fsl_qdma_free_desc;
+		vchan_init(&fsl_chan->vchan, &fsl_qdma->dma_dev);
+	}
+
+	dma_cap_set(DMA_MEMCPY, fsl_qdma->dma_dev.cap_mask);
+
+	fsl_qdma->dma_dev.dev = &pdev->dev;
+	fsl_qdma->dma_dev.device_free_chan_resources =
+		fsl_qdma_free_chan_resources;
+	fsl_qdma->dma_dev.device_alloc_chan_resources =
+		fsl_qdma_alloc_chan_resources;
+	fsl_qdma->dma_dev.device_tx_status = dma_cookie_status;
+	fsl_qdma->dma_dev.device_prep_dma_memcpy = fsl_qdma_prep_memcpy;
+	fsl_qdma->dma_dev.device_issue_pending = fsl_qdma_issue_pending;
+	fsl_qdma->dma_dev.device_synchronize = fsl_qdma_synchronize;
+	fsl_qdma->dma_dev.device_terminate_all = fsl_qdma_terminate_all;
+
+	ret = dma_set_mask(&pdev->dev, DMA_BIT_MASK(40));
+	if (ret) {
+		dev_err(&pdev->dev, "dma_set_mask failure.\n");
+		return ret;
+	}
+
+	platform_set_drvdata(pdev, fsl_qdma);
+
+	ret = fsl_qdma_reg_init(fsl_qdma);
+	if (ret) {
+		dev_err(&pdev->dev, "Can't Initialize the qDMA engine.\n");
+		return ret;
+	}
+
+	ret = fsl_qdma_irq_init(pdev, fsl_qdma);
+	if (ret)
+		return ret;
+
+	ret = dma_async_device_register(&fsl_qdma->dma_dev);
+	if (ret) {
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+		dev_err(&pdev->dev,
+			"Can't register NXP Layerscape qDMA engine.\n");
+
+```
+
+THEIR side (mainline stable):
+```
+		dev_err(&pdev->dev, "Can't register NXP Layerscape qDMA engine.\n");
+
+```
+
+Context AFTER the conflict:
+```
+		return ret;
+	}
+
+	return 0;
+}
+
+static void fsl_qdma_cleanup_vchan(struct dma_device *dmadev)
+{
+	struct fsl_qdma_chan *chan, *_chan;
+
+	list_for_each_entry_safe(chan, _chan,
+				 &dmadev->channels, vchan.chan.device_node) {
+		list_del(&chan->vchan.chan.device_node);
+		tasklet_kill(&chan->vchan.task);
+	}
+}
+
+static int fsl_qdma_remove(struct platform_device *pdev)
+{
+	struct device_node *np = pdev->dev.of_node;
+	struct fsl_qdma_engine *fsl_qdma = platform_get_drvdata(pdev);
+
+	fsl_qdma_irq_exit(pdev, fsl_qdma);
+	fsl_qdma_cleanup_vchan(&fsl_qdma->dma_dev);
+	of_dma_controller_free(np);
+	dma_async_device_unregister(&fsl_qdma->dma_dev);
+
+	return 0;
+}
+
+static const struct of_device_id fsl_qdma_dt_ids[] = {
+	{ .compatible = "fsl,ls1021a-qdma", },
+	{ /* sentinel */ }
+};
+MODULE_DEVICE_TABLE(of, fsl_qdma_dt_ids);
+
+static struct platform_driver fsl_qdma_driver = {
+	.driver		= {
+		.name	= "fsl-qdma",
+		.of_match_table = fsl_qdma_dt_ids,
+	},
+	.probe          = fsl_qdma_probe,
+	.remove		= fsl_qdma_remove,
+};
+
+module_platform_driver(fsl_qdma_driver);
+
+MODULE_ALIAS("platform:fsl-qdma");
+MODULE_LICENSE("GPL v2");
+MODULE_DESCRIPTION("NXP Layerscape qDMA engine driver");
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-29 11:32:37,322 [INFO]   Resolved drivers/dma/fsl-qdma.c hunk 0: confidence=9/10 — Trivial formatting difference - NXP wraps the dev_err line for readability while mainline keeps it o
+2026-04-29 11:32:37,323 [DEBUG] Applied resolution to drivers/dma/fsl-qdma.c hunk 0
+2026-04-29 11:32:37,323 [INFO] Resolving drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 1...
+2026-04-29 11:32:37,349 [DEBUG] Prompt for drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/pci/controller/dwc/pci-layerscape-ep.c
+
+We are merging mainline stable v6.1.81 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.80..v6.1.81):
+507eeaad4d32 PCI: layerscape: Add workaround for lost link capabilities during reset
+e30f82597bf6 PCI: layerscape: Add the endpoint linkup notifier support
+
+Context BEFORE the conflict:
+```
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * PCIe controller EP driver for Freescale Layerscape SoCs
+ *
+ * Copyright (C) 2018 NXP Semiconductor.
+ *
+ * Author: Xiaowei Bao <xiaowei.bao@nxp.com>
+ */
+
+#include <linux/kernel.h>
+#include <linux/init.h>
+#include <linux/of_pci.h>
+#include <linux/of_platform.h>
+#include <linux/of_address.h>
+#include <linux/pci.h>
+#include <linux/platform_device.h>
+#include <linux/resource.h>
+
+#include "pcie-designware.h"
+
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+#define PCIE_LINK_CAP			0x7C	/* PCIe Link Capabilities*/
+#define MAX_LINK_SP_MASK		0x0F
+#define MAX_LINK_W_MASK			0x3F
+#define MAX_LINK_W_SHIFT		4
+
+/* PEX PFa PCIE pme and message interrupt registers*/
+#define PEX_PF0_PME_MES_DR             0xC0020
+#define PEX_PF0_PME_MES_DR_LUD         (1 << 7)
+#define PEX_PF0_PME_MES_DR_LDD         (1 << 9)
+#define PEX_PF0_PME_MES_DR_HRD         (1 << 10)
+
+#define PEX_PF0_PME_MES_IER            0xC0028
+#define PEX_PF0_PME_MES_IER_LUDIE      (1 << 7)
+#define PEX_PF0_PME_MES_IER_LDDIE      (1 << 9)
+#define PEX_PF0_PME_MES_IER_HRDIE      (1 << 10)
+
+```
+
+THEIR side (mainline stable):
+```
+#define PEX_PF0_CONFIG			0xC0014
+#define PEX_PF0_CFG_READY		BIT(0)
+
+/* PEX PFa PCIE PME and message interrupt registers*/
+#define PEX_PF0_PME_MES_DR		0xC0020
+#define PEX_PF0_PME_MES_DR_LUD		BIT(7)
+#define PEX_PF0_PME_MES_DR_LDD		BIT(9)
+#define PEX_PF0_PME_MES_DR_HRD		BIT(10)
+
+#define PEX_PF0_PME_MES_IER		0xC0028
+#define PEX_PF0_PME_MES_IER_LUDIE	BIT(7)
+#define PEX_PF0_PME_MES_IER_LDDIE	BIT(9)
+#define PEX_PF0_PME_MES_IER_HRDIE	BIT(10)
+
+```
+
+Context AFTER the conflict:
+```
+
+#define to_ls_pcie_ep(x)	dev_get_drvdata((x)->dev)
+
+struct ls_pcie_ep_drvdata {
+	u32				func_offset;
+	const struct dw_pcie_ep_ops	*ops;
+	const struct dw_pcie_ops	*dw_pcie_ops;
+};
+
+struct ls_pcie_ep {
+	struct dw_pcie			*pci;
+	struct pci_epc_features		*ls_epc;
+	const struct ls_pcie_ep_drvdata *drvdata;
+<<<<<<< HEAD
+	u8				max_speed;
+	u8				max_width;
+	bool				big_endian;
+	int				irq;
+=======
+	int				irq;
+	u32				lnkcap;
+	bool				big_endian;
+>>>>>>> v6.1.81
+};
+
+static u32 ls_lut_readl(struct ls_pcie_ep *pcie, u32 offset)
+{
+	struct dw_pcie *pci = pcie->pci;
+
+	if (pcie->big_endian)
+		return ioread32be(pci->dbi_base + offset);
+	else
+		return ioread32(pci->dbi_base + offset);
+}
+
+<<<<<<< HEAD
+static void ls_lut_writel(struct ls_pcie_ep *pcie, u32 offset,
+			  u32 value)
+=======
+static void ls_lut_writel(struct ls_pcie_ep *pcie, u32 offset, u32 value)
+>>>>>>> v6.1.81
+{
+	struct dw_pcie *pci = pcie->pci;
+
+	if (pcie->big_endian)
+		iowrite32be(value, pci->dbi_base + offset);
+	else
+		iowrite32(value, pci->dbi_base + offset);
+}
+
+static irqreturn_t ls_pcie_ep_event_handler(int irq, void *dev_id)
+{
+<<<<<<< HEAD
+	struct ls_pcie_ep *pcie = (struct ls_pcie_ep *)dev_id;
+	struct dw_pcie *pci = pcie->pci;
+	u32 val;
+
+	val = ls_lut_readl(pcie, PEX_PF0_PME_MES_DR);
+	if (!val)
+		return IRQ_NONE;
+
+	if (val & PEX_PF0_PME_MES_DR_LUD)
+		dev_info(pci->dev, "Detect the link up state !\n");
+	else if (val & PEX_PF0_PME_MES_DR_LDD)
+		dev_info(pci->dev, "Detect the link down state !\n");
+	else if (val & PEX_PF0_PME_MES_DR_HRD)
+		dev_info(pci->dev, "Detect the hot reset state !\n");
+
+	dw_pcie_dbi_ro_wr_en(pci);
+	dw_pcie_writew_dbi(pci, PCIE_LINK_CAP,
+			   (pcie->max_width << MAX_LINK_W_SHIFT) |
+			   pcie->max_speed);
+	dw_pcie_dbi_ro_wr_dis(pci);
+
+	ls_lut_writel(pcie, PEX_PF0_PME_MES_DR, val);
+=======
+	struct ls_pcie_ep *pcie = dev_id;
+	struct dw_pcie *pci = pcie->pci;
+	u32 val, cfg;
+	u8 offset;
+
+	val = ls_lut_readl(pcie, PEX_PF0_PME_MES_DR);
+	ls_lut_writel(pcie, PEX_PF0_PME_MES_DR, val);
+
+	if (!val)
+		return IRQ_NONE;
+
+	if (val & PEX_PF0_PME_MES_DR_LUD) {
+
+		offset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
+
+		/*
+		 * The values of the Maximum Link Width and Supported Link
+		 * Speed from the Link Capabilities Register will be lost
+		 * during link down or hot reset. Restore initial value
+		 * that configured by the Reset Configuration Word (RCW).
+		 */
+		dw_pcie_dbi_ro_wr_en(pci);
+		dw_pcie_writel_dbi(pci, offset + PCI_EXP_LNKCAP, pcie->lnkcap);
+		dw_pcie_dbi_ro_wr_dis(pci);
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-29 11:32:45,138 [INFO]   Resolved drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 0: confidence=6/10 — First conflict: NXP has PCIE_LINK_CAP related defines for their workaround, mainline adds PEX_PF0_CO
+2026-04-29 11:32:45,139 [DEBUG] Applied resolution to drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 0
+2026-04-29 11:32:45,139 [INFO] Resolving drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 2...
+2026-04-29 11:32:45,165 [DEBUG] Prompt for drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 1:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/pci/controller/dwc/pci-layerscape-ep.c
+
+We are merging mainline stable v6.1.81 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.80..v6.1.81):
+507eeaad4d32 PCI: layerscape: Add workaround for lost link capabilities during reset
+e30f82597bf6 PCI: layerscape: Add the endpoint linkup notifier support
+
+Context BEFORE the conflict:
+```
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * PCIe controller EP driver for Freescale Layerscape SoCs
+ *
+ * Copyright (C) 2018 NXP Semiconductor.
+ *
+ * Author: Xiaowei Bao <xiaowei.bao@nxp.com>
+ */
+
+#include <linux/kernel.h>
+#include <linux/init.h>
+#include <linux/of_pci.h>
+#include <linux/of_platform.h>
+#include <linux/of_address.h>
+#include <linux/pci.h>
+#include <linux/platform_device.h>
+#include <linux/resource.h>
+
+#include "pcie-designware.h"
+
+<<<<<<< HEAD
+#define PCIE_LINK_CAP			0x7C	/* PCIe Link Capabilities*/
+#define MAX_LINK_SP_MASK		0x0F
+#define MAX_LINK_W_MASK			0x3F
+#define MAX_LINK_W_SHIFT		4
+
+/* PEX PFa PCIE pme and message interrupt registers*/
+#define PEX_PF0_PME_MES_DR             0xC0020
+#define PEX_PF0_PME_MES_DR_LUD         (1 << 7)
+#define PEX_PF0_PME_MES_DR_LDD         (1 << 9)
+#define PEX_PF0_PME_MES_DR_HRD         (1 << 10)
+
+#define PEX_PF0_PME_MES_IER            0xC0028
+#define PEX_PF0_PME_MES_IER_LUDIE      (1 << 7)
+#define PEX_PF0_PME_MES_IER_LDDIE      (1 << 9)
+#define PEX_PF0_PME_MES_IER_HRDIE      (1 << 10)
+=======
+#define PEX_PF0_CONFIG			0xC0014
+#define PEX_PF0_CFG_READY		BIT(0)
+
+/* PEX PFa PCIE PME and message interrupt registers*/
+#define PEX_PF0_PME_MES_DR		0xC0020
+#define PEX_PF0_PME_MES_DR_LUD		BIT(7)
+#define PEX_PF0_PME_MES_DR_LDD		BIT(9)
+#define PEX_PF0_PME_MES_DR_HRD		BIT(10)
+
+#define PEX_PF0_PME_MES_IER		0xC0028
+#define PEX_PF0_PME_MES_IER_LUDIE	BIT(7)
+#define PEX_PF0_PME_MES_IER_LDDIE	BIT(9)
+#define PEX_PF0_PME_MES_IER_HRDIE	BIT(10)
+>>>>>>> v6.1.81
+
+#define to_ls_pcie_ep(x)	dev_get_drvdata((x)->dev)
+
+struct ls_pcie_ep_drvdata {
+	u32				func_offset;
+	const struct dw_pcie_ep_ops	*ops;
+	const struct dw_pcie_ops	*dw_pcie_ops;
+};
+
+struct ls_pcie_ep {
+	struct dw_pcie			*pci;
+	struct pci_epc_features		*ls_epc;
+	const struct ls_pcie_ep_drvdata *drvdata;
+
+```
+
+CONFLICT (hunk 2):
+OUR side (NXP vendor kernel):
+```
+	u8				max_speed;
+	u8				max_width;
+	bool				big_endian;
+	int				irq;
+
+```
+
+THEIR side (mainline stable):
+```
+	int				irq;
+	u32				lnkcap;
+	bool				big_endian;
+
+```
+
+Context AFTER the conflict:
+```
+};
+
+static u32 ls_lut_readl(struct ls_pcie_ep *pcie, u32 offset)
+{
+	struct dw_pcie *pci = pcie->pci;
+
+	if (pcie->big_endian)
+		return ioread32be(pci->dbi_base + offset);
+	else
+		return ioread32(pci->dbi_base + offset);
+}
+
+<<<<<<< HEAD
+static void ls_lut_writel(struct ls_pcie_ep *pcie, u32 offset,
+			  u32 value)
+=======
+static void ls_lut_writel(struct ls_pcie_ep *pcie, u32 offset, u32 value)
+>>>>>>> v6.1.81
+{
+	struct dw_pcie *pci = pcie->pci;
+
+	if (pcie->big_endian)
+		iowrite32be(value, pci->dbi_base + offset);
+	else
+		iowrite32(value, pci->dbi_base + offset);
+}
+
+static irqreturn_t ls_pcie_ep_event_handler(int irq, void *dev_id)
+{
+<<<<<<< HEAD
+	struct ls_pcie_ep *pcie = (struct ls_pcie_ep *)dev_id;
+	struct dw_pcie *pci = pcie->pci;
+	u32 val;
+
+	val = ls_lut_readl(pcie, PEX_PF0_PME_MES_DR);
+	if (!val)
+		return IRQ_NONE;
+
+	if (val & PEX_PF0_PME_MES_DR_LUD)
+		dev_info(pci->dev, "Detect the link up state !\n");
+	else if (val & PEX_PF0_PME_MES_DR_LDD)
+		dev_info(pci->dev, "Detect the link down state !\n");
+	else if (val & PEX_PF0_PME_MES_DR_HRD)
+		dev_info(pci->dev, "Detect the hot reset state !\n");
+
+	dw_pcie_dbi_ro_wr_en(pci);
+	dw_pcie_writew_dbi(pci, PCIE_LINK_CAP,
+			   (pcie->max_width << MAX_LINK_W_SHIFT) |
+			   pcie->max_speed);
+	dw_pcie_dbi_ro_wr_dis(pci);
+
+	ls_lut_writel(pcie, PEX_PF0_PME_MES_DR, val);
+=======
+	struct ls_pcie_ep *pcie = dev_id;
+	struct dw_pcie *pci = pcie->pci;
+	u32 val, cfg;
+	u8 offset;
+
+	val = ls_lut_readl(pcie, PEX_PF0_PME_MES_DR);
+	ls_lut_writel(pcie, PEX_PF0_PME_MES_DR, val);
+
+	if (!val)
+		return IRQ_NONE;
+
+	if (val & PEX_PF0_PME_MES_DR_LUD) {
+
+		offset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
+
+		/*
+		 * The values of the Maximum Link Width and Supported Link
+		 * Speed from the Link Capabilities Register will be lost
+		 * during link down or hot reset. Restore initial value
+		 * that configured by the Reset Configuration Word (RCW).
+		 */
+		dw_pcie_dbi_ro_wr_en(pci);
+		dw_pcie_writel_dbi(pci, offset + PCI_EXP_LNKCAP, pcie->lnkcap);
+		dw_pcie_dbi_ro_wr_dis(pci);
+
+		cfg = ls_lut_readl(pcie, PEX_PF0_CONFIG);
+		cfg |= PEX_PF0_CFG_READY;
+		ls_lut_writel(pcie, PEX_PF0_CONFIG, cfg);
+		dw_pcie_ep_linkup(&pci->ep);
+
+		dev_dbg(pci->dev, "Link up\n");
+	} else if (val & PEX_PF0_PME_MES_DR_LDD) {
+		dev_dbg(pci->dev, "Link down\n");
+	} else if (val & PEX_PF0_PME_MES_DR_HRD) {
+		dev_dbg(pci->dev, "Hot reset\n");
+	}
+>>>>>>> v6.1.81
+
+	return IRQ_HANDLED;
+}
+
+static int ls_pcie_ep_interrupt_init(struct ls_pcie_ep *pcie,
+				     struct platform_device *pdev)
+{
+	u32 val;
+	int ret;
+
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-29 11:33:06,746 [WARNING] Brace balance mismatch: ours=+0, theirs=+0, resolved=+1. Resolved code has 8 '{' and 7 '}'.
+2026-04-29 11:33:06,746 [INFO]   Retrying due to brace imbalance...
+2026-04-29 11:33:06,747 [DEBUG] Prompt for drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 1:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/pci/controller/dwc/pci-layerscape-ep.c
+
+We are merging mainline stable v6.1.81 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.80..v6.1.81):
+507eeaad4d32 PCI: layerscape: Add workaround for lost link capabilities during reset
+e30f82597bf6 PCI: layerscape: Add the endpoint linkup notifier support
+
+Context BEFORE the conflict:
+```
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * PCIe controller EP driver for Freescale Layerscape SoCs
+ *
+ * Copyright (C) 2018 NXP Semiconductor.
+ *
+ * Author: Xiaowei Bao <xiaowei.bao@nxp.com>
+ */
+
+#include <linux/kernel.h>
+#include <linux/init.h>
+#include <linux/of_pci.h>
+#include <linux/of_platform.h>
+#include <linux/of_address.h>
+#include <linux/pci.h>
+#include <linux/platform_device.h>
+#include <linux/resource.h>
+
+#include "pcie-designware.h"
+
+<<<<<<< HEAD
+#define PCIE_LINK_CAP			0x7C	/* PCIe Link Capabilities*/
+#define MAX_LINK_SP_MASK		0x0F
+#define MAX_LINK_W_MASK			0x3F
+#define MAX_LINK_W_SHIFT		4
+
+/* PEX PFa PCIE pme and message interrupt registers*/
+#define PEX_PF0_PME_MES_DR             0xC0020
+#define PEX_PF0_PME_MES_DR_LUD         (1 << 7)
+#define PEX_PF0_PME_MES_DR_LDD         (1 << 9)
+#define PEX_PF0_PME_MES_DR_HRD         (1 << 10)
+
+#define PEX_PF0_PME_MES_IER            0xC0028
+#define PEX_PF0_PME_MES_IER_LUDIE      (1 << 7)
+#define PEX_PF0_PME_MES_IER_LDDIE      (1 << 9)
+#define PEX_PF0_PME_MES_IER_HRDIE      (1 << 10)
+=======
+#define PEX_PF0_CONFIG			0xC0014
+#define PEX_PF0_CFG_READY		BIT(0)
+
+/* PEX PFa PCIE PME and message interrupt registers*/
+#define PEX_PF0_PME_MES_DR		0xC0020
+#define PEX_PF0_PME_MES_DR_LUD		BIT(7)
+#define PEX_PF0_PME_MES_DR_LDD		BIT(9)
+#define PEX_PF0_PME_MES_DR_HRD		BIT(10)
+
+#define PEX_PF0_PME_MES_IER		0xC0028
+#define PEX_PF0_PME_MES_IER_LUDIE	BIT(7)
+#define PEX_PF0_PME_MES_IER_LDDIE	BIT(9)
+#define PEX_PF0_PME_MES_IER_HRDIE	BIT(10)
+>>>>>>> v6.1.81
+
+#define to_ls_pcie_ep(x)	dev_get_drvdata((x)->dev)
+
+struct ls_pcie_ep_drvdata {
+	u32				func_offset;
+	const struct dw_pcie_ep_ops	*ops;
+	const struct dw_pcie_ops	*dw_pcie_ops;
+};
+
+struct ls_pcie_ep {
+	struct dw_pcie			*pci;
+	struct pci_epc_features		*ls_epc;
+	const struct ls_pcie_ep_drvdata *drvdata;
+
+```
+
+CONFLICT (hunk 2):
+OUR side (NXP vendor kernel):
+```
+	u8				max_speed;
+	u8				max_width;
+	bool				big_endian;
+	int				irq;
+
+```
+
+THEIR side (mainline stable):
+```
+	int				irq;
+	u32				lnkcap;
+	bool				big_endian;
+
+```
+
+Context AFTER the conflict:
+```
+};
+
+static u32 ls_lut_readl(struct ls_pcie_ep *pcie, u32 offset)
+{
+	struct dw_pcie *pci = pcie->pci;
+
+	if (pcie->big_endian)
+		return ioread32be(pci->dbi_base + offset);
+	else
+		return ioread32(pci->dbi_base + offset);
+}
+
+<<<<<<< HEAD
+static void ls_lut_writel(struct ls_pcie_ep *pcie, u32 offset,
+			  u32 value)
+=======
+static void ls_lut_writel(struct ls_pcie_ep *pcie, u32 offset, u32 value)
+>>>>>>> v6.1.81
+{
+	struct dw_pcie *pci = pcie->pci;
+
+	if (pcie->big_endian)
+		iowrite32be(value, pci->dbi_base + offset);
+	else
+		iowrite32(value, pci->dbi_base + offset);
+}
+
+static irqreturn_t ls_pcie_ep_event_handler(int irq, void *dev_id)
+{
+<<<<<<< HEAD
+	struct ls_pcie_ep *pcie = (struct ls_pcie_ep *)dev_id;
+	struct dw_pcie *pci = pcie->pci;
+	u32 val;
+
+	val = ls_lut_readl(pcie, PEX_PF0_PME_MES_DR);
+	if (!val)
+		return IRQ_NONE;
+
+	if (val & PEX_PF0_PME_MES_DR_LUD)
+		dev_info(pci->dev, "Detect the link up state !\n");
+	else if (val & PEX_PF0_PME_MES_DR_LDD)
+		dev_info(pci->dev, "Detect the link down state !\n");
+	else if (val & PEX_PF0_PME_MES_DR_HRD)
+		dev_info(pci->dev, "Detect the hot reset state !\n");
+
+	dw_pcie_dbi_ro_wr_en(pci);
+	dw_pcie_writew_dbi(pci, PCIE_LINK_CAP,
+			   (pcie->max_width << MAX_LINK_W_SHIFT) |
+			   pcie->max_speed);
+	dw_pcie_dbi_ro_wr_dis(pci);
+
+	ls_lut_writel(pcie, PEX_PF0_PME_MES_DR, val);
+=======
+	struct ls_pcie_ep *pcie = dev_id;
+	struct dw_pcie *pci = pcie->pci;
+	u32 val, cfg;
+	u8 offset;
+
+	val = ls_lut_readl(pcie, PEX_PF0_PME_MES_DR);
+	ls_lut_writel(pcie, PEX_PF0_PME_MES_DR, val);
+
+	if (!val)
+		return IRQ_NONE;
+
+	if (val & PEX_PF0_PME_MES_DR_LUD) {
+
+		offset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
+
+		/*
+		 * The values of the Maximum Link Width and Supported Link
+		 * Speed from the Link Capabilities Register will be lost
+		 * during link down or hot reset. Restore initial value
+		 * that configured by the Reset Configuration Word (RCW).
+		 */
+		dw_pcie_dbi_ro_wr_en(pci);
+		dw_pcie_writel_dbi(pci, offset + PCI_EXP_LNKCAP, pcie->lnkcap);
+		dw_pcie_dbi_ro_wr_dis(pci);
+
+		cfg = ls_lut_readl(pcie, PEX_PF0_CONFIG);
+		cfg |= PEX_PF0_CFG_READY;
+		ls_lut_writel(pcie, PEX_PF0_CONFIG, cfg);
+		dw_pcie_ep_linkup(&pci->ep);
+
+		dev_dbg(pci->dev, "Link up\n");
+	} else if (val & PEX_PF0_PME_MES_DR_LDD) {
+		dev_dbg(pci->dev, "Link down\n");
+	} else if (val & PEX_PF0_PME_MES_DR_HRD) {
+		dev_dbg(pci->dev, "Hot reset\n");
+	}
+>>>>>>> v6.1.81
+
+	return IRQ_HANDLED;
+}
+
+static int ls_pcie_ep_interrupt_init(struct ls_pcie_ep *pcie,
+				     struct platform_device *pdev)
+{
+	u32 val;
+	int ret;
+
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+
+IMPORTANT: Your previous attempt had a brace imbalance. Please count opening `{` and closing `}` braces VERY carefully this time. The resolution must produce balanced braces.
+2026-04-29 11:33:34,480 [ERROR] Failed to parse claude response as JSON: Extra data: line 3 column 1 (char 3339)
+2026-04-29 11:33:34,480 [ERROR] Raw response text (first 1000 chars): {"confidence": 7, "reasoning": "Three conflicts: (1) Header defines - mainline adds PEX_PF0_CONFIG/PEX_PF0_CFG_READY and converts to BIT() macros. NXP has PCIE_LINK_CAP/MAX_LINK_SP_MASK defines for its workaround approach. Mainline's commit 507eeaad4d32 supersedes NXP's manual link-cap restore. I'll take mainline's defines but keep NXP compatibility where useful. (2) Struct fields - NXP has max_speed/max_width for its old workaround; mainline uses lnkcap. Take mainline's lnkcap since it replaces the NXP workaround. (3) IRQ handler - mainline version is more complete with linkup notifier and proper lnkcap restore, replacing NXP's simpler workaround. Take mainline's version.", "brace_check": "matched on each segment", "resolved_code": "#define PEX_PF0_CONFIG\t\t\t0xC0014\n#define PEX_PF0_CFG_READY\t\tBIT(0)\n\n/* PEX PFa PCIE PME and message interrupt registers*/\n#define PEX_PF0_PME_MES_DR\t\t0xC0020\n#define PEX_PF0_PME_MES_DR_LUD\t\tBIT(7)\n#define PEX_PF0_PME_MES_DR_LDD\t\tBIT(9)\n#d
+2026-04-29 11:33:34,481 [ERROR] Raw response text length: 4612
+2026-04-29 11:33:34,481 [INFO] Retrying...
+2026-04-29 11:33:50,416 [INFO]   Resolved drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 1: confidence=8/10 — Three conflicts: (1) Register defines - mainline uses BIT() macros and adds PEX_PF0_CONFIG. NXP uses
+2026-04-29 11:33:50,416 [DEBUG] Applied resolution to drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 1
+2026-04-29 11:33:50,416 [INFO] Resolving drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 3...
+2026-04-29 11:33:50,442 [DEBUG] Prompt for drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 2:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/pci/controller/dwc/pci-layerscape-ep.c
+
+We are merging mainline stable v6.1.81 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.80..v6.1.81):
+507eeaad4d32 PCI: layerscape: Add workaround for lost link capabilities during reset
+e30f82597bf6 PCI: layerscape: Add the endpoint linkup notifier support
+
+Context BEFORE the conflict:
+```
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * PCIe controller EP driver for Freescale Layerscape SoCs
+ *
+ * Copyright (C) 2018 NXP Semiconductor.
+ *
+ * Author: Xiaowei Bao <xiaowei.bao@nxp.com>
+ */
+
+#include <linux/kernel.h>
+#include <linux/init.h>
+#include <linux/of_pci.h>
+#include <linux/of_platform.h>
+#include <linux/of_address.h>
+#include <linux/pci.h>
+#include <linux/platform_device.h>
+#include <linux/resource.h>
+
+#include "pcie-designware.h"
+
+<<<<<<< HEAD
+#define PCIE_LINK_CAP			0x7C	/* PCIe Link Capabilities*/
+#define MAX_LINK_SP_MASK		0x0F
+#define MAX_LINK_W_MASK			0x3F
+#define MAX_LINK_W_SHIFT		4
+
+/* PEX PFa PCIE pme and message interrupt registers*/
+#define PEX_PF0_PME_MES_DR             0xC0020
+#define PEX_PF0_PME_MES_DR_LUD         (1 << 7)
+#define PEX_PF0_PME_MES_DR_LDD         (1 << 9)
+#define PEX_PF0_PME_MES_DR_HRD         (1 << 10)
+
+#define PEX_PF0_PME_MES_IER            0xC0028
+#define PEX_PF0_PME_MES_IER_LUDIE      (1 << 7)
+#define PEX_PF0_PME_MES_IER_LDDIE      (1 << 9)
+#define PEX_PF0_PME_MES_IER_HRDIE      (1 << 10)
+=======
+#define PEX_PF0_CONFIG			0xC0014
+#define PEX_PF0_CFG_READY		BIT(0)
+
+/* PEX PFa PCIE PME and message interrupt registers*/
+#define PEX_PF0_PME_MES_DR		0xC0020
+#define PEX_PF0_PME_MES_DR_LUD		BIT(7)
+#define PEX_PF0_PME_MES_DR_LDD		BIT(9)
+#define PEX_PF0_PME_MES_DR_HRD		BIT(10)
+
+#define PEX_PF0_PME_MES_IER		0xC0028
+#define PEX_PF0_PME_MES_IER_LUDIE	BIT(7)
+#define PEX_PF0_PME_MES_IER_LDDIE	BIT(9)
+#define PEX_PF0_PME_MES_IER_HRDIE	BIT(10)
+>>>>>>> v6.1.81
+
+#define to_ls_pcie_ep(x)	dev_get_drvdata((x)->dev)
+
+struct ls_pcie_ep_drvdata {
+	u32				func_offset;
+	const struct dw_pcie_ep_ops	*ops;
+	const struct dw_pcie_ops	*dw_pcie_ops;
+};
+
+struct ls_pcie_ep {
+	struct dw_pcie			*pci;
+	struct pci_epc_features		*ls_epc;
+	const struct ls_pcie_ep_drvdata *drvdata;
+<<<<<<< HEAD
+	u8				max_speed;
+	u8				max_width;
+	bool				big_endian;
+	int				irq;
+=======
+	int				irq;
+	u32				lnkcap;
+	bool				big_endian;
+>>>>>>> v6.1.81
+};
+
+static u32 ls_lut_readl(struct ls_pcie_ep *pcie, u32 offset)
+{
+	struct dw_pcie *pci = pcie->pci;
+
+	if (pcie->big_endian)
+		return ioread32be(pci->dbi_base + offset);
+	else
+		return ioread32(pci->dbi_base + offset);
+}
+
+
+```
+
+CONFLICT (hunk 3):
+OUR side (NXP vendor kernel):
+```
+static void ls_lut_writel(struct ls_pcie_ep *pcie, u32 offset,
+			  u32 value)
+
+```
+
+THEIR side (mainline stable):
+```
+static void ls_lut_writel(struct ls_pcie_ep *pcie, u32 offset, u32 value)
+
+```
+
+Context AFTER the conflict:
+```
+{
+	struct dw_pcie *pci = pcie->pci;
+
+	if (pcie->big_endian)
+		iowrite32be(value, pci->dbi_base + offset);
+	else
+		iowrite32(value, pci->dbi_base + offset);
+}
+
+static irqreturn_t ls_pcie_ep_event_handler(int irq, void *dev_id)
+{
+<<<<<<< HEAD
+	struct ls_pcie_ep *pcie = (struct ls_pcie_ep *)dev_id;
+	struct dw_pcie *pci = pcie->pci;
+	u32 val;
+
+	val = ls_lut_readl(pcie, PEX_PF0_PME_MES_DR);
+	if (!val)
+		return IRQ_NONE;
+
+	if (val & PEX_PF0_PME_MES_DR_LUD)
+		dev_info(pci->dev, "Detect the link up state !\n");
+	else if (val & PEX_PF0_PME_MES_DR_LDD)
+		dev_info(pci->dev, "Detect the link down state !\n");
+	else if (val & PEX_PF0_PME_MES_DR_HRD)
+		dev_info(pci->dev, "Detect the hot reset state !\n");
+
+	dw_pcie_dbi_ro_wr_en(pci);
+	dw_pcie_writew_dbi(pci, PCIE_LINK_CAP,
+			   (pcie->max_width << MAX_LINK_W_SHIFT) |
+			   pcie->max_speed);
+	dw_pcie_dbi_ro_wr_dis(pci);
+
+	ls_lut_writel(pcie, PEX_PF0_PME_MES_DR, val);
+=======
+	struct ls_pcie_ep *pcie = dev_id;
+	struct dw_pcie *pci = pcie->pci;
+	u32 val, cfg;
+	u8 offset;
+
+	val = ls_lut_readl(pcie, PEX_PF0_PME_MES_DR);
+	ls_lut_writel(pcie, PEX_PF0_PME_MES_DR, val);
+
+	if (!val)
+		return IRQ_NONE;
+
+	if (val & PEX_PF0_PME_MES_DR_LUD) {
+
+		offset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
+
+		/*
+		 * The values of the Maximum Link Width and Supported Link
+		 * Speed from the Link Capabilities Register will be lost
+		 * during link down or hot reset. Restore initial value
+		 * that configured by the Reset Configuration Word (RCW).
+		 */
+		dw_pcie_dbi_ro_wr_en(pci);
+		dw_pcie_writel_dbi(pci, offset + PCI_EXP_LNKCAP, pcie->lnkcap);
+		dw_pcie_dbi_ro_wr_dis(pci);
+
+		cfg = ls_lut_readl(pcie, PEX_PF0_CONFIG);
+		cfg |= PEX_PF0_CFG_READY;
+		ls_lut_writel(pcie, PEX_PF0_CONFIG, cfg);
+		dw_pcie_ep_linkup(&pci->ep);
+
+		dev_dbg(pci->dev, "Link up\n");
+	} else if (val & PEX_PF0_PME_MES_DR_LDD) {
+		dev_dbg(pci->dev, "Link down\n");
+	} else if (val & PEX_PF0_PME_MES_DR_HRD) {
+		dev_dbg(pci->dev, "Hot reset\n");
+	}
+>>>>>>> v6.1.81
+
+	return IRQ_HANDLED;
+}
+
+static int ls_pcie_ep_interrupt_init(struct ls_pcie_ep *pcie,
+				     struct platform_device *pdev)
+{
+	u32 val;
+	int ret;
+
+	pcie->irq = platform_get_irq_byname(pdev, "pme");
+<<<<<<< HEAD
+	if (pcie->irq < 0) {
+		dev_err(&pdev->dev, "Can't get 'pme' irq.\n");
+		return pcie->irq;
+	}
+
+	ret = devm_request_irq(&pdev->dev, pcie->irq,
+			       ls_pcie_ep_event_handler, IRQF_SHARED,
+			       pdev->name, pcie);
+	if (ret) {
+		dev_err(&pdev->dev, "Can't register PCIe IRQ.\n");
+=======
+	if (pcie->irq < 0)
+		return pcie->irq;
+
+	ret = devm_request_irq(&pdev->dev, pcie->irq, ls_pcie_ep_event_handler,
+			       IRQF_SHARED, pdev->name, pcie);
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-29 11:33:53,628 [INFO]   Resolved drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 2: confidence=9/10 — Hunk 3 is a trivial formatting difference - mainline combines the function signature onto one line. 
+2026-04-29 11:33:53,629 [DEBUG] Applied resolution to drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 2
+2026-04-29 11:33:53,629 [INFO] Resolving drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 4...
+2026-04-29 11:33:53,654 [DEBUG] Prompt for drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 3:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/pci/controller/dwc/pci-layerscape-ep.c
+
+We are merging mainline stable v6.1.81 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.80..v6.1.81):
+507eeaad4d32 PCI: layerscape: Add workaround for lost link capabilities during reset
+e30f82597bf6 PCI: layerscape: Add the endpoint linkup notifier support
+
+Context BEFORE the conflict:
+```
+ *
+ * Copyright (C) 2018 NXP Semiconductor.
+ *
+ * Author: Xiaowei Bao <xiaowei.bao@nxp.com>
+ */
+
+#include <linux/kernel.h>
+#include <linux/init.h>
+#include <linux/of_pci.h>
+#include <linux/of_platform.h>
+#include <linux/of_address.h>
+#include <linux/pci.h>
+#include <linux/platform_device.h>
+#include <linux/resource.h>
+
+#include "pcie-designware.h"
+
+<<<<<<< HEAD
+#define PCIE_LINK_CAP			0x7C	/* PCIe Link Capabilities*/
+#define MAX_LINK_SP_MASK		0x0F
+#define MAX_LINK_W_MASK			0x3F
+#define MAX_LINK_W_SHIFT		4
+
+/* PEX PFa PCIE pme and message interrupt registers*/
+#define PEX_PF0_PME_MES_DR             0xC0020
+#define PEX_PF0_PME_MES_DR_LUD         (1 << 7)
+#define PEX_PF0_PME_MES_DR_LDD         (1 << 9)
+#define PEX_PF0_PME_MES_DR_HRD         (1 << 10)
+
+#define PEX_PF0_PME_MES_IER            0xC0028
+#define PEX_PF0_PME_MES_IER_LUDIE      (1 << 7)
+#define PEX_PF0_PME_MES_IER_LDDIE      (1 << 9)
+#define PEX_PF0_PME_MES_IER_HRDIE      (1 << 10)
+=======
+#define PEX_PF0_CONFIG			0xC0014
+#define PEX_PF0_CFG_READY		BIT(0)
+
+/* PEX PFa PCIE PME and message interrupt registers*/
+#define PEX_PF0_PME_MES_DR		0xC0020
+#define PEX_PF0_PME_MES_DR_LUD		BIT(7)
+#define PEX_PF0_PME_MES_DR_LDD		BIT(9)
+#define PEX_PF0_PME_MES_DR_HRD		BIT(10)
+
+#define PEX_PF0_PME_MES_IER		0xC0028
+#define PEX_PF0_PME_MES_IER_LUDIE	BIT(7)
+#define PEX_PF0_PME_MES_IER_LDDIE	BIT(9)
+#define PEX_PF0_PME_MES_IER_HRDIE	BIT(10)
+>>>>>>> v6.1.81
+
+#define to_ls_pcie_ep(x)	dev_get_drvdata((x)->dev)
+
+struct ls_pcie_ep_drvdata {
+	u32				func_offset;
+	const struct dw_pcie_ep_ops	*ops;
+	const struct dw_pcie_ops	*dw_pcie_ops;
+};
+
+struct ls_pcie_ep {
+	struct dw_pcie			*pci;
+	struct pci_epc_features		*ls_epc;
+	const struct ls_pcie_ep_drvdata *drvdata;
+<<<<<<< HEAD
+	u8				max_speed;
+	u8				max_width;
+	bool				big_endian;
+	int				irq;
+=======
+	int				irq;
+	u32				lnkcap;
+	bool				big_endian;
+>>>>>>> v6.1.81
+};
+
+static u32 ls_lut_readl(struct ls_pcie_ep *pcie, u32 offset)
+{
+	struct dw_pcie *pci = pcie->pci;
+
+	if (pcie->big_endian)
+		return ioread32be(pci->dbi_base + offset);
+	else
+		return ioread32(pci->dbi_base + offset);
+}
+
+<<<<<<< HEAD
+static void ls_lut_writel(struct ls_pcie_ep *pcie, u32 offset,
+			  u32 value)
+=======
+static void ls_lut_writel(struct ls_pcie_ep *pcie, u32 offset, u32 value)
+>>>>>>> v6.1.81
+{
+	struct dw_pcie *pci = pcie->pci;
+
+	if (pcie->big_endian)
+		iowrite32be(value, pci->dbi_base + offset);
+	else
+		iowrite32(value, pci->dbi_base + offset);
+}
+
+static irqreturn_t ls_pcie_ep_event_handler(int irq, void *dev_id)
+{
+
+```
+
+CONFLICT (hunk 4):
+OUR side (NXP vendor kernel):
+```
+	struct ls_pcie_ep *pcie = (struct ls_pcie_ep *)dev_id;
+	struct dw_pcie *pci = pcie->pci;
+	u32 val;
+
+	val = ls_lut_readl(pcie, PEX_PF0_PME_MES_DR);
+	if (!val)
+		return IRQ_NONE;
+
+	if (val & PEX_PF0_PME_MES_DR_LUD)
+		dev_info(pci->dev, "Detect the link up state !\n");
+	else if (val & PEX_PF0_PME_MES_DR_LDD)
+		dev_info(pci->dev, "Detect the link down state !\n");
+	else if (val & PEX_PF0_PME_MES_DR_HRD)
+		dev_info(pci->dev, "Detect the hot reset state !\n");
+
+	dw_pcie_dbi_ro_wr_en(pci);
+	dw_pcie_writew_dbi(pci, PCIE_LINK_CAP,
+			   (pcie->max_width << MAX_LINK_W_SHIFT) |
+			   pcie->max_speed);
+	dw_pcie_dbi_ro_wr_dis(pci);
+
+	ls_lut_writel(pcie, PEX_PF0_PME_MES_DR, val);
+
+```
+
+THEIR side (mainline stable):
+```
+	struct ls_pcie_ep *pcie = dev_id;
+	struct dw_pcie *pci = pcie->pci;
+	u32 val, cfg;
+	u8 offset;
+
+	val = ls_lut_readl(pcie, PEX_PF0_PME_MES_DR);
+	ls_lut_writel(pcie, PEX_PF0_PME_MES_DR, val);
+
+	if (!val)
+		return IRQ_NONE;
+
+	if (val & PEX_PF0_PME_MES_DR_LUD) {
+
+		offset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
+
+		/*
+		 * The values of the Maximum Link Width and Supported Link
+		 * Speed from the Link Capabilities Register will be lost
+		 * during link down or hot reset. Restore initial value
+		 * that configured by the Reset Configuration Word (RCW).
+		 */
+		dw_pcie_dbi_ro_wr_en(pci);
+		dw_pcie_writel_dbi(pci, offset + PCI_EXP_LNKCAP, pcie->lnkcap);
+		dw_pcie_dbi_ro_wr_dis(pci);
+
+		cfg = ls_lut_readl(pcie, PEX_PF0_CONFIG);
+		cfg |= PEX_PF0_CFG_READY;
+		ls_lut_writel(pcie, PEX_PF0_CONFIG, cfg);
+		dw_pcie_ep_linkup(&pci->ep);
+
+		dev_dbg(pci->dev, "Link up\n");
+	} else if (val & PEX_PF0_PME_MES_DR_LDD) {
+		dev_dbg(pci->dev, "Link down\n");
+	} else if (val & PEX_PF0_PME_MES_DR_HRD) {
+		dev_dbg(pci->dev, "Hot reset\n");
+	}
+
+```
+
+Context AFTER the conflict:
+```
+
+	return IRQ_HANDLED;
+}
+
+static int ls_pcie_ep_interrupt_init(struct ls_pcie_ep *pcie,
+				     struct platform_device *pdev)
+{
+	u32 val;
+	int ret;
+
+	pcie->irq = platform_get_irq_byname(pdev, "pme");
+<<<<<<< HEAD
+	if (pcie->irq < 0) {
+		dev_err(&pdev->dev, "Can't get 'pme' irq.\n");
+		return pcie->irq;
+	}
+
+	ret = devm_request_irq(&pdev->dev, pcie->irq,
+			       ls_pcie_ep_event_handler, IRQF_SHARED,
+			       pdev->name, pcie);
+	if (ret) {
+		dev_err(&pdev->dev, "Can't register PCIe IRQ.\n");
+=======
+	if (pcie->irq < 0)
+		return pcie->irq;
+
+	ret = devm_request_irq(&pdev->dev, pcie->irq, ls_pcie_ep_event_handler,
+			       IRQF_SHARED, pdev->name, pcie);
+	if (ret) {
+		dev_err(&pdev->dev, "Can't register PCIe IRQ\n");
+>>>>>>> v6.1.81
+		return ret;
+	}
+
+	/* Enable interrupts */
+	val = ls_lut_readl(pcie, PEX_PF0_PME_MES_IER);
+	val |=  PEX_PF0_PME_MES_IER_LDDIE | PEX_PF0_PME_MES_IER_HRDIE |
+		PEX_PF0_PME_MES_IER_LUDIE;
+	ls_lut_writel(pcie, PEX_PF0_PME_MES_IER, val);
+
+	return 0;
+}
+
+static const struct pci_epc_features*
+ls_pcie_ep_get_features(struct dw_pcie_ep *ep)
+{
+	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+	struct ls_pcie_ep *pcie = to_ls_pcie_ep(pci);
+
+	return pcie->ls_epc;
+}
+
+static void ls_pcie_ep_init(struct dw_pcie_ep *ep)
+{
+	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+	struct ls_pcie_ep *pcie = to_ls_pcie_ep(pci);
+	struct dw_pcie_ep_func *ep_func;
+	enum pci_barno bar;
+
+	ep_func = dw_pcie_ep_get_func_from_ep(ep, 0);
+	if (!ep_func)
+		return;
+
+	for (bar = 0; bar < PCI_STD_NUM_BARS; bar++)
+		dw_pcie_ep_reset_bar(pci, bar);
+
+	pcie->ls_epc->msi_capable = ep_func->msi_cap ? true : false;
+	pcie->ls_epc->msix_capable = ep_func->msix_cap ? true : false;
+}
+
+static int ls_pcie_ep_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
+				enum pci_epc_irq_type type, u16 interrupt_num)
+{
+	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+
+	switch (type) {
+	case PCI_EPC_IRQ_LEGACY:
+		return dw_pcie_ep_raise_legacy_irq(ep, func_no);
+	case PCI_EPC_IRQ_MSI:
+		return dw_pcie_ep_raise_msi_irq(ep, func_no, interrupt_num);
+	case PCI_EPC_IRQ_MSIX:
+		return dw_pcie_ep_raise_msix_irq_doorbell(ep, func_no,
+							  interrupt_num);
+	default:
+		dev_err(pci->dev, "UNKNOWN IRQ type\n");
+		return -EINVAL;
+	}
+}
+
+static unsigned int ls_pcie_ep_func_conf_select(struct dw_pcie_ep *ep,
+						u8 func_no)
+{
+	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+	struct ls_pcie_ep *pcie = to_ls_pcie_ep(pci);
+
+	WARN_ON(func_no && !pcie->drvdata->func_offset);
+	return pcie->drvdata->func_offset * func_no;
+}
+
+static const struct dw_pcie_ep_ops ls_pcie_ep_ops = {
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-29 11:34:10,083 [INFO]   Resolved drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 3: confidence=7/10 — Hunk 1: NXP defines PCIE_LINK_CAP/MAX_LINK_SP_MASK/MAX_LINK_W_MASK/MAX_LINK_W_SHIFT for their workar
+2026-04-29 11:34:10,084 [DEBUG] Applied resolution to drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 3
+2026-04-29 11:34:10,084 [INFO] Resolving drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 5...
+2026-04-29 11:34:10,110 [DEBUG] Prompt for drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 4:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/pci/controller/dwc/pci-layerscape-ep.c
+
+We are merging mainline stable v6.1.81 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.80..v6.1.81):
+507eeaad4d32 PCI: layerscape: Add workaround for lost link capabilities during reset
+e30f82597bf6 PCI: layerscape: Add the endpoint linkup notifier support
+
+Context BEFORE the conflict:
+```
+
+static u32 ls_lut_readl(struct ls_pcie_ep *pcie, u32 offset)
+{
+	struct dw_pcie *pci = pcie->pci;
+
+	if (pcie->big_endian)
+		return ioread32be(pci->dbi_base + offset);
+	else
+		return ioread32(pci->dbi_base + offset);
+}
+
+<<<<<<< HEAD
+static void ls_lut_writel(struct ls_pcie_ep *pcie, u32 offset,
+			  u32 value)
+=======
+static void ls_lut_writel(struct ls_pcie_ep *pcie, u32 offset, u32 value)
+>>>>>>> v6.1.81
+{
+	struct dw_pcie *pci = pcie->pci;
+
+	if (pcie->big_endian)
+		iowrite32be(value, pci->dbi_base + offset);
+	else
+		iowrite32(value, pci->dbi_base + offset);
+}
+
+static irqreturn_t ls_pcie_ep_event_handler(int irq, void *dev_id)
+{
+<<<<<<< HEAD
+	struct ls_pcie_ep *pcie = (struct ls_pcie_ep *)dev_id;
+	struct dw_pcie *pci = pcie->pci;
+	u32 val;
+
+	val = ls_lut_readl(pcie, PEX_PF0_PME_MES_DR);
+	if (!val)
+		return IRQ_NONE;
+
+	if (val & PEX_PF0_PME_MES_DR_LUD)
+		dev_info(pci->dev, "Detect the link up state !\n");
+	else if (val & PEX_PF0_PME_MES_DR_LDD)
+		dev_info(pci->dev, "Detect the link down state !\n");
+	else if (val & PEX_PF0_PME_MES_DR_HRD)
+		dev_info(pci->dev, "Detect the hot reset state !\n");
+
+	dw_pcie_dbi_ro_wr_en(pci);
+	dw_pcie_writew_dbi(pci, PCIE_LINK_CAP,
+			   (pcie->max_width << MAX_LINK_W_SHIFT) |
+			   pcie->max_speed);
+	dw_pcie_dbi_ro_wr_dis(pci);
+
+	ls_lut_writel(pcie, PEX_PF0_PME_MES_DR, val);
+=======
+	struct ls_pcie_ep *pcie = dev_id;
+	struct dw_pcie *pci = pcie->pci;
+	u32 val, cfg;
+	u8 offset;
+
+	val = ls_lut_readl(pcie, PEX_PF0_PME_MES_DR);
+	ls_lut_writel(pcie, PEX_PF0_PME_MES_DR, val);
+
+	if (!val)
+		return IRQ_NONE;
+
+	if (val & PEX_PF0_PME_MES_DR_LUD) {
+
+		offset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
+
+		/*
+		 * The values of the Maximum Link Width and Supported Link
+		 * Speed from the Link Capabilities Register will be lost
+		 * during link down or hot reset. Restore initial value
+		 * that configured by the Reset Configuration Word (RCW).
+		 */
+		dw_pcie_dbi_ro_wr_en(pci);
+		dw_pcie_writel_dbi(pci, offset + PCI_EXP_LNKCAP, pcie->lnkcap);
+		dw_pcie_dbi_ro_wr_dis(pci);
+
+		cfg = ls_lut_readl(pcie, PEX_PF0_CONFIG);
+		cfg |= PEX_PF0_CFG_READY;
+		ls_lut_writel(pcie, PEX_PF0_CONFIG, cfg);
+		dw_pcie_ep_linkup(&pci->ep);
+
+		dev_dbg(pci->dev, "Link up\n");
+	} else if (val & PEX_PF0_PME_MES_DR_LDD) {
+		dev_dbg(pci->dev, "Link down\n");
+	} else if (val & PEX_PF0_PME_MES_DR_HRD) {
+		dev_dbg(pci->dev, "Hot reset\n");
+	}
+>>>>>>> v6.1.81
+
+	return IRQ_HANDLED;
+}
+
+static int ls_pcie_ep_interrupt_init(struct ls_pcie_ep *pcie,
+				     struct platform_device *pdev)
+{
+	u32 val;
+	int ret;
+
+	pcie->irq = platform_get_irq_byname(pdev, "pme");
+
+```
+
+CONFLICT (hunk 5):
+OUR side (NXP vendor kernel):
+```
+	if (pcie->irq < 0) {
+		dev_err(&pdev->dev, "Can't get 'pme' irq.\n");
+		return pcie->irq;
+	}
+
+	ret = devm_request_irq(&pdev->dev, pcie->irq,
+			       ls_pcie_ep_event_handler, IRQF_SHARED,
+			       pdev->name, pcie);
+	if (ret) {
+		dev_err(&pdev->dev, "Can't register PCIe IRQ.\n");
+
+```
+
+THEIR side (mainline stable):
+```
+	if (pcie->irq < 0)
+		return pcie->irq;
+
+	ret = devm_request_irq(&pdev->dev, pcie->irq, ls_pcie_ep_event_handler,
+			       IRQF_SHARED, pdev->name, pcie);
+	if (ret) {
+		dev_err(&pdev->dev, "Can't register PCIe IRQ\n");
+
+```
+
+Context AFTER the conflict:
+```
+		return ret;
+	}
+
+	/* Enable interrupts */
+	val = ls_lut_readl(pcie, PEX_PF0_PME_MES_IER);
+	val |=  PEX_PF0_PME_MES_IER_LDDIE | PEX_PF0_PME_MES_IER_HRDIE |
+		PEX_PF0_PME_MES_IER_LUDIE;
+	ls_lut_writel(pcie, PEX_PF0_PME_MES_IER, val);
+
+	return 0;
+}
+
+static const struct pci_epc_features*
+ls_pcie_ep_get_features(struct dw_pcie_ep *ep)
+{
+	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+	struct ls_pcie_ep *pcie = to_ls_pcie_ep(pci);
+
+	return pcie->ls_epc;
+}
+
+static void ls_pcie_ep_init(struct dw_pcie_ep *ep)
+{
+	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+	struct ls_pcie_ep *pcie = to_ls_pcie_ep(pci);
+	struct dw_pcie_ep_func *ep_func;
+	enum pci_barno bar;
+
+	ep_func = dw_pcie_ep_get_func_from_ep(ep, 0);
+	if (!ep_func)
+		return;
+
+	for (bar = 0; bar < PCI_STD_NUM_BARS; bar++)
+		dw_pcie_ep_reset_bar(pci, bar);
+
+	pcie->ls_epc->msi_capable = ep_func->msi_cap ? true : false;
+	pcie->ls_epc->msix_capable = ep_func->msix_cap ? true : false;
+}
+
+static int ls_pcie_ep_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
+				enum pci_epc_irq_type type, u16 interrupt_num)
+{
+	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+
+	switch (type) {
+	case PCI_EPC_IRQ_LEGACY:
+		return dw_pcie_ep_raise_legacy_irq(ep, func_no);
+	case PCI_EPC_IRQ_MSI:
+		return dw_pcie_ep_raise_msi_irq(ep, func_no, interrupt_num);
+	case PCI_EPC_IRQ_MSIX:
+		return dw_pcie_ep_raise_msix_irq_doorbell(ep, func_no,
+							  interrupt_num);
+	default:
+		dev_err(pci->dev, "UNKNOWN IRQ type\n");
+		return -EINVAL;
+	}
+}
+
+static unsigned int ls_pcie_ep_func_conf_select(struct dw_pcie_ep *ep,
+						u8 func_no)
+{
+	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+	struct ls_pcie_ep *pcie = to_ls_pcie_ep(pci);
+
+	WARN_ON(func_no && !pcie->drvdata->func_offset);
+	return pcie->drvdata->func_offset * func_no;
+}
+
+static const struct dw_pcie_ep_ops ls_pcie_ep_ops = {
+	.ep_init = ls_pcie_ep_init,
+	.raise_irq = ls_pcie_ep_raise_irq,
+	.get_features = ls_pcie_ep_get_features,
+	.func_conf_select = ls_pcie_ep_func_conf_select,
+};
+
+static const struct ls_pcie_ep_drvdata ls1_ep_drvdata = {
+	.ops = &ls_pcie_ep_ops,
+};
+
+static const struct ls_pcie_ep_drvdata ls2_ep_drvdata = {
+	.func_offset = 0x20000,
+	.ops = &ls_pcie_ep_ops,
+};
+
+static const struct ls_pcie_ep_drvdata lx2_ep_drvdata = {
+	.func_offset = 0x8000,
+	.ops = &ls_pcie_ep_ops,
+};
+
+static const struct of_device_id ls_pcie_ep_of_match[] = {
+	{ .compatible = "fsl,ls1046a-pcie-ep", .data = &ls1_ep_drvdata },
+	{ .compatible = "fsl,ls1088a-pcie-ep", .data = &ls2_ep_drvdata },
+	{ .compatible = "fsl,ls1028a-pcie-ep", .data = &ls1_ep_drvdata },
+	{ .compatible = "fsl,ls2088a-pcie-ep", .data = &ls2_ep_drvdata },
+	{ .compatible = "fsl,lx2160ar2-pcie-ep", .data = &lx2_ep_drvdata },
+	{ },
+};
+
+static int __init ls_pcie_ep_probe(struct platform_device *pdev)
+{
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-29 11:34:16,031 [INFO]   Resolved drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 4: confidence=7/10 — NXP keeps the dev_err for 'Can't get pme irq' message, mainline stable just removed it. The error me
+2026-04-29 11:34:16,031 [DEBUG] Applied resolution to drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 4
+2026-04-29 11:34:16,031 [INFO] Resolving drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 6...
+2026-04-29 11:34:16,057 [DEBUG] Prompt for drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 5:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/pci/controller/dwc/pci-layerscape-ep.c
+
+We are merging mainline stable v6.1.81 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.80..v6.1.81):
+507eeaad4d32 PCI: layerscape: Add workaround for lost link capabilities during reset
+e30f82597bf6 PCI: layerscape: Add the endpoint linkup notifier support
+
+Context BEFORE the conflict:
+```
+	val |=  PEX_PF0_PME_MES_IER_LDDIE | PEX_PF0_PME_MES_IER_HRDIE |
+		PEX_PF0_PME_MES_IER_LUDIE;
+	ls_lut_writel(pcie, PEX_PF0_PME_MES_IER, val);
+
+	return 0;
+}
+
+static const struct pci_epc_features*
+ls_pcie_ep_get_features(struct dw_pcie_ep *ep)
+{
+	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+	struct ls_pcie_ep *pcie = to_ls_pcie_ep(pci);
+
+	return pcie->ls_epc;
+}
+
+static void ls_pcie_ep_init(struct dw_pcie_ep *ep)
+{
+	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+	struct ls_pcie_ep *pcie = to_ls_pcie_ep(pci);
+	struct dw_pcie_ep_func *ep_func;
+	enum pci_barno bar;
+
+	ep_func = dw_pcie_ep_get_func_from_ep(ep, 0);
+	if (!ep_func)
+		return;
+
+	for (bar = 0; bar < PCI_STD_NUM_BARS; bar++)
+		dw_pcie_ep_reset_bar(pci, bar);
+
+	pcie->ls_epc->msi_capable = ep_func->msi_cap ? true : false;
+	pcie->ls_epc->msix_capable = ep_func->msix_cap ? true : false;
+}
+
+static int ls_pcie_ep_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
+				enum pci_epc_irq_type type, u16 interrupt_num)
+{
+	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+
+	switch (type) {
+	case PCI_EPC_IRQ_LEGACY:
+		return dw_pcie_ep_raise_legacy_irq(ep, func_no);
+	case PCI_EPC_IRQ_MSI:
+		return dw_pcie_ep_raise_msi_irq(ep, func_no, interrupt_num);
+	case PCI_EPC_IRQ_MSIX:
+		return dw_pcie_ep_raise_msix_irq_doorbell(ep, func_no,
+							  interrupt_num);
+	default:
+		dev_err(pci->dev, "UNKNOWN IRQ type\n");
+		return -EINVAL;
+	}
+}
+
+static unsigned int ls_pcie_ep_func_conf_select(struct dw_pcie_ep *ep,
+						u8 func_no)
+{
+	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+	struct ls_pcie_ep *pcie = to_ls_pcie_ep(pci);
+
+	WARN_ON(func_no && !pcie->drvdata->func_offset);
+	return pcie->drvdata->func_offset * func_no;
+}
+
+static const struct dw_pcie_ep_ops ls_pcie_ep_ops = {
+	.ep_init = ls_pcie_ep_init,
+	.raise_irq = ls_pcie_ep_raise_irq,
+	.get_features = ls_pcie_ep_get_features,
+	.func_conf_select = ls_pcie_ep_func_conf_select,
+};
+
+static const struct ls_pcie_ep_drvdata ls1_ep_drvdata = {
+	.ops = &ls_pcie_ep_ops,
+};
+
+static const struct ls_pcie_ep_drvdata ls2_ep_drvdata = {
+	.func_offset = 0x20000,
+	.ops = &ls_pcie_ep_ops,
+};
+
+static const struct ls_pcie_ep_drvdata lx2_ep_drvdata = {
+	.func_offset = 0x8000,
+	.ops = &ls_pcie_ep_ops,
+};
+
+static const struct of_device_id ls_pcie_ep_of_match[] = {
+	{ .compatible = "fsl,ls1046a-pcie-ep", .data = &ls1_ep_drvdata },
+	{ .compatible = "fsl,ls1088a-pcie-ep", .data = &ls2_ep_drvdata },
+	{ .compatible = "fsl,ls1028a-pcie-ep", .data = &ls1_ep_drvdata },
+	{ .compatible = "fsl,ls2088a-pcie-ep", .data = &ls2_ep_drvdata },
+	{ .compatible = "fsl,lx2160ar2-pcie-ep", .data = &lx2_ep_drvdata },
+	{ },
+};
+
+static int __init ls_pcie_ep_probe(struct platform_device *pdev)
+{
+	struct device *dev = &pdev->dev;
+	struct dw_pcie *pci;
+	struct ls_pcie_ep *pcie;
+	struct pci_epc_features *ls_epc;
+	struct resource *dbi_base;
+
+```
+
+CONFLICT (hunk 6):
+OUR side (NXP vendor kernel):
+```
+
+```
+
+THEIR side (mainline stable):
+```
+	u8 offset;
+
+```
+
+Context AFTER the conflict:
+```
+	int ret;
+
+	pcie = devm_kzalloc(dev, sizeof(*pcie), GFP_KERNEL);
+	if (!pcie)
+		return -ENOMEM;
+
+	pci = devm_kzalloc(dev, sizeof(*pci), GFP_KERNEL);
+	if (!pci)
+		return -ENOMEM;
+
+	ls_epc = devm_kzalloc(dev, sizeof(*ls_epc), GFP_KERNEL);
+	if (!ls_epc)
+		return -ENOMEM;
+
+	pcie->drvdata = of_device_get_match_data(dev);
+
+	pci->dev = dev;
+	pci->ops = pcie->drvdata->dw_pcie_ops;
+
+	ls_epc->bar_fixed_64bit = (1 << BAR_2) | (1 << BAR_4);
+	ls_epc->linkup_notifier = true;
+
+	pcie->pci = pci;
+	pcie->ls_epc = ls_epc;
+
+	dbi_base = platform_get_resource_byname(pdev, IORESOURCE_MEM, "regs");
+	pci->dbi_base = devm_pci_remap_cfg_resource(dev, dbi_base);
+	if (IS_ERR(pci->dbi_base))
+		return PTR_ERR(pci->dbi_base);
+
+	pci->ep.ops = &ls_pcie_ep_ops;
+
+	pcie->big_endian = of_property_read_bool(dev->of_node, "big-endian");
+
+<<<<<<< HEAD
+	pcie->max_speed = dw_pcie_readw_dbi(pci, PCIE_LINK_CAP) &
+			  MAX_LINK_SP_MASK;
+	pcie->max_width = (dw_pcie_readw_dbi(pci, PCIE_LINK_CAP) >>
+			  MAX_LINK_W_SHIFT) & MAX_LINK_W_MASK;
+
+	/* set 64-bit DMA mask and coherent DMA mask */
+	if (dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64)))
+		dev_warn(dev, "Failed to set 64-bit DMA mask.\n");
+
+	platform_set_drvdata(pdev, pcie);
+
+	ret = dw_pcie_ep_init(&pci->ep);
+	if (ret)
+		return  ret;
+
+	return  ls_pcie_ep_interrupt_init(pcie, pdev);
+=======
+	platform_set_drvdata(pdev, pcie);
+
+	offset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
+	pcie->lnkcap = dw_pcie_readl_dbi(pci, offset + PCI_EXP_LNKCAP);
+
+	ret = dw_pcie_ep_init(&pci->ep);
+	if (ret)
+		return ret;
+
+	return ls_pcie_ep_interrupt_init(pcie, pdev);
+>>>>>>> v6.1.81
+}
+
+static struct platform_driver ls_pcie_ep_driver = {
+	.driver = {
+		.name = "layerscape-pcie-ep",
+		.of_match_table = ls_pcie_ep_of_match,
+		.suppress_bind_attrs = true,
+	},
+};
+builtin_platform_driver_probe(ls_pcie_ep_driver, ls_pcie_ep_probe);
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-29 11:34:20,150 [INFO]   Resolved drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 5: confidence=7/10 — Hunk 6 is the variable declaration. NXP doesn't add a new variable here, mainline adds 'u8 offset;' 
+2026-04-29 11:34:20,150 [DEBUG] Applied resolution to drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 5
+2026-04-29 11:34:20,151 [INFO] Resolving drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 7...
+2026-04-29 11:34:20,177 [DEBUG] Prompt for drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 6:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/pci/controller/dwc/pci-layerscape-ep.c
+
+We are merging mainline stable v6.1.81 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.80..v6.1.81):
+507eeaad4d32 PCI: layerscape: Add workaround for lost link capabilities during reset
+e30f82597bf6 PCI: layerscape: Add the endpoint linkup notifier support
+
+Context BEFORE the conflict:
+```
+
+	switch (type) {
+	case PCI_EPC_IRQ_LEGACY:
+		return dw_pcie_ep_raise_legacy_irq(ep, func_no);
+	case PCI_EPC_IRQ_MSI:
+		return dw_pcie_ep_raise_msi_irq(ep, func_no, interrupt_num);
+	case PCI_EPC_IRQ_MSIX:
+		return dw_pcie_ep_raise_msix_irq_doorbell(ep, func_no,
+							  interrupt_num);
+	default:
+		dev_err(pci->dev, "UNKNOWN IRQ type\n");
+		return -EINVAL;
+	}
+}
+
+static unsigned int ls_pcie_ep_func_conf_select(struct dw_pcie_ep *ep,
+						u8 func_no)
+{
+	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+	struct ls_pcie_ep *pcie = to_ls_pcie_ep(pci);
+
+	WARN_ON(func_no && !pcie->drvdata->func_offset);
+	return pcie->drvdata->func_offset * func_no;
+}
+
+static const struct dw_pcie_ep_ops ls_pcie_ep_ops = {
+	.ep_init = ls_pcie_ep_init,
+	.raise_irq = ls_pcie_ep_raise_irq,
+	.get_features = ls_pcie_ep_get_features,
+	.func_conf_select = ls_pcie_ep_func_conf_select,
+};
+
+static const struct ls_pcie_ep_drvdata ls1_ep_drvdata = {
+	.ops = &ls_pcie_ep_ops,
+};
+
+static const struct ls_pcie_ep_drvdata ls2_ep_drvdata = {
+	.func_offset = 0x20000,
+	.ops = &ls_pcie_ep_ops,
+};
+
+static const struct ls_pcie_ep_drvdata lx2_ep_drvdata = {
+	.func_offset = 0x8000,
+	.ops = &ls_pcie_ep_ops,
+};
+
+static const struct of_device_id ls_pcie_ep_of_match[] = {
+	{ .compatible = "fsl,ls1046a-pcie-ep", .data = &ls1_ep_drvdata },
+	{ .compatible = "fsl,ls1088a-pcie-ep", .data = &ls2_ep_drvdata },
+	{ .compatible = "fsl,ls1028a-pcie-ep", .data = &ls1_ep_drvdata },
+	{ .compatible = "fsl,ls2088a-pcie-ep", .data = &ls2_ep_drvdata },
+	{ .compatible = "fsl,lx2160ar2-pcie-ep", .data = &lx2_ep_drvdata },
+	{ },
+};
+
+static int __init ls_pcie_ep_probe(struct platform_device *pdev)
+{
+	struct device *dev = &pdev->dev;
+	struct dw_pcie *pci;
+	struct ls_pcie_ep *pcie;
+	struct pci_epc_features *ls_epc;
+	struct resource *dbi_base;
+<<<<<<< HEAD
+=======
+	u8 offset;
+>>>>>>> v6.1.81
+	int ret;
+
+	pcie = devm_kzalloc(dev, sizeof(*pcie), GFP_KERNEL);
+	if (!pcie)
+		return -ENOMEM;
+
+	pci = devm_kzalloc(dev, sizeof(*pci), GFP_KERNEL);
+	if (!pci)
+		return -ENOMEM;
+
+	ls_epc = devm_kzalloc(dev, sizeof(*ls_epc), GFP_KERNEL);
+	if (!ls_epc)
+		return -ENOMEM;
+
+	pcie->drvdata = of_device_get_match_data(dev);
+
+	pci->dev = dev;
+	pci->ops = pcie->drvdata->dw_pcie_ops;
+
+	ls_epc->bar_fixed_64bit = (1 << BAR_2) | (1 << BAR_4);
+	ls_epc->linkup_notifier = true;
+
+	pcie->pci = pci;
+	pcie->ls_epc = ls_epc;
+
+	dbi_base = platform_get_resource_byname(pdev, IORESOURCE_MEM, "regs");
+	pci->dbi_base = devm_pci_remap_cfg_resource(dev, dbi_base);
+	if (IS_ERR(pci->dbi_base))
+		return PTR_ERR(pci->dbi_base);
+
+	pci->ep.ops = &ls_pcie_ep_ops;
+
+	pcie->big_endian = of_property_read_bool(dev->of_node, "big-endian");
+
+
+```
+
+CONFLICT (hunk 7):
+OUR side (NXP vendor kernel):
+```
+	pcie->max_speed = dw_pcie_readw_dbi(pci, PCIE_LINK_CAP) &
+			  MAX_LINK_SP_MASK;
+	pcie->max_width = (dw_pcie_readw_dbi(pci, PCIE_LINK_CAP) >>
+			  MAX_LINK_W_SHIFT) & MAX_LINK_W_MASK;
+
+	/* set 64-bit DMA mask and coherent DMA mask */
+	if (dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64)))
+		dev_warn(dev, "Failed to set 64-bit DMA mask.\n");
+
+	platform_set_drvdata(pdev, pcie);
+
+	ret = dw_pcie_ep_init(&pci->ep);
+	if (ret)
+		return  ret;
+
+	return  ls_pcie_ep_interrupt_init(pcie, pdev);
+
+```
+
+THEIR side (mainline stable):
+```
+	platform_set_drvdata(pdev, pcie);
+
+	offset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
+	pcie->lnkcap = dw_pcie_readl_dbi(pci, offset + PCI_EXP_LNKCAP);
+
+	ret = dw_pcie_ep_init(&pci->ep);
+	if (ret)
+		return ret;
+
+	return ls_pcie_ep_interrupt_init(pcie, pdev);
+
+```
+
+Context AFTER the conflict:
+```
+}
+
+static struct platform_driver ls_pcie_ep_driver = {
+	.driver = {
+		.name = "layerscape-pcie-ep",
+		.of_match_table = ls_pcie_ep_of_match,
+		.suppress_bind_attrs = true,
+	},
+};
+builtin_platform_driver_probe(ls_pcie_ep_driver, ls_pcie_ep_probe);
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-29 11:34:28,951 [INFO]   Resolved drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 6: confidence=4/10 — NXP side reads max_speed/max_width from PCIE_LINK_CAP (likely at fixed offset) and sets DMA mask. Ma
+2026-04-29 11:34:28,952 [DEBUG] Applied resolution to drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 6
+2026-04-29 11:34:28,952 [INFO] Resolving drivers/phy/freescale/phy-fsl-imx8-mipi-dphy.c hunk 1...
+2026-04-29 11:34:28,975 [DEBUG] Prompt for drivers/phy/freescale/phy-fsl-imx8-mipi-dphy.c hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/phy/freescale/phy-fsl-imx8-mipi-dphy.c
+
+We are merging mainline stable v6.1.81 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.80..v6.1.81):
+2c96f66cd0cc phy: freescale: phy-fsl-imx8-mipi-dphy: Fix alias name to use dashes
+
+Context BEFORE the conflict:
+```
+static int mixel_dphy_power_on(struct phy *phy)
+{
+	struct mixel_dphy_priv *priv = phy_get_drvdata(phy);
+	u32 locked;
+	int ret;
+
+	ret = clk_prepare_enable(priv->phy_ref_clk);
+	if (ret < 0)
+		return ret;
+
+	phy_write(phy, PWR_ON, priv->devdata->reg_pd_pll);
+	ret = regmap_read_poll_timeout(priv->regmap, priv->devdata->reg_lock,
+				       locked, locked, PLL_LOCK_SLEEP,
+				       PLL_LOCK_TIMEOUT);
+	if (ret < 0) {
+		dev_err(&phy->dev, "Could not get DPHY lock (%d)!\n", ret);
+		goto clock_disable;
+	}
+	phy_write(phy, PWR_ON, DPHY_PD_DPHY);
+
+	return 0;
+clock_disable:
+	clk_disable_unprepare(priv->phy_ref_clk);
+	return ret;
+}
+
+static int mixel_dphy_power_off(struct phy *phy)
+{
+	struct mixel_dphy_priv *priv = phy_get_drvdata(phy);
+
+	phy_write(phy, PWR_OFF, priv->devdata->reg_pd_pll);
+	phy_write(phy, PWR_OFF, DPHY_PD_DPHY);
+
+	clk_disable_unprepare(priv->phy_ref_clk);
+
+	return 0;
+}
+
+static const struct phy_ops mixel_dphy_phy_ops = {
+	.init = mixel_dphy_init,
+	.exit = mixel_dphy_exit,
+	.power_on = mixel_dphy_power_on,
+	.power_off = mixel_dphy_power_off,
+	.configure = mixel_dphy_configure,
+	.validate = mixel_dphy_validate,
+	.owner = THIS_MODULE,
+};
+
+static const struct of_device_id mixel_dphy_of_match[] = {
+	{ .compatible = "fsl,imx8mq-mipi-dphy",
+	  .data = &mixel_dphy_devdata[MIXEL_IMX8MQ] },
+	{ .compatible = "fsl,imx8qm-mipi-dphy",
+	  .data = &mixel_dphy_devdata[MIXEL_IMX8QM] },
+	{ .compatible = "fsl,imx8qx-mipi-dphy",
+	  .data = &mixel_dphy_devdata[MIXEL_IMX8QX] },
+	{ .compatible = "fsl,imx8ulp-mipi-dphy",
+	  .data = &mixel_dphy_devdata[MIXEL_IMX8ULP] },
+	{ /* sentinel */ },
+};
+MODULE_DEVICE_TABLE(of, mixel_dphy_of_match);
+
+static int mixel_dphy_probe(struct platform_device *pdev)
+{
+	struct device *dev = &pdev->dev;
+	struct device_node *np = dev->of_node;
+	struct phy_provider *phy_provider;
+	struct mixel_dphy_priv *priv;
+	struct phy *phy;
+	void __iomem *base;
+
+	if (!np)
+		return -ENODEV;
+
+	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+	if (!priv)
+		return -ENOMEM;
+
+	priv->devdata = of_device_get_match_data(&pdev->dev);
+	if (!priv->devdata)
+		return -EINVAL;
+
+	base = devm_platform_ioremap_resource(pdev, 0);
+	if (IS_ERR(base))
+		return PTR_ERR(base);
+
+	priv->regmap = devm_regmap_init_mmio(&pdev->dev, base,
+					     &mixel_dphy_regmap_config);
+	if (IS_ERR(priv->regmap)) {
+		dev_err(dev, "Couldn't create the DPHY regmap\n");
+		return PTR_ERR(priv->regmap);
+	}
+
+	priv->phy_ref_clk = devm_clk_get(&pdev->dev, "phy_ref");
+	if (IS_ERR(priv->phy_ref_clk)) {
+		dev_err(dev, "No phy_ref clock found\n");
+		return PTR_ERR(priv->phy_ref_clk);
+	}
+	dev_dbg(dev, "phy_ref clock rate: %lu\n",
+		clk_get_rate(priv->phy_ref_clk));
+
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+
+```
+
+THEIR side (mainline stable):
+```
+	if (priv->devdata->is_combo) {
+		priv->lvds_regmap =
+			syscon_regmap_lookup_by_phandle(np, "fsl,syscon");
+		if (IS_ERR(priv->lvds_regmap)) {
+			ret = PTR_ERR(priv->lvds_regmap);
+			dev_err_probe(dev, ret, "Failed to get LVDS regmap\n");
+			return ret;
+		}
+
+		priv->id = of_alias_get_id(np, "mipi-dphy");
+		if (priv->id < 0) {
+			dev_err(dev, "Failed to get phy node alias id: %d\n",
+				priv->id);
+			return priv->id;
+		}
+
+		ret = imx_scu_get_handle(&priv->ipc_handle);
+		if (ret) {
+			dev_err_probe(dev, ret,
+				      "Failed to get SCU ipc handle\n");
+			return ret;
+		}
+	}
+
+
+```
+
+Context AFTER the conflict:
+```
+	dev_set_drvdata(dev, priv);
+
+	phy = devm_phy_create(dev, np, &mixel_dphy_phy_ops);
+	if (IS_ERR(phy)) {
+		dev_err(dev, "Failed to create phy %ld\n", PTR_ERR(phy));
+		return PTR_ERR(phy);
+	}
+	phy_set_drvdata(phy, priv);
+
+	phy_provider = devm_of_phy_provider_register(dev, of_phy_simple_xlate);
+
+	return PTR_ERR_OR_ZERO(phy_provider);
+}
+
+static struct platform_driver mixel_dphy_driver = {
+	.probe	= mixel_dphy_probe,
+	.driver = {
+		.name = "mixel-mipi-dphy",
+		.of_match_table	= mixel_dphy_of_match,
+	}
+};
+module_platform_driver(mixel_dphy_driver);
+
+MODULE_AUTHOR("NXP Semiconductor");
+MODULE_DESCRIPTION("Mixel MIPI-DSI PHY driver");
+MODULE_LICENSE("GPL");
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-29 11:34:34,419 [INFO]   Resolved drivers/phy/freescale/phy-fsl-imx8-mipi-dphy.c hunk 0: confidence=8/10 — The mainline stable patch changes the alias name from 'mipi_dphy' to 'mipi-dphy' in of_alias_get_id(
+2026-04-29 11:34:34,420 [DEBUG] Applied resolution to drivers/phy/freescale/phy-fsl-imx8-mipi-dphy.c hunk 0
+2026-04-29 11:34:35,055 [INFO] All conflicts resolved. Confidence: min=4, avg=7.4
+2026-04-29 11:34:35,055 [INFO] Building kernel (compile test)...
+2026-04-29 11:45:41,884 [INFO] Build succeeded.
+2026-04-29 11:45:42,709 [INFO] Successfully merged v6.1.81 into lf-6.1.y-semtech
+2026-04-29 11:45:42,710 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.81_2026-04-29T11-32-28.155994.json
+2026-04-29 11:45:42,971 [INFO] Current kernel version: 6.1.81
+2026-04-29 11:45:42,972 [INFO] 
+============================================================
+Merge step: v6.1.81 -> v6.1.82
+Progress: 2/5
+============================================================
+2026-04-29 11:45:42,972 [INFO] Starting merge: v6.1.82
+2026-04-29 11:45:43,984 [INFO] Merge v6.1.82 completed cleanly — no conflicts!
+2026-04-29 11:45:43,984 [INFO] Building kernel (compile test)...
+2026-04-29 11:56:41,418 [INFO] Build succeeded.
+2026-04-29 11:56:42,007 [INFO] Merged v6.1.82 into lf-6.1.y-semtech
+2026-04-29 11:56:42,013 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.82_2026-04-29T11-45-42.972327.json
+2026-04-29 11:56:42,245 [INFO] Current kernel version: 6.1.82
+2026-04-29 11:56:42,246 [INFO] 
+============================================================
+Merge step: v6.1.82 -> v6.1.83
+Progress: 3/5
+============================================================
+2026-04-29 11:56:42,246 [INFO] Starting merge: v6.1.83
+2026-04-29 11:56:43,841 [INFO] Merge v6.1.83 completed cleanly — no conflicts!
+2026-04-29 11:56:43,842 [INFO] Building kernel (compile test)...
+2026-04-29 12:07:55,372 [INFO] Build succeeded.
+2026-04-29 12:07:56,619 [INFO] Merged v6.1.83 into lf-6.1.y-semtech
+2026-04-29 12:07:56,619 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.83_2026-04-29T11-56-42.246294.json
+2026-04-29 12:07:56,871 [INFO] Current kernel version: 6.1.83
+2026-04-29 12:07:56,871 [INFO] 
+============================================================
+Merge step: v6.1.83 -> v6.1.84
+Progress: 4/5
+============================================================
+2026-04-29 12:07:56,871 [INFO] Starting merge: v6.1.84
+2026-04-29 12:07:58,240 [INFO] Merge v6.1.84 completed cleanly — no conflicts!
+2026-04-29 12:07:58,240 [INFO] Building kernel (compile test)...
+2026-04-29 12:19:09,874 [INFO] Build succeeded.
+2026-04-29 12:19:10,854 [INFO] Merged v6.1.84 into lf-6.1.y-semtech
+2026-04-29 12:19:10,855 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.84_2026-04-29T12-07-56.872044.json
+2026-04-29 12:19:11,114 [INFO] Current kernel version: 6.1.84
+2026-04-29 12:19:11,114 [INFO] 
+============================================================
+Merge step: v6.1.84 -> v6.1.85
+Progress: 5/5
+============================================================
+2026-04-29 12:19:11,114 [INFO] Starting merge: v6.1.85
+2026-04-29 12:19:12,244 [INFO] Merge v6.1.85 completed cleanly — no conflicts!
+2026-04-29 12:19:12,244 [INFO] Building kernel (compile test)...
+2026-04-29 12:30:23,696 [INFO] Build succeeded.
+2026-04-29 12:30:24,428 [INFO] Merged v6.1.85 into lf-6.1.y-semtech
+2026-04-29 12:30:24,428 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.85_2026-04-29T12-19-11.114862.json
+2026-04-29 12:30:24,650 [INFO] Current kernel version: 6.1.85
+2026-04-29 12:30:24,650 [INFO] Reached target version 6.1.85. Done!
+2026-04-29 12:30:24,650 [INFO] Done.
