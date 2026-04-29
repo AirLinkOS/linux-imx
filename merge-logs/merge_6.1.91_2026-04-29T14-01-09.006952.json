@@ -1,0 +1,35 @@
+{
+  "version": "6.1.91",
+  "timestamp": "2026-04-29T14:01:09.006952",
+  "conflicts_total": 2,
+  "conflicts_resolved": 2,
+  "build_success": false,
+  "merged_to_main": false,
+  "error": "Build failed after resolving conflicts for v6.1.91. Manual intervention needed on branch merge/v6.1.91.",
+  "resolutions": [
+    {
+      "file": "drivers/usb/dwc3/host.c",
+      "hunk_index": 0,
+      "confidence": 9,
+      "reasoning": "NXP includes xhci.h for PORT_POWER/HC_LENGTH/HCS_MAX_PORTS macros used in dwc3_power_off_all_roothub_ports. Mainline adds xhci-plat.h for the new xhci_plat_priv struct. Both are needed.",
+      "ours": "#include \"../host/xhci.h\"\n\n",
+      "theirs": "#include \"../host/xhci-plat.h\"\n",
+      "resolved_code": "#include \"../host/xhci.h\"\n#include \"../host/xhci-plat.h\"\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"NXP includes xhci.h for PORT_POWER/HC_LENGTH/HCS_MAX_PORTS macros used in dwc3_power_off_all_roothub_ports. Mainline adds xhci-plat.h for the new xhci_plat_priv struct. Both are needed.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"#include \\\"../host/xhci.h\\\"\\n#include \\\"../host/xhci-plat.h\\\"\\n\"\n}",
+      "start_line": 15,
+      "end_line": 20
+    },
+    {
+      "file": "drivers/usb/dwc3/host.c",
+      "hunk_index": 1,
+      "confidence": 6,
+      "reasoning": "NXP adds platform data from dwc3_pdata if present. Mainline adds dwc3_xhci_plat_quirk to set XHCI_SKIP_PHY_INIT quirk. Both need to coexist - if NXP has private data, use it; otherwise apply the mainline quirk. Since dwc3_xhci_plat_quirk is a struct xhci_plat_priv, we should pass it when NXP's platdata isn't provided.",
+      "ours": "\tdwc3_pdata = (struct dwc3_platform_data *)dev_get_platdata(dwc->dev);\n\tif (dwc3_pdata && dwc3_pdata->xhci_priv) {\n\t\tret = platform_device_add_data(xhci, dwc3_pdata->xhci_priv,\n\t\t\t\t\t       sizeof(struct xhci_plat_priv));\n\t\tif (ret)\n\t\t\tgoto err;\n\t}\n",
+      "theirs": "\tret = platform_device_add_data(xhci, &dwc3_xhci_plat_quirk,\n\t\t\t\t       sizeof(struct xhci_plat_priv));\n\tif (ret)\n\t\tgoto err;\n",
+      "resolved_code": "\tdwc3_pdata = (struct dwc3_platform_data *)dev_get_platdata(dwc->dev);\n\tif (dwc3_pdata && dwc3_pdata->xhci_priv) {\n\t\tret = platform_device_add_data(xhci, dwc3_pdata->xhci_priv,\n\t\t\t\t\t       sizeof(struct xhci_plat_priv));\n\t\tif (ret)\n\t\t\tgoto err;\n\t} else {\n\t\tret = platform_device_add_data(xhci, &dwc3_xhci_plat_quirk,\n\t\t\t\t\t       sizeof(struct xhci_plat_priv));\n\t\tif (ret)\n\t\t\tgoto err;\n\t}\n",
+      "api_response_raw": "{\n  \"confidence\": 6,\n  \"reasoning\": \"NXP adds platform data from dwc3_pdata if present. Mainline adds dwc3_xhci_plat_quirk to set XHCI_SKIP_PHY_INIT quirk. Both need to coexist - if NXP has private data, use it; otherwise apply the mainline quirk. Since dwc3_xhci_plat_quirk is a struct xhci_plat_priv, we should pass it when NXP's platdata isn't provided.\",\n  \"brace_check\": \"3 open, 3 close\",\n  \"resolved_code\": \"\\tdwc3_pdata = (struct dwc3_platform_data *)dev_get_platdata(dwc->dev);\\n\\tif (dwc3_pdata && dwc3_pdata->xhci_priv) {\\n\\t\\tret = platform_device_add_data(xhci, dwc3_pdata->xhci_priv,\\n\\t\\t\\t\\t\\t       sizeof(struct xhci_plat_priv));\\n\\t\\tif (ret)\\n\\t\\t\\tgoto err;\\n\\t} else {\\n\\t\\tret = platform_device_add_data(xhci, &dwc3_xhci_plat_quirk,\\n\\t\\t\\t\\t\\t       sizeof(struct xhci_plat_priv));\\n\\t\\tif (ret)\\n\\t\\t\\tgoto err;\\n\\t}\\n\"\n}",
+      "start_line": 196,
+      "end_line": 209
+    }
+  ]
+}

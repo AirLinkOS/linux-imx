@@ -1,0 +1,409 @@
+2026-04-29 14:01:08,040 [INFO] Log file: /home/osaleem/repos/linux-imx/merge-logs/merge_20260429_140108.log
+2026-04-29 14:01:08,040 [INFO] Kernel Stable Merge Tool started
+2026-04-29 14:01:08,040 [INFO] Repo: /home/osaleem/repos/linux-imx
+2026-04-29 14:01:08,040 [INFO] Target: v6.1.100
+2026-04-29 14:01:08,040 [INFO] Provider: claude
+2026-04-29 14:01:08,040 [INFO] Interactive: False
+2026-04-29 14:01:08,040 [INFO] Dry run: False
+2026-04-29 14:01:08,040 [INFO] Fetching stable tags...
+2026-04-29 14:01:09,006 [INFO] Using override start version: 6.1.90
+2026-04-29 14:01:09,006 [INFO] 
+============================================================
+Merge step: v6.1.90 -> v6.1.91
+Progress: 1/10
+============================================================
+2026-04-29 14:01:09,006 [INFO] Starting merge: v6.1.91
+2026-04-29 14:01:10,103 [INFO] Merge v6.1.91 has 1 conflicted files
+2026-04-29 14:01:10,103 [INFO]   drivers/usb/dwc3/host.c: 2 conflict hunks
+2026-04-29 14:01:10,103 [INFO] Resolving drivers/usb/dwc3/host.c hunk 1...
+2026-04-29 14:01:10,124 [DEBUG] Prompt for drivers/usb/dwc3/host.c hunk 0:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/usb/dwc3/host.c
+
+We are merging mainline stable v6.1.91 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.90..v6.1.91):
+d9efd3c899ec usb: dwc3: core: Prevent phy suspend during init
+
+Context BEFORE the conflict:
+```
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * host.c - DesignWare USB3 DRD Controller Host Glue
+ *
+ * Copyright (C) 2011 Texas Instruments Incorporated - https://www.ti.com
+ *
+ * Authors: Felipe Balbi <balbi@ti.com>,
+ */
+
+#include <linux/irq.h>
+#include <linux/of.h>
+#include <linux/platform_device.h>
+#include <linux/usb.h>
+#include <linux/usb/hcd.h>
+
+
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+#include "../host/xhci.h"
+
+
+```
+
+THEIR side (mainline stable):
+```
+#include "../host/xhci-plat.h"
+
+```
+
+Context AFTER the conflict:
+```
+#include "core.h"
+
+static void dwc3_xhci_plat_start(struct usb_hcd *hcd)
+{
+	struct platform_device *pdev;
+	struct dwc3 *dwc;
+
+	if (!usb_hcd_is_primary_hcd(hcd))
+		return;
+
+	pdev = to_platform_device(hcd->self.controller);
+	dwc = dev_get_drvdata(pdev->dev.parent);
+
+	dwc3_enable_susphy(dwc, true);
+}
+
+static const struct xhci_plat_priv dwc3_xhci_plat_quirk = {
+	.plat_start = dwc3_xhci_plat_start,
+};
+
+static void dwc3_host_fill_xhci_irq_res(struct dwc3 *dwc,
+					int irq, char *name)
+{
+	struct platform_device *pdev = to_platform_device(dwc->dev);
+	struct device_node *np = dev_of_node(&pdev->dev);
+
+	dwc->xhci_resources[1].start = irq;
+	dwc->xhci_resources[1].end = irq;
+	dwc->xhci_resources[1].flags = IORESOURCE_IRQ | irq_get_trigger_type(irq);
+	if (!name && np)
+		dwc->xhci_resources[1].name = of_node_full_name(pdev->dev.of_node);
+	else
+		dwc->xhci_resources[1].name = name;
+}
+
+#define XHCI_HCSPARAMS1		0x4
+#define XHCI_PORTSC_BASE	0x400
+
+/*
+ * dwc3_power_off_all_roothub_ports - Power off all Root hub ports
+ * @dwc3: Pointer to our controller context structure
+ */
+static void dwc3_power_off_all_roothub_ports(struct dwc3 *dwc)
+{
+	int i, port_num;
+	u32 reg, op_regs_base, offset;
+	void __iomem *xhci_regs;
+
+	/* xhci regs is not mapped yet, do it temperary here */
+	if (dwc->xhci_resources[0].start) {
+		xhci_regs = ioremap(dwc->xhci_resources[0].start,
+				DWC3_XHCI_REGS_END);
+		if (IS_ERR(xhci_regs)) {
+			dev_err(dwc->dev, "Failed to ioremap xhci_regs\n");
+			return;
+		}
+
+		op_regs_base = HC_LENGTH(readl(xhci_regs));
+		reg = readl(xhci_regs + XHCI_HCSPARAMS1);
+		port_num = HCS_MAX_PORTS(reg);
+
+		for (i = 1; i <= port_num; i++) {
+			offset = op_regs_base + XHCI_PORTSC_BASE + 0x10*(i-1);
+			reg = readl(xhci_regs + offset);
+			reg &= ~PORT_POWER;
+			writel(reg, xhci_regs + offset);
+		}
+
+		iounmap(xhci_regs);
+	} else
+		dev_err(dwc->dev, "xhci base reg invalid\n");
+}
+
+static int dwc3_host_get_irq(struct dwc3 *dwc)
+{
+	struct platform_device	*dwc3_pdev = to_platform_device(dwc->dev);
+	int irq;
+
+	irq = platform_get_irq_byname_optional(dwc3_pdev, "host");
+	if (irq > 0) {
+		dwc3_host_fill_xhci_irq_res(dwc, irq, "host");
+		goto out;
+	}
+
+	if (irq == -EPROBE_DEFER)
+		goto out;
+
+	irq = platform_get_irq_byname_optional(dwc3_pdev, "dwc_usb3");
+	if (irq > 0) {
+		dwc3_host_fill_xhci_irq_res(dwc, irq, "dwc_usb3");
+		goto out;
+	}
+
+	if (irq == -EPROBE_DEFER)
+		goto out;
+
+	irq = platform_get_irq(dwc3_pdev, 0);
+	if (irq > 0) {
+		dwc3_host_fill_xhci_irq_res(dwc, irq, NULL);
+		goto out;
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-29 14:01:13,981 [INFO]   Resolved drivers/usb/dwc3/host.c hunk 0: confidence=9/10 — NXP includes xhci.h for PORT_POWER/HC_LENGTH/HCS_MAX_PORTS macros used in dwc3_power_off_all_roothub
+2026-04-29 14:01:13,981 [DEBUG] Applied resolution to drivers/usb/dwc3/host.c hunk 0
+2026-04-29 14:01:13,981 [INFO] Resolving drivers/usb/dwc3/host.c hunk 2...
+2026-04-29 14:01:14,010 [DEBUG] Prompt for drivers/usb/dwc3/host.c hunk 1:
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/usb/dwc3/host.c
+
+We are merging mainline stable v6.1.91 into NXP's vendor kernel.
+
+Mainline commits touching this file (v6.1.90..v6.1.91):
+d9efd3c899ec usb: dwc3: core: Prevent phy suspend during init
+
+Context BEFORE the conflict:
+```
+	struct platform_device	*dwc3_pdev = to_platform_device(dwc->dev);
+	int irq;
+
+	irq = platform_get_irq_byname_optional(dwc3_pdev, "host");
+	if (irq > 0) {
+		dwc3_host_fill_xhci_irq_res(dwc, irq, "host");
+		goto out;
+	}
+
+	if (irq == -EPROBE_DEFER)
+		goto out;
+
+	irq = platform_get_irq_byname_optional(dwc3_pdev, "dwc_usb3");
+	if (irq > 0) {
+		dwc3_host_fill_xhci_irq_res(dwc, irq, "dwc_usb3");
+		goto out;
+	}
+
+	if (irq == -EPROBE_DEFER)
+		goto out;
+
+	irq = platform_get_irq(dwc3_pdev, 0);
+	if (irq > 0) {
+		dwc3_host_fill_xhci_irq_res(dwc, irq, NULL);
+		goto out;
+	}
+
+	if (!irq)
+		irq = -EINVAL;
+
+out:
+	return irq;
+}
+
+int dwc3_host_init(struct dwc3 *dwc)
+{
+	struct property_entry	props[5];
+	struct platform_device	*xhci;
+	struct dwc3_platform_data *dwc3_pdata;
+	int			ret, irq;
+	int			prop_idx = 0;
+
+	/*
+	 * We have to power off all Root hub ports immediately after DWC3 set
+	 * to host mode to avoid VBUS glitch happen when xhci get reset later.
+	 */
+	if (dwc->host_vbus_glitches)
+		dwc3_power_off_all_roothub_ports(dwc);
+
+	irq = dwc3_host_get_irq(dwc);
+	if (irq < 0)
+		return irq;
+
+	xhci = platform_device_alloc("xhci-hcd", PLATFORM_DEVID_AUTO);
+	if (!xhci) {
+		dev_err(dwc->dev, "couldn't allocate xHCI device\n");
+		return -ENOMEM;
+	}
+
+	xhci->dev.parent	= dwc->dev;
+
+	dwc->xhci = xhci;
+
+	ret = platform_device_add_resources(xhci, dwc->xhci_resources,
+						DWC3_XHCI_RESOURCES_NUM);
+	if (ret) {
+		dev_err(dwc->dev, "couldn't add resources to xHCI device\n");
+		goto err;
+	}
+
+	memset(props, 0, sizeof(struct property_entry) * ARRAY_SIZE(props));
+
+	props[prop_idx++] = PROPERTY_ENTRY_BOOL("xhci-sg-trb-cache-size-quirk");
+
+	if (dwc->usb3_lpm_capable)
+		props[prop_idx++] = PROPERTY_ENTRY_BOOL("usb3-lpm-capable");
+
+	if (dwc->usb2_lpm_disable)
+		props[prop_idx++] = PROPERTY_ENTRY_BOOL("usb2-lpm-disable");
+
+	/**
+	 * WORKAROUND: dwc3 revisions <=3.00a have a limitation
+	 * where Port Disable command doesn't work.
+	 *
+	 * The suggested workaround is that we avoid Port Disable
+	 * completely.
+	 *
+	 * This following flag tells XHCI to do just that.
+	 */
+	if (DWC3_VER_IS_WITHIN(DWC3, ANY, 300A))
+		props[prop_idx++] = PROPERTY_ENTRY_BOOL("quirk-broken-port-ped");
+
+	if (prop_idx) {
+		ret = device_create_managed_software_node(&xhci->dev, props, NULL);
+		if (ret) {
+			dev_err(dwc->dev, "failed to add properties to xHCI\n");
+			goto err;
+		}
+	}
+
+
+```
+
+CONFLICT (hunk 2):
+OUR side (NXP vendor kernel):
+```
+	dwc3_pdata = (struct dwc3_platform_data *)dev_get_platdata(dwc->dev);
+	if (dwc3_pdata && dwc3_pdata->xhci_priv) {
+		ret = platform_device_add_data(xhci, dwc3_pdata->xhci_priv,
+					       sizeof(struct xhci_plat_priv));
+		if (ret)
+			goto err;
+	}
+
+```
+
+THEIR side (mainline stable):
+```
+	ret = platform_device_add_data(xhci, &dwc3_xhci_plat_quirk,
+				       sizeof(struct xhci_plat_priv));
+	if (ret)
+		goto err;
+
+```
+
+Context AFTER the conflict:
+```
+
+	ret = platform_device_add(xhci);
+	if (ret) {
+		dev_err(dwc->dev, "failed to register xHCI device\n");
+		goto err;
+	}
+
+	return 0;
+err:
+	platform_device_put(xhci);
+	return ret;
+}
+
+void dwc3_host_exit(struct dwc3 *dwc)
+{
+	dwc3_enable_susphy(dwc, false);
+	platform_device_unregister(dwc->xhci);
+	dwc->xhci = NULL;
+}
+
+```
+
+Resolve this conflict. Return ONLY the JSON object.
+2026-04-29 14:01:20,836 [INFO]   Resolved drivers/usb/dwc3/host.c hunk 1: confidence=6/10 — NXP adds platform data from dwc3_pdata if present. Mainline adds dwc3_xhci_plat_quirk to set XHCI_SK
+2026-04-29 14:01:20,836 [DEBUG] Applied resolution to drivers/usb/dwc3/host.c hunk 1
+2026-04-29 14:01:21,250 [INFO] All conflicts resolved. Confidence: min=6, avg=7.5
+2026-04-29 14:01:21,250 [INFO] Building kernel (compile test)...
+2026-04-29 14:09:55,971 [ERROR] Build failed:
+~~
+drivers/usb/phy/phy-mxs-usb.c:504:13: warning: ‘mxs_phy_is_otg_host’ defined but not used [-Wunused-function]
+  504 | static bool mxs_phy_is_otg_host(struct mxs_phy *mxs_phy)
+      |             ^~~~~~~~~~~~~~~~~~~
+drivers/usb/dwc3/dwc3-imx8mp.c:172:19: error: ‘XHCI_MISSING_CAS’ undeclared here (not in a function)
+  172 |         .quirks = XHCI_MISSING_CAS |
+      |                   ^~~~~~~~~~~~~~~~
+drivers/usb/dwc3/dwc3-imx8mp.c:173:19: error: ‘XHCI_SKIP_PHY_INIT’ undeclared here (not in a function)
+  173 |                   XHCI_SKIP_PHY_INIT,
+      |                   ^~~~~~~~~~~~~~~~~~
+make[4]: *** [scripts/Makefile.build:250: drivers/usb/dwc3/dwc3-imx8mp.o] Error 1
+make[3]: *** [scripts/Makefile.build:503: drivers/usb/dwc3] Error 2
+make[3]: *** Waiting for unfinished jobs....
+make[2]: *** [scripts/Makefile.build:503: drivers/usb] Error 2
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [scripts/Makefile.build:503: drivers] Error 2
+make: *** [Makefile:2010: .] Error 2
+
+2026-04-29 14:09:55,972 [DEBUG] Build stdout (last 2000 chars):
+d827d.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/head907d.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/head917d.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/headc37d.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/headc57d.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/wimm.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/wimmc37b.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/wndw.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/wndwc37e.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/wndwc57e.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/wndwc67e.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/base.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/base507c.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/base827c.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/base907c.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/base917c.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/curs.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/curs507a.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/curs907a.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/cursc37a.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/oimm.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/oimm507b.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/ovly.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/ovly507e.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/ovly827e.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/ovly907e.o
+  CC [M]  drivers/gpu/drm/nouveau/dispnv50/ovly917e.o
+  CC [M]  drivers/gpu/drm/nouveau/nouveau_abi16.o
+  CC [M]  drivers/gpu/drm/nouveau/nouveau_chan.o
+  CC [M]  drivers/gpu/drm/nouveau/nouveau_dma.o
+  CC [M]  drivers/gpu/drm/nouveau/nouveau_fence.o
+  CC [M]  drivers/gpu/drm/nouveau/nv04_fence.o
+  CC [M]  drivers/gpu/drm/nouveau/nv10_fence.o
+  CC [M]  drivers/gpu/drm/nouveau/nv17_fence.o
+  CC [M]  drivers/gpu/drm/nouveau/nv50_fence.o
+  CC [M]  drivers/gpu/drm/nouveau/nv84_fence.o
+  CC [M]  drivers/gpu/drm/nouveau/nvc0_fence.o
+  LD [M]  drivers/gpu/drm/nouveau/nouveau.o
+  AR      drivers/gpu/built-in.a
+make: Leaving directory '/home/osaleem/repos/linux-imx'
+
+2026-04-29 14:09:55,972 [ERROR] Build failed after resolving conflicts for v6.1.91. Manual intervention needed on branch merge/v6.1.91.
+2026-04-29 14:09:55,972 [INFO] To fix manually:
+  cd /home/osaleem/repos/linux-imx
+  # fix the build errors
+  git add -A && git commit --amend
+  git checkout lf-6.1.y-semtech
+  git merge merge/v6.1.91
+  # then re-run this tool with --resume
+2026-04-29 14:09:55,972 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.91_2026-04-29T14-01-09.006952.json
+2026-04-29 14:09:55,973 [ERROR] Stopping due to error at v6.1.91. Fix manually and re-run with --resume.
+2026-04-29 14:09:55,973 [INFO] Done.
