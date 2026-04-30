@@ -2117,7 +2117,6 @@ static struct net_device *dpaa2_switch_port_to_bridge_port(struct ethsw_port_pri
 
 	return port_priv->netdev;
 }
-
 static int dpaa2_switch_port_bridge_join(struct net_device *netdev,
 					 struct net_device *upper_dev,
 					 struct netlink_ext_ack *extack)
@@ -2166,10 +2165,8 @@ static int dpaa2_switch_port_bridge_join(struct net_device *netdev,
 		goto err_egress_flood;
 
 	brport_dev = dpaa2_switch_port_to_bridge_port(port_priv);
-	err = switchdev_bridge_port_offload(brport_dev, netdev, port_priv,
-					    &dpaa2_switch_port_switchdev_nb,
-					    &dpaa2_switch_port_switchdev_blocking_nb,
-					    false, extack);
+	err = switchdev_bridge_port_offload(brport_dev, netdev, NULL,
+					    NULL, NULL, false, extack);
 	if (err)
 		goto err_switchdev_offload;
 
