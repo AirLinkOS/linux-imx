@@ -1,0 +1,47 @@
+{
+  "version": "6.1.75",
+  "timestamp": "2026-04-30T10:40:47.208794",
+  "conflicts_total": 2,
+  "conflicts_resolved": 2,
+  "build_success": true,
+  "merged_to_main": true,
+  "error": null,
+  "build_fix_attempts": [],
+  "resolutions": [
+    {
+      "file": "arch/arm64/boot/dts/freescale/imx8mm.dtsi",
+      "hunk_index": 0,
+      "confidence": 3,
+      "reasoning": "NXP's side has pcie0_ep node which doesn't exist in mainline. Mainline's side has gpu_3d, gpu_2d, vpu_g1, vpu_g2 nodes. The stable patch reduces GPU clock from 1000000000 to 800000000. Looking at NXP's vendor kernel, these GPU/VPU nodes likely exist elsewhere or are structured differently. The conflict appears because both sides have different content at this location. NXP keeps pcie0_ep, but the mainline GPU/VPU nodes also need to be present (with the stable fix applied - 800000000 instead of 1000000000). I'll keep both: NXP's pcie0_ep node closes properly, then add the mainline GPU/VPU nodes with the stable fix already applied (800000000).",
+      "ours": "\t\tpcie0_ep: pcie_ep@33800000 {\n\t\t\tcompatible = \"fsl,imx8mm-pcie-ep\";\n\t\t\treg = <0x33800000 0x000400000>,\n\t\t\t      <0x18000000 0x08000000>;\n\t\t\treg-names = \"regs\", \"addr_space\";\n\t\t\tnum-lanes = <1>;\n\t\t\tinterrupts = <GIC_SPI 127 IRQ_TYPE_LEVEL_HIGH>; /* eDMA */\n\t\t\tinterrupt-names = \"dma\";\n\t\t\tfsl,max-link-speed = <2>;\n\t\t\tpower-domains = <&pgc_pcie>;\n\t\t\tresets = <&src IMX8MQ_RESET_PCIE_CTRL_APPS_EN>,\n\t\t\t\t <&src IMX8MQ_RESET_PCIE_CTRL_APPS_TURNOFF>;\n\t\t\treset-names = \"apps\", \"turnoff\";\n\t\t\tphys = <&pcie_p",
+      "theirs": "\t\tgpu_3d: gpu@38000000 {\n\t\t\tcompatible = \"vivante,gc\";\n\t\t\treg = <0x38000000 0x8000>;\n\t\t\tinterrupts = <GIC_SPI 3 IRQ_TYPE_LEVEL_HIGH>;\n\t\t\tclocks = <&clk IMX8MM_CLK_GPU_AHB>,\n\t\t\t\t <&clk IMX8MM_CLK_GPU_BUS_ROOT>,\n\t\t\t\t <&clk IMX8MM_CLK_GPU3D_ROOT>,\n\t\t\t\t <&clk IMX8MM_CLK_GPU3D_ROOT>;\n\t\t\tclock-names = \"reg\", \"bus\", \"core\", \"shader\";\n\t\t\tassigned-clocks = <&clk IMX8MM_CLK_GPU3D_CORE>,\n\t\t\t\t\t  <&clk IMX8MM_GPU_PLL_OUT>;\n\t\t\tassigned-clock-parents = <&clk IMX8MM_GPU_PLL_OUT>;\n\t\t\tassigned-clock-rates = <0>, ",
+      "resolved_code": "\t\tpcie0_ep: pcie_ep@33800000 {\n\t\t\tcompatible = \"fsl,imx8mm-pcie-ep\";\n\t\t\treg = <0x33800000 0x000400000>,\n\t\t\t      <0x18000000 0x08000000>;\n\t\t\treg-names = \"regs\", \"addr_space\";\n\t\t\tnum-lanes = <1>;\n\t\t\tinterrupts = <GIC_SPI 127 IRQ_TYPE_LEVEL_HIGH>; /* eDMA */\n\t\t\tinterrupt-names = \"dma\";\n\t\t\tfsl,max-link-speed = <2>;\n\t\t\tpower-domains = <&pgc_pcie>;\n\t\t\tresets = <&src IMX8MQ_RESET_PCIE_CTRL_APPS_EN>,\n\t\t\t\t <&src IMX8MQ_RESET_PCIE_CTRL_APPS_TURNOFF>;\n\t\t\treset-names = \"apps\", \"turnoff\";\n\t\t\tphys = <&pcie_p",
+      "api_response_raw": "{\n  \"confidence\": 3,\n  \"reasoning\": \"NXP's side has pcie0_ep node which doesn't exist in mainline. Mainline's side has gpu_3d, gpu_2d, vpu_g1, vpu_g2 nodes. The stable patch reduces GPU clock from 1000000000 to 800000000. Looking at NXP's vendor kernel, these GPU/VPU nodes likely exist elsewhere or are structured differently. The conflict appears because both sides have different content at this location. NXP keeps pcie0_ep, but the mainline GPU/VPU nodes also need to be present (with the stable fix applied - 800000000 instead of 1000000000). I'll keep both: NXP's pcie0_ep node closes properly, then add the mainline GPU/VPU nodes with the stable fix already applied (800000000).\",\n  \"brace_check\": \"5 open, 5 close\",\n  \"resolved_code\": \"\\t\\tpcie0_ep: pcie_ep@33800000 {\\n\\t\\t\\tcompatible = \\\"fsl,imx8mm-pcie-ep\\\";\\n\\t\\t\\treg = <0x33800000 0x000400000>,\\n\\t\\t\\t      <0x18000000 0x08000000>;\\n\\t\\t\\treg-names = \\\"regs\\\", \\\"addr_space\\\";\\n\\t\\t\\tnum-lanes = <1>;\\n\\t\\t\\tinterrupts = <GIC_SPI 127",
+      "start_line": 1402,
+      "end_line": 1467,
+      "verification": {
+        "verdict": "verified",
+        "summary": "Merge correctly preserves NXP vendor GPU/VPU nodes; the mainline stable fix doesn't apply to NXP's GPU node structure.",
+        "mainline_intent": "Mainline v6.1.74->v6.1.75 reduced the GPU PLL clock rate from 1000000000 to 800000000 in both gpu_3d and gpu_2d nodes (CVE/stability fix for GPU clock).",
+        "concerns": [
+          "NXP uses a different GPU node ('gpu: gpu@38000000' with compatible 'fsl,imx8mm-gpu') that doesn't exist in mainline; mainline's gpu_3d/gpu_2d 'vivante,gc' nodes are absent in NXP base. The merge preserved NXP's structure (correct), but the stable fix's intent (lowering GPU_PLL to 800MHz) is NOT applied to NXP's gpu node which still has assigned-clock-rates ending in <1000000000> for IMX8MM_GPU_PLL_OUT. The vendor may need to evaluate whether the same clock-rate reduction applies to their gpu node.",
+          "NXP's vpu_g1/vpu_g2 nodes (nxp,imx8mm-hantro) differ from mainline's vpu_g1/vpu_g2 (nxp,imx8mm-vpu-g1/nxp,imx8mq-vpu-g2). Merge keeps NXP versions which is correct for vendor tree.",
+          "Resolution confidence was self-reported low (3/10), but the actual outcome is structurally sound: NXP vendor nodes preserved, no duplicate nodes, no broken references. The only semantic question is whether the GPU PLL rate fix should propagate to NXP's gpu node."
+        ]
+      }
+    },
+    {
+      "file": "drivers/usb/phy/phy-mxs-usb.c",
+      "hunk_index": 0,
+      "confidence": 9,
+      "reasoning": "NXP likely already has mxs_phy_is_otg_host defined elsewhere (probably earlier in file without CONFIG_USB_OTG guard, since NXP vendor kernel typically doesn't have that ifdef). The mainline patch removes the CONFIG_USB_OTG ifdef around this function. Since OUR side is empty, NXP has already removed/relocated this function. Keep OUR side empty.",
+      "ours": "",
+      "theirs": "static bool mxs_phy_is_otg_host(struct mxs_phy *mxs_phy)\n{\n\treturn mxs_phy->phy.last_event == USB_EVENT_ID;\n}\n\n",
+      "resolved_code": "",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"NXP likely already has mxs_phy_is_otg_host defined elsewhere (probably earlier in file without CONFIG_USB_OTG guard, since NXP vendor kernel typically doesn't have that ifdef). The mainline patch removes the CONFIG_USB_OTG ifdef around this function. Since OUR side is empty, NXP has already removed/relocated this function. Keep OUR side empty.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\"\n}",
+      "start_line": 502,
+      "end_line": 509,
+      "verification": null
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+2026-04-30 11:03:40,535 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.77_2026-04-30T11-03-40.535818.log
+2026-04-30 11:03:42,024 [INFO] Merge v6.1.77 has 2 conflicted files
+2026-04-30 11:03:42,024 [INFO]   drivers/clk/imx/clk-imx8qxp.c: 4 conflict hunks
+2026-04-30 11:03:42,025 [INFO]   drivers/scsi/scsi_error.c: 1 conflict hunks
+2026-04-30 11:03:42,025 [INFO] Resolving drivers/clk/imx/clk-imx8qxp.c hunk 1...
+2026-04-30 11:03:42,044 [DEBUG] Prompt for drivers/clk/imx/clk-imx8qxp.c hunk 0
+2026-04-30 11:03:47,390 [INFO]   Resolved drivers/clk/imx/clk-imx8qxp.c hunk 0: confidence=8/10 — Mainline renamed lvds0_bypass_clk to mipi0_lvds_bypass_clk. This is a rename fix from the stable pat
+2026-04-30 11:03:47,391 [INFO] Resolving drivers/clk/imx/clk-imx8qxp.c hunk 2...
+2026-04-30 11:03:47,417 [DEBUG] Prompt for drivers/clk/imx/clk-imx8qxp.c hunk 1
+2026-04-30 11:03:52,994 [INFO]   Resolved drivers/clk/imx/clk-imx8qxp.c hunk 1: confidence=8/10 — Hunk 1: NXP uses 'lvds0_bypass_clk', mainline renamed to 'mipi0_lvds_bypass_clk'. Hunk 2: NXP uses '
+2026-04-30 11:03:52,995 [INFO] Resolving drivers/clk/imx/clk-imx8qxp.c hunk 3...
+2026-04-30 11:03:53,020 [DEBUG] Prompt for drivers/clk/imx/clk-imx8qxp.c hunk 2
+2026-04-30 11:03:59,610 [INFO]   Resolved drivers/clk/imx/clk-imx8qxp.c hunk 2: confidence=8/10 — The mainline stable patch renames lvds0/lvds1 clocks to mipi0_lvds/mipi1_lvds to fix LVDS bypass, pi
+2026-04-30 11:03:59,611 [INFO] Resolving drivers/clk/imx/clk-imx8qxp.c hunk 4...
+2026-04-30 11:03:59,637 [DEBUG] Prompt for drivers/clk/imx/clk-imx8qxp.c hunk 3
+2026-04-30 11:04:06,340 [INFO]   Resolved drivers/clk/imx/clk-imx8qxp.c hunk 3: confidence=8/10 — The mainline stable patch renamed lvds0/lvds1 clocks to mipi0_lvds/mipi1_lvds. NXP vendor kernel kee
+2026-04-30 11:04:06,341 [INFO] Resolving drivers/scsi/scsi_error.c hunk 1...
+2026-04-30 11:04:06,368 [DEBUG] Prompt for drivers/scsi/scsi_error.c hunk 0
+2026-04-30 11:04:10,935 [INFO]   Resolved drivers/scsi/scsi_error.c hunk 0: confidence=9/10 — NXP adds an AHCI_IMX hack with sg_io_buffer_hack extern. Mainline changes scsi_eh_wakeup signature t
+2026-04-30 11:04:11,435 [INFO] All conflicts resolved. Confidence: min=8, avg=8.2
+2026-04-30 11:04:13,791 [INFO] Build attempt 1/4...
+2026-04-30 11:15:21,474 [INFO] Build succeeded.
+2026-04-30 11:15:22,443 [INFO] Successfully merged v6.1.77 into lf-6.1.y-semtech
+2026-04-30 11:15:24,517 [INFO] Pushed lf-6.1.y-semtech to origin

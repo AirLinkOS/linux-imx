@@ -1,0 +1,38 @@
+{
+  "version": "6.1.72",
+  "timestamp": "2026-04-30T10:14:18.385247",
+  "conflicts_total": 2,
+  "conflicts_resolved": 2,
+  "build_success": true,
+  "merged_to_main": true,
+  "error": null,
+  "build_fix_attempts": [],
+  "resolutions": [
+    {
+      "file": "drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c",
+      "hunk_index": 0,
+      "confidence": 9,
+      "reasoning": "The mainline adds 'struct dpaa2_fas *fas;' and 'bool recycle_rx_buf = false;' declarations. Looking at the context after, 'recycle_rx_buf' is used, so we need that declaration. The 'fas' variable is also referenced. NXP side appears empty here, but the context after uses recycle_rx_buf, so we need to add these declarations from mainline.",
+      "ours": "",
+      "theirs": "\tstruct dpaa2_fas *fas;\n\tbool recycle_rx_buf = false;\n",
+      "resolved_code": "\tstruct dpaa2_fas *fas;\n\tbool recycle_rx_buf = false;\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"The mainline adds 'struct dpaa2_fas *fas;' and 'bool recycle_rx_buf = false;' declarations. Looking at the context after, 'recycle_rx_buf' is used, so we need that declaration. The 'fas' variable is also referenced. NXP side appears empty here, but the context after uses recycle_rx_buf, so we need to add these declarations from mainline.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\\tstruct dpaa2_fas *fas;\\n\\tbool recycle_rx_buf = false;\\n\"\n}",
+      "start_line": 605,
+      "end_line": 609,
+      "verification": null
+    },
+    {
+      "file": "drivers/net/ethernet/freescale/dpaa2/dpaa2-ethtool.c",
+      "hunk_index": 0,
+      "confidence": 9,
+      "reasoning": "NXP added buf_cnt_total to support multiple buffer pools (priv->num_bps loop). Mainline stable rearranged variable declarations. Keep NXP's version since it has the additional buf_cnt_total variable needed by the surrounding code.",
+      "ours": "\tu32 buf_cnt, buf_cnt_total = 0;\n\tint j, k, err, num_cnt, i = 0;\n\tu32 fcnt, bcnt;\n",
+      "theirs": "\tint j, k, err, num_cnt, i = 0;\n\tu32 fcnt, bcnt;\n\tu32 buf_cnt;\n",
+      "resolved_code": "\tu32 buf_cnt, buf_cnt_total = 0;\n\tint j, k, err, num_cnt, i = 0;\n\tu32 fcnt, bcnt;\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"NXP added buf_cnt_total to support multiple buffer pools (priv->num_bps loop). Mainline stable rearranged variable declarations. Keep NXP's version since it has the additional buf_cnt_total variable needed by the surrounding code.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\\tu32 buf_cnt, buf_cnt_total = 0;\\n\\tint j, k, err, num_cnt, i = 0;\\n\\tu32 fcnt, bcnt;\\n\"\n}",
+      "start_line": 269,
+      "end_line": 277,
+      "verification": null
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+2026-04-30 10:14:18,385 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.72_2026-04-30T10-14-18.385247.log
+2026-04-30 10:14:19,767 [INFO] Merge v6.1.72 has 2 conflicted files
+2026-04-30 10:14:19,771 [INFO]   drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c: 1 conflict hunks
+2026-04-30 10:14:19,772 [INFO]   drivers/net/ethernet/freescale/dpaa2/dpaa2-ethtool.c: 1 conflict hunks
+2026-04-30 10:14:19,772 [INFO] Resolving drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c hunk 1...
+2026-04-30 10:14:19,789 [DEBUG] Prompt for drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c hunk 0
+2026-04-30 10:14:24,268 [INFO]   Resolved drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c hunk 0: confidence=9/10 — The mainline adds 'struct dpaa2_fas *fas;' and 'bool recycle_rx_buf = false;' declarations. Looking 
+2026-04-30 10:14:24,270 [INFO] Resolving drivers/net/ethernet/freescale/dpaa2/dpaa2-ethtool.c hunk 1...
+2026-04-30 10:14:24,293 [DEBUG] Prompt for drivers/net/ethernet/freescale/dpaa2/dpaa2-ethtool.c hunk 0
+2026-04-30 10:14:28,057 [INFO]   Resolved drivers/net/ethernet/freescale/dpaa2/dpaa2-ethtool.c hunk 0: confidence=9/10 — NXP added buf_cnt_total to support multiple buffer pools (priv->num_bps loop). Mainline stable rearr
+2026-04-30 10:14:28,546 [INFO] All conflicts resolved. Confidence: min=9, avg=9.0
+2026-04-30 10:14:30,748 [INFO] Build attempt 1/4...
+2026-04-30 10:25:23,247 [INFO] Build succeeded.
+2026-04-30 10:25:24,076 [INFO] Successfully merged v6.1.72 into lf-6.1.y-semtech
+2026-04-30 10:25:26,124 [INFO] Pushed lf-6.1.y-semtech to origin

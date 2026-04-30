@@ -1,0 +1,67 @@
+{
+  "version": "6.1.68",
+  "timestamp": "2026-04-29T18:49:06.555780",
+  "conflicts_total": 3,
+  "conflicts_resolved": 3,
+  "build_success": false,
+  "merged_to_main": false,
+  "error": "Build failed for v6.1.68 after 1 fix attempts. Manual intervention needed on branch merge/v6.1.68.",
+  "build_fix_attempts": [
+    {
+      "attempt": 1,
+      "errors_before": 1,
+      "action": "escalate",
+      "fix": {
+        "action": "escalate",
+        "reasoning": "The error points to a macro expansion in hwif.h line 15, but the actual issue is at a call site somewhere that invokes stmmac_do_void_callback for fpe_send_mpacket with too few arguments. I cannot see the call site or the function pointer signature from the provided context to determine the correct fix.",
+        "suggestions": [
+          "Search for callers of fpe_send_mpacket (likely via a stmmac_fpe_send_mpacket macro) to find the mismatched call site",
+          "Check the definition of fpe_send_mpacket in struct stmmac_ops to see expected argument count",
+          "The merge likely changed the fpe_send_mpacket signature (e.g., added an enum mpacket_type parameter) but didn't update all callers",
+          "grep -rn 'fpe_send_mpacket' drivers/net/ethernet/stmicro/stmmac/"
+        ]
+      }
+    }
+  ],
+  "resolutions": [
+    {
+      "file": "arch/arm64/boot/dts/freescale/imx8mp.dtsi",
+      "hunk_index": 0,
+      "confidence": 9,
+      "reasoning": "The mainline stable patch added 'snps,parkmode-disable-ss-quirk' to both usb_dwc3_0 and usb_dwc3_1 nodes, which is already present in the context BEFORE the conflict (visible in both usb_dwc3_0 and usb_dwc3_1). NXP's side contains all the additional vendor-specific nodes (vpu_g1, vpu_g2, vpu_vc8000e, gpu_3d, gpu_2d, ml_vipsi, dsp, etm, funnel0, etc.) that come after the usb3_1 node. Since the mainline change is already incorporated in the context above, we just need to keep all of NXP's vendor additions.",
+      "ours": "\t\t\t};\n\t\t};\n\t};\n\n\tvpu_g1: vpu_g1@38300000 {\n\t\tcompatible = \"nxp,imx8mm-hantro\",\"nxp,imx8mp-hantro\";\n\t\treg = <0x0 0x38300000 0x0 0x100000>;\n\t\treg-names = \"regs_hantro\";\n\t\tinterrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;\n\t\tinterrupt-names = \"irq_hantro\";\n\t\tclocks = <&clk IMX8MP_CLK_VPU_G1_ROOT>, <&clk IMX8MP_CLK_VPU_ROOT>;\n\t\tclock-names = \"clk_hantro\", \"clk_hantro_bus\";\n\t\tassigned-clocks = <&clk IMX8MP_CLK_VPU_G1>, <&clk IMX8MP_CLK_VPU_BUS>;\n\t\tassigned-clock-parents = <&clk IMX8MP_SYS_PLL1_800M>, <&cl",
+      "theirs": "",
+      "resolved_code": "\t\t\t};\n\t\t};\n\t};\n\n\tvpu_g1: vpu_g1@38300000 {\n\t\tcompatible = \"nxp,imx8mm-hantro\",\"nxp,imx8mp-hantro\";\n\t\treg = <0x0 0x38300000 0x0 0x100000>;\n\t\treg-names = \"regs_hantro\";\n\t\tinterrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;\n\t\tinterrupt-names = \"irq_hantro\";\n\t\tclocks = <&clk IMX8MP_CLK_VPU_G1_ROOT>, <&clk IMX8MP_CLK_VPU_ROOT>;\n\t\tclock-names = \"clk_hantro\", \"clk_hantro_bus\";\n\t\tassigned-clocks = <&clk IMX8MP_CLK_VPU_G1>, <&clk IMX8MP_CLK_VPU_BUS>;\n\t\tassigned-clock-parents = <&clk IMX8MP_SYS_PLL1_800M>, <&cl",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"The mainline stable patch added 'snps,parkmode-disable-ss-quirk' to both usb_dwc3_0 and usb_dwc3_1 nodes, which is already present in the context BEFORE the conflict (visible in both usb_dwc3_0 and usb_dwc3_1). NXP's side contains all the additional vendor-specific nodes (vpu_g1, vpu_g2, vpu_vc8000e, gpu_3d, gpu_2d, ml_vipsi, dsp, etm, funnel0, etc.) that come after the usb3_1 node. Since the mainline change is already incorporated in the context above, we just need to keep all of NXP's vendor additions.\",\n  \"brace_check\": \"matches NXP side exactly - preserving as-is\",\n  \"resolved_code\": \"\\t\\t\\t};\\n\\t\\t};\\n\\t};\\n\\n\\tvpu_g1: vpu_g1@38300000 {\\n\\t\\tcompatible = \\\"nxp,imx8mm-hantro\\\",\\\"nxp,imx8mp-hantro\\\";\\n\\t\\treg = <0x0 0x38300000 0x0 0x100000>;\\n\\t\\treg-names = \\\"regs_hantro\\\";\\n\\t\\tinterrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;\\n\\t\\tinterrupt-names = \\\"irq_hantro\\\";\\n\\t\\tclocks = <&clk IMX8MP_CLK_VPU_G1_ROOT>, <&clk IMX8MP_CLK_VPU_ROOT>;\\n\\t\\tclock-",
+      "start_line": 2238,
+      "end_line": 2499,
+      "verification": null
+    },
+    {
+      "file": "arch/arm64/boot/dts/freescale/imx8mq.dtsi",
+      "hunk_index": 0,
+      "confidence": 9,
+      "reasoning": "NXP adds snps,dis_rxdet_inp3_quirk; mainline removes nothing here (their change was elsewhere). Keep NXP's vendor addition.",
+      "ours": "\t\t\tsnps,dis_rxdet_inp3_quirk;\n",
+      "theirs": "",
+      "resolved_code": "\t\t\tsnps,dis_rxdet_inp3_quirk;\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"NXP adds snps,dis_rxdet_inp3_quirk; mainline removes nothing here (their change was elsewhere). Keep NXP's vendor addition.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\\t\\t\\tsnps,dis_rxdet_inp3_quirk;\\n\"\n}",
+      "start_line": 1433,
+      "end_line": 1436,
+      "verification": null
+    },
+    {
+      "file": "arch/arm64/boot/dts/freescale/imx8mq.dtsi",
+      "hunk_index": 1,
+      "confidence": 9,
+      "reasoning": "NXP added snps,dis_rxdet_inp3_quirk which is independent of mainline's changes (mainline only dropped usb3-resume-missing-cas elsewhere and added parkmode-disable-ss-quirk which is already present). Keep NXP's addition.",
+      "ours": "\t\t\tsnps,dis_rxdet_inp3_quirk;\n",
+      "theirs": "",
+      "resolved_code": "\t\t\tsnps,dis_rxdet_inp3_quirk;\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"NXP added snps,dis_rxdet_inp3_quirk which is independent of mainline's changes (mainline only dropped usb3-resume-missing-cas elsewhere and added parkmode-disable-ss-quirk which is already present). Keep NXP's addition.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\\t\\t\\tsnps,dis_rxdet_inp3_quirk;\\n\"\n}",
+      "start_line": 1469,
+      "end_line": 1472,
+      "verification": null
+    }
+  ]
+}

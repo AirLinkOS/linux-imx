@@ -1,0 +1,6 @@
+2026-04-30 10:03:10,170 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.71_2026-04-30T10-03-10.170552.log
+2026-04-30 10:03:11,359 [INFO] Merge v6.1.71 completed cleanly — no conflicts!
+2026-04-30 10:03:13,878 [INFO] Build attempt 1/4...
+2026-04-30 10:14:15,618 [INFO] Build succeeded.
+2026-04-30 10:14:16,147 [INFO] Merged v6.1.71 into lf-6.1.y-semtech
+2026-04-30 10:14:18,201 [INFO] Pushed lf-6.1.y-semtech to origin

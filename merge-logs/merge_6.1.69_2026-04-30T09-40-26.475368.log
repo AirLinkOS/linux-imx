@@ -1,0 +1,17 @@
+2026-04-30 09:40:26,475 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.69_2026-04-30T09-40-26.475368.log
+2026-04-30 09:40:27,740 [INFO] Merge v6.1.69 has 1 conflicted files
+2026-04-30 09:40:27,742 [INFO]   drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c: 3 conflict hunks
+2026-04-30 09:40:27,742 [INFO] Resolving drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c hunk 1...
+2026-04-30 09:40:27,758 [DEBUG] Prompt for drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c hunk 0
+2026-04-30 09:40:32,622 [INFO]   Resolved drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c hunk 0: confidence=9/10 — The first conflict has NXP-specific code (forward declarations and dpaa2_switch_port_to_bridge_port 
+2026-04-30 09:40:32,623 [INFO] Resolving drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c hunk 2...
+2026-04-30 09:40:32,646 [DEBUG] Prompt for drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c hunk 1
+2026-04-30 09:40:39,215 [INFO]   Resolved drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c hunk 1: confidence=8/10 — Mainline stable changes switchdev_bridge_port_offload/unoffload calls to pass NULL for notifier bloc
+2026-04-30 09:40:39,216 [INFO] Resolving drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c hunk 3...
+2026-04-30 09:40:39,239 [DEBUG] Prompt for drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c hunk 2
+2026-04-30 09:40:45,598 [INFO]   Resolved drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c hunk 2: confidence=8/10 — NXP vendor kernel adds LAG support via dpaa2_switch_port_to_bridge_port() helper and uses brport_dev
+2026-04-30 09:40:45,997 [INFO] All conflicts resolved. Confidence: min=8, avg=8.3
+2026-04-30 09:40:48,891 [INFO] Build attempt 1/4...
+2026-04-30 09:51:54,918 [INFO] Build succeeded.
+2026-04-30 09:51:55,624 [INFO] Successfully merged v6.1.69 into lf-6.1.y-semtech
+2026-04-30 09:51:58,719 [INFO] Pushed lf-6.1.y-semtech to origin

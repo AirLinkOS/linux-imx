@@ -1,0 +1,51 @@
+{
+  "version": "6.1.69",
+  "timestamp": "2026-04-30T09:40:26.475368",
+  "conflicts_total": 3,
+  "conflicts_resolved": 3,
+  "build_success": true,
+  "merged_to_main": true,
+  "error": null,
+  "build_fix_attempts": [],
+  "resolutions": [
+    {
+      "file": "drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c",
+      "hunk_index": 0,
+      "confidence": 9,
+      "reasoning": "The first conflict has NXP-specific code (forward declarations and dpaa2_switch_port_to_bridge_port helper supporting LAG). Mainline removed nothing here - the conflict appears because mainline doesn't have this NXP code. Keep NXP's version.",
+      "ours": "static struct notifier_block dpaa2_switch_port_switchdev_nb;\nstatic struct notifier_block dpaa2_switch_port_switchdev_blocking_nb;\n\nstatic struct net_device *dpaa2_switch_port_to_bridge_port(struct ethsw_port_priv *port_priv)\n{\n\tif (!port_priv->fdb->bridge_dev)\n\t\treturn NULL;\n\n\tif (port_priv->lag)\n\t\treturn port_priv->lag->bond_dev;\n\n\treturn port_priv->netdev;\n}\n\n",
+      "theirs": "",
+      "resolved_code": "static struct notifier_block dpaa2_switch_port_switchdev_nb;\nstatic struct notifier_block dpaa2_switch_port_switchdev_blocking_nb;\n\nstatic struct net_device *dpaa2_switch_port_to_bridge_port(struct ethsw_port_priv *port_priv)\n{\n\tif (!port_priv->fdb->bridge_dev)\n\t\treturn NULL;\n\n\tif (port_priv->lag)\n\t\treturn port_priv->lag->bond_dev;\n\n\treturn port_priv->netdev;\n}\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"The first conflict has NXP-specific code (forward declarations and dpaa2_switch_port_to_bridge_port helper supporting LAG). Mainline removed nothing here - the conflict appears because mainline doesn't have this NXP code. Keep NXP's version.\",\n  \"brace_check\": \"3 open, 3 close\",\n  \"resolved_code\": \"static struct notifier_block dpaa2_switch_port_switchdev_nb;\\nstatic struct notifier_block dpaa2_switch_port_switchdev_blocking_nb;\\n\\nstatic struct net_device *dpaa2_switch_port_to_bridge_port(struct ethsw_port_priv *port_priv)\\n{\\n\\tif (!port_priv->fdb->bridge_dev)\\n\\t\\treturn NULL;\\n\\n\\tif (port_priv->lag)\\n\\t\\treturn port_priv->lag->bond_dev;\\n\\n\\treturn port_priv->netdev;\\n}\\n\"\n}",
+      "start_line": 2106,
+      "end_line": 2122,
+      "verification": null
+    },
+    {
+      "file": "drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c",
+      "hunk_index": 1,
+      "confidence": 8,
+      "reasoning": "Mainline stable changes switchdev_bridge_port_offload/unoffload calls to pass NULL for notifier blocks and priv to avoid replay. NXP vendor adds LAG support via dpaa2_switch_port_to_bridge_port() which returns the bond_dev or netdev. I'll keep NXP's brport_dev resolution (for LAG support) but apply the stable fix of passing NULL for the notifier blocks and priv to skip replay. This preserves NXP's LAG functionality while incorporating the upstream fix to not request MDB/VLAN/FDB replay.",
+      "ours": "\t/* Recreate the egress flood domain of the FDB that we just left. */\n\terr = dpaa2_switch_fdb_set_egress_flood(ethsw, old_fdb->fdb_id);\n\tif (err)\n\t\tgoto err_egress_flood;\n\n\tbrport_dev = dpaa2_switch_port_to_bridge_port(port_priv);\n\terr = switchdev_bridge_port_offload(brport_dev, netdev, port_priv,\n\t\t\t\t\t    &dpaa2_switch_port_switchdev_nb,\n\t\t\t\t\t    &dpaa2_switch_port_switchdev_blocking_nb,\n\t\t\t\t\t    false, extack);\n",
+      "theirs": "\terr = switchdev_bridge_port_offload(netdev, netdev, NULL,\n\t\t\t\t\t    NULL, NULL, false, extack);\n",
+      "resolved_code": "\t/* Recreate the egress flood domain of the FDB that we just left. */\n\terr = dpaa2_switch_fdb_set_egress_flood(ethsw, old_fdb->fdb_id);\n\tif (err)\n\t\tgoto err_egress_flood;\n\n\tbrport_dev = dpaa2_switch_port_to_bridge_port(port_priv);\n\terr = switchdev_bridge_port_offload(brport_dev, netdev, NULL,\n\t\t\t\t\t    NULL, NULL, false, extack);\n",
+      "api_response_raw": "{\n  \"confidence\": 8,\n  \"reasoning\": \"Mainline stable changes switchdev_bridge_port_offload/unoffload calls to pass NULL for notifier blocks and priv to avoid replay. NXP vendor adds LAG support via dpaa2_switch_port_to_bridge_port() which returns the bond_dev or netdev. I'll keep NXP's brport_dev resolution (for LAG support) but apply the stable fix of passing NULL for the notifier blocks and priv to skip replay. This preserves NXP's LAG functionality while incorporating the upstream fix to not request MDB/VLAN/FDB replay.\",\n  \"brace_check\": \"first hunk: 1 open, 1 close; second hunk: 0 open, 0 close\",\n  \"resolved_code\": \"\\t/* Recreate the egress flood domain of the FDB that we just left. */\\n\\terr = dpaa2_switch_fdb_set_egress_flood(ethsw, old_fdb->fdb_id);\\n\\tif (err)\\n\\t\\tgoto err_egress_flood;\\n\\n\\tbrport_dev = dpaa2_switch_port_to_bridge_port(port_priv);\\n\\terr = switchdev_bridge_port_offload(brport_dev, netdev, NULL,\\n\\t\\t\\t\\t\\t    NULL, NULL, false, extack);\\n\"\n}",
+      "start_line": 2165,
+      "end_line": 2179,
+      "verification": null
+    },
+    {
+      "file": "drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c",
+      "hunk_index": 2,
+      "confidence": 8,
+      "reasoning": "NXP vendor kernel adds LAG support via dpaa2_switch_port_to_bridge_port() helper and uses brport_dev for switchdev unoffload. The mainline stable fix changes the replay flag to false (already present in NXP code) but uses simpler netdev/NULL args. Since NXP's version already passes false for the replay parameter and properly handles the LAG bridge port mapping, we keep NXP's version which is more complete.",
+      "ours": "\tstruct ethsw_port_priv *port_priv = netdev_priv(netdev);\n\tstruct net_device *brport_dev;\n\n\tbrport_dev = dpaa2_switch_port_to_bridge_port(port_priv);\n\n\tswitchdev_bridge_port_unoffload(brport_dev, port_priv,\n\t\t\t\t\t&dpaa2_switch_port_switchdev_nb,\n\t\t\t\t\t&dpaa2_switch_port_switchdev_blocking_nb);\n",
+      "theirs": "\tswitchdev_bridge_port_unoffload(netdev, NULL, NULL, NULL);\n",
+      "resolved_code": "\tstruct ethsw_port_priv *port_priv = netdev_priv(netdev);\n\tstruct net_device *brport_dev;\n\n\tbrport_dev = dpaa2_switch_port_to_bridge_port(port_priv);\n\n\tswitchdev_bridge_port_unoffload(brport_dev, port_priv,\n\t\t\t\t\t&dpaa2_switch_port_switchdev_nb,\n\t\t\t\t\t&dpaa2_switch_port_switchdev_blocking_nb);\n",
+      "api_response_raw": "{\n  \"confidence\": 8,\n  \"reasoning\": \"NXP vendor kernel adds LAG support via dpaa2_switch_port_to_bridge_port() helper and uses brport_dev for switchdev unoffload. The mainline stable fix changes the replay flag to false (already present in NXP code) but uses simpler netdev/NULL args. Since NXP's version already passes false for the replay parameter and properly handles the LAG bridge port mapping, we keep NXP's version which is more complete.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\\tstruct ethsw_port_priv *port_priv = netdev_priv(netdev);\\n\\tstruct net_device *brport_dev;\\n\\n\\tbrport_dev = dpaa2_switch_port_to_bridge_port(port_priv);\\n\\n\\tswitchdev_bridge_port_unoffload(brport_dev, port_priv,\\n\\t\\t\\t\\t\\t&dpaa2_switch_port_switchdev_nb,\\n\\t\\t\\t\\t\\t&dpaa2_switch_port_switchdev_blocking_nb);\\n\"\n}",
+      "start_line": 2213,
+      "end_line": 2224,
+      "verification": null
+    }
+  ]
+}

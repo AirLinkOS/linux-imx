@@ -1,8 +1,0 @@
-2026-04-29 16:31:54,718 [INFO] Log file: /home/osaleem/repos/linux-imx/merge-logs/merge_20260429_163154.log
-2026-04-29 16:31:54,718 [INFO] Kernel Stable Merge Tool started
-2026-04-29 16:31:54,718 [INFO] Repo: /home/osaleem/repos/linux-imx
-2026-04-29 16:31:54,718 [INFO] Target: v6.1.169
-2026-04-29 16:31:54,718 [INFO] Provider: claude
-2026-04-29 16:31:54,718 [INFO] Interactive: False
-2026-04-29 16:31:54,718 [INFO] Dry run: False
-2026-04-29 16:31:54,718 [INFO] Fetching stable tags...

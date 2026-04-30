@@ -1,0 +1,55 @@
+2026-04-30 11:50:20,451 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.81_2026-04-30T11-50-20.450481.log
+2026-04-30 11:50:22,118 [INFO] Merge v6.1.81 has 4 conflicted files
+2026-04-30 11:50:22,119 [INFO]   arch/arm/boot/dts/imx6qdl.dtsi: 1 conflict hunks
+2026-04-30 11:50:22,119 [INFO]   drivers/dma/fsl-qdma.c: 1 conflict hunks
+2026-04-30 11:50:22,120 [INFO]   drivers/pci/controller/dwc/pci-layerscape-ep.c: 7 conflict hunks
+2026-04-30 11:50:22,120 [INFO]   drivers/phy/freescale/phy-fsl-imx8-mipi-dphy.c: 1 conflict hunks
+2026-04-30 11:50:22,120 [INFO] Resolving arch/arm/boot/dts/imx6qdl.dtsi hunk 1...
+2026-04-30 11:50:22,149 [DEBUG] Prompt for arch/arm/boot/dts/imx6qdl.dtsi hunk 0
+2026-04-30 11:50:26,173 [INFO]   Resolved arch/arm/boot/dts/imx6qdl.dtsi hunk 0: confidence=9/10 — NXP added caam_sm node, mainline renamed dma-apbh to dma-controller. Keep NXP's caam_sm and apply th
+2026-04-30 11:50:26,175 [INFO] Resolving drivers/dma/fsl-qdma.c hunk 1...
+2026-04-30 11:50:26,201 [DEBUG] Prompt for drivers/dma/fsl-qdma.c hunk 0
+2026-04-30 11:50:29,518 [INFO]   Resolved drivers/dma/fsl-qdma.c hunk 0: confidence=10/10 — Trivial formatting difference - NXP wraps the error message across two lines while mainline keeps it
+2026-04-30 11:50:29,519 [INFO] Resolving drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 1...
+2026-04-30 11:50:29,546 [DEBUG] Prompt for drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 0
+2026-04-30 11:50:40,435 [INFO]   Resolved drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 0: confidence=6/10 — Hunk 1 is about macro definitions. NXP defines PCIE_LINK_CAP and link width/speed masks for their wo
+2026-04-30 11:50:40,436 [INFO] Resolving drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 2...
+2026-04-30 11:50:40,466 [DEBUG] Prompt for drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 1
+2026-04-30 11:50:50,479 [INFO]   Resolved drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 1: confidence=7/10 — Hunk 1: Mainline added PEX_PF0_CONFIG defines and renamed comment. NXP had PCIE_LINK_CAP defines wit
+2026-04-30 11:50:50,479 [INFO] Resolving drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 3...
+2026-04-30 11:50:50,505 [DEBUG] Prompt for drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 2
+2026-04-30 11:50:53,773 [INFO]   Resolved drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 2: confidence=9/10 — Hunk 3 is purely a whitespace/formatting change (line wrap). The mainline version is cleaner and the
+2026-04-30 11:50:53,774 [INFO] Resolving drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 4...
+2026-04-30 11:50:53,790 [DEBUG] Prompt for drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 3
+2026-04-30 11:51:08,201 [INFO]   Resolved drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 3: confidence=7/10 — Hunk 1 (defines): Keep both - NXP had its own define names but mainline uses BIT() macros. Mainline 
+2026-04-30 11:51:08,202 [INFO] Resolving drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 5...
+2026-04-30 11:51:08,226 [DEBUG] Prompt for drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 4
+2026-04-30 11:51:14,848 [INFO]   Resolved drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 4: confidence=8/10 — Hunk 5 is just style/log-message differences. NXP keeps the dev_err for missing pme irq and a differ
+2026-04-30 11:51:14,849 [INFO] Resolving drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 6...
+2026-04-30 11:51:14,875 [DEBUG] Prompt for drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 5
+2026-04-30 11:51:18,507 [INFO]   Resolved drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 5: confidence=6/10 — Hunk 6 is the small declaration `u8 offset;` added by mainline. NXP didn't add this variable. Since 
+2026-04-30 11:51:18,508 [INFO] Resolving drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 7...
+2026-04-30 11:51:18,534 [DEBUG] Prompt for drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 6
+2026-04-30 11:51:24,538 [INFO]   Resolved drivers/pci/controller/dwc/pci-layerscape-ep.c hunk 6: confidence=7/10 — NXP adds max_speed/max_width tracking and DMA mask setup. Mainline stable adds lnkcap caching for re
+2026-04-30 11:51:24,538 [INFO] Resolving drivers/phy/freescale/phy-fsl-imx8-mipi-dphy.c hunk 1...
+2026-04-30 11:51:24,564 [DEBUG] Prompt for drivers/phy/freescale/phy-fsl-imx8-mipi-dphy.c hunk 0
+2026-04-30 11:51:29,057 [INFO]   Resolved drivers/phy/freescale/phy-fsl-imx8-mipi-dphy.c hunk 0: confidence=8/10 — The mainline stable patch changes 'mipi_dphy' to 'mipi-dphy' in of_alias_get_id call. NXP's vendor k
+2026-04-30 11:51:29,079 [INFO]   Running verification pass on drivers/pci/controller/dwc/pci-layerscape-ep.c...
+2026-04-30 11:51:41,363 [WARNING]   ⚠️  VERIFICATION CRITICAL for drivers/pci/controller/dwc/pci-layerscape-ep.c: Macro definitions accidentally placed inside struct ls_pcie_ep, breaking the struct and removing required member fields
+2026-04-30 11:51:41,363 [WARNING]     - Inside 'struct ls_pcie_ep' definition, mainline's #define block (PEX_PF0_CONFIG, PEX_PF0_PME_MES_DR/IER, etc.) was inserted instead of being placed at file scope. This will not compile cleanly and corrupts the struct.
+2026-04-30 11:51:41,363 [WARNING]     - The struct ls_pcie_ep is missing required member declarations: 'int irq;', 'u32 lnkcap;', 'bool big_endian;', and NXP's 'u8 max_speed; u8 max_width;'. The code references pcie->irq, pcie->lnkcap, pcie->big_endian, pcie->max_speed, pcie->max_width — none of which are declared in the merged struct body.
+2026-04-30 11:51:41,363 [WARNING]     - Duplicate macro definitions: PEX_PF0_CONFIG and PEX_PF0_CFG_READY are defined twice (once at file scope and once inside the struct).
+2026-04-30 11:51:41,363 [WARNING]     - PEX_PF0_PME_MES_DR/IER macros are defined twice with different styles (NXP's (1<<n) at file scope and mainline's BIT(n) inside struct) — this is a redefinition compile error.
+2026-04-30 11:51:41,364 [WARNING]     - Probe still writes pcie->max_speed/max_width via PCIE_LINK_CAP (NXP approach) AND also reads pcie->lnkcap (mainline approach), but the IRQ handler only uses lnkcap — so the NXP max_speed/max_width assignments are dead code but reference removed struct members, which will fail to compile.
+2026-04-30 11:51:41,382 [INFO]   Running verification pass on drivers/pci/controller/dwc/pci-layerscape-ep.c...
+2026-04-30 11:51:52,578 [WARNING]   ⚠️  VERIFICATION CRITICAL for drivers/pci/controller/dwc/pci-layerscape-ep.c: struct ls_pcie_ep is corrupted by macro definitions inserted into the struct body, and required fields (irq, lnkcap, big_endian, max_speed, max_width) are missing.
+2026-04-30 11:51:52,578 [WARNING]     - Inside `struct ls_pcie_ep { ... }` the merge inserted `#define PEX_PF0_CONFIG ...` and the PME_MES_DR/IER macros directly into the struct body, which is invalid C and will not compile.
+2026-04-30 11:51:52,583 [WARNING]     - Struct fields used elsewhere are not declared: `irq`, `lnkcap`, `big_endian` (used in ls_lut_readl/writel and probe) are missing from the struct.
+2026-04-30 11:51:52,584 [WARNING]     - NXP fields `max_speed` and `max_width` were dropped from the struct but probe still assigns `pcie->max_speed` and `pcie->max_width` -> compile error.
+2026-04-30 11:51:52,584 [WARNING]     - Duplicate macro definitions: PEX_PF0_PME_MES_DR/IER are defined twice (once at top with old style `(1 << 7)` and again inside the struct with `BIT(7)`), plus PEX_PF0_CONFIG defined twice.
+2026-04-30 11:51:52,584 [WARNING]     - Closing brace of the struct is missing before the inserted macros, breaking the type definition entirely.
+2026-04-30 11:51:53,236 [INFO] All conflicts resolved. Confidence: min=6, avg=7.7
+2026-04-30 11:51:55,557 [INFO] Build attempt 1/4...
+2026-04-30 12:03:06,909 [INFO] Build succeeded.
+2026-04-30 12:03:07,721 [INFO] Successfully merged v6.1.81 into lf-6.1.y-semtech
+2026-04-30 12:03:09,737 [INFO] Pushed lf-6.1.y-semtech to origin

@@ -1,0 +1,17 @@
+2026-04-30 10:40:47,209 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.75_2026-04-30T10-40-47.208794.log
+2026-04-30 10:40:48,895 [INFO] Merge v6.1.75 has 2 conflicted files
+2026-04-30 10:40:48,896 [INFO]   arch/arm64/boot/dts/freescale/imx8mm.dtsi: 1 conflict hunks
+2026-04-30 10:40:48,896 [INFO]   drivers/usb/phy/phy-mxs-usb.c: 1 conflict hunks
+2026-04-30 10:40:48,896 [INFO] Resolving arch/arm64/boot/dts/freescale/imx8mm.dtsi hunk 1...
+2026-04-30 10:40:48,930 [DEBUG] Prompt for arch/arm64/boot/dts/freescale/imx8mm.dtsi hunk 0
+2026-04-30 10:41:01,932 [INFO]   Resolved arch/arm64/boot/dts/freescale/imx8mm.dtsi hunk 0: confidence=3/10 — NXP's side has pcie0_ep node which doesn't exist in mainline. Mainline's side has gpu_3d, gpu_2d, vp
+2026-04-30 10:41:01,933 [INFO] Resolving drivers/usb/phy/phy-mxs-usb.c hunk 1...
+2026-04-30 10:41:01,967 [DEBUG] Prompt for drivers/usb/phy/phy-mxs-usb.c hunk 0
+2026-04-30 10:41:06,982 [INFO]   Resolved drivers/usb/phy/phy-mxs-usb.c hunk 0: confidence=9/10 — NXP likely already has mxs_phy_is_otg_host defined elsewhere (probably earlier in file without CONFI
+2026-04-30 10:41:07,005 [INFO]   Running verification pass on arch/arm64/boot/dts/freescale/imx8mm.dtsi...
+2026-04-30 10:41:19,196 [INFO]   Verification: verified for arch/arm64/boot/dts/freescale/imx8mm.dtsi
+2026-04-30 10:41:19,724 [INFO] All conflicts resolved. Confidence: min=3, avg=6.0
+2026-04-30 10:41:21,847 [INFO] Build attempt 1/4...
+2026-04-30 10:52:24,184 [INFO] Build succeeded.
+2026-04-30 10:52:25,348 [INFO] Successfully merged v6.1.75 into lf-6.1.y-semtech
+2026-04-30 10:52:27,724 [INFO] Pushed lf-6.1.y-semtech to origin
