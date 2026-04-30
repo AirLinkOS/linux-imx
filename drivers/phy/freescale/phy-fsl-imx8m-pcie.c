@@ -129,16 +129,11 @@ static int imx8_pcie_phy_power_on(struct phy *phy)
 		break;
 	}
 
-	if (pad_mode == IMX8_PCIE_REFCLK_PAD_INPUT ||
-	    pad_mode == IMX8_PCIE_REFCLK_PAD_UNUSED) {
-		/* Configure the pad as input */
-		val = readl(imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG061);
-		writel(val & ~ANA_PLL_CLK_OUT_TO_EXT_IO_EN,
-		       imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG061);
-	} else {
-		/* Configure the PHY to output the refclock via pad */
-		writel(ANA_PLL_CLK_OUT_TO_EXT_IO_EN,
-		       imx8_phy->base + IMX8MM_PCIE_PHY_CMN_REG061);
+	switch (imx8_phy->drvdata->variant) {
+	case IMX8MM:
+		reset_control_deassert(imx8_phy->reset);
+		usleep_range(200, 500);
+		break;
 	}
 
 	if (pad_mode == IMX8_PCIE_REFCLK_PAD_OUTPUT ||
