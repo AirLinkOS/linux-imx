@@ -1,0 +1,18 @@
+2026-04-30 13:29:02,334 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.91_2026-04-30T13-29-02.334264.log
+2026-04-30 13:29:03,565 [INFO] Merge v6.1.91 has 1 conflicted files
+2026-04-30 13:29:03,566 [INFO]   drivers/usb/dwc3/host.c: 2 conflict hunks
+2026-04-30 13:29:03,566 [INFO] Resolving drivers/usb/dwc3/host.c hunk 1...
+2026-04-30 13:29:03,604 [DEBUG] Prompt for drivers/usb/dwc3/host.c hunk 0
+2026-04-30 13:29:06,853 [INFO]   Resolved drivers/usb/dwc3/host.c hunk 0: confidence=9/10 — NXP includes xhci.h for PORT_POWER/HC_LENGTH/HCS_MAX_PORTS macros used in dwc3_power_off_all_roothub
+2026-04-30 13:29:06,853 [INFO] Resolving drivers/usb/dwc3/host.c hunk 2...
+2026-04-30 13:29:06,882 [DEBUG] Prompt for drivers/usb/dwc3/host.c hunk 1
+2026-04-30 13:29:13,016 [INFO]   Resolved drivers/usb/dwc3/host.c hunk 1: confidence=6/10 — NXP added support for passing xhci_priv from platform data. Mainline stable added a quirk via dwc3_x
+2026-04-30 13:29:13,034 [INFO]   Running verification pass on drivers/usb/dwc3/host.c...
+2026-04-30 13:29:17,579 [INFO]   Verification: verified for drivers/usb/dwc3/host.c
+2026-04-30 13:29:18,051 [INFO] All conflicts resolved. Confidence: min=6, avg=7.5
+2026-04-30 13:29:20,346 [INFO] Build attempt 1/4...
+2026-04-30 13:37:56,586 [INFO] Build fix attempt 1: found 2 errors
+2026-04-30 13:38:00,223 [INFO]   AI proposes: patch (confidence: 8)
+2026-04-30 13:38:00,223 [INFO]   Reasoning: The XHCI quirk macros are defined in drivers/usb/host/xhci.h, which is likely not included. Adding the include should resolve both undeclared identifier errors.
+2026-04-30 13:38:00,224 [INFO]   Applied patch to drivers/usb/dwc3/dwc3-imx8mp.c: 1 operation(s)
+2026-04-30 13:41:02,292 [INFO] Build succeeded after fix.

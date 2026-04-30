@@ -1,0 +1,173 @@
+2026-04-30 12:04:32,089 [INFO] Run log file: /home/osaleem/repos/linux-imx/merge-logs/run_20260430_120432.log
+2026-04-30 12:04:32,089 [INFO] Kernel Stable Merge Tool started
+2026-04-30 12:04:32,089 [INFO] Repo: /home/osaleem/repos/linux-imx
+2026-04-30 12:04:32,089 [INFO] Target: v6.1.169
+2026-04-30 12:04:32,089 [INFO] Provider: claude
+2026-04-30 12:04:32,089 [INFO] Interactive: False
+2026-04-30 12:04:32,089 [INFO] Dry run: False
+2026-04-30 12:04:32,089 [INFO] Fetching stable tags...
+2026-04-30 12:04:33,161 [INFO] Using override start version: 6.1.82
+2026-04-30 12:04:33,161 [INFO] 
+============================================================
+Merge step: v6.1.82 -> v6.1.83
+Progress: 1/87
+============================================================
+2026-04-30 12:04:33,161 [INFO] Starting merge: v6.1.83
+2026-04-30 12:04:33,161 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.83_2026-04-30T12-04-33.161608.log
+2026-04-30 12:04:34,770 [INFO] Merge v6.1.83 completed cleanly — no conflicts!
+2026-04-30 12:04:37,516 [INFO] Build attempt 1/4...
+2026-04-30 12:15:46,242 [INFO] Build succeeded.
+2026-04-30 12:15:47,493 [INFO] Merged v6.1.83 into lf-6.1.y-semtech
+2026-04-30 12:15:50,108 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-04-30 12:15:50,109 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.83_2026-04-30T12-04-33.161608.json
+2026-04-30 12:15:50,352 [INFO] Current kernel version: 6.1.83
+2026-04-30 12:15:50,353 [INFO] 
+============================================================
+Merge step: v6.1.83 -> v6.1.84
+Progress: 2/87
+============================================================
+2026-04-30 12:15:50,353 [INFO] Starting merge: v6.1.84
+2026-04-30 12:15:50,353 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.84_2026-04-30T12-15-50.353282.log
+2026-04-30 12:15:51,659 [INFO] Merge v6.1.84 completed cleanly — no conflicts!
+2026-04-30 12:15:54,449 [INFO] Build attempt 1/4...
+2026-04-30 12:27:03,809 [INFO] Build succeeded.
+2026-04-30 12:27:04,931 [INFO] Merged v6.1.84 into lf-6.1.y-semtech
+2026-04-30 12:27:06,838 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-04-30 12:27:06,839 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.84_2026-04-30T12-15-50.353282.json
+2026-04-30 12:27:07,068 [INFO] Current kernel version: 6.1.84
+2026-04-30 12:27:07,068 [INFO] 
+============================================================
+Merge step: v6.1.84 -> v6.1.85
+Progress: 3/87
+============================================================
+2026-04-30 12:27:07,068 [INFO] Starting merge: v6.1.85
+2026-04-30 12:27:07,069 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.85_2026-04-30T12-27-07.069074.log
+2026-04-30 12:27:08,169 [INFO] Merge v6.1.85 completed cleanly — no conflicts!
+2026-04-30 12:27:10,516 [INFO] Build attempt 1/4...
+2026-04-30 12:38:19,505 [INFO] Build succeeded.
+2026-04-30 12:38:20,214 [INFO] Merged v6.1.85 into lf-6.1.y-semtech
+2026-04-30 12:38:22,050 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-04-30 12:38:22,050 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.85_2026-04-30T12-27-07.069074.json
+2026-04-30 12:38:22,230 [INFO] Current kernel version: 6.1.85
+2026-04-30 12:38:22,232 [INFO] 
+============================================================
+Merge step: v6.1.85 -> v6.1.86
+Progress: 4/87
+============================================================
+2026-04-30 12:38:22,232 [INFO] Starting merge: v6.1.86
+2026-04-30 12:38:22,236 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.86_2026-04-30T12-38-22.232549.log
+2026-04-30 12:38:23,265 [INFO] Merge v6.1.86 completed cleanly — no conflicts!
+2026-04-30 12:38:25,695 [INFO] Build attempt 1/4...
+2026-04-30 12:49:35,250 [INFO] Build succeeded.
+2026-04-30 12:49:35,837 [INFO] Merged v6.1.86 into lf-6.1.y-semtech
+2026-04-30 12:49:37,759 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-04-30 12:49:37,760 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.86_2026-04-30T12-38-22.232549.json
+2026-04-30 12:49:37,959 [INFO] Current kernel version: 6.1.86
+2026-04-30 12:49:37,959 [INFO] 
+============================================================
+Merge step: v6.1.86 -> v6.1.87
+Progress: 5/87
+============================================================
+2026-04-30 12:49:37,959 [INFO] Starting merge: v6.1.87
+2026-04-30 12:49:37,960 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.87_2026-04-30T12-49-37.959774.log
+2026-04-30 12:49:38,922 [INFO] Merge v6.1.87 has 1 conflicted files
+2026-04-30 12:49:38,923 [INFO]   arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi: 3 conflict hunks
+2026-04-30 12:49:38,923 [INFO] Resolving arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi hunk 1...
+2026-04-30 12:49:38,932 [DEBUG] Prompt for arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi hunk 0
+2026-04-30 12:49:44,103 [INFO]   Resolved arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi hunk 0: confidence=9/10 — Mainline fix replaces magic numbers with IMX_LPCG_CLK_* macros but keeps same indices (1->CLK_4, 2->
+2026-04-30 12:49:44,103 [INFO] Resolving arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi hunk 2...
+2026-04-30 12:49:44,121 [DEBUG] Prompt for arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi hunk 1
+2026-04-30 12:49:49,038 [INFO]   Resolved arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi hunk 1: confidence=9/10 — Mainline replaces numeric clock indices with IMX_LPCG_CLK_* macros and fixes the order. The values 1
+2026-04-30 12:49:49,039 [INFO] Resolving arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi hunk 3...
+2026-04-30 12:49:49,057 [DEBUG] Prompt for arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi hunk 2
+2026-04-30 12:49:56,757 [INFO]   Resolved arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi hunk 2: confidence=8/10 — Mainline reorders the clock indices (1,2,0 -> 4,5,0) and uses IMX_LPCG_CLK_* macros. This is the act
+2026-04-30 12:49:57,187 [INFO] All conflicts resolved. Confidence: min=8, avg=8.7
+2026-04-30 12:49:59,547 [INFO] Build attempt 1/4...
+2026-04-30 13:01:07,559 [INFO] Build succeeded.
+2026-04-30 13:01:08,124 [INFO] Successfully merged v6.1.87 into lf-6.1.y-semtech
+2026-04-30 13:01:10,080 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-04-30 13:01:10,081 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.87_2026-04-30T12-49-37.959774.json
+2026-04-30 13:01:10,262 [INFO] Current kernel version: 6.1.87
+2026-04-30 13:01:10,262 [INFO] 
+============================================================
+Merge step: v6.1.87 -> v6.1.88
+Progress: 6/87
+============================================================
+2026-04-30 13:01:10,262 [INFO] Starting merge: v6.1.88
+2026-04-30 13:01:10,262 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.88_2026-04-30T13-01-10.262568.log
+2026-04-30 13:01:11,396 [INFO] Merge v6.1.88 completed cleanly — no conflicts!
+2026-04-30 13:01:13,811 [INFO] Build attempt 1/4...
+2026-04-30 13:12:22,636 [INFO] Build succeeded.
+2026-04-30 13:12:23,367 [INFO] Merged v6.1.88 into lf-6.1.y-semtech
+2026-04-30 13:12:25,485 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-04-30 13:12:25,486 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.88_2026-04-30T13-01-10.262568.json
+2026-04-30 13:12:25,697 [INFO] Current kernel version: 6.1.88
+2026-04-30 13:12:25,697 [INFO] 
+============================================================
+Merge step: v6.1.88 -> v6.1.89
+Progress: 7/87
+============================================================
+2026-04-30 13:12:25,698 [INFO] Starting merge: v6.1.89
+2026-04-30 13:12:25,698 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.89_2026-04-30T13-12-25.698146.log
+2026-04-30 13:12:26,545 [INFO] Merge v6.1.89 completed cleanly — no conflicts!
+2026-04-30 13:12:29,062 [INFO] Build attempt 1/4...
+2026-04-30 13:16:37,785 [INFO] Build succeeded.
+2026-04-30 13:16:38,141 [INFO] Merged v6.1.89 into lf-6.1.y-semtech
+2026-04-30 13:16:39,891 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-04-30 13:16:39,892 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.89_2026-04-30T13-12-25.698146.json
+2026-04-30 13:16:40,076 [INFO] Current kernel version: 6.1.89
+2026-04-30 13:16:40,076 [INFO] 
+============================================================
+Merge step: v6.1.89 -> v6.1.90
+Progress: 8/87
+============================================================
+2026-04-30 13:16:40,077 [INFO] Starting merge: v6.1.90
+2026-04-30 13:16:40,077 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.90_2026-04-30T13-16-40.077227.log
+2026-04-30 13:16:41,060 [INFO] Merge v6.1.90 has 1 conflicted files
+2026-04-30 13:16:41,061 [INFO]   drivers/phy/freescale/phy-fsl-imx8m-pcie.c: 5 conflict hunks
+2026-04-30 13:16:41,061 [INFO] Resolving drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 1...
+2026-04-30 13:16:41,074 [DEBUG] Prompt for drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 0
+2026-04-30 13:16:58,165 [INFO]   Resolved drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 0: confidence=8/10 — OUR side (NXP) adds IMX8MP-specific PHY register definitions and an IMX8MP enum variant plus a switc
+2026-04-30 13:16:58,165 [INFO] Resolving drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 2...
+2026-04-30 13:16:58,187 [DEBUG] Prompt for drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 1
+2026-04-30 13:17:09,315 [INFO]   Resolved drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 1: confidence=8/10 — Hunk 1 keeps NXP's IMX8MP definitions and IMX8MP enum entry. Hunk 2: NXP adds reset_control_assert a
+2026-04-30 13:17:09,318 [INFO] Resolving drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 3...
+2026-04-30 13:17:09,339 [DEBUG] Prompt for drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 2
+2026-04-30 13:17:40,572 [INFO]   Resolved drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 2: confidence=8/10 — Hunk 3: NXP has extensive IMX8MP support (perst reset, PHY tuning, AUX_PLL_REFCLK_SEL_SYS_PLL handli
+2026-04-30 13:17:40,573 [INFO] Resolving drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 4...
+2026-04-30 13:17:40,595 [DEBUG] Prompt for drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 3
+2026-04-30 13:17:45,160 [INFO]   Resolved drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 3: confidence=9/10 — NXP adds imx8mp_drvdata and a corresponding of_match entry. Mainline stable only has the imx8mm entr
+2026-04-30 13:17:45,161 [INFO] Resolving drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 5...
+2026-04-30 13:17:45,183 [DEBUG] Prompt for drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 4
+2026-04-30 13:17:52,021 [INFO]   Resolved drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 4: confidence=9/10 — Two conflicts here. First: mainline removed the switch statement that does reset deassert (likely re
+2026-04-30 13:17:52,456 [INFO] All conflicts resolved. Confidence: min=8, avg=8.4
+2026-04-30 13:17:54,809 [INFO] Build attempt 1/4...
+2026-04-30 13:28:59,546 [INFO] Build succeeded.
+2026-04-30 13:29:00,145 [INFO] Successfully merged v6.1.90 into lf-6.1.y-semtech
+2026-04-30 13:29:02,147 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-04-30 13:29:02,148 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.90_2026-04-30T13-16-40.077227.json
+2026-04-30 13:29:02,333 [INFO] Current kernel version: 6.1.90
+2026-04-30 13:29:02,334 [INFO] 
+============================================================
+Merge step: v6.1.90 -> v6.1.91
+Progress: 9/87
+============================================================
+2026-04-30 13:29:02,334 [INFO] Starting merge: v6.1.91
+2026-04-30 13:29:02,334 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.91_2026-04-30T13-29-02.334264.log
+2026-04-30 13:29:03,565 [INFO] Merge v6.1.91 has 1 conflicted files
+2026-04-30 13:29:03,566 [INFO]   drivers/usb/dwc3/host.c: 2 conflict hunks
+2026-04-30 13:29:03,566 [INFO] Resolving drivers/usb/dwc3/host.c hunk 1...
+2026-04-30 13:29:03,604 [DEBUG] Prompt for drivers/usb/dwc3/host.c hunk 0
+2026-04-30 13:29:06,853 [INFO]   Resolved drivers/usb/dwc3/host.c hunk 0: confidence=9/10 — NXP includes xhci.h for PORT_POWER/HC_LENGTH/HCS_MAX_PORTS macros used in dwc3_power_off_all_roothub
+2026-04-30 13:29:06,853 [INFO] Resolving drivers/usb/dwc3/host.c hunk 2...
+2026-04-30 13:29:06,882 [DEBUG] Prompt for drivers/usb/dwc3/host.c hunk 1
+2026-04-30 13:29:13,016 [INFO]   Resolved drivers/usb/dwc3/host.c hunk 1: confidence=6/10 — NXP added support for passing xhci_priv from platform data. Mainline stable added a quirk via dwc3_x
+2026-04-30 13:29:13,034 [INFO]   Running verification pass on drivers/usb/dwc3/host.c...
+2026-04-30 13:29:17,579 [INFO]   Verification: verified for drivers/usb/dwc3/host.c
+2026-04-30 13:29:18,051 [INFO] All conflicts resolved. Confidence: min=6, avg=7.5
+2026-04-30 13:29:20,346 [INFO] Build attempt 1/4...
+2026-04-30 13:37:56,586 [INFO] Build fix attempt 1: found 2 errors
+2026-04-30 13:38:00,223 [INFO]   AI proposes: patch (confidence: 8)
+2026-04-30 13:38:00,223 [INFO]   Reasoning: The XHCI quirk macros are defined in drivers/usb/host/xhci.h, which is likely not included. Adding the include should resolve both undeclared identifier errors.
+2026-04-30 13:38:00,224 [INFO]   Applied patch to drivers/usb/dwc3/dwc3-imx8mp.c: 1 operation(s)
+2026-04-30 13:41:02,292 [INFO] Build succeeded after fix.

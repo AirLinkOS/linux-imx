@@ -1,0 +1,54 @@
+{
+  "version": "6.1.87",
+  "timestamp": "2026-04-30T12:49:37.959774",
+  "conflicts_total": 3,
+  "conflicts_resolved": 3,
+  "build_success": true,
+  "merged_to_main": true,
+  "error": null,
+  "build_fix_attempts": [],
+  "resolutions": [
+    {
+      "file": "arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi",
+      "hunk_index": 0,
+      "confidence": 9,
+      "reasoning": "Mainline fix replaces magic numbers with IMX_LPCG_CLK_* macros but keeps same indices (1->CLK_4, 2->CLK_5, 0->CLK_0). This is a readability/correctness fix using named constants. NXP side has no functional difference, just uses raw numbers. Take mainline's version for better readability and to match the upstream fix.",
+      "ours": "\t\tclocks = <&sdhc0_lpcg 1>,\n\t\t\t <&sdhc0_lpcg 2>,\n\t\t\t <&sdhc0_lpcg 0>;\n",
+      "theirs": "\t\tclocks = <&sdhc0_lpcg IMX_LPCG_CLK_4>,\n\t\t\t <&sdhc0_lpcg IMX_LPCG_CLK_5>,\n\t\t\t <&sdhc0_lpcg IMX_LPCG_CLK_0>;\n",
+      "resolved_code": "\t\tclocks = <&sdhc0_lpcg IMX_LPCG_CLK_4>,\n\t\t\t <&sdhc0_lpcg IMX_LPCG_CLK_5>,\n\t\t\t <&sdhc0_lpcg IMX_LPCG_CLK_0>;\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"Mainline fix replaces magic numbers with IMX_LPCG_CLK_* macros but keeps same indices (1->CLK_4, 2->CLK_5, 0->CLK_0). This is a readability/correctness fix using named constants. NXP side has no functional difference, just uses raw numbers. Take mainline's version for better readability and to match the upstream fix.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\\t\\tclocks = <&sdhc0_lpcg IMX_LPCG_CLK_4>,\\n\\t\\t\\t <&sdhc0_lpcg IMX_LPCG_CLK_5>,\\n\\t\\t\\t <&sdhc0_lpcg IMX_LPCG_CLK_0>;\\n\"\n}",
+      "start_line": 77,
+      "end_line": 85,
+      "verification": null,
+      "superseded_attempts": []
+    },
+    {
+      "file": "arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi",
+      "hunk_index": 1,
+      "confidence": 9,
+      "reasoning": "Mainline replaces numeric clock indices with IMX_LPCG_CLK_* macros and fixes the order. The values 1,2,0 map to IMX_LPCG_CLK_4, IMX_LPCG_CLK_5, IMX_LPCG_CLK_0 (the fix). Take mainline version for both hunks.",
+      "ours": "\t\tclocks = <&sdhc1_lpcg 1>,\n\t\t\t <&sdhc1_lpcg 2>,\n\t\t\t <&sdhc1_lpcg 0>;\n",
+      "theirs": "\t\tclocks = <&sdhc1_lpcg IMX_LPCG_CLK_4>,\n\t\t\t <&sdhc1_lpcg IMX_LPCG_CLK_5>,\n\t\t\t <&sdhc1_lpcg IMX_LPCG_CLK_0>;\n",
+      "resolved_code": "\t\tclocks = <&sdhc1_lpcg IMX_LPCG_CLK_4>,\n\t\t\t <&sdhc1_lpcg IMX_LPCG_CLK_5>,\n\t\t\t <&sdhc1_lpcg IMX_LPCG_CLK_0>;\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"Mainline replaces numeric clock indices with IMX_LPCG_CLK_* macros and fixes the order. The values 1,2,0 map to IMX_LPCG_CLK_4, IMX_LPCG_CLK_5, IMX_LPCG_CLK_0 (the fix). Take mainline version for both hunks.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\\t\\tclocks = <&sdhc1_lpcg IMX_LPCG_CLK_4>,\\n\\t\\t\\t <&sdhc1_lpcg IMX_LPCG_CLK_5>,\\n\\t\\t\\t <&sdhc1_lpcg IMX_LPCG_CLK_0>;\\n\"\n}",
+      "start_line": 98,
+      "end_line": 106,
+      "verification": null,
+      "superseded_attempts": []
+    },
+    {
+      "file": "arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi",
+      "hunk_index": 2,
+      "confidence": 8,
+      "reasoning": "Mainline reorders the clock indices (1,2,0 -> 4,5,0) and uses IMX_LPCG_CLK_* macros. This is the actual fix from commit 24c0c5867ad2. NXP's version uses old numeric indices in the original (incorrect) order. The mainline fix should be applied, but NXP vendor kernel may not have the IMX_LPCG_CLK_* macros included. However, since this conflict pattern appears for usdhc1 and usdhc2 with the same mainline change accepted (we only need to resolve hunk 3), we apply the same fix consistently using mainline's version.",
+      "ours": "\t\tclocks = <&sdhc2_lpcg 1>,\n\t\t\t <&sdhc2_lpcg 2>,\n\t\t\t <&sdhc2_lpcg 0>;\n",
+      "theirs": "\t\tclocks = <&sdhc2_lpcg IMX_LPCG_CLK_4>,\n\t\t\t <&sdhc2_lpcg IMX_LPCG_CLK_5>,\n\t\t\t <&sdhc2_lpcg IMX_LPCG_CLK_0>;\n",
+      "resolved_code": "\t\tclocks = <&sdhc2_lpcg IMX_LPCG_CLK_4>,\n\t\t\t <&sdhc2_lpcg IMX_LPCG_CLK_5>,\n\t\t\t <&sdhc2_lpcg IMX_LPCG_CLK_0>;\n",
+      "api_response_raw": "{\n  \"confidence\": 8,\n  \"reasoning\": \"Mainline reorders the clock indices (1,2,0 -> 4,5,0) and uses IMX_LPCG_CLK_* macros. This is the actual fix from commit 24c0c5867ad2. NXP's version uses old numeric indices in the original (incorrect) order. The mainline fix should be applied, but NXP vendor kernel may not have the IMX_LPCG_CLK_* macros included. However, since this conflict pattern appears for usdhc1 and usdhc2 with the same mainline change accepted (we only need to resolve hunk 3), we apply the same fix consistently using mainline's version.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\\t\\tclocks = <&sdhc2_lpcg IMX_LPCG_CLK_4>,\\n\\t\\t\\t <&sdhc2_lpcg IMX_LPCG_CLK_5>,\\n\\t\\t\\t <&sdhc2_lpcg IMX_LPCG_CLK_0>;\\n\"\n}",
+      "start_line": 119,
+      "end_line": 127,
+      "verification": null,
+      "superseded_attempts": []
+    }
+  ]
+}

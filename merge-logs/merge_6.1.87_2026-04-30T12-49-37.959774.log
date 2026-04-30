@@ -1,0 +1,17 @@
+2026-04-30 12:49:37,960 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.87_2026-04-30T12-49-37.959774.log
+2026-04-30 12:49:38,922 [INFO] Merge v6.1.87 has 1 conflicted files
+2026-04-30 12:49:38,923 [INFO]   arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi: 3 conflict hunks
+2026-04-30 12:49:38,923 [INFO] Resolving arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi hunk 1...
+2026-04-30 12:49:38,932 [DEBUG] Prompt for arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi hunk 0
+2026-04-30 12:49:44,103 [INFO]   Resolved arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi hunk 0: confidence=9/10 — Mainline fix replaces magic numbers with IMX_LPCG_CLK_* macros but keeps same indices (1->CLK_4, 2->
+2026-04-30 12:49:44,103 [INFO] Resolving arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi hunk 2...
+2026-04-30 12:49:44,121 [DEBUG] Prompt for arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi hunk 1
+2026-04-30 12:49:49,038 [INFO]   Resolved arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi hunk 1: confidence=9/10 — Mainline replaces numeric clock indices with IMX_LPCG_CLK_* macros and fixes the order. The values 1
+2026-04-30 12:49:49,039 [INFO] Resolving arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi hunk 3...
+2026-04-30 12:49:49,057 [DEBUG] Prompt for arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi hunk 2
+2026-04-30 12:49:56,757 [INFO]   Resolved arch/arm64/boot/dts/freescale/imx8-ss-conn.dtsi hunk 2: confidence=8/10 — Mainline reorders the clock indices (1,2,0 -> 4,5,0) and uses IMX_LPCG_CLK_* macros. This is the act
+2026-04-30 12:49:57,187 [INFO] All conflicts resolved. Confidence: min=8, avg=8.7
+2026-04-30 12:49:59,547 [INFO] Build attempt 1/4...
+2026-04-30 13:01:07,559 [INFO] Build succeeded.
+2026-04-30 13:01:08,124 [INFO] Successfully merged v6.1.87 into lf-6.1.y-semtech
+2026-04-30 13:01:10,080 [INFO] Pushed lf-6.1.y-semtech to origin

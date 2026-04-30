@@ -1,0 +1,23 @@
+2026-04-30 13:16:40,077 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.90_2026-04-30T13-16-40.077227.log
+2026-04-30 13:16:41,060 [INFO] Merge v6.1.90 has 1 conflicted files
+2026-04-30 13:16:41,061 [INFO]   drivers/phy/freescale/phy-fsl-imx8m-pcie.c: 5 conflict hunks
+2026-04-30 13:16:41,061 [INFO] Resolving drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 1...
+2026-04-30 13:16:41,074 [DEBUG] Prompt for drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 0
+2026-04-30 13:16:58,165 [INFO]   Resolved drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 0: confidence=8/10 — OUR side (NXP) adds IMX8MP-specific PHY register definitions and an IMX8MP enum variant plus a switc
+2026-04-30 13:16:58,165 [INFO] Resolving drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 2...
+2026-04-30 13:16:58,187 [DEBUG] Prompt for drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 1
+2026-04-30 13:17:09,315 [INFO]   Resolved drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 1: confidence=8/10 — Hunk 1 keeps NXP's IMX8MP definitions and IMX8MP enum entry. Hunk 2: NXP adds reset_control_assert a
+2026-04-30 13:17:09,318 [INFO] Resolving drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 3...
+2026-04-30 13:17:09,339 [DEBUG] Prompt for drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 2
+2026-04-30 13:17:40,572 [INFO]   Resolved drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 2: confidence=8/10 — Hunk 3: NXP has extensive IMX8MP support (perst reset, PHY tuning, AUX_PLL_REFCLK_SEL_SYS_PLL handli
+2026-04-30 13:17:40,573 [INFO] Resolving drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 4...
+2026-04-30 13:17:40,595 [DEBUG] Prompt for drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 3
+2026-04-30 13:17:45,160 [INFO]   Resolved drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 3: confidence=9/10 — NXP adds imx8mp_drvdata and a corresponding of_match entry. Mainline stable only has the imx8mm entr
+2026-04-30 13:17:45,161 [INFO] Resolving drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 5...
+2026-04-30 13:17:45,183 [DEBUG] Prompt for drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 4
+2026-04-30 13:17:52,021 [INFO]   Resolved drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 4: confidence=9/10 — Two conflicts here. First: mainline removed the switch statement that does reset deassert (likely re
+2026-04-30 13:17:52,456 [INFO] All conflicts resolved. Confidence: min=8, avg=8.4
+2026-04-30 13:17:54,809 [INFO] Build attempt 1/4...
+2026-04-30 13:28:59,546 [INFO] Build succeeded.
+2026-04-30 13:29:00,145 [INFO] Successfully merged v6.1.90 into lf-6.1.y-semtech
+2026-04-30 13:29:02,147 [INFO] Pushed lf-6.1.y-semtech to origin
