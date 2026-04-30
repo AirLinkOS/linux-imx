@@ -1,0 +1,143 @@
+{
+  "version": "6.1.59",
+  "timestamp": "2026-04-29T17:06:25.959697",
+  "conflicts_total": 9,
+  "conflicts_resolved": 9,
+  "build_success": true,
+  "merged_to_main": true,
+  "error": null,
+  "build_fix_attempts": [
+    {
+      "attempt": 1,
+      "errors_before": 2,
+      "action": "revert",
+      "fix": {
+        "action": "revert",
+        "confidence": 9,
+        "reasoning": "The file has multiple unrelated errors: a missing macro (FSL_SAI_CSR_BCE) and a stray of_device_id table entry inserted in the middle of fsl_sai_runtime_resume() function body. This indicates the merge mangled the file structure significantly, with code from different sections incorrectly mixed. Reverting is safer than trying to surgically reconstruct what the correct merge should look like.",
+        "files": [
+          "sound/soc/fsl/fsl_sai.c"
+        ]
+      }
+    }
+  ],
+  "resolutions": [
+    {
+      "file": "drivers/phy/freescale/phy-fsl-lynx-28g.c",
+      "hunk_index": 0,
+      "confidence": 9,
+      "reasoning": "NXP uses a different lane mode enum system (lane_mode) while mainline uses phy_interface_t submode directly. The NXP code is a more comprehensive refactor. Keep NXP's version. The second conflict is just a comment change - keep NXP's comment.",
+      "ours": "\tswitch (lane_mode) {\n\tcase LANE_MODE_1000BASEX_SGMII:\n\tcase LANE_MODE_1000BASEKX:\n\t\tlynx_28g_lane_set_1g(lane, lane_mode);\n",
+      "theirs": "\tswitch (submode) {\n\tcase PHY_INTERFACE_MODE_SGMII:\n\tcase PHY_INTERFACE_MODE_1000BASEX:\n\t\tlynx_28g_lane_set_sgmii(lane);\n",
+      "resolved_code": "\tswitch (lane_mode) {\n\tcase LANE_MODE_1000BASEX_SGMII:\n\tcase LANE_MODE_1000BASEKX:\n\t\tlynx_28g_lane_set_1g(lane, lane_mode);\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"NXP uses a different lane mode enum system (lane_mode) while mainline uses phy_interface_t submode directly. The NXP code is a more comprehensive refactor. Keep NXP's version. The second conflict is just a comment change - keep NXP's comment.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\\tswitch (lane_mode) {\\n\\tcase LANE_MODE_1000BASEX_SGMII:\\n\\tcase LANE_MODE_1000BASEKX:\\n\\t\\tlynx_28g_lane_set_1g(lane, lane_mode);\\n\"\n}",
+      "start_line": 965,
+      "end_line": 975,
+      "verification": null
+    },
+    {
+      "file": "drivers/phy/freescale/phy-fsl-lynx-28g.c",
+      "hunk_index": 1,
+      "confidence": 9,
+      "reasoning": "Hunk 2 is just a comment difference. NXP's version says 'Reset the lane if necessary' which matches the following code that calls lynx_28g_lane_reset(). Mainline says 'Power up the lane if necessary' but the actual code calls reset, not power_on. NXP's comment is more accurate to the code that follows, so keep NXP's version.",
+      "ours": "\t/* Reset the lane if necessary */\n",
+      "theirs": "\t/* Power up the lane if necessary */\n",
+      "resolved_code": "\t/* Reset the lane if necessary */\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"Hunk 2 is just a comment difference. NXP's version says 'Reset the lane if necessary' which matches the following code that calls lynx_28g_lane_reset(). Mainline says 'Power up the lane if necessary' but the actual code calls reset, not power_on. NXP's comment is more accurate to the code that follows, so keep NXP's version.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\\t/* Reset the lane if necessary */\\n\"\n}",
+      "start_line": 1003,
+      "end_line": 1007,
+      "verification": null
+    },
+    {
+      "file": "drivers/phy/freescale/phy-fsl-lynx-28g.c",
+      "hunk_index": 2,
+      "confidence": 8,
+      "reasoning": "Hunk 3: NXP refactored the CDR lock check into a helper function `lynx_28g_cdr_lock_check(lane)`. Mainline stable inlines the same logic. NXP's version already addresses the same functionality with locking handled by the surrounding mutex_lock (which matches the stable fix e173d9a2e548). Keep NXP's helper call. For the second conflict (work function name), NXP renamed it to `lynx_28g_cdr_lock_check_work` since `lynx_28g_cdr_lock_check` is now the per-lane helper. Keep NXP's name.",
+      "ours": "\t\t}\n\n\t\tlynx_28g_cdr_lock_check(lane);\n\n",
+      "theirs": "\t\t}\n\n\t\trrstctl = lynx_28g_lane_read(lane, LNaRRSTCTL);\n\t\tif (!(rrstctl & LYNX_28G_LNaRRSTCTL_CDR_LOCK)) {\n\t\t\tlynx_28g_lane_rmw(lane, LNaRRSTCTL, RST_REQ, RST_REQ);\n\t\t\tdo {\n\t\t\t\trrstctl = lynx_28g_lane_read(lane, LNaRRSTCTL);\n\t\t\t} while (!(rrstctl & LYNX_28G_LNaRRSTCTL_RST_DONE));\n\t\t}\n\n",
+      "resolved_code": "\t\t}\n\n\t\tlynx_28g_cdr_lock_check(lane);\n\n",
+      "api_response_raw": "{\n  \"confidence\": 8,\n  \"reasoning\": \"Hunk 3: NXP refactored the CDR lock check into a helper function `lynx_28g_cdr_lock_check(lane)`. Mainline stable inlines the same logic. NXP's version already addresses the same functionality with locking handled by the surrounding mutex_lock (which matches the stable fix e173d9a2e548). Keep NXP's helper call. For the second conflict (work function name), NXP renamed it to `lynx_28g_cdr_lock_check_work` since `lynx_28g_cdr_lock_check` is now the per-lane helper. Keep NXP's name.\",\n  \"brace_check\": \"0 open, 1 close\",\n  \"resolved_code\": \"\\t\\t}\\n\\n\\t\\tlynx_28g_cdr_lock_check(lane);\\n\\n\"\n}",
+      "start_line": 1438,
+      "end_line": 1454,
+      "verification": null
+    },
+    {
+      "file": "drivers/phy/freescale/phy-fsl-lynx-28g.c",
+      "hunk_index": 3,
+      "confidence": 9,
+      "reasoning": "NXP renamed the function to lynx_28g_cdr_lock_check_work while mainline kept it as lynx_28g_cdr_lock_check. Since the surrounding context shows NXP already has cancel_delayed_work_sync and other infrastructure, and the function name is an NXP vendor naming choice, keep NXP's version.",
+      "ours": "\tINIT_DELAYED_WORK(&priv->cdr_check, lynx_28g_cdr_lock_check_work);\n",
+      "theirs": "\tINIT_DELAYED_WORK(&priv->cdr_check, lynx_28g_cdr_lock_check);\n",
+      "resolved_code": "\tINIT_DELAYED_WORK(&priv->cdr_check, lynx_28g_cdr_lock_check_work);\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"NXP renamed the function to lynx_28g_cdr_lock_check_work while mainline kept it as lynx_28g_cdr_lock_check. Since the surrounding context shows NXP already has cancel_delayed_work_sync and other infrastructure, and the function name is an NXP vendor naming choice, keep NXP's version.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\\tINIT_DELAYED_WORK(&priv->cdr_check, lynx_28g_cdr_lock_check_work);\\n\"\n}",
+      "start_line": 1544,
+      "end_line": 1548,
+      "verification": null
+    },
+    {
+      "file": "sound/soc/fsl/fsl_sai.c",
+      "hunk_index": 0,
+      "confidence": 8,
+      "reasoning": "NXP side only clears TERE; mainline stable clears both TERE and BCE (conditionally based on mclk_with_tere). The mask variable is already defined in the context before the conflict on both sides. Taking mainline's version which uses the mask variable - this is the stable fix for 'Don't disable bitclock for i.MX8MP'.",
+      "ours": "\t\t\t   FSL_SAI_CSR_TERE, 0);\n",
+      "theirs": "\t\t\t   mask, 0);\n",
+      "resolved_code": "\t\t\t   mask, 0);\n",
+      "api_response_raw": "{\n  \"confidence\": 8,\n  \"reasoning\": \"NXP side only clears TERE; mainline stable clears both TERE and BCE (conditionally based on mclk_with_tere). The mask variable is already defined in the context before the conflict on both sides. Taking mainline's version which uses the mask variable - this is the stable fix for 'Don't disable bitclock for i.MX8MP'.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\\t\\t\\t   mask, 0);\\n\"\n}",
+      "start_line": 730,
+      "end_line": 734,
+      "verification": null
+    },
+    {
+      "file": "sound/soc/fsl/fsl_sai.c",
+      "hunk_index": 1,
+      "confidence": 9,
+      "reasoning": "Mainline stable converted of_find_property to of_property_read_bool for boolean properties. This is a simple cleanup with identical semantics. Taking the mainline version.",
+      "ours": "\tif (of_find_property(np, \"fsl,sai-mclk-direction-output\", NULL))\n\t\tsai->mclk_direction_output = true;\n",
+      "theirs": "\tsai->mclk_direction_output = of_property_read_bool(np, \"fsl,sai-mclk-direction-output\");\n",
+      "resolved_code": "\tsai->mclk_direction_output = of_property_read_bool(np, \"fsl,sai-mclk-direction-output\");\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"Mainline stable converted of_find_property to of_property_read_bool for boolean properties. This is a simple cleanup with identical semantics. Taking the mainline version.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\\tsai->mclk_direction_output = of_property_read_bool(np, \\\"fsl,sai-mclk-direction-output\\\");\\n\"\n}",
+      "start_line": 1456,
+      "end_line": 1461,
+      "verification": null
+    },
+    {
+      "file": "sound/soc/fsl/fsl_sai.c",
+      "hunk_index": 2,
+      "confidence": 9,
+      "reasoning": "NXP adds an imx93 device id entry. Mainline side is empty here. Keep NXP's addition.",
+      "ours": "\t{ .compatible = \"fsl,imx93-sai\", .data = &fsl_sai_imx93_data },\n",
+      "theirs": "",
+      "resolved_code": "\t{ .compatible = \"fsl,imx93-sai\", .data = &fsl_sai_imx93_data },\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"NXP adds an imx93 device id entry. Mainline side is empty here. Keep NXP's addition.\",\n  \"brace_check\": \"1 open, 1 close\",\n  \"resolved_code\": \"\\t{ .compatible = \\\"fsl,imx93-sai\\\", .data = &fsl_sai_imx93_data },\\n\"\n}",
+      "start_line": 1712,
+      "end_line": 1715,
+      "verification": null
+    },
+    {
+      "file": "sound/soc/fsl/fsl_sai.c",
+      "hunk_index": 3,
+      "confidence": 10,
+      "reasoning": "NXP added imx93-sai compatible entry; mainline side is empty. Keep NXP's addition.",
+      "ours": "",
+      "theirs": "\n",
+      "resolved_code": "\t{ .compatible = \"fsl,imx93-sai\", .data = &fsl_sai_imx93_data },",
+      "api_response_raw": "{\n  \"confidence\": 10,\n  \"reasoning\": \"NXP added imx93-sai compatible entry; mainline side is empty. Keep NXP's addition.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\\t{ .compatible = \\\"fsl,imx93-sai\\\", .data = &fsl_sai_imx93_data },\"\n}",
+      "start_line": 1786,
+      "end_line": 1789,
+      "verification": null
+    },
+    {
+      "file": "sound/soc/fsl/fsl_sai.h",
+      "hunk_index": 0,
+      "confidence": 9,
+      "reasoning": "NXP adds extra fields (monitor_spdif, monitor_spdif_start, gpr_idx, masterflag) alongside mclk_direction_output. Both sides have mclk_direction_output. Keep NXP's version which is a superset.",
+      "ours": "\tbool monitor_spdif;\n\tbool monitor_spdif_start;\n\tbool mclk_direction_output;\n\n\tint gpr_idx;\n\n\tunsigned int masterflag[2];\n",
+      "theirs": "\tbool mclk_direction_output;\n",
+      "resolved_code": "\tbool monitor_spdif;\n\tbool monitor_spdif_start;\n\tbool mclk_direction_output;\n\n\tint gpr_idx;\n\n\tunsigned int masterflag[2];\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"NXP adds extra fields (monitor_spdif, monitor_spdif_start, gpr_idx, masterflag) alongside mclk_direction_output. Both sides have mclk_direction_output. Keep NXP's version which is a superset.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\\tbool monitor_spdif;\\n\\tbool monitor_spdif_start;\\n\\tbool mclk_direction_output;\\n\\n\\tint gpr_idx;\\n\\n\\tunsigned int masterflag[2];\\n\"\n}",
+      "start_line": 296,
+      "end_line": 306,
+      "verification": null
+    }
+  ]
+}

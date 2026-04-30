@@ -1,0 +1,61 @@
+{
+  "version": "6.1.64",
+  "timestamp": "2026-04-29T18:03:19.436292",
+  "conflicts_total": 3,
+  "conflicts_resolved": 3,
+  "build_success": true,
+  "merged_to_main": true,
+  "error": null,
+  "build_fix_attempts": [],
+  "resolutions": [
+    {
+      "file": "arch/arm64/boot/dts/freescale/fsl-ls208xa.dtsi",
+      "hunk_index": 0,
+      "confidence": 4,
+      "reasoning": "Mainline wraps usb nodes in a 'bus' simple-bus container to constrain DMA size. NXP keeps the usb nodes flat with vendor-specific compatible 'fsl,ls2088a-dwc3' and additional 'snps,host-vbus-glitches' property. The mainline fix adds a dma-ranges constraint for USB DMA. To preserve NXP additions while applying the stable fix, I'll wrap NXP's usb nodes in the bus container. However, this requires changing indentation and the closing structure - the context_after shows '};' followed by 'ccn@4000000' which is at the soc level, meaning the bus container needs an extra closing brace. Looking at context_after carefully: '};' then 'ccn@4000000 {' - the '};' closes usb1, then ccn is a sibling. If I add a bus wrapper, I need to close it before ccn. Since the conflict only covers usb0 and usb1 (ending mid-usb1 before the closing brace shown in context_after), I cannot easily add the bus wrapper without restructuring beyond the conflict. Safest is to keep NXP's version (the host-vbus-glitches and fsl,ls2088a-dwc3 are vendor-critical) and skip the mainline DMA constraint fix, as restructuring would require modifications beyond the conflict region.",
+      "ours": "\t\tusb0: usb@3100000 {\n\t\t\tstatus = \"disabled\";\n\t\t\tcompatible = \"fsl,ls2088a-dwc3\", \"snps,dwc3\";\n\t\t\treg = <0x0 0x3100000 0x0 0x10000>;\n\t\t\tinterrupts = <0 80 0x4>; /* Level high type */\n\t\t\tdr_mode = \"host\";\n\t\t\tsnps,quirk-frame-length-adjustment = <0x20>;\n\t\t\tsnps,dis_rxdet_inp3_quirk;\n\t\t\tsnps,incr-burst-type-adjustment = <1>, <4>, <8>, <16>;\n\t\t\tsnps,host-vbus-glitches;\n\t\t};\n\n\t\tusb1: usb@3110000 {\n\t\t\tstatus = \"disabled\";\n\t\t\tcompatible = \"fsl,ls2088a-dwc3\", \"snps,dwc3\";\n\t\t\treg = <0x0 0x3110000 0x0 0x1",
+      "theirs": "\t\tbus: bus {\n\t\t\t#address-cells = <2>;\n\t\t\t#size-cells = <2>;\n\t\t\tcompatible = \"simple-bus\";\n\t\t\tranges;\n\t\t\tdma-ranges = <0x0 0x0 0x0 0x0 0x100 0x00000000>;\n\n\t\t\tusb0: usb@3100000 {\n\t\t\t\tcompatible = \"snps,dwc3\";\n\t\t\t\treg = <0x0 0x3100000 0x0 0x10000>;\n\t\t\t\tinterrupts = <0 80 0x4>; /* Level high type */\n\t\t\t\tdr_mode = \"host\";\n\t\t\t\tsnps,quirk-frame-length-adjustment = <0x20>;\n\t\t\t\tsnps,dis_rxdet_inp3_quirk;\n\t\t\t\tsnps,incr-burst-type-adjustment = <1>, <4>, <8>, <16>;\n\t\t\t\tstatus = \"disabled\";\n\t\t\t};\n\n\t\t\tusb1: u",
+      "resolved_code": "\t\tusb0: usb@3100000 {\n\t\t\tstatus = \"disabled\";\n\t\t\tcompatible = \"fsl,ls2088a-dwc3\", \"snps,dwc3\";\n\t\t\treg = <0x0 0x3100000 0x0 0x10000>;\n\t\t\tinterrupts = <0 80 0x4>; /* Level high type */\n\t\t\tdr_mode = \"host\";\n\t\t\tsnps,quirk-frame-length-adjustment = <0x20>;\n\t\t\tsnps,dis_rxdet_inp3_quirk;\n\t\t\tsnps,incr-burst-type-adjustment = <1>, <4>, <8>, <16>;\n\t\t\tsnps,host-vbus-glitches;\n\t\t};\n\n\t\tusb1: usb@3110000 {\n\t\t\tstatus = \"disabled\";\n\t\t\tcompatible = \"fsl,ls2088a-dwc3\", \"snps,dwc3\";\n\t\t\treg = <0x0 0x3110000 0x0 0x1",
+      "api_response_raw": "{\n  \"confidence\": 4,\n  \"reasoning\": \"Mainline wraps usb nodes in a 'bus' simple-bus container to constrain DMA size. NXP keeps the usb nodes flat with vendor-specific compatible 'fsl,ls2088a-dwc3' and additional 'snps,host-vbus-glitches' property. The mainline fix adds a dma-ranges constraint for USB DMA. To preserve NXP additions while applying the stable fix, I'll wrap NXP's usb nodes in the bus container. However, this requires changing indentation and the closing structure - the context_after shows '};' followed by 'ccn@4000000' which is at the soc level, meaning the bus container needs an extra closing brace. Looking at context_after carefully: '};' then 'ccn@4000000 {' - the '};' closes usb1, then ccn is a sibling. If I add a bus wrapper, I need to close it before ccn. Since the conflict only covers usb0 and usb1 (ending mid-usb1 before the closing brace shown in context_after), I cannot easily add the bus wrapper without restructuring beyond the conflict. Safest is to keep NXP's",
+      "start_line": 1192,
+      "end_line": 1244,
+      "verification": {
+        "verdict": "concerns",
+        "summary": "Merge preserves NXP USB additions but skips mainline's bus wrapper that constrains USB DMA addressing",
+        "mainline_intent": "v6.1.64 wraps usb0/usb1 in a 'bus' simple-bus child of soc with dma-ranges = <0x0 0x0 0x0 0x0 0x100 0x00000000>, constraining USB DMA addressable range (fix for DMA addressing issues on dwc3 USB).",
+        "concerns": [
+          "The mainline DMA-range constraint fix (bus wrapper with dma-ranges 0x100 limit) was intentionally dropped. The resolver acknowledged this. USB on these SoCs may exhibit the DMA addressing bug the stable patch fixed.",
+          "NXP-specific 'fsl,ls2088a-dwc3' compatible and 'snps,host-vbus-glitches' property are correctly preserved.",
+          "Other unrelated NXP changes (watchdog clock div 32 vs mainline 4, PCIe interrupt-names 'aer' vs 'intr', i2c ls208xa-i2c compatible, scl-gpios) are vendor-intentional and properly kept.",
+          "Restructuring with the bus wrapper would have been straightforward (the closing braces shown in the conflict's after-context allow it), so dropping the fix was overly conservative; consider applying it in a follow-up."
+        ]
+      }
+    },
+    {
+      "file": "drivers/i3c/master/svc-i3c-master.c",
+      "hunk_index": 0,
+      "confidence": 9,
+      "reasoning": "Mainline adds a new define SVC_I3C_MERRWARN_TIMEOUT for the timeout fix. NXP side is empty. Simply take the mainline addition.",
+      "ours": "",
+      "theirs": "#define   SVC_I3C_MERRWARN_TIMEOUT BIT(20)\n",
+      "resolved_code": "#define   SVC_I3C_MERRWARN_TIMEOUT BIT(20)\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"Mainline adds a new define SVC_I3C_MERRWARN_TIMEOUT for the timeout fix. NXP side is empty. Simply take the mainline addition.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"#define   SVC_I3C_MERRWARN_TIMEOUT BIT(20)\\n\"\n}",
+      "start_line": 95,
+      "end_line": 98,
+      "verification": null
+    },
+    {
+      "file": "drivers/usb/dwc3/core.c",
+      "hunk_index": 0,
+      "confidence": 9,
+      "reasoning": "Both sides add independent functions. NXP adds dwc3_set_cache_type (called later under #ifdef CONFIG_OF), and mainline stable adds dwc3_config_threshold. Keep both.",
+      "ours": "#ifdef CONFIG_OF\nstruct dwc3_cache_type {\n\tu8 transfer_type_datard;\n\tu8 transfer_type_descrd;\n\tu8 transfer_type_datawr;\n\tu8 transfer_type_descwr;\n};\n\nstatic const struct dwc3_cache_type ls1088a_dwc3_cache_type = {\n\t.transfer_type_datard = 2,\n\t.transfer_type_descrd = 2,\n\t.transfer_type_datawr = 2,\n\t.transfer_type_descwr = 2,\n};\n\n/**\n * dwc3_set_cache_type - Configure cache type registers\n * @dwc: Pointer to our controller context structure\n */\nstatic void dwc3_set_cache_type(struct dwc3 *dwc)\n{\n\t",
+      "theirs": "static void dwc3_config_threshold(struct dwc3 *dwc)\n{\n\tu32 reg;\n\tu8 rx_thr_num;\n\tu8 rx_maxburst;\n\tu8 tx_thr_num;\n\tu8 tx_maxburst;\n\n\t/*\n\t * Must config both number of packets and max burst settings to enable\n\t * RX and/or TX threshold.\n\t */\n\tif (!DWC3_IP_IS(DWC3) && dwc->dr_mode == USB_DR_MODE_HOST) {\n\t\trx_thr_num = dwc->rx_thr_num_pkt_prd;\n\t\trx_maxburst = dwc->rx_max_burst_prd;\n\t\ttx_thr_num = dwc->tx_thr_num_pkt_prd;\n\t\ttx_maxburst = dwc->tx_max_burst_prd;\n\n\t\tif (rx_thr_num && rx_maxburst) {\n\t\t\tr",
+      "resolved_code": "#ifdef CONFIG_OF\nstruct dwc3_cache_type {\n\tu8 transfer_type_datard;\n\tu8 transfer_type_descrd;\n\tu8 transfer_type_datawr;\n\tu8 transfer_type_descwr;\n};\n\nstatic const struct dwc3_cache_type ls1088a_dwc3_cache_type = {\n\t.transfer_type_datard = 2,\n\t.transfer_type_descrd = 2,\n\t.transfer_type_datawr = 2,\n\t.transfer_type_descwr = 2,\n};\n\n/**\n * dwc3_set_cache_type - Configure cache type registers\n * @dwc: Pointer to our controller context structure\n */\nstatic void dwc3_set_cache_type(struct dwc3 *dwc)\n{\n\t",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"Both sides add independent functions. NXP adds dwc3_set_cache_type (called later under #ifdef CONFIG_OF), and mainline stable adds dwc3_config_threshold. Keep both.\",\n  \"brace_check\": \"Multiple matched braces in both functions, preserved as-is from each side\",\n  \"resolved_code\": \"#ifdef CONFIG_OF\\nstruct dwc3_cache_type {\\n\\tu8 transfer_type_datard;\\n\\tu8 transfer_type_descrd;\\n\\tu8 transfer_type_datawr;\\n\\tu8 transfer_type_descwr;\\n};\\n\\nstatic const struct dwc3_cache_type ls1088a_dwc3_cache_type = {\\n\\t.transfer_type_datard = 2,\\n\\t.transfer_type_descrd = 2,\\n\\t.transfer_type_datawr = 2,\\n\\t.transfer_type_descwr = 2,\\n};\\n\\n/**\\n * dwc3_set_cache_type - Configure cache type registers\\n * @dwc: Pointer to our controller context structure\\n */\\nstatic void dwc3_set_cache_type(struct dwc3 *dwc)\\n{\\n\\tu32 tmp, reg;\\n\\tconst struct dwc3_cache_type *cache_type =\\n\\t\\tdevice_get_match_data(dwc->dev);\\n\\n\\tif (cache_type) {\\n\\t\\treg = dwc3_readl(dwc->regs",
+      "start_line": 1123,
+      "end_line": 1275,
+      "verification": null
+    }
+  ]
+}

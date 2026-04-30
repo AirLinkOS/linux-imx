@@ -1,0 +1,25 @@
+{
+  "version": "6.1.62",
+  "timestamp": "2026-04-29T17:40:18.118223",
+  "conflicts_total": 1,
+  "conflicts_resolved": 1,
+  "build_success": true,
+  "merged_to_main": true,
+  "error": null,
+  "build_fix_attempts": [],
+  "resolutions": [
+    {
+      "file": "drivers/misc/pci_endpoint_test.c",
+      "hunk_index": 0,
+      "confidence": 9,
+      "reasoning": "Both sides add independent device ID defines. Keep both.",
+      "ours": "#define PCI_DEVICE_ID_LS1028A\t\t\t0x82c0\n",
+      "theirs": "#define PCI_DEVICE_ID_TI_J721S2\t\t0xb013\n",
+      "resolved_code": "#define PCI_DEVICE_ID_TI_J721S2\t\t0xb013\n#define PCI_DEVICE_ID_LS1028A\t\t\t0x82c0\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"Both sides add independent device ID defines. Keep both.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"#define PCI_DEVICE_ID_TI_J721S2\\t\\t0xb013\\n#define PCI_DEVICE_ID_LS1028A\\t\\t\\t0x82c0\\n\"\n}",
+      "start_line": 73,
+      "end_line": 77,
+      "verification": null
+    }
+  ]
+}

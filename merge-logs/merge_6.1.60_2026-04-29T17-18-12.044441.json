@@ -1,0 +1,25 @@
+{
+  "version": "6.1.60",
+  "timestamp": "2026-04-29T17:18:12.044441",
+  "conflicts_total": 1,
+  "conflicts_resolved": 1,
+  "build_success": true,
+  "merged_to_main": true,
+  "error": null,
+  "build_fix_attempts": [],
+  "resolutions": [
+    {
+      "file": "drivers/gpio/gpio-vf610.c",
+      "hunk_index": 0,
+      "confidence": 9,
+      "reasoning": "Mainline adds IRQCHIP_MASK_ON_SUSPEND and IRQCHIP_ENABLE_WAKEUP_ON_SUSPEND flags to the existing IRQCHIP_IMMUTABLE flag. NXP side only had IRQCHIP_IMMUTABLE. Take mainline's version to apply the suspend/wakeup fix.",
+      "ours": "\t.flags = IRQCHIP_IMMUTABLE,\n",
+      "theirs": "\t.flags = IRQCHIP_IMMUTABLE | IRQCHIP_MASK_ON_SUSPEND\n\t\t\t| IRQCHIP_ENABLE_WAKEUP_ON_SUSPEND,\n",
+      "resolved_code": "\t.flags = IRQCHIP_IMMUTABLE | IRQCHIP_MASK_ON_SUSPEND\n\t\t\t| IRQCHIP_ENABLE_WAKEUP_ON_SUSPEND,\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"Mainline adds IRQCHIP_MASK_ON_SUSPEND and IRQCHIP_ENABLE_WAKEUP_ON_SUSPEND flags to the existing IRQCHIP_IMMUTABLE flag. NXP side only had IRQCHIP_IMMUTABLE. Take mainline's version to apply the suspend/wakeup fix.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\\t.flags = IRQCHIP_IMMUTABLE | IRQCHIP_MASK_ON_SUSPEND\\n\\t\\t\\t| IRQCHIP_ENABLE_WAKEUP_ON_SUSPEND,\\n\"\n}",
+      "start_line": 249,
+      "end_line": 254,
+      "verification": null
+    }
+  ]
+}

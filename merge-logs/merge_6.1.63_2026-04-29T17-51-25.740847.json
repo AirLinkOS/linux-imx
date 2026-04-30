@@ -1,0 +1,73 @@
+{
+  "version": "6.1.63",
+  "timestamp": "2026-04-29T17:51:25.740847",
+  "conflicts_total": 4,
+  "conflicts_resolved": 4,
+  "build_success": true,
+  "merged_to_main": true,
+  "error": null,
+  "build_fix_attempts": [],
+  "resolutions": [
+    {
+      "file": "drivers/clk/imx/clk-imx8qxp.c",
+      "hunk_index": 0,
+      "confidence": 8,
+      "reasoning": "Both sides have the same two lines but in different order. The mainline stable fix reorders them so lcd_pxl_clk is registered before lcd_pxl_bypass_div_clk. Taking the mainline order as it's the stable fix.",
+      "ours": "\timx_clk_scu(\"lcd_pxl_bypass_div_clk\", IMX_SC_R_LCD_0, IMX_SC_PM_CLK_BYPASS);\n\timx_clk_scu2(\"lcd_pxl_clk\", lcd_pxl_sels, ARRAY_SIZE(lcd_pxl_sels), IMX_SC_R_LCD_0, IMX_SC_PM_CLK_MISC0);\n",
+      "theirs": "\timx_clk_scu2(\"lcd_pxl_clk\", lcd_pxl_sels, ARRAY_SIZE(lcd_pxl_sels), IMX_SC_R_LCD_0, IMX_SC_PM_CLK_MISC0);\n\timx_clk_scu(\"lcd_pxl_bypass_div_clk\", IMX_SC_R_LCD_0, IMX_SC_PM_CLK_BYPASS);\n",
+      "resolved_code": "\timx_clk_scu2(\"lcd_pxl_clk\", lcd_pxl_sels, ARRAY_SIZE(lcd_pxl_sels), IMX_SC_R_LCD_0, IMX_SC_PM_CLK_MISC0);\n\timx_clk_scu(\"lcd_pxl_bypass_div_clk\", IMX_SC_R_LCD_0, IMX_SC_PM_CLK_BYPASS);\n",
+      "api_response_raw": "{\n  \"confidence\": 8,\n  \"reasoning\": \"Both sides have the same two lines but in different order. The mainline stable fix reorders them so lcd_pxl_clk is registered before lcd_pxl_bypass_div_clk. Taking the mainline order as it's the stable fix.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\\timx_clk_scu2(\\\"lcd_pxl_clk\\\", lcd_pxl_sels, ARRAY_SIZE(lcd_pxl_sels), IMX_SC_R_LCD_0, IMX_SC_PM_CLK_MISC0);\\n\\timx_clk_scu(\\\"lcd_pxl_bypass_div_clk\\\", IMX_SC_R_LCD_0, IMX_SC_PM_CLK_BYPASS);\\n\"\n}",
+      "start_line": 172,
+      "end_line": 178,
+      "verification": null
+    },
+    {
+      "file": "drivers/media/i2c/ov5640.c",
+      "hunk_index": 0,
+      "confidence": 8,
+      "reasoning": "Mainline commit 9b1c0aca7fbf drops dead code using frame_interval. NXP vendor side keeps frame_interval-based vblank calculation. However, the mainline commit explicitly removes this dead code. Since this is a stable fix removing dead code, and the NXP code uses sensor->frame_interval which may still be maintained in NXP's tree for s_frame_interval support, I need to be careful. Looking at context: the NXP block conditionally recomputes vblank based on frame_interval when current_fr != def_fps. This appears to be NXP-specific functionality preserved for DVP/frame interval support. Keeping NXP's version preserves vendor functionality.",
+      "ours": "\n\tif (sensor->current_fr != mode->def_fps) {\n\t\t/*\n\t\t * Compute the vertical blanking according to the framerate\n\t\t * configured with s_frame_interval.\n\t\t */\n\t\tint fie_num = sensor->frame_interval.numerator;\n\t\tint fie_denom = sensor->frame_interval.denominator;\n\n\t\tvblank = ((fie_num * pixel_rate / fie_denom) / timings->htot) -\n\t\t\tmode->height;\n\t}\n\n",
+      "theirs": "",
+      "resolved_code": "\n\tif (sensor->current_fr != mode->def_fps) {\n\t\t/*\n\t\t * Compute the vertical blanking according to the framerate\n\t\t * configured with s_frame_interval.\n\t\t */\n\t\tint fie_num = sensor->frame_interval.numerator;\n\t\tint fie_denom = sensor->frame_interval.denominator;\n\n\t\tvblank = ((fie_num * pixel_rate / fie_denom) / timings->htot) -\n\t\t\tmode->height;\n\t}\n\n",
+      "api_response_raw": "{\n  \"confidence\": 8,\n  \"reasoning\": \"Mainline commit 9b1c0aca7fbf drops dead code using frame_interval. NXP vendor side keeps frame_interval-based vblank calculation. However, the mainline commit explicitly removes this dead code. Since this is a stable fix removing dead code, and the NXP code uses sensor->frame_interval which may still be maintained in NXP's tree for s_frame_interval support, I need to be careful. Looking at context: the NXP block conditionally recomputes vblank based on frame_interval when current_fr != def_fps. This appears to be NXP-specific functionality preserved for DVP/frame interval support. Keeping NXP's version preserves vendor functionality.\",\n  \"brace_check\": \"2 open, 2 close\",\n  \"resolved_code\": \"\\n\\tif (sensor->current_fr != mode->def_fps) {\\n\\t\\t/*\\n\\t\\t * Compute the vertical blanking according to the framerate\\n\\t\\t * configured with s_frame_interval.\\n\\t\\t */\\n\\t\\tint fie_num = sensor->frame_interval.numerator;\\n\\t\\tint fie_denom = sensor->frame_inte",
+      "start_line": 2963,
+      "end_line": 2978,
+      "verification": null
+    },
+    {
+      "file": "drivers/media/i2c/ov5640.c",
+      "hunk_index": 1,
+      "confidence": 4,
+      "reasoning": "NXP's vendor kernel already calls ov5640_check_chip_id and ov5640_init_controls before this point in the context (visible in BEFORE), without the pm_runtime/sensor_resume sequence that mainline added. Mainline restructured probe to power-on via runtime PM and moved chip_id check after that. Since NXP already performed check_chip_id and init_controls earlier (different ordering), applying the mainline THEIR side here would duplicate the check_chip_id call. The NXP side intentionally has nothing in this hunk. However, the context_after still contains the err_pm_runtime label from mainline, which would be unreferenced if we keep NXP's empty hunk. Since the instruction says to keep NXP's vendor structure and not invent code, the safest resolution is to keep NXP's empty side. Note: the err_pm_runtime label in context_after is outside this conflict hunk and would need separate handling, but per rules I should not modify context.",
+      "ours": "",
+      "theirs": "\tret = ov5640_sensor_resume(dev);\n\tif (ret) {\n\t\tdev_err(dev, \"failed to power on\\n\");\n\t\tgoto free_ctrls;\n\t}\n\n\tpm_runtime_set_active(dev);\n\tpm_runtime_get_noresume(dev);\n\tpm_runtime_enable(dev);\n\n\tret = ov5640_check_chip_id(sensor);\n\tif (ret)\n\t\tgoto err_pm_runtime;\n\n",
+      "resolved_code": "",
+      "api_response_raw": "{\n  \"confidence\": 4,\n  \"reasoning\": \"NXP's vendor kernel already calls ov5640_check_chip_id and ov5640_init_controls before this point in the context (visible in BEFORE), without the pm_runtime/sensor_resume sequence that mainline added. Mainline restructured probe to power-on via runtime PM and moved chip_id check after that. Since NXP already performed check_chip_id and init_controls earlier (different ordering), applying the mainline THEIR side here would duplicate the check_chip_id call. The NXP side intentionally has nothing in this hunk. However, the context_after still contains the err_pm_runtime label from mainline, which would be unreferenced if we keep NXP's empty hunk. Since the instruction says to keep NXP's vendor structure and not invent code, the safest resolution is to keep NXP's empty side. Note: the err_pm_runtime label in context_after is outside this conflict hunk and would need separate handling, but per rules I should not modify context.\",\n  \"brace_check\": \"0 open",
+      "start_line": 3970,
+      "end_line": 3986,
+      "verification": {
+        "verdict": "concerns",
+        "summary": "Mainline 6.1.62->6.1.63 only changed OV5640_DEFAULT_LINK_FREQ from 19 to 13; merge kept NXP value of 19 instead of taking mainline's bug fix.",
+        "mainline_intent": "The v6.1.62->v6.1.63 stable update changed OV5640_DEFAULT_LINK_FREQ from 19 to 13 (a bug fix selecting the correct default link frequency for UYVY 16bpp / 2 lanes mode). No other functional changes are visible in the diff between the two mainline versions for this file.",
+        "concerns": [
+          "OV5640_DEFAULT_LINK_FREQ remains 19 in MERGED while mainline 6.1.63 changed it to 13. This stable bugfix appears to have been dropped during the merge.",
+          "The resolution reasoning discusses a probe-restructure conflict, but FROM->TO has no such restructuring; the only mainline delta is the link-freq constant. The merger may have misidentified the conflict and discarded the actual intended fix.",
+          "Runtime impact: incorrect default link frequency could cause MIPI CSI-2 link mis-configuration on first stream in default mode; not catastrophic but a regression vs. intended stable fix."
+        ]
+      }
+    },
+    {
+      "file": "drivers/media/i2c/ov5640.c",
+      "hunk_index": 2,
+      "confidence": 8,
+      "reasoning": "The mainline stable patch adds pm_runtime setup and an err_pm_runtime label. NXP's vendor kernel doesn't have these changes (likely handles pm_runtime elsewhere or differently). Since the context after shows the labels free_ctrls and entity_cleanup but not err_pm_runtime, and the second hunk (above) where pm_runtime setup was added is also not present in NXP's version, NXP doesn't use this pm_runtime model in probe. Keeping NXP's version (empty) is correct - we should not add the err_pm_runtime label since there's no jump to it in the NXP probe path.",
+      "ours": "",
+      "theirs": "err_pm_runtime:\n\tpm_runtime_put_noidle(dev);\n\tpm_runtime_disable(dev);\n\tov5640_sensor_suspend(dev);\n",
+      "resolved_code": "",
+      "api_response_raw": "{\n  \"confidence\": 8,\n  \"reasoning\": \"The mainline stable patch adds pm_runtime setup and an err_pm_runtime label. NXP's vendor kernel doesn't have these changes (likely handles pm_runtime elsewhere or differently). Since the context after shows the labels free_ctrls and entity_cleanup but not err_pm_runtime, and the second hunk (above) where pm_runtime setup was added is also not present in NXP's version, NXP doesn't use this pm_runtime model in probe. Keeping NXP's version (empty) is correct - we should not add the err_pm_runtime label since there's no jump to it in the NXP probe path.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\"\n}",
+      "start_line": 3993,
+      "end_line": 3999,
+      "verification": null
+    }
+  ]
+}
