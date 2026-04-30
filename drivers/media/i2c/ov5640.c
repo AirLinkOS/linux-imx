@@ -3965,11 +3965,13 @@ static int ov5640_probe(struct i2c_client *client)
 	if (ret)
 		goto entity_cleanup;
 
+
 	ret = v4l2_async_register_subdev_sensor(&sensor->sd);
 	if (ret)
 		goto free_ctrls;
 
 	return 0;
+
 
 free_ctrls:
 	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
