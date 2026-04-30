@@ -1,0 +1,43 @@
+2026-04-29 14:15:39,986 [INFO] Log file: /home/osaleem/repos/linux-imx/merge-logs/merge_20260429_141539.log
+2026-04-29 14:15:39,986 [INFO] Kernel Stable Merge Tool started
+2026-04-29 14:15:39,986 [INFO] Repo: /home/osaleem/repos/linux-imx
+2026-04-29 14:15:39,986 [INFO] Target: v6.1.100
+2026-04-29 14:15:39,986 [INFO] Provider: claude
+2026-04-29 14:15:39,986 [INFO] Interactive: False
+2026-04-29 14:15:39,987 [INFO] Dry run: False
+2026-04-29 14:15:39,987 [INFO] Fetching stable tags...
+2026-04-29 14:15:40,991 [INFO] Using override start version: 6.1.91
+2026-04-29 14:15:40,991 [INFO] 
+============================================================
+Merge step: v6.1.91 -> v6.1.92
+Progress: 1/9
+============================================================
+2026-04-29 14:15:40,991 [INFO] Starting merge: v6.1.92
+2026-04-29 14:15:41,888 [INFO] Merge v6.1.92 completed cleanly — no conflicts!
+2026-04-29 14:15:41,888 [INFO] Building kernel (compile test)...
+2026-04-29 14:26:55,124 [INFO] Build succeeded.
+2026-04-29 14:26:55,630 [INFO] Merged v6.1.92 into lf-6.1.y-semtech
+2026-04-29 14:26:58,559 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-04-29 14:26:58,560 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.92_2026-04-29T14-15-40.991634.json
+2026-04-29 14:26:58,748 [INFO] Current kernel version: 6.1.92
+2026-04-29 14:26:58,748 [INFO] 
+============================================================
+Merge step: v6.1.92 -> v6.1.93
+Progress: 2/9
+============================================================
+2026-04-29 14:26:58,749 [INFO] Starting merge: v6.1.93
+2026-04-29 14:27:00,250 [INFO] Merge v6.1.93 completed cleanly — no conflicts!
+2026-04-29 14:27:00,250 [INFO] Building kernel (compile test)...
+2026-04-29 14:38:12,412 [INFO] Build succeeded.
+2026-04-29 14:38:13,717 [INFO] Merged v6.1.93 into lf-6.1.y-semtech
+2026-04-29 14:38:18,624 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-04-29 14:38:18,625 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.93_2026-04-29T14-26-58.749210.json
+2026-04-29 14:38:18,884 [INFO] Current kernel version: 6.1.93
+2026-04-29 14:38:18,884 [INFO] 
+============================================================
+Merge step: v6.1.93 -> v6.1.94
+Progress: 3/9
+============================================================
+2026-04-29 14:38:18,884 [INFO] Starting merge: v6.1.94
+2026-04-29 14:38:19,949 [INFO] Merge v6.1.94 completed cleanly — no conflicts!
+2026-04-29 14:38:19,949 [INFO] Building kernel (compile test)...

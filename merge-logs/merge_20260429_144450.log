@@ -1,0 +1,25 @@
+2026-04-29 14:44:50,708 [INFO] Log file: /home/osaleem/repos/linux-imx/merge-logs/merge_20260429_144450.log
+2026-04-29 14:44:50,708 [INFO] Kernel Stable Merge Tool started
+2026-04-29 14:44:50,709 [INFO] Repo: /home/osaleem/repos/linux-imx
+2026-04-29 14:44:50,709 [INFO] Target: v6.1.100
+2026-04-29 14:44:50,709 [INFO] Provider: claude
+2026-04-29 14:44:50,709 [INFO] Interactive: False
+2026-04-29 14:44:50,709 [INFO] Dry run: False
+2026-04-29 14:44:50,709 [INFO] Fetching stable tags...
+2026-04-29 14:44:51,686 [INFO] Using override start version: 6.1.93
+2026-04-29 14:44:51,686 [INFO] 
+============================================================
+Merge step: v6.1.93 -> v6.1.94
+Progress: 1/7
+============================================================
+2026-04-29 14:44:51,686 [INFO] Starting merge: v6.1.94
+2026-04-29 14:44:52,619 [INFO] Merge v6.1.94 completed cleanly — no conflicts!
+2026-04-29 14:44:52,620 [ERROR] Unexpected error: name 'run_build_with_fixes' is not defined
+Traceback (most recent call last):
+  File "/home/osaleem/repos/kernel_merge.py", line 847, in do_single_merge
+    build_ok, fix_attempts = run_build_with_fixes(
+                             ^^^^^^^^^^^^^^^^^^^^
+NameError: name 'run_build_with_fixes' is not defined
+2026-04-29 14:44:52,626 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.94_2026-04-29T14-44-51.686774.json
+2026-04-29 14:44:52,626 [ERROR] Stopping due to error at v6.1.94. Fix manually and re-run with --resume.
+2026-04-29 14:44:52,626 [INFO] Done.

@@ -1,0 +1,105 @@
+2026-04-29 16:32:23,292 [INFO] Log file: /home/osaleem/repos/linux-imx/merge-logs/merge_20260429_163223.log
+2026-04-29 16:32:23,292 [INFO] Kernel Stable Merge Tool started
+2026-04-29 16:32:23,292 [INFO] Repo: /home/osaleem/repos/linux-imx
+2026-04-29 16:32:23,292 [INFO] Target: v6.1.169
+2026-04-29 16:32:23,292 [INFO] Provider: claude
+2026-04-29 16:32:23,292 [INFO] Interactive: False
+2026-04-29 16:32:23,292 [INFO] Dry run: False
+2026-04-29 16:32:23,292 [INFO] Fetching stable tags...
+2026-04-29 16:32:24,221 [INFO] Using override start version: 6.1.55
+2026-04-29 16:32:24,221 [INFO] 
+============================================================
+Merge step: v6.1.55 -> v6.1.56
+Progress: 1/114
+============================================================
+2026-04-29 16:32:24,221 [INFO] Starting merge: v6.1.56
+2026-04-29 16:32:25,169 [INFO] Merge v6.1.56 has 3 conflicted files
+2026-04-29 16:32:25,169 [INFO]   arch/arm64/boot/dts/freescale/Makefile: 1 conflict hunks
+2026-04-29 16:32:25,170 [INFO]   drivers/soc/imx/soc-imx8m.c: 1 conflict hunks
+2026-04-29 16:32:25,170 [INFO]   drivers/spi/spi-nxp-fspi.c: 1 conflict hunks
+2026-04-29 16:32:25,170 [INFO] Resolving arch/arm64/boot/dts/freescale/Makefile hunk 1...
+2026-04-29 16:32:25,188 [DEBUG] Prompt for arch/arm64/boot/dts/freescale/Makefile hunk 0
+2026-04-29 16:32:32,379 [INFO]   Resolved arch/arm64/boot/dts/freescale/Makefile hunk 0: confidence=9/10 — NXP side is empty - they don't include these mainline DTBs in their build. The mainline added imx8mm
+2026-04-29 16:32:32,380 [INFO] Resolving drivers/soc/imx/soc-imx8m.c hunk 1...
+2026-04-29 16:32:32,407 [DEBUG] Prompt for drivers/soc/imx/soc-imx8m.c hunk 0
+2026-04-29 16:32:36,899 [INFO]   Resolved drivers/soc/imx/soc-imx8m.c hunk 0: confidence=9/10 — NXP added soc_uid_h reading for imx8mp. Mainline stable added clk_disable_unprepare and clk_put. Bot
+2026-04-29 16:32:36,900 [INFO] Resolving drivers/spi/spi-nxp-fspi.c hunk 1...
+2026-04-29 16:32:36,927 [DEBUG] Prompt for drivers/spi/spi-nxp-fspi.c hunk 0
+2026-04-29 16:32:39,680 [INFO]   Resolved drivers/spi/spi-nxp-fspi.c hunk 0: confidence=10/10 — Trivial comment-only difference. Mainline uses more accurate wording matching the register name FLSH
+2026-04-29 16:32:40,183 [INFO] All conflicts resolved. Confidence: min=9, avg=9.3
+2026-04-29 16:32:44,581 [INFO] Build attempt 1/4...
+2026-04-29 16:43:55,610 [INFO] Build succeeded.
+2026-04-29 16:43:56,537 [INFO] Successfully merged v6.1.56 into lf-6.1.y-semtech
+2026-04-29 16:43:58,631 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-04-29 16:43:58,632 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.56_2026-04-29T16-32-24.221728.json
+2026-04-29 16:43:58,858 [INFO] Current kernel version: 6.1.56
+2026-04-29 16:43:58,858 [INFO] 
+============================================================
+Merge step: v6.1.56 -> v6.1.57
+Progress: 2/114
+============================================================
+2026-04-29 16:43:58,858 [INFO] Starting merge: v6.1.57
+2026-04-29 16:43:59,943 [INFO] Merge v6.1.57 completed cleanly — no conflicts!
+2026-04-29 16:44:02,182 [INFO] Build attempt 1/4...
+2026-04-29 16:55:10,680 [INFO] Build succeeded.
+2026-04-29 16:55:11,502 [INFO] Merged v6.1.57 into lf-6.1.y-semtech
+2026-04-29 16:55:13,375 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-04-29 16:55:13,375 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.57_2026-04-29T16-43-58.858495.json
+2026-04-29 16:55:13,602 [INFO] Current kernel version: 6.1.57
+2026-04-29 16:55:13,602 [INFO] 
+============================================================
+Merge step: v6.1.57 -> v6.1.58
+Progress: 3/114
+============================================================
+2026-04-29 16:55:13,602 [INFO] Starting merge: v6.1.58
+2026-04-29 16:55:14,371 [INFO] Merge v6.1.58 completed cleanly — no conflicts!
+2026-04-29 16:55:16,530 [INFO] Build attempt 1/4...
+2026-04-29 17:06:23,689 [INFO] Build succeeded.
+2026-04-29 17:06:24,083 [INFO] Merged v6.1.58 into lf-6.1.y-semtech
+2026-04-29 17:06:25,780 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-04-29 17:06:25,780 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.58_2026-04-29T16-55-13.602984.json
+2026-04-29 17:06:25,959 [INFO] Current kernel version: 6.1.58
+2026-04-29 17:06:25,959 [INFO] 
+============================================================
+Merge step: v6.1.58 -> v6.1.59
+Progress: 4/114
+============================================================
+2026-04-29 17:06:25,959 [INFO] Starting merge: v6.1.59
+2026-04-29 17:06:26,921 [INFO] Merge v6.1.59 has 3 conflicted files
+2026-04-29 17:06:26,922 [INFO]   drivers/phy/freescale/phy-fsl-lynx-28g.c: 4 conflict hunks
+2026-04-29 17:06:26,923 [INFO]   sound/soc/fsl/fsl_sai.c: 4 conflict hunks
+2026-04-29 17:06:26,923 [INFO]   sound/soc/fsl/fsl_sai.h: 1 conflict hunks
+2026-04-29 17:06:26,923 [INFO] Resolving drivers/phy/freescale/phy-fsl-lynx-28g.c hunk 1...
+2026-04-29 17:06:26,938 [DEBUG] Prompt for drivers/phy/freescale/phy-fsl-lynx-28g.c hunk 0
+2026-04-29 17:06:31,300 [INFO]   Resolved drivers/phy/freescale/phy-fsl-lynx-28g.c hunk 0: confidence=9/10 — NXP uses a different lane mode enum system (lane_mode) while mainline uses phy_interface_t submode d
+2026-04-29 17:06:31,301 [INFO] Resolving drivers/phy/freescale/phy-fsl-lynx-28g.c hunk 2...
+2026-04-29 17:06:31,323 [DEBUG] Prompt for drivers/phy/freescale/phy-fsl-lynx-28g.c hunk 1
+2026-04-29 17:06:35,330 [INFO]   Resolved drivers/phy/freescale/phy-fsl-lynx-28g.c hunk 1: confidence=9/10 — Hunk 2 is just a comment difference. NXP's version says 'Reset the lane if necessary' which matches 
+2026-04-29 17:06:35,330 [INFO] Resolving drivers/phy/freescale/phy-fsl-lynx-28g.c hunk 3...
+2026-04-29 17:06:35,354 [DEBUG] Prompt for drivers/phy/freescale/phy-fsl-lynx-28g.c hunk 2
+2026-04-29 17:06:40,765 [INFO]   Resolved drivers/phy/freescale/phy-fsl-lynx-28g.c hunk 2: confidence=8/10 — Hunk 3: NXP refactored the CDR lock check into a helper function `lynx_28g_cdr_lock_check(lane)`. Ma
+2026-04-29 17:06:40,766 [INFO] Resolving drivers/phy/freescale/phy-fsl-lynx-28g.c hunk 4...
+2026-04-29 17:06:40,788 [DEBUG] Prompt for drivers/phy/freescale/phy-fsl-lynx-28g.c hunk 3
+2026-04-29 17:06:44,848 [INFO]   Resolved drivers/phy/freescale/phy-fsl-lynx-28g.c hunk 3: confidence=9/10 — NXP renamed the function to lynx_28g_cdr_lock_check_work while mainline kept it as lynx_28g_cdr_lock
+2026-04-29 17:06:44,849 [INFO] Resolving sound/soc/fsl/fsl_sai.c hunk 1...
+2026-04-29 17:06:44,871 [DEBUG] Prompt for sound/soc/fsl/fsl_sai.c hunk 0
+2026-04-29 17:06:49,548 [INFO]   Resolved sound/soc/fsl/fsl_sai.c hunk 0: confidence=8/10 — NXP side only clears TERE; mainline stable clears both TERE and BCE (conditionally based on mclk_wit
+2026-04-29 17:06:49,548 [INFO] Resolving sound/soc/fsl/fsl_sai.c hunk 2...
+2026-04-29 17:06:49,570 [DEBUG] Prompt for sound/soc/fsl/fsl_sai.c hunk 1
+2026-04-29 17:06:52,833 [INFO]   Resolved sound/soc/fsl/fsl_sai.c hunk 1: confidence=9/10 — Mainline stable converted of_find_property to of_property_read_bool for boolean properties. This is 
+2026-04-29 17:06:52,833 [INFO] Resolving sound/soc/fsl/fsl_sai.c hunk 3...
+2026-04-29 17:06:52,854 [DEBUG] Prompt for sound/soc/fsl/fsl_sai.c hunk 2
+2026-04-29 17:06:56,026 [INFO]   Resolved sound/soc/fsl/fsl_sai.c hunk 2: confidence=9/10 — NXP adds an imx93 device id entry. Mainline side is empty here. Keep NXP's addition.
+2026-04-29 17:06:56,027 [INFO] Resolving sound/soc/fsl/fsl_sai.c hunk 4...
+2026-04-29 17:06:56,049 [DEBUG] Prompt for sound/soc/fsl/fsl_sai.c hunk 3
+2026-04-29 17:07:00,850 [INFO]   Resolved sound/soc/fsl/fsl_sai.c hunk 3: confidence=10/10 — NXP added imx93-sai compatible entry; mainline side is empty. Keep NXP's addition.
+2026-04-29 17:07:00,851 [INFO] Resolving sound/soc/fsl/fsl_sai.h hunk 1...
+2026-04-29 17:07:00,873 [DEBUG] Prompt for sound/soc/fsl/fsl_sai.h hunk 0
+2026-04-29 17:07:04,364 [INFO]   Resolved sound/soc/fsl/fsl_sai.h hunk 0: confidence=9/10 — NXP adds extra fields (monitor_spdif, monitor_spdif_start, gpr_idx, masterflag) alongside mclk_direc
+2026-04-29 17:07:04,907 [INFO] All conflicts resolved. Confidence: min=8, avg=8.9
+2026-04-29 17:07:07,214 [INFO] Build attempt 1/4...
+2026-04-29 17:17:11,699 [INFO] Build fix attempt 1: found 2 errors
+2026-04-29 17:17:17,371 [INFO]   AI proposes: revert (confidence: 9)
+2026-04-29 17:17:17,371 [INFO]   Reasoning: The file has multiple unrelated errors: a missing macro (FSL_SAI_CSR_BCE) and a stray of_device_id table entry inserted in the middle of fsl_sai_runtime_resume() function body. This indicates the merg
+2026-04-29 17:17:17,435 [INFO]   Reverted sound/soc/fsl/fsl_sai.c
+2026-04-29 17:18:08,630 [INFO] Build succeeded after fix.

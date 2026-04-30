@@ -1,0 +1,11 @@
+{
+  "version": "6.1.56",
+  "timestamp": "2026-04-29T16:30:50.307027",
+  "conflicts_total": 3,
+  "conflicts_resolved": 0,
+  "build_success": null,
+  "merged_to_main": false,
+  "error": "Failed to resolve arch/arm64/boot/dts/freescale/Makefile hunk 0: HTTP Error 401: Unauthorized",
+  "build_fix_attempts": [],
+  "resolutions": []
+}

@@ -1,0 +1,51 @@
+{
+  "version": "6.1.56",
+  "timestamp": "2026-04-29T16:32:24.221728",
+  "conflicts_total": 3,
+  "conflicts_resolved": 3,
+  "build_success": true,
+  "merged_to_main": true,
+  "error": null,
+  "build_fix_attempts": [],
+  "resolutions": [
+    {
+      "file": "arch/arm64/boot/dts/freescale/Makefile",
+      "hunk_index": 0,
+      "confidence": 9,
+      "reasoning": "NXP side is empty - they don't include these mainline DTBs in their build. The mainline added imx8mm-prt8mm.dtb among other entries. Since NXP has chosen not to build these boards (likely they have their own variant set), but the stable backport specifically adds prt8mm.dtb which is a new file, I need to keep just the prt8mm addition to match the stable patch intent. However, NXP's empty side suggests they intentionally don't build these. Looking more carefully - the THEIR side contains many mainline-only entries that NXP removed. The conflict exists because NXP removed all of these. The stable patch adds prt8mm. Best to keep NXP's choice (empty) since they actively don't build these boards in their tree.",
+      "ours": "",
+      "theirs": "dtb-$(CONFIG_ARCH_MXC) += imx8mm-phyboard-polis-rdk.dtb\ndtb-$(CONFIG_ARCH_MXC) += imx8mm-prt8mm.dtb\ndtb-$(CONFIG_ARCH_MXC) += imx8mm-tqma8mqml-mba8mx.dtb\ndtb-$(CONFIG_ARCH_MXC) += imx8mm-var-som-symphony.dtb\ndtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw71xx-0x.dtb\ndtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw72xx-0x.dtb\ndtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw73xx-0x.dtb\ndtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw7901.dtb\ndtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw7902.dtb\ndtb-$(CONFIG_ARCH_MXC) += im",
+      "resolved_code": "",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"NXP side is empty - they don't include these mainline DTBs in their build. The mainline added imx8mm-prt8mm.dtb among other entries. Since NXP has chosen not to build these boards (likely they have their own variant set), but the stable backport specifically adds prt8mm.dtb which is a new file, I need to keep just the prt8mm addition to match the stable patch intent. However, NXP's empty side suggests they intentionally don't build these. Looking more carefully - the THEIR side contains many mainline-only entries that NXP removed. The conflict exists because NXP removed all of these. The stable patch adds prt8mm. Best to keep NXP's choice (empty) since they actively don't build these boards in their tree.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\"\n}",
+      "start_line": 96,
+      "end_line": 114,
+      "verification": null
+    },
+    {
+      "file": "drivers/soc/imx/soc-imx8m.c",
+      "hunk_index": 0,
+      "confidence": 9,
+      "reasoning": "NXP added soc_uid_h reading for imx8mp. Mainline stable added clk_disable_unprepare and clk_put. Both changes are independent and need to coexist - the clock cleanup must happen after all readl operations including NXP's new ones.",
+      "ours": "\tif (offset) {\n\t\tsoc_uid_h = readl_relaxed(ocotp_base + IMX8MP_OCOTP_UID_HIGH + 0x10);\n\t\tsoc_uid_h <<= 32;\n\t\tsoc_uid_h |= readl_relaxed(ocotp_base + IMX8MP_OCOTP_UID_HIGH);\n\t}\n\n",
+      "theirs": "\tclk_disable_unprepare(clk);\n\tclk_put(clk);\n",
+      "resolved_code": "\tif (offset) {\n\t\tsoc_uid_h = readl_relaxed(ocotp_base + IMX8MP_OCOTP_UID_HIGH + 0x10);\n\t\tsoc_uid_h <<= 32;\n\t\tsoc_uid_h |= readl_relaxed(ocotp_base + IMX8MP_OCOTP_UID_HIGH);\n\t}\n\n\tclk_disable_unprepare(clk);\n\tclk_put(clk);\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"NXP added soc_uid_h reading for imx8mp. Mainline stable added clk_disable_unprepare and clk_put. Both changes are independent and need to coexist - the clock cleanup must happen after all readl operations including NXP's new ones.\",\n  \"brace_check\": \"1 open, 1 close\",\n  \"resolved_code\": \"\\tif (offset) {\\n\\t\\tsoc_uid_h = readl_relaxed(ocotp_base + IMX8MP_OCOTP_UID_HIGH + 0x10);\\n\\t\\tsoc_uid_h <<= 32;\\n\\t\\tsoc_uid_h |= readl_relaxed(ocotp_base + IMX8MP_OCOTP_UID_HIGH);\\n\\t}\\n\\n\\tclk_disable_unprepare(clk);\\n\\tclk_put(clk);\\n\"\n}",
+      "start_line": 137,
+      "end_line": 147,
+      "verification": null
+    },
+    {
+      "file": "drivers/spi/spi-nxp-fspi.c",
+      "hunk_index": 0,
+      "confidence": 10,
+      "reasoning": "Trivial comment-only difference. Mainline uses more accurate wording matching the register name FLSHxCR1.",
+      "ours": "\t/* Reset the flashx control1 registers. */\n",
+      "theirs": "\t/* Reset the FLSHxCR1 registers. */\n",
+      "resolved_code": "\t/* Reset the FLSHxCR1 registers. */\n",
+      "api_response_raw": "{\n  \"confidence\": 10,\n  \"reasoning\": \"Trivial comment-only difference. Mainline uses more accurate wording matching the register name FLSHxCR1.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\\t/* Reset the FLSHxCR1 registers. */\\n\"\n}",
+      "start_line": 1236,
+      "end_line": 1240,
+      "verification": null
+    }
+  ]
+}
