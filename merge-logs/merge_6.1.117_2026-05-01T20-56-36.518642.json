@@ -1,0 +1,26 @@
+{
+  "version": "6.1.117",
+  "timestamp": "2026-05-01T20:56:36.518642",
+  "conflicts_total": 1,
+  "conflicts_resolved": 1,
+  "build_success": true,
+  "merged_to_main": true,
+  "error": null,
+  "build_fix_attempts": [],
+  "resolutions": [
+    {
+      "file": "arch/arm64/boot/dts/freescale/imx8qxp.dtsi",
+      "hunk_index": 0,
+      "confidence": 9,
+      "reasoning": "Mainline fixes the alias name from vpu_core0/1 to vpu-core0/1 (proper DTS alias naming). NXP added many vendor-specific aliases. Keep all NXP aliases but apply the mainline fix to rename vpu_core* to vpu-core*.",
+      "ours": "\t\tisi0 = &isi_0;\n\t\tisi1 = &isi_1;\n\t\tisi2 = &isi_2;\n\t\tisi3 = &isi_3;\n\t\tisi4 = &isi_4;\n\t\tisi5 = &isi_5;\n\t\tisi6 = &isi_6;\n\t\tisi7 = &isi_7;\n\t\tcsi0 = &mipi_csi_0;\n\t\tcan0 = &flexcan1;\n\t\tcan1 = &flexcan2;\n\t\tcan2 = &flexcan3;\n\t\ti2c5 = &i2c_rpbus_5;\n\t\ti2c12 = &i2c_rpbus_12;\n\t\ti2c13 = &i2c_rpbus_13;\n\t\ti2c14 = &i2c_rpbus_14;\n\t\ti2c15 = &i2c_rpbus_15;\n\t\tmipi_dsi0 = &mipi0_dsi_host;\n\t\tmipi_dsi1 = &mipi1_dsi_host;\n\t\tvpu_core0 = &vpu_core0;\n\t\tvpu_core1 = &vpu_core1;\n",
+      "theirs": "\t\tvpu-core0 = &vpu_core0;\n\t\tvpu-core1 = &vpu_core1;\n",
+      "resolved_code": "\t\tisi0 = &isi_0;\n\t\tisi1 = &isi_1;\n\t\tisi2 = &isi_2;\n\t\tisi3 = &isi_3;\n\t\tisi4 = &isi_4;\n\t\tisi5 = &isi_5;\n\t\tisi6 = &isi_6;\n\t\tisi7 = &isi_7;\n\t\tcsi0 = &mipi_csi_0;\n\t\tcan0 = &flexcan1;\n\t\tcan1 = &flexcan2;\n\t\tcan2 = &flexcan3;\n\t\ti2c5 = &i2c_rpbus_5;\n\t\ti2c12 = &i2c_rpbus_12;\n\t\ti2c13 = &i2c_rpbus_13;\n\t\ti2c14 = &i2c_rpbus_14;\n\t\ti2c15 = &i2c_rpbus_15;\n\t\tmipi_dsi0 = &mipi0_dsi_host;\n\t\tmipi_dsi1 = &mipi1_dsi_host;\n\t\tvpu-core0 = &vpu_core0;\n\t\tvpu-core1 = &vpu_core1;\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"Mainline fixes the alias name from vpu_core0/1 to vpu-core0/1 (proper DTS alias naming). NXP added many vendor-specific aliases. Keep all NXP aliases but apply the mainline fix to rename vpu_core* to vpu-core*.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\\t\\tisi0 = &isi_0;\\n\\t\\tisi1 = &isi_1;\\n\\t\\tisi2 = &isi_2;\\n\\t\\tisi3 = &isi_3;\\n\\t\\tisi4 = &isi_4;\\n\\t\\tisi5 = &isi_5;\\n\\t\\tisi6 = &isi_6;\\n\\t\\tisi7 = &isi_7;\\n\\t\\tcsi0 = &mipi_csi_0;\\n\\t\\tcan0 = &flexcan1;\\n\\t\\tcan1 = &flexcan2;\\n\\t\\tcan2 = &flexcan3;\\n\\t\\ti2c5 = &i2c_rpbus_5;\\n\\t\\ti2c12 = &i2c_rpbus_12;\\n\\t\\ti2c13 = &i2c_rpbus_13;\\n\\t\\ti2c14 = &i2c_rpbus_14;\\n\\t\\ti2c15 = &i2c_rpbus_15;\\n\\t\\tmipi_dsi0 = &mipi0_dsi_host;\\n\\t\\tmipi_dsi1 = &mipi1_dsi_host;\\n\\t\\tvpu-core0 = &vpu_core0;\\n\\t\\tvpu-core1 = &vpu_core1;\\n\"\n}",
+      "start_line": 52,
+      "end_line": 77,
+      "verification": null,
+      "superseded_attempts": []
+    }
+  ]
+}

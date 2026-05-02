@@ -1,0 +1,31 @@
+{
+  "version": "6.1.115",
+  "timestamp": "2026-05-01T20:32:58.018894",
+  "conflicts_total": 0,
+  "conflicts_resolved": 0,
+  "build_success": true,
+  "merged_to_main": true,
+  "error": null,
+  "build_fix_attempts": [
+    {
+      "attempt": 1,
+      "errors_before": 1,
+      "action": "patch",
+      "fix": {
+        "action": "patch",
+        "confidence": 9,
+        "reasoning": "In newer kernels, genlmsg_multicast_allns() dropped the 'portid' argument (the 0). The fix is to remove that argument from the call.",
+        "file": "net/tsn/genl_tsn.c",
+        "operations": [
+          {
+            "type": "replace_lines",
+            "start_line": 3559,
+            "end_line": 3560,
+            "content": "\tres = genlmsg_multicast_allns(&tsn_family, skb,\n\t\t\t\t      TSN_MCGRP_QBV, GFP_KERNEL);"
+          }
+        ]
+      }
+    }
+  ],
+  "resolutions": []
+}

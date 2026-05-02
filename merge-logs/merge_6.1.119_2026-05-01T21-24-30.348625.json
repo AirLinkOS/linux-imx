@@ -1,0 +1,11 @@
+{
+  "version": "6.1.119",
+  "timestamp": "2026-05-01T21:24:30.348625",
+  "conflicts_total": 0,
+  "conflicts_resolved": 0,
+  "build_success": null,
+  "merged_to_main": false,
+  "error": "Unexpected error: Command '['make', '-C', '/home/osaleem/repos/linux-imx', 'ARCH=arm64', 'CROSS_COMPILE=aarch64-linux-gnu-', '-j16']' timed out after 1800 seconds",
+  "build_fix_attempts": [],
+  "resolutions": []
+}

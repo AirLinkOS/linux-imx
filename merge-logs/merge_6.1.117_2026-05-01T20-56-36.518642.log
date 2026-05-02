@@ -1,0 +1,11 @@
+2026-05-01 20:56:36,519 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.117_2026-05-01T20-56-36.518642.log
+2026-05-01 20:56:38,257 [INFO] Merge v6.1.117 has 1 conflicted files
+2026-05-01 20:56:38,259 [INFO]   arch/arm64/boot/dts/freescale/imx8qxp.dtsi: 1 conflict hunks
+2026-05-01 20:56:38,259 [INFO] Resolving arch/arm64/boot/dts/freescale/imx8qxp.dtsi hunk 1...
+2026-05-01 20:56:38,300 [DEBUG] Prompt for arch/arm64/boot/dts/freescale/imx8qxp.dtsi hunk 0
+2026-05-01 20:56:44,460 [INFO]   Resolved arch/arm64/boot/dts/freescale/imx8qxp.dtsi hunk 0: confidence=9/10 — Mainline fixes the alias name from vpu_core0/1 to vpu-core0/1 (proper DTS alias naming). NXP added m
+2026-05-01 20:56:45,228 [INFO] All conflicts resolved. Confidence: min=9, avg=9.0
+2026-05-01 20:56:48,032 [INFO] Build attempt 1/4...
+2026-05-01 21:12:55,005 [INFO] Build succeeded.
+2026-05-01 21:12:56,246 [INFO] Successfully merged v6.1.117 into lf-6.1.y-semtech
+2026-05-01 21:12:59,441 [INFO] Pushed lf-6.1.y-semtech to origin
