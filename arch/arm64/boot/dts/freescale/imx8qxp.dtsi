@@ -69,8 +69,8 @@
 		i2c15 = &i2c_rpbus_15;
 		mipi_dsi0 = &mipi0_dsi_host;
 		mipi_dsi1 = &mipi1_dsi_host;
-		vpu_core0 = &vpu_core0;
-		vpu_core1 = &vpu_core1;
+		vpu-core0 = &vpu_core0;
+		vpu-core1 = &vpu_core1;
 	};
 
 	cpus: cpus {
@@ -346,6 +346,7 @@
 };
 
 #include "imx8qxp-ss-img.dtsi"
+#include "imx8qxp-ss-vpu.dtsi"
 #include "imx8qxp-ss-adma.dtsi"
 #include "imx8qxp-ss-conn.dtsi"
 #include "imx8qxp-ss-lsio.dtsi"
