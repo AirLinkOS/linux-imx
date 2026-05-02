@@ -1,0 +1,12 @@
+{
+  "verdict": "critical",
+  "summary": "Macro definitions accidentally placed inside struct ls_pcie_ep, breaking the struct and removing required member fields",
+  "mainline_intent": "Add linkup notifier support via PEX_PF0_CONFIG/PEX_PF0_CFG_READY, save full PCI_EXP_LNKCAP via cap lookup instead of NXP's max_speed/max_width fields, and rework irq handler to call dw_pcie_ep_linkup()",
+  "concerns": [
+    "Inside 'struct ls_pcie_ep' definition, mainline's #define block (PEX_PF0_CONFIG, PEX_PF0_PME_MES_DR/IER, etc.) was inserted instead of being placed at file scope. This will not compile cleanly and corrupts the struct.",
+    "The struct ls_pcie_ep is missing required member declarations: 'int irq;', 'u32 lnkcap;', 'bool big_endian;', and NXP's 'u8 max_speed; u8 max_width;'. The code references pcie->irq, pcie->lnkcap, pcie->big_endian, pcie->max_speed, pcie->max_width \u2014 none of which are declared in the merged struct body.",
+    "Duplicate macro definitions: PEX_PF0_CONFIG and PEX_PF0_CFG_READY are defined twice (once at file scope and once inside the struct).",
+    "PEX_PF0_PME_MES_DR/IER macros are defined twice with different styles (NXP's (1<<n) at file scope and mainline's BIT(n) inside struct) \u2014 this is a redefinition compile error.",
+    "Probe still writes pcie->max_speed/max_width via PCIE_LINK_CAP (NXP approach) AND also reads pcie->lnkcap (mainline approach), but the IRQ handler only uses lnkcap \u2014 so the NXP max_speed/max_width assignments are dead code but reference removed struct members, which will fail to compile."
+  ]
+}

@@ -1,0 +1,58 @@
+# This is an APPROXIMATION of the prompt sent to the LLM.
+# (The exact prompt isn't stored in the merge JSON.)
+# It is reconstructed from the stored conflict content.
+
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/pci/controller/dwc/pci-layerscape-ep.c
+
+We are merging mainline stable v6.1.81 into NXP's vendor kernel.
+
+Context BEFORE the conflict:
+```
+(not stored)
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+#define PCIE_LINK_CAP			0x7C	/* PCIe Link Capabilities*/
+#define MAX_LINK_SP_MASK		0x0F
+#define MAX_LINK_W_MASK			0x3F
+#define MAX_LINK_W_SHIFT		4
+
+/* PEX PFa PCIE pme and message interrupt registers*/
+#define PEX_PF0_PME_MES_DR             0xC0020
+#define PEX_PF0_PME_MES_DR_LUD         (1 << 7)
+#define PEX_PF0_PME_MES_DR_LDD         (1 << 9)
+#define PEX_PF0_PME_MES_DR_HRD         (1 << 10)
+
+#define PEX_PF0_PME_MES_IER            0xC0028
+#define PEX_PF0_PME_MES_IER_LUDIE      (1 << 7)
+#define PE
+```
+
+THEIR side (mainline stable):
+```
+#define PEX_PF0_CONFIG			0xC0014
+#define PEX_PF0_CFG_READY		BIT(0)
+
+/* PEX PFa PCIE PME and message interrupt registers*/
+#define PEX_PF0_PME_MES_DR		0xC0020
+#define PEX_PF0_PME_MES_DR_LUD		BIT(7)
+#define PEX_PF0_PME_MES_DR_LDD		BIT(9)
+#define PEX_PF0_PME_MES_DR_HRD		BIT(10)
+
+#define PEX_PF0_PME_MES_IER		0xC0028
+#define PEX_PF0_PME_MES_IER_LUDIE	BIT(7)
+#define PEX_PF0_PME_MES_IER_LDDIE	BIT(9)
+#define PEX_PF0_PME_MES_IER_HRDIE	BIT(10)
+
+```
+
+Context AFTER the conflict:
+```
+(not stored)
+```
+
+Resolve this conflict. Return ONLY the JSON object.

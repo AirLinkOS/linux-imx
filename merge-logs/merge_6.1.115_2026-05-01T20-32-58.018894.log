@@ -1,0 +1,8 @@
+2026-05-01 20:32:58,022 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.115_2026-05-01T20-32-58.018894.log
+2026-05-01 20:32:59,822 [INFO] Merge v6.1.115 completed cleanly — no conflicts!
+2026-05-01 20:33:02,566 [INFO] Build attempt 1/4...
+2026-05-01 20:38:57,386 [INFO] Build fix attempt 1: found 1 errors
+2026-05-01 20:39:01,000 [INFO]   AI proposes: patch (confidence: 9)
+2026-05-01 20:39:01,000 [INFO]   Reasoning: In newer kernels, genlmsg_multicast_allns() dropped the 'portid' argument (the 0). The fix is to remove that argument from the call.
+2026-05-01 20:39:01,002 [INFO]   Applied patch to net/tsn/genl_tsn.c: 1 operation(s)
+2026-05-01 20:40:21,849 [INFO] Build succeeded after fix.

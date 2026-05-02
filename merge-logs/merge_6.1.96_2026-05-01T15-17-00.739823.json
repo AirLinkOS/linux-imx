@@ -1,0 +1,26 @@
+{
+  "version": "6.1.96",
+  "timestamp": "2026-05-01T15:17:00.739823",
+  "conflicts_total": 1,
+  "conflicts_resolved": 1,
+  "build_success": true,
+  "merged_to_main": true,
+  "error": null,
+  "build_fix_attempts": [],
+  "resolutions": [
+    {
+      "file": "arch/arm64/boot/dts/freescale/imx8qm-mek.dts",
+      "hunk_index": 0,
+      "confidence": 8,
+      "reasoning": "The mainline stable fix changes the gpio from `&lsio_gpio4 7` to something else (likely the fix). Looking at the context BEFORE conflict, the gpio line shows `<&lsio_gpio4 7 GPIO_ACTIVE_HIGH>` which is already present. The conflict is only about the `off-on-delay-us` line that NXP added. The mainline fix (56de6648a426) changes the gpio number, but that change must be in the context before. Since the conflict shown is only about NXP's added `off-on-delay-us` line vs nothing on mainline side, I keep NXP's addition.",
+      "ours": "\t\toff-on-delay-us = <4800>;\n",
+      "theirs": "",
+      "resolved_code": "\t\toff-on-delay-us = <4800>;\n",
+      "api_response_raw": "{\n  \"confidence\": 8,\n  \"reasoning\": \"The mainline stable fix changes the gpio from `&lsio_gpio4 7` to something else (likely the fix). Looking at the context BEFORE conflict, the gpio line shows `<&lsio_gpio4 7 GPIO_ACTIVE_HIGH>` which is already present. The conflict is only about the `off-on-delay-us` line that NXP added. The mainline fix (56de6648a426) changes the gpio number, but that change must be in the context before. Since the conflict shown is only about NXP's added `off-on-delay-us` line vs nothing on mainline side, I keep NXP's addition.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\\t\\toff-on-delay-us = <4800>;\\n\"\n}",
+      "start_line": 189,
+      "end_line": 192,
+      "verification": null,
+      "superseded_attempts": []
+    }
+  ]
+}

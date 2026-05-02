@@ -1,0 +1,65 @@
+# This is an APPROXIMATION of the prompt sent to the LLM.
+# (The exact prompt isn't stored in the merge JSON.)
+# It is reconstructed from the stored conflict content.
+
+Resolve this merge conflict in the Linux kernel.
+
+File: arch/arm64/boot/dts/freescale/fsl-ls208xa.dtsi
+
+We are merging mainline stable v6.1.64 into NXP's vendor kernel.
+
+Context BEFORE the conflict:
+```
+(not stored)
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+		usb0: usb@3100000 {
+			status = "disabled";
+			compatible = "fsl,ls2088a-dwc3", "snps,dwc3";
+			reg = <0x0 0x3100000 0x0 0x10000>;
+			interrupts = <0 80 0x4>; /* Level high type */
+			dr_mode = "host";
+			snps,quirk-frame-length-adjustment = <0x20>;
+			snps,dis_rxdet_inp3_quirk;
+			snps,incr-burst-type-adjustment = <1>, <4>, <8>, <16>;
+			snps,host-vbus-glitches;
+		};
+
+		usb1: usb@3110000 {
+			status = "disabled";
+			compatible = "fsl,ls2088a-dwc3", "snps,dwc3";
+			reg = <0x0 0x3110000 0x0 0x1
+```
+
+THEIR side (mainline stable):
+```
+		bus: bus {
+			#address-cells = <2>;
+			#size-cells = <2>;
+			compatible = "simple-bus";
+			ranges;
+			dma-ranges = <0x0 0x0 0x0 0x0 0x100 0x00000000>;
+
+			usb0: usb@3100000 {
+				compatible = "snps,dwc3";
+				reg = <0x0 0x3100000 0x0 0x10000>;
+				interrupts = <0 80 0x4>; /* Level high type */
+				dr_mode = "host";
+				snps,quirk-frame-length-adjustment = <0x20>;
+				snps,dis_rxdet_inp3_quirk;
+				snps,incr-burst-type-adjustment = <1>, <4>, <8>, <16>;
+				status = "disabled";
+			};
+
+			usb1: u
+```
+
+Context AFTER the conflict:
+```
+(not stored)
+```
+
+Resolve this conflict. Return ONLY the JSON object.

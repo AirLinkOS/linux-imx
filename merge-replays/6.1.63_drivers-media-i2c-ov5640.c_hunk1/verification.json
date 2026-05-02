@@ -1,0 +1,10 @@
+{
+  "verdict": "concerns",
+  "summary": "Mainline 6.1.62->6.1.63 only changed OV5640_DEFAULT_LINK_FREQ from 19 to 13; merge kept NXP value of 19 instead of taking mainline's bug fix.",
+  "mainline_intent": "The v6.1.62->v6.1.63 stable update changed OV5640_DEFAULT_LINK_FREQ from 19 to 13 (a bug fix selecting the correct default link frequency for UYVY 16bpp / 2 lanes mode). No other functional changes are visible in the diff between the two mainline versions for this file.",
+  "concerns": [
+    "OV5640_DEFAULT_LINK_FREQ remains 19 in MERGED while mainline 6.1.63 changed it to 13. This stable bugfix appears to have been dropped during the merge.",
+    "The resolution reasoning discusses a probe-restructure conflict, but FROM->TO has no such restructuring; the only mainline delta is the link-freq constant. The merger may have misidentified the conflict and discarded the actual intended fix.",
+    "Runtime impact: incorrect default link frequency could cause MIPI CSI-2 link mis-configuration on first stream in default mode; not catastrophic but a regression vs. intended stable fix."
+  ]
+}

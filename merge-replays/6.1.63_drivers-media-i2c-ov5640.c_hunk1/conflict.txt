@@ -1,0 +1,21 @@
+# Conflict in drivers/media/i2c/ov5640.c, hunk 1
+# Approximate file location: lines 3970-3986
+# Confidence: 4/10
+
+<<<<<<< HEAD (linux-imx-6.1.62: NXP's vendor side)
+
+=======
+	ret = ov5640_sensor_resume(dev);
+	if (ret) {
+		dev_err(dev, "failed to power on\n");
+		goto free_ctrls;
+	}
+
+	pm_runtime_set_active(dev);
+	pm_runtime_get_noresume(dev);
+	pm_runtime_enable(dev);
+
+	ret = ov5640_check_chip_id(sensor);
+	if (ret)
+		goto err_pm_runtime;
+>>>>>>> v6.1.63 (mainline-6.1.63: stable side)

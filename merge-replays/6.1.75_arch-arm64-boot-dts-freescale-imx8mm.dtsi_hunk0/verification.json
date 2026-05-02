@@ -1,0 +1,10 @@
+{
+  "verdict": "verified",
+  "summary": "Merge correctly preserves NXP vendor GPU/VPU nodes; the mainline stable fix doesn't apply to NXP's GPU node structure.",
+  "mainline_intent": "Mainline v6.1.74->v6.1.75 reduced the GPU PLL clock rate from 1000000000 to 800000000 in both gpu_3d and gpu_2d nodes (CVE/stability fix for GPU clock).",
+  "concerns": [
+    "NXP uses a different GPU node ('gpu: gpu@38000000' with compatible 'fsl,imx8mm-gpu') that doesn't exist in mainline; mainline's gpu_3d/gpu_2d 'vivante,gc' nodes are absent in NXP base. The merge preserved NXP's structure (correct), but the stable fix's intent (lowering GPU_PLL to 800MHz) is NOT applied to NXP's gpu node which still has assigned-clock-rates ending in <1000000000> for IMX8MM_GPU_PLL_OUT. The vendor may need to evaluate whether the same clock-rate reduction applies to their gpu node.",
+    "NXP's vpu_g1/vpu_g2 nodes (nxp,imx8mm-hantro) differ from mainline's vpu_g1/vpu_g2 (nxp,imx8mm-vpu-g1/nxp,imx8mq-vpu-g2). Merge keeps NXP versions which is correct for vendor tree.",
+    "Resolution confidence was self-reported low (3/10), but the actual outcome is structurally sound: NXP vendor nodes preserved, no duplicate nodes, no broken references. The only semantic question is whether the GPU PLL rate fix should propagate to NXP's gpu node."
+  ]
+}

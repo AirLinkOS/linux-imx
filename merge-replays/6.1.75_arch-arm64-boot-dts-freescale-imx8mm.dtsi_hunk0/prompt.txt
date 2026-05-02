@@ -1,0 +1,57 @@
+# This is an APPROXIMATION of the prompt sent to the LLM.
+# (The exact prompt isn't stored in the merge JSON.)
+# It is reconstructed from the stored conflict content.
+
+Resolve this merge conflict in the Linux kernel.
+
+File: arch/arm64/boot/dts/freescale/imx8mm.dtsi
+
+We are merging mainline stable v6.1.75 into NXP's vendor kernel.
+
+Context BEFORE the conflict:
+```
+(not stored)
+```
+
+CONFLICT (hunk 1):
+OUR side (NXP vendor kernel):
+```
+		pcie0_ep: pcie_ep@33800000 {
+			compatible = "fsl,imx8mm-pcie-ep";
+			reg = <0x33800000 0x000400000>,
+			      <0x18000000 0x08000000>;
+			reg-names = "regs", "addr_space";
+			num-lanes = <1>;
+			interrupts = <GIC_SPI 127 IRQ_TYPE_LEVEL_HIGH>; /* eDMA */
+			interrupt-names = "dma";
+			fsl,max-link-speed = <2>;
+			power-domains = <&pgc_pcie>;
+			resets = <&src IMX8MQ_RESET_PCIE_CTRL_APPS_EN>,
+				 <&src IMX8MQ_RESET_PCIE_CTRL_APPS_TURNOFF>;
+			reset-names = "apps", "turnoff";
+			phys = <&pcie_p
+```
+
+THEIR side (mainline stable):
+```
+		gpu_3d: gpu@38000000 {
+			compatible = "vivante,gc";
+			reg = <0x38000000 0x8000>;
+			interrupts = <GIC_SPI 3 IRQ_TYPE_LEVEL_HIGH>;
+			clocks = <&clk IMX8MM_CLK_GPU_AHB>,
+				 <&clk IMX8MM_CLK_GPU_BUS_ROOT>,
+				 <&clk IMX8MM_CLK_GPU3D_ROOT>,
+				 <&clk IMX8MM_CLK_GPU3D_ROOT>;
+			clock-names = "reg", "bus", "core", "shader";
+			assigned-clocks = <&clk IMX8MM_CLK_GPU3D_CORE>,
+					  <&clk IMX8MM_GPU_PLL_OUT>;
+			assigned-clock-parents = <&clk IMX8MM_GPU_PLL_OUT>;
+			assigned-clock-rates = <0>, 
+```
+
+Context AFTER the conflict:
+```
+(not stored)
+```
+
+Resolve this conflict. Return ONLY the JSON object.

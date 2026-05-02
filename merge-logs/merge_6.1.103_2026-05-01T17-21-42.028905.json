@@ -1,0 +1,40 @@
+{
+  "version": "6.1.103",
+  "timestamp": "2026-05-01T17:21:42.028905",
+  "conflicts_total": 2,
+  "conflicts_resolved": 2,
+  "build_success": true,
+  "merged_to_main": true,
+  "error": null,
+  "build_fix_attempts": [],
+  "resolutions": [
+    {
+      "file": "drivers/irqchip/irq-imx-irqsteer.c",
+      "hunk_index": 0,
+      "confidence": 9,
+      "reasoning": "NXP added pd_csi and pd_isi fields plus bus_lock/bus_sync_unlock callbacks that use them. Mainline stable added the bus_lock/bus_sync_unlock callbacks (the fix). Both are already merged in context_after. The conflict is just about the struct fields - keep NXP's additional pd_csi/pd_isi fields.",
+      "ours": "\n\tstruct device\t\t*dev;\n\tstruct device\t\t*pd_csi;\n\tstruct device\t\t*pd_isi;\n",
+      "theirs": "\tstruct device\t\t*dev;\n",
+      "resolved_code": "\tstruct device\t\t*dev;\n\tstruct device\t\t*pd_csi;\n\tstruct device\t\t*pd_isi;\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"NXP added pd_csi and pd_isi fields plus bus_lock/bus_sync_unlock callbacks that use them. Mainline stable added the bus_lock/bus_sync_unlock callbacks (the fix). Both are already merged in context_after. The conflict is just about the struct fields - keep NXP's additional pd_csi/pd_isi fields.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\\tstruct device\\t\\t*dev;\\n\\tstruct device\\t\\t*pd_csi;\\n\\tstruct device\\t\\t*pd_isi;\\n\"\n}",
+      "start_line": 40,
+      "end_line": 47,
+      "verification": null,
+      "superseded_attempts": []
+    },
+    {
+      "file": "sound/soc/sof/imx/imx8m.c",
+      "hunk_index": 0,
+      "confidence": 9,
+      "reasoning": "Mainline fix uses 'np' (the of_node already obtained earlier) instead of sdev->dev->of_node. They are equivalent here since np = pdev->dev.of_node = sdev->dev->of_node, but the mainline stable fix is the cleaner version. Taking mainline's version as it's the stable fix and functionally equivalent.",
+      "ours": "\tpriv->regmap = syscon_regmap_lookup_by_phandle(sdev->dev->of_node, \"fsl,dsp-ctrl\");\n",
+      "theirs": "\tpriv->regmap = syscon_regmap_lookup_by_phandle(np, \"fsl,dsp-ctrl\");\n",
+      "resolved_code": "\tpriv->regmap = syscon_regmap_lookup_by_phandle(np, \"fsl,dsp-ctrl\");\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"Mainline fix uses 'np' (the of_node already obtained earlier) instead of sdev->dev->of_node. They are equivalent here since np = pdev->dev.of_node = sdev->dev->of_node, but the mainline stable fix is the cleaner version. Taking mainline's version as it's the stable fix and functionally equivalent.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\\tpriv->regmap = syscon_regmap_lookup_by_phandle(np, \\\"fsl,dsp-ctrl\\\");\\n\"\n}",
+      "start_line": 261,
+      "end_line": 265,
+      "verification": null,
+      "superseded_attempts": []
+    }
+  ]
+}

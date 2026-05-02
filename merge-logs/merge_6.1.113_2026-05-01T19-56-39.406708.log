@@ -1,0 +1,24 @@
+2026-05-01 19:56:39,408 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.113_2026-05-01T19-56-39.406708.log
+2026-05-01 19:56:42,357 [INFO] Merge v6.1.113 has 2 conflicted files
+2026-05-01 19:56:42,359 [INFO]   drivers/clk/imx/clk-composite-7ulp.c: 1 conflict hunks
+2026-05-01 19:56:42,361 [INFO]   drivers/remoteproc/imx_rproc.c: 4 conflict hunks
+2026-05-01 19:56:42,361 [INFO] Resolving drivers/clk/imx/clk-composite-7ulp.c hunk 1...
+2026-05-01 19:56:42,441 [DEBUG] Prompt for drivers/clk/imx/clk-composite-7ulp.c hunk 0
+2026-05-01 19:56:48,458 [INFO]   Resolved drivers/clk/imx/clk-composite-7ulp.c hunk 0: confidence=8/10 — NXP returns -ENODEV error pointer when PR bit not set, while mainline stable adds an info print and 
+2026-05-01 19:56:48,459 [INFO] Resolving drivers/remoteproc/imx_rproc.c hunk 1...
+2026-05-01 19:56:48,542 [DEBUG] Prompt for drivers/remoteproc/imx_rproc.c hunk 0
+2026-05-01 19:56:53,697 [INFO]   Resolved drivers/remoteproc/imx_rproc.c hunk 0: confidence=8/10 — NXP combined TCML/U into a single 0x40000 entry while mainline split into separate TCML (0x20000) an
+2026-05-01 19:56:53,701 [INFO] Resolving drivers/remoteproc/imx_rproc.c hunk 2...
+2026-05-01 19:56:53,782 [DEBUG] Prompt for drivers/remoteproc/imx_rproc.c hunk 1
+2026-05-01 19:57:03,230 [INFO]   Resolved drivers/remoteproc/imx_rproc.c hunk 1: confidence=9/10 — OUR side (NXP) adds an imx_rproc_get_boot_addr function for i.MX93-cm33 specific handling. THEIR sid
+2026-05-01 19:57:03,231 [INFO] Resolving drivers/remoteproc/imx_rproc.c hunk 3...
+2026-05-01 19:57:03,313 [DEBUG] Prompt for drivers/remoteproc/imx_rproc.c hunk 2
+2026-05-01 19:57:07,414 [INFO]   Resolved drivers/remoteproc/imx_rproc.c hunk 2: confidence=9/10 — NXP vendor kernel added a second parameter 'true' to imx_rproc_xtr_mbox_init() to support different 
+2026-05-01 19:57:07,414 [INFO] Resolving drivers/remoteproc/imx_rproc.c hunk 4...
+2026-05-01 19:57:07,506 [DEBUG] Prompt for drivers/remoteproc/imx_rproc.c hunk 3
+2026-05-01 19:57:11,401 [INFO]   Resolved drivers/remoteproc/imx_rproc.c hunk 3: confidence=9/10 — NXP has additional imx_rproc_put_scu() handling with err_put_scu label. The conflict is just about w
+2026-05-01 19:57:12,349 [INFO] All conflicts resolved. Confidence: min=8, avg=8.6
+2026-05-01 19:57:15,110 [INFO] Build attempt 1/4...
+2026-05-01 20:16:30,618 [INFO] Build succeeded.
+2026-05-01 20:16:34,936 [INFO] Successfully merged v6.1.113 into lf-6.1.y-semtech
+2026-05-01 20:16:42,785 [INFO] Pushed lf-6.1.y-semtech to origin

@@ -1,0 +1,25 @@
+2026-04-30 14:33:17,081 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.95_2026-04-30T14-33-17.081097.log
+2026-04-30 14:33:21,699 [INFO] Merge v6.1.95 completed cleanly — no conflicts!
+2026-04-30 14:33:26,336 [INFO] Build attempt 1/4...
+2026-04-30 15:03:46,298 [ERROR] Unexpected error: Command '['make', '-C', '/home/osaleem/repos/linux-imx', 'ARCH=arm64', 'CROSS_COMPILE=aarch64-linux-gnu-', '-j16']' timed out after 1800 seconds
+Traceback (most recent call last):
+  File "/home/osaleem/repos/kernel_merge.py", line 1371, in _do_single_merge_inner
+    build_ok, fix_attempts = run_build_with_fixes(
+                             ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/osaleem/repos/kernel_merge.py", line 1111, in run_build_with_fixes
+    result = run_make(repo)
+             ^^^^^^^^^^^^^^
+  File "/home/osaleem/repos/kernel_merge.py", line 1097, in run_make
+    return subprocess.run(cmd, capture_output=True, text=True, timeout=1800)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 550, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 1209, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 2116, in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+  File "/usr/lib/python3.12/subprocess.py", line 1253, in _check_timeout
+    raise TimeoutExpired(
+subprocess.TimeoutExpired: Command '['make', '-C', '/home/osaleem/repos/linux-imx', 'ARCH=arm64', 'CROSS_COMPILE=aarch64-linux-gnu-', '-j16']' timed out after 1800 seconds

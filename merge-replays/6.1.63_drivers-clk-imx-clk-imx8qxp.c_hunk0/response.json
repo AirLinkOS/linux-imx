@@ -1,0 +1,6 @@
+{
+  "confidence": 8,
+  "reasoning": "Both sides have the same two lines but in different order. The mainline stable fix reorders them so lcd_pxl_clk is registered before lcd_pxl_bypass_div_clk. Taking the mainline order as it's the stable fix.",
+  "resolved_code": "\timx_clk_scu2(\"lcd_pxl_clk\", lcd_pxl_sels, ARRAY_SIZE(lcd_pxl_sels), IMX_SC_R_LCD_0, IMX_SC_PM_CLK_MISC0);\n\timx_clk_scu(\"lcd_pxl_bypass_div_clk\", IMX_SC_R_LCD_0, IMX_SC_PM_CLK_BYPASS);\n",
+  "api_response_raw": "{\n  \"confidence\": 8,\n  \"reasoning\": \"Both sides have the same two lines but in different order. The mainline stable fix reorders them so lcd_pxl_clk is registered before lcd_pxl_bypass_div_clk. Taking the mainline order as it's the stable fix.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\\timx_clk_scu2(\\\"lcd_pxl_clk\\\", lcd_pxl_sels, ARRAY_SIZE(lcd_pxl_sels), IMX_SC_R_LCD_0, IMX_SC_PM_CLK_MISC0);\\n\\timx_clk_scu(\\\"lcd_pxl_bypass_div_clk\\\", IMX_SC_R_LCD_0, IMX_SC_PM_CLK_BYPASS);\\n\"\n}"
+}

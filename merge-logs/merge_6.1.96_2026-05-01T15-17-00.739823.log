@@ -1,0 +1,11 @@
+2026-05-01 15:17:00,740 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.96_2026-05-01T15-17-00.739823.log
+2026-05-01 15:17:02,718 [INFO] Merge v6.1.96 has 1 conflicted files
+2026-05-01 15:17:02,720 [INFO]   arch/arm64/boot/dts/freescale/imx8qm-mek.dts: 1 conflict hunks
+2026-05-01 15:17:02,720 [INFO] Resolving arch/arm64/boot/dts/freescale/imx8qm-mek.dts hunk 1...
+2026-05-01 15:17:02,772 [DEBUG] Prompt for arch/arm64/boot/dts/freescale/imx8qm-mek.dts hunk 0
+2026-05-01 15:17:09,158 [INFO]   Resolved arch/arm64/boot/dts/freescale/imx8qm-mek.dts hunk 0: confidence=8/10 — The mainline stable fix changes the gpio from `&lsio_gpio4 7` to something else (likely the fix). Lo
+2026-05-01 15:17:09,742 [INFO] All conflicts resolved. Confidence: min=8, avg=8.0
+2026-05-01 15:17:12,127 [INFO] Build attempt 1/4...
+2026-05-01 15:35:07,776 [INFO] Build succeeded.
+2026-05-01 15:35:12,011 [INFO] Successfully merged v6.1.96 into lf-6.1.y-semtech
+2026-05-01 15:35:17,374 [INFO] Pushed lf-6.1.y-semtech to origin

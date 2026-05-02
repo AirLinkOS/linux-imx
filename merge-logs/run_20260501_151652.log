@@ -1,0 +1,321 @@
+2026-05-01 15:16:52,044 [INFO] Run log file: /home/osaleem/repos/linux-imx/merge-logs/run_20260501_151652.log
+2026-05-01 15:16:52,045 [INFO] Kernel Stable Merge Tool started
+2026-05-01 15:16:52,045 [INFO] Repo: /home/osaleem/repos/linux-imx
+2026-05-01 15:16:52,045 [INFO] Target: v6.1.169
+2026-05-01 15:16:52,045 [INFO] Provider: claude
+2026-05-01 15:16:52,045 [INFO] Interactive: False
+2026-05-01 15:16:52,045 [INFO] Dry run: False
+2026-05-01 15:16:52,045 [INFO] Fetching stable tags...
+2026-05-01 15:17:00,739 [INFO] Using override start version: 6.1.95
+2026-05-01 15:17:00,739 [INFO] 
+============================================================
+Merge step: v6.1.95 -> v6.1.96
+Progress: 1/74
+============================================================
+2026-05-01 15:17:00,739 [INFO] Starting merge: v6.1.96
+2026-05-01 15:17:00,740 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.96_2026-05-01T15-17-00.739823.log
+2026-05-01 15:17:02,718 [INFO] Merge v6.1.96 has 1 conflicted files
+2026-05-01 15:17:02,720 [INFO]   arch/arm64/boot/dts/freescale/imx8qm-mek.dts: 1 conflict hunks
+2026-05-01 15:17:02,720 [INFO] Resolving arch/arm64/boot/dts/freescale/imx8qm-mek.dts hunk 1...
+2026-05-01 15:17:02,772 [DEBUG] Prompt for arch/arm64/boot/dts/freescale/imx8qm-mek.dts hunk 0
+2026-05-01 15:17:09,158 [INFO]   Resolved arch/arm64/boot/dts/freescale/imx8qm-mek.dts hunk 0: confidence=8/10 — The mainline stable fix changes the gpio from `&lsio_gpio4 7` to something else (likely the fix). Lo
+2026-05-01 15:17:09,742 [INFO] All conflicts resolved. Confidence: min=8, avg=8.0
+2026-05-01 15:17:12,127 [INFO] Build attempt 1/4...
+2026-05-01 15:35:07,776 [INFO] Build succeeded.
+2026-05-01 15:35:12,011 [INFO] Successfully merged v6.1.96 into lf-6.1.y-semtech
+2026-05-01 15:35:17,374 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-01 15:35:17,391 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.96_2026-05-01T15-17-00.739823.json
+2026-05-01 15:35:17,800 [INFO] Current kernel version: 6.1.96
+2026-05-01 15:35:17,801 [INFO] 
+============================================================
+Merge step: v6.1.96 -> v6.1.97
+Progress: 2/74
+============================================================
+2026-05-01 15:35:17,801 [INFO] Starting merge: v6.1.97
+2026-05-01 15:35:17,824 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.97_2026-05-01T15-35-17.805617.log
+2026-05-01 15:35:20,231 [INFO] Merge v6.1.97 completed cleanly — no conflicts!
+2026-05-01 15:35:24,619 [INFO] Build attempt 1/4...
+2026-05-01 15:56:31,562 [INFO] Build succeeded.
+2026-05-01 15:56:35,731 [INFO] Merged v6.1.97 into lf-6.1.y-semtech
+2026-05-01 15:56:40,202 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-01 15:56:40,247 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.97_2026-05-01T15-35-17.805617.json
+2026-05-01 15:56:40,633 [INFO] Current kernel version: 6.1.97
+2026-05-01 15:56:40,633 [INFO] 
+============================================================
+Merge step: v6.1.97 -> v6.1.98
+Progress: 3/74
+============================================================
+2026-05-01 15:56:40,634 [INFO] Starting merge: v6.1.98
+2026-05-01 15:56:40,640 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.98_2026-05-01T15-56-40.635630.log
+2026-05-01 15:56:42,905 [INFO] Merge v6.1.98 completed cleanly — no conflicts!
+2026-05-01 15:56:47,004 [INFO] Build attempt 1/4...
+2026-05-01 16:13:31,421 [INFO] Build succeeded.
+2026-05-01 16:13:33,935 [INFO] Merged v6.1.98 into lf-6.1.y-semtech
+2026-05-01 16:13:36,753 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-01 16:13:36,766 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.98_2026-05-01T15-56-40.635630.json
+2026-05-01 16:13:37,071 [INFO] Current kernel version: 6.1.98
+2026-05-01 16:13:37,071 [INFO] 
+============================================================
+Merge step: v6.1.98 -> v6.1.99
+Progress: 4/74
+============================================================
+2026-05-01 16:13:37,072 [INFO] Starting merge: v6.1.99
+2026-05-01 16:13:37,077 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.99_2026-05-01T16-13-37.073431.log
+2026-05-01 16:13:38,441 [INFO] Merge v6.1.99 completed cleanly — no conflicts!
+2026-05-01 16:13:41,147 [INFO] Build attempt 1/4...
+2026-05-01 16:30:10,802 [INFO] Build succeeded.
+2026-05-01 16:30:13,058 [INFO] Merged v6.1.99 into lf-6.1.y-semtech
+2026-05-01 16:30:15,875 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-01 16:30:15,885 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.99_2026-05-01T16-13-37.073431.json
+2026-05-01 16:30:16,174 [INFO] Current kernel version: 6.1.99
+2026-05-01 16:30:16,175 [INFO] 
+============================================================
+Merge step: v6.1.99 -> v6.1.100
+Progress: 5/74
+============================================================
+2026-05-01 16:30:16,175 [INFO] Starting merge: v6.1.100
+2026-05-01 16:30:16,179 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.100_2026-05-01T16-30-16.176384.log
+2026-05-01 16:30:17,851 [INFO] Merge v6.1.100 completed cleanly — no conflicts!
+2026-05-01 16:30:20,576 [INFO] Build attempt 1/4...
+2026-05-01 16:47:00,601 [INFO] Build succeeded.
+2026-05-01 16:47:03,535 [INFO] Merged v6.1.100 into lf-6.1.y-semtech
+2026-05-01 16:47:06,500 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-01 16:47:06,513 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.100_2026-05-01T16-30-16.176384.json
+2026-05-01 16:47:06,830 [INFO] Current kernel version: 6.1.100
+2026-05-01 16:47:06,831 [INFO] 
+============================================================
+Merge step: v6.1.100 -> v6.1.101
+Progress: 6/74
+============================================================
+2026-05-01 16:47:06,831 [INFO] Starting merge: v6.1.101
+2026-05-01 16:47:06,836 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.101_2026-05-01T16-47-06.832864.log
+2026-05-01 16:47:08,538 [INFO] Merge v6.1.101 completed cleanly — no conflicts!
+2026-05-01 16:47:14,545 [INFO] Build attempt 1/4...
+2026-05-01 17:05:07,366 [INFO] Build succeeded.
+2026-05-01 17:05:11,002 [INFO] Merged v6.1.101 into lf-6.1.y-semtech
+2026-05-01 17:05:17,755 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-01 17:05:17,778 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.101_2026-05-01T16-47-06.832864.json
+2026-05-01 17:05:18,418 [INFO] Current kernel version: 6.1.101
+2026-05-01 17:05:18,419 [INFO] 
+============================================================
+Merge step: v6.1.101 -> v6.1.102
+Progress: 7/74
+============================================================
+2026-05-01 17:05:18,420 [INFO] Starting merge: v6.1.102
+2026-05-01 17:05:18,427 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.102_2026-05-01T17-05-18.421842.log
+2026-05-01 17:05:20,206 [INFO] Merge v6.1.102 completed cleanly — no conflicts!
+2026-05-01 17:05:26,808 [INFO] Build attempt 1/4...
+2026-05-01 17:21:35,479 [INFO] Build succeeded.
+2026-05-01 17:21:37,952 [INFO] Merged v6.1.102 into lf-6.1.y-semtech
+2026-05-01 17:21:41,729 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-01 17:21:41,745 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.102_2026-05-01T17-05-18.421842.json
+2026-05-01 17:21:42,026 [INFO] Current kernel version: 6.1.102
+2026-05-01 17:21:42,027 [INFO] 
+============================================================
+Merge step: v6.1.102 -> v6.1.103
+Progress: 8/74
+============================================================
+2026-05-01 17:21:42,027 [INFO] Starting merge: v6.1.103
+2026-05-01 17:21:42,032 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.103_2026-05-01T17-21-42.028905.log
+2026-05-01 17:21:44,254 [INFO] Merge v6.1.103 has 2 conflicted files
+2026-05-01 17:21:44,257 [INFO]   drivers/irqchip/irq-imx-irqsteer.c: 1 conflict hunks
+2026-05-01 17:21:44,260 [INFO]   sound/soc/sof/imx/imx8m.c: 1 conflict hunks
+2026-05-01 17:21:44,261 [INFO] Resolving drivers/irqchip/irq-imx-irqsteer.c hunk 1...
+2026-05-01 17:21:44,325 [DEBUG] Prompt for drivers/irqchip/irq-imx-irqsteer.c hunk 0
+2026-05-01 17:21:48,888 [INFO]   Resolved drivers/irqchip/irq-imx-irqsteer.c hunk 0: confidence=9/10 — NXP added pd_csi and pd_isi fields plus bus_lock/bus_sync_unlock callbacks that use them. Mainline s
+2026-05-01 17:21:48,889 [INFO] Resolving sound/soc/sof/imx/imx8m.c hunk 1...
+2026-05-01 17:21:48,953 [DEBUG] Prompt for sound/soc/sof/imx/imx8m.c hunk 0
+2026-05-01 17:21:53,026 [INFO]   Resolved sound/soc/sof/imx/imx8m.c hunk 0: confidence=9/10 — Mainline fix uses 'np' (the of_node already obtained earlier) instead of sdev->dev->of_node. They ar
+2026-05-01 17:21:53,997 [INFO] All conflicts resolved. Confidence: min=9, avg=9.0
+2026-05-01 17:21:56,613 [INFO] Build attempt 1/4...
+2026-05-01 17:39:27,288 [INFO] Build succeeded.
+2026-05-01 17:39:31,018 [INFO] Successfully merged v6.1.103 into lf-6.1.y-semtech
+2026-05-01 17:39:37,707 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-01 17:39:37,721 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.103_2026-05-01T17-21-42.028905.json
+2026-05-01 17:39:38,132 [INFO] Current kernel version: 6.1.103
+2026-05-01 17:39:38,132 [INFO] 
+============================================================
+Merge step: v6.1.103 -> v6.1.104
+Progress: 9/74
+============================================================
+2026-05-01 17:39:38,132 [INFO] Starting merge: v6.1.104
+2026-05-01 17:39:38,136 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.104_2026-05-01T17-39-38.133294.log
+2026-05-01 17:39:39,705 [INFO] Merge v6.1.104 completed cleanly — no conflicts!
+2026-05-01 17:39:42,615 [INFO] Build attempt 1/4...
+2026-05-01 17:56:07,327 [INFO] Build succeeded.
+2026-05-01 17:56:10,182 [INFO] Merged v6.1.104 into lf-6.1.y-semtech
+2026-05-01 17:56:14,698 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-01 17:56:14,712 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.104_2026-05-01T17-39-38.133294.json
+2026-05-01 17:56:15,211 [INFO] Current kernel version: 6.1.104
+2026-05-01 17:56:15,213 [INFO] 
+============================================================
+Merge step: v6.1.104 -> v6.1.105
+Progress: 10/74
+============================================================
+2026-05-01 17:56:15,213 [INFO] Starting merge: v6.1.105
+2026-05-01 17:56:15,225 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.105_2026-05-01T17-56-15.216714.log
+2026-05-01 17:56:17,293 [INFO] Merge v6.1.105 completed cleanly — no conflicts!
+2026-05-01 17:56:20,088 [INFO] Build attempt 1/4...
+2026-05-01 18:12:51,156 [INFO] Build succeeded.
+2026-05-01 18:12:54,046 [INFO] Merged v6.1.105 into lf-6.1.y-semtech
+2026-05-01 18:12:58,599 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-01 18:12:58,613 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.105_2026-05-01T17-56-15.216714.json
+2026-05-01 18:12:58,943 [INFO] Current kernel version: 6.1.105
+2026-05-01 18:12:58,943 [INFO] 
+============================================================
+Merge step: v6.1.105 -> v6.1.106
+Progress: 11/74
+============================================================
+2026-05-01 18:12:58,944 [INFO] Starting merge: v6.1.106
+2026-05-01 18:12:58,948 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.106_2026-05-01T18-12-58.945252.log
+2026-05-01 18:13:00,391 [INFO] Merge v6.1.106 completed cleanly — no conflicts!
+2026-05-01 18:13:02,885 [INFO] Build attempt 1/4...
+2026-05-01 18:29:38,846 [INFO] Build succeeded.
+2026-05-01 18:29:41,501 [INFO] Merged v6.1.106 into lf-6.1.y-semtech
+2026-05-01 18:29:45,491 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-01 18:29:45,492 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.106_2026-05-01T18-12-58.945252.json
+2026-05-01 18:29:45,778 [INFO] Current kernel version: 6.1.106
+2026-05-01 18:29:45,778 [INFO] 
+============================================================
+Merge step: v6.1.106 -> v6.1.107
+Progress: 12/74
+============================================================
+2026-05-01 18:29:45,778 [INFO] Starting merge: v6.1.107
+2026-05-01 18:29:45,780 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.107_2026-05-01T18-29-45.778723.log
+2026-05-01 18:29:47,910 [INFO] Merge v6.1.107 completed cleanly — no conflicts!
+2026-05-01 18:29:50,608 [INFO] Build attempt 1/4...
+2026-05-01 18:46:36,739 [INFO] Build succeeded.
+2026-05-01 18:46:40,575 [INFO] Merged v6.1.107 into lf-6.1.y-semtech
+2026-05-01 18:46:47,476 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-01 18:46:47,494 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.107_2026-05-01T18-29-45.778723.json
+2026-05-01 18:46:48,042 [INFO] Current kernel version: 6.1.107
+2026-05-01 18:46:48,043 [INFO] 
+============================================================
+Merge step: v6.1.107 -> v6.1.108
+Progress: 13/74
+============================================================
+2026-05-01 18:46:48,043 [INFO] Starting merge: v6.1.108
+2026-05-01 18:46:48,048 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.108_2026-05-01T18-46-48.044593.log
+2026-05-01 18:46:49,910 [INFO] Merge v6.1.108 completed cleanly — no conflicts!
+2026-05-01 18:46:52,787 [INFO] Build attempt 1/4...
+2026-05-01 19:06:58,712 [INFO] Build succeeded.
+2026-05-01 19:07:02,701 [INFO] Merged v6.1.108 into lf-6.1.y-semtech
+2026-05-01 19:07:07,568 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-01 19:07:07,592 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.108_2026-05-01T18-46-48.044593.json
+2026-05-01 19:07:08,003 [INFO] Current kernel version: 6.1.108
+2026-05-01 19:07:08,004 [INFO] 
+============================================================
+Merge step: v6.1.108 -> v6.1.109
+Progress: 14/74
+============================================================
+2026-05-01 19:07:08,004 [INFO] Starting merge: v6.1.109
+2026-05-01 19:07:08,014 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.109_2026-05-01T19-07-08.009275.log
+2026-05-01 19:07:10,046 [INFO] Merge v6.1.109 completed cleanly — no conflicts!
+2026-05-01 19:07:13,810 [INFO] Build attempt 1/4...
+2026-05-01 19:18:26,065 [INFO] Build succeeded.
+2026-05-01 19:18:29,910 [INFO] Merged v6.1.109 into lf-6.1.y-semtech
+2026-05-01 19:18:35,209 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-01 19:18:35,242 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.109_2026-05-01T19-07-08.009275.json
+2026-05-01 19:18:35,580 [INFO] Current kernel version: 6.1.109
+2026-05-01 19:18:35,581 [INFO] 
+============================================================
+Merge step: v6.1.109 -> v6.1.110
+Progress: 15/74
+============================================================
+2026-05-01 19:18:35,582 [INFO] Starting merge: v6.1.110
+2026-05-01 19:18:35,592 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.110_2026-05-01T19-18-35.583748.log
+2026-05-01 19:18:38,272 [INFO] Merge v6.1.110 completed cleanly — no conflicts!
+2026-05-01 19:18:42,396 [INFO] Build attempt 1/4...
+2026-05-01 19:38:27,212 [INFO] Build succeeded.
+2026-05-01 19:38:30,483 [INFO] Merged v6.1.110 into lf-6.1.y-semtech
+2026-05-01 19:38:35,781 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-01 19:38:35,799 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.110_2026-05-01T19-18-35.583748.json
+2026-05-01 19:38:36,125 [INFO] Current kernel version: 6.1.110
+2026-05-01 19:38:36,126 [INFO] 
+============================================================
+Merge step: v6.1.110 -> v6.1.111
+Progress: 16/74
+============================================================
+2026-05-01 19:38:36,127 [INFO] Starting merge: v6.1.111
+2026-05-01 19:38:36,132 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.111_2026-05-01T19-38-36.128760.log
+2026-05-01 19:38:37,739 [INFO] Merge v6.1.111 completed cleanly — no conflicts!
+2026-05-01 19:38:40,550 [INFO] Build attempt 1/4...
+2026-05-01 19:53:30,229 [INFO] Build succeeded.
+2026-05-01 19:53:33,025 [INFO] Merged v6.1.111 into lf-6.1.y-semtech
+2026-05-01 19:53:37,056 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-01 19:53:37,069 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.111_2026-05-01T19-38-36.128760.json
+2026-05-01 19:53:37,391 [INFO] Current kernel version: 6.1.111
+2026-05-01 19:53:37,409 [INFO] 
+============================================================
+Merge step: v6.1.111 -> v6.1.112
+Progress: 17/74
+============================================================
+2026-05-01 19:53:37,420 [INFO] Starting merge: v6.1.112
+2026-05-01 19:53:37,595 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.112_2026-05-01T19-53-37.469759.log
+2026-05-01 19:53:39,180 [INFO] Merge v6.1.112 completed cleanly — no conflicts!
+2026-05-01 19:53:41,753 [INFO] Build attempt 1/4...
+2026-05-01 19:56:28,673 [INFO] Build succeeded.
+2026-05-01 19:56:34,655 [INFO] Merged v6.1.112 into lf-6.1.y-semtech
+2026-05-01 19:56:39,119 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-01 19:56:39,121 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.112_2026-05-01T19-53-37.469759.json
+2026-05-01 19:56:39,406 [INFO] Current kernel version: 6.1.112
+2026-05-01 19:56:39,406 [INFO] 
+============================================================
+Merge step: v6.1.112 -> v6.1.113
+Progress: 18/74
+============================================================
+2026-05-01 19:56:39,406 [INFO] Starting merge: v6.1.113
+2026-05-01 19:56:39,408 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.113_2026-05-01T19-56-39.406708.log
+2026-05-01 19:56:42,357 [INFO] Merge v6.1.113 has 2 conflicted files
+2026-05-01 19:56:42,359 [INFO]   drivers/clk/imx/clk-composite-7ulp.c: 1 conflict hunks
+2026-05-01 19:56:42,361 [INFO]   drivers/remoteproc/imx_rproc.c: 4 conflict hunks
+2026-05-01 19:56:42,361 [INFO] Resolving drivers/clk/imx/clk-composite-7ulp.c hunk 1...
+2026-05-01 19:56:42,441 [DEBUG] Prompt for drivers/clk/imx/clk-composite-7ulp.c hunk 0
+2026-05-01 19:56:48,458 [INFO]   Resolved drivers/clk/imx/clk-composite-7ulp.c hunk 0: confidence=8/10 — NXP returns -ENODEV error pointer when PR bit not set, while mainline stable adds an info print and 
+2026-05-01 19:56:48,459 [INFO] Resolving drivers/remoteproc/imx_rproc.c hunk 1...
+2026-05-01 19:56:48,542 [DEBUG] Prompt for drivers/remoteproc/imx_rproc.c hunk 0
+2026-05-01 19:56:53,697 [INFO]   Resolved drivers/remoteproc/imx_rproc.c hunk 0: confidence=8/10 — NXP combined TCML/U into a single 0x40000 entry while mainline split into separate TCML (0x20000) an
+2026-05-01 19:56:53,701 [INFO] Resolving drivers/remoteproc/imx_rproc.c hunk 2...
+2026-05-01 19:56:53,782 [DEBUG] Prompt for drivers/remoteproc/imx_rproc.c hunk 1
+2026-05-01 19:57:03,230 [INFO]   Resolved drivers/remoteproc/imx_rproc.c hunk 1: confidence=9/10 — OUR side (NXP) adds an imx_rproc_get_boot_addr function for i.MX93-cm33 specific handling. THEIR sid
+2026-05-01 19:57:03,231 [INFO] Resolving drivers/remoteproc/imx_rproc.c hunk 3...
+2026-05-01 19:57:03,313 [DEBUG] Prompt for drivers/remoteproc/imx_rproc.c hunk 2
+2026-05-01 19:57:07,414 [INFO]   Resolved drivers/remoteproc/imx_rproc.c hunk 2: confidence=9/10 — NXP vendor kernel added a second parameter 'true' to imx_rproc_xtr_mbox_init() to support different 
+2026-05-01 19:57:07,414 [INFO] Resolving drivers/remoteproc/imx_rproc.c hunk 4...
+2026-05-01 19:57:07,506 [DEBUG] Prompt for drivers/remoteproc/imx_rproc.c hunk 3
+2026-05-01 19:57:11,401 [INFO]   Resolved drivers/remoteproc/imx_rproc.c hunk 3: confidence=9/10 — NXP has additional imx_rproc_put_scu() handling with err_put_scu label. The conflict is just about w
+2026-05-01 19:57:12,349 [INFO] All conflicts resolved. Confidence: min=8, avg=8.6
+2026-05-01 19:57:15,110 [INFO] Build attempt 1/4...
+2026-05-01 20:16:30,618 [INFO] Build succeeded.
+2026-05-01 20:16:34,936 [INFO] Successfully merged v6.1.113 into lf-6.1.y-semtech
+2026-05-01 20:16:42,785 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-01 20:16:42,806 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.113_2026-05-01T19-56-39.406708.json
+2026-05-01 20:16:43,136 [INFO] Current kernel version: 6.1.113
+2026-05-01 20:16:43,137 [INFO] 
+============================================================
+Merge step: v6.1.113 -> v6.1.114
+Progress: 19/74
+============================================================
+2026-05-01 20:16:43,137 [INFO] Starting merge: v6.1.114
+2026-05-01 20:16:43,143 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.114_2026-05-01T20-16-43.138753.log
+2026-05-01 20:16:44,652 [INFO] Merge v6.1.114 completed cleanly — no conflicts!
+2026-05-01 20:16:47,263 [INFO] Build attempt 1/4...
+2026-05-01 20:32:51,202 [INFO] Build succeeded.
+2026-05-01 20:32:53,828 [INFO] Merged v6.1.114 into lf-6.1.y-semtech
+2026-05-01 20:32:57,720 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-01 20:32:57,738 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.114_2026-05-01T20-16-43.138753.json
+2026-05-01 20:32:58,016 [INFO] Current kernel version: 6.1.114
+2026-05-01 20:32:58,017 [INFO] 
+============================================================
+Merge step: v6.1.114 -> v6.1.115
+Progress: 20/74
+============================================================
+2026-05-01 20:32:58,017 [INFO] Starting merge: v6.1.115
+2026-05-01 20:32:58,022 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.115_2026-05-01T20-32-58.018894.log
+2026-05-01 20:32:59,822 [INFO] Merge v6.1.115 completed cleanly — no conflicts!
+2026-05-01 20:33:02,566 [INFO] Build attempt 1/4...
+2026-05-01 20:38:57,386 [INFO] Build fix attempt 1: found 1 errors
+2026-05-01 20:39:01,000 [INFO]   AI proposes: patch (confidence: 9)
+2026-05-01 20:39:01,000 [INFO]   Reasoning: In newer kernels, genlmsg_multicast_allns() dropped the 'portid' argument (the 0). The fix is to remove that argument from the call.
+2026-05-01 20:39:01,002 [INFO]   Applied patch to net/tsn/genl_tsn.c: 1 operation(s)
+2026-05-01 20:40:21,849 [INFO] Build succeeded after fix.

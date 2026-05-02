@@ -1,0 +1,11 @@
+{
+  "verdict": "concerns",
+  "summary": "Merge preserves NXP USB additions but skips mainline's bus wrapper that constrains USB DMA addressing",
+  "mainline_intent": "v6.1.64 wraps usb0/usb1 in a 'bus' simple-bus child of soc with dma-ranges = <0x0 0x0 0x0 0x0 0x100 0x00000000>, constraining USB DMA addressable range (fix for DMA addressing issues on dwc3 USB).",
+  "concerns": [
+    "The mainline DMA-range constraint fix (bus wrapper with dma-ranges 0x100 limit) was intentionally dropped. The resolver acknowledged this. USB on these SoCs may exhibit the DMA addressing bug the stable patch fixed.",
+    "NXP-specific 'fsl,ls2088a-dwc3' compatible and 'snps,host-vbus-glitches' property are correctly preserved.",
+    "Other unrelated NXP changes (watchdog clock div 32 vs mainline 4, PCIe interrupt-names 'aer' vs 'intr', i2c ls208xa-i2c compatible, scl-gpios) are vendor-intentional and properly kept.",
+    "Restructuring with the bus wrapper would have been straightforward (the closing braces shown in the conflict's after-context allow it), so dropping the fix was overly conservative; consider applying it in a follow-up."
+  ]
+}

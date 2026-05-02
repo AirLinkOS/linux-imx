@@ -1,0 +1,82 @@
+{
+  "version": "6.1.113",
+  "timestamp": "2026-05-01T19:56:39.406708",
+  "conflicts_total": 5,
+  "conflicts_resolved": 5,
+  "build_success": true,
+  "merged_to_main": true,
+  "error": null,
+  "build_fix_attempts": [],
+  "resolutions": [
+    {
+      "file": "drivers/clk/imx/clk-composite-7ulp.c",
+      "hunk_index": 0,
+      "confidence": 8,
+      "reasoning": "NXP returns -ENODEV error pointer when PR bit not set, while mainline stable adds an info print and returns NULL (0). Both handle the same condition. NXP's approach treats it as an error while mainline treats it as a bypass. Since the function returns struct clk_hw *, returning 0 (NULL) vs ERR_PTR(-ENODEV) have different semantics for callers. Preserving NXP's vendor behavior per the rules \u2014 NXP already addresses the PR check, just differently.",
+      "ours": "\tif (!(val & PCG_PR_MASK))\n\t\treturn ERR_PTR(-ENODEV);\n",
+      "theirs": "\tif (!(val & PCG_PR_MASK)) {\n\t\tpr_info(\"PCC PR is 0 for clk:%s, bypass\\n\", name);\n\t\treturn 0;\n\t}\n",
+      "resolved_code": "\tif (!(val & PCG_PR_MASK)) {\n\t\tpr_info(\"PCC PR is 0 for clk:%s, bypass\\n\", name);\n\t\treturn 0;\n\t}\n",
+      "api_response_raw": "{\n  \"confidence\": 8,\n  \"reasoning\": \"NXP returns -ENODEV error pointer when PR bit not set, while mainline stable adds an info print and returns NULL (0). Both handle the same condition. NXP's approach treats it as an error while mainline treats it as a bypass. Since the function returns struct clk_hw *, returning 0 (NULL) vs ERR_PTR(-ENODEV) have different semantics for callers. Preserving NXP's vendor behavior per the rules \\u2014 NXP already addresses the PR check, just differently.\",\n  \"brace_check\": \"1 open, 1 close\",\n  \"resolved_code\": \"\\tif (!(val & PCG_PR_MASK)) {\\n\\t\\tpr_info(\\\"PCC PR is 0 for clk:%s, bypass\\\\n\\\", name);\\n\\t\\treturn 0;\\n\\t}\\n\"\n}",
+      "start_line": 91,
+      "end_line": 99,
+      "verification": null,
+      "superseded_attempts": []
+    },
+    {
+      "file": "drivers/remoteproc/imx_rproc.c",
+      "hunk_index": 0,
+      "confidence": 8,
+      "reasoning": "NXP combined TCML/U into a single 0x40000 entry while mainline split into separate TCML (0x20000) and TCMU (0x20000) entries to be precise about the memory regions. The mainline split is more accurate (matches imx8mn pattern above) and is the stable fix. NXP's combined entry is functionally equivalent but the mainline split is more correct. Taking the mainline version.",
+      "ours": "\t/* TCML/U */\n\t{ 0x1FFE0000, 0x007E0000, 0x00040000, ATT_OWN  | ATT_IOMEM},\n",
+      "theirs": "\t/* TCML */\n\t{ 0x1FFE0000, 0x007E0000, 0x00020000, ATT_OWN  | ATT_IOMEM},\n\t/* TCMU */\n\t{ 0x20000000, 0x00800000, 0x00020000, ATT_OWN  | ATT_IOMEM},\n",
+      "resolved_code": "\t/* TCML */\n\t{ 0x1FFE0000, 0x007E0000, 0x00020000, ATT_OWN  | ATT_IOMEM},\n\t/* TCMU */\n\t{ 0x20000000, 0x00800000, 0x00020000, ATT_OWN  | ATT_IOMEM},\n",
+      "api_response_raw": "{\n  \"confidence\": 8,\n  \"reasoning\": \"NXP combined TCML/U into a single 0x40000 entry while mainline split into separate TCML (0x20000) and TCMU (0x20000) entries to be precise about the memory regions. The mainline split is more accurate (matches imx8mn pattern above) and is the stable fix. NXP's combined entry is functionally equivalent but the mainline split is more correct. Taking the mainline version.\",\n  \"brace_check\": \"4 open, 4 close\",\n  \"resolved_code\": \"\\t/* TCML */\\n\\t{ 0x1FFE0000, 0x007E0000, 0x00020000, ATT_OWN  | ATT_IOMEM},\\n\\t/* TCMU */\\n\\t{ 0x20000000, 0x00800000, 0x00020000, ATT_OWN  | ATT_IOMEM},\\n\"\n}",
+      "start_line": 213,
+      "end_line": 221,
+      "verification": null,
+      "superseded_attempts": []
+    },
+    {
+      "file": "drivers/remoteproc/imx_rproc.c",
+      "hunk_index": 1,
+      "confidence": 9,
+      "reasoning": "OUR side (NXP) adds an imx_rproc_get_boot_addr function for i.MX93-cm33 specific handling. THEIR side (mainline) is empty. NXP's vendor addition should be preserved since it's an independent feature addition. The mainline stable patches (find_loaded_rsc_table hook, workqueue init, ddr alias) don't conflict with this hunk.",
+      "ours": "static u64 imx_rproc_get_boot_addr(struct rproc *rproc, const struct firmware *fw)\n{\n\tstruct imx_rproc *priv = rproc->priv;\n\tstruct device *dev = priv->dev;\n\tconst void *shdr, *name_shdr;\n\tint i;\n\tconst char *name_interrupts;\n\tconst u8 *elf_data = (void *)fw->data;\n\tu8 class = fw_elf_get_class(fw);\n\tconst void *ehdr = elf_data;\n\tu16 shnum = elf_hdr_get_e_shnum(class, ehdr);\n\tu32 elf_shdr_get_size = elf_size_of_shdr(class);\n\tu16 shstrndx = elf_hdr_get_e_shstrndx(class, ehdr);\n\tu64 sh_addr;\n\n\tif (",
+      "theirs": "",
+      "resolved_code": "static u64 imx_rproc_get_boot_addr(struct rproc *rproc, const struct firmware *fw)\n{\n\tstruct imx_rproc *priv = rproc->priv;\n\tstruct device *dev = priv->dev;\n\tconst void *shdr, *name_shdr;\n\tint i;\n\tconst char *name_interrupts;\n\tconst u8 *elf_data = (void *)fw->data;\n\tu8 class = fw_elf_get_class(fw);\n\tconst void *ehdr = elf_data;\n\tu16 shnum = elf_hdr_get_e_shnum(class, ehdr);\n\tu32 elf_shdr_get_size = elf_size_of_shdr(class);\n\tu16 shstrndx = elf_hdr_get_e_shstrndx(class, ehdr);\n\tu64 sh_addr;\n\n\tif (",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"OUR side (NXP) adds an imx_rproc_get_boot_addr function for i.MX93-cm33 specific handling. THEIR side (mainline) is empty. NXP's vendor addition should be preserved since it's an independent feature addition. The mainline stable patches (find_loaded_rsc_table hook, workqueue init, ddr alias) don't conflict with this hunk.\",\n  \"brace_check\": \"8 open, 8 close\",\n  \"resolved_code\": \"static u64 imx_rproc_get_boot_addr(struct rproc *rproc, const struct firmware *fw)\\n{\\n\\tstruct imx_rproc *priv = rproc->priv;\\n\\tstruct device *dev = priv->dev;\\n\\tconst void *shdr, *name_shdr;\\n\\tint i;\\n\\tconst char *name_interrupts;\\n\\tconst u8 *elf_data = (void *)fw->data;\\n\\tu8 class = fw_elf_get_class(fw);\\n\\tconst void *ehdr = elf_data;\\n\\tu16 shnum = elf_hdr_get_e_shnum(class, ehdr);\\n\\tu32 elf_shdr_get_size = elf_size_of_shdr(class);\\n\\tu16 shstrndx = elf_hdr_get_e_shstrndx(class, ehdr);\\n\\tu64 sh_addr;\\n\\n\\tif (!of_device_is_compatible(dev->of_node, \\\"fsl,imx93-cm",
+      "start_line": 664,
+      "end_line": 703,
+      "verification": null,
+      "superseded_attempts": []
+    },
+    {
+      "file": "drivers/remoteproc/imx_rproc.c",
+      "hunk_index": 2,
+      "confidence": 9,
+      "reasoning": "NXP vendor kernel added a second parameter 'true' to imx_rproc_xtr_mbox_init() to support different mbox init modes (used by sys_off_handler with 'false'). Keeping NXP's signature since the vendor kernel has extended the function. The mainline stable change is just keeping the original single-param signature.",
+      "ours": "\tret = imx_rproc_xtr_mbox_init(rproc, true);\n",
+      "theirs": "\tret = imx_rproc_xtr_mbox_init(rproc);\n",
+      "resolved_code": "\tret = imx_rproc_xtr_mbox_init(rproc, true);\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"NXP vendor kernel added a second parameter 'true' to imx_rproc_xtr_mbox_init() to support different mbox init modes (used by sys_off_handler with 'false'). Keeping NXP's signature since the vendor kernel has extended the function. The mainline stable change is just keeping the original single-param signature.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\\tret = imx_rproc_xtr_mbox_init(rproc, true);\\n\"\n}",
+      "start_line": 1173,
+      "end_line": 1177,
+      "verification": null,
+      "superseded_attempts": []
+    },
+    {
+      "file": "drivers/remoteproc/imx_rproc.c",
+      "hunk_index": 3,
+      "confidence": 9,
+      "reasoning": "NXP has additional imx_rproc_put_scu() handling with err_put_scu label. The conflict is just about which goto label to use after clk_enable failure. Since NXP's err_put_scu falls through to err_put_mbox anyway, and NXP added SCU handling, keep NXP's err_put_scu.",
+      "ours": "\t\tgoto err_put_scu;\n",
+      "theirs": "\t\tgoto err_put_mbox;\n",
+      "resolved_code": "\t\tgoto err_put_scu;\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"NXP has additional imx_rproc_put_scu() handling with err_put_scu label. The conflict is just about which goto label to use after clk_enable failure. Since NXP's err_put_scu falls through to err_put_mbox anyway, and NXP added SCU handling, keep NXP's err_put_scu.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\\t\\tgoto err_put_scu;\\n\"\n}",
+      "start_line": 1193,
+      "end_line": 1197,
+      "verification": null,
+      "superseded_attempts": []
+    }
+  ]
+}

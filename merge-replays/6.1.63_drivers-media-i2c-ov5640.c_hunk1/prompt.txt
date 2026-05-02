@@ -1,0 +1,46 @@
+# This is an APPROXIMATION of the prompt sent to the LLM.
+# (The exact prompt isn't stored in the merge JSON.)
+# It is reconstructed from the stored conflict content.
+
+Resolve this merge conflict in the Linux kernel.
+
+File: drivers/media/i2c/ov5640.c
+
+We are merging mainline stable v6.1.63 into NXP's vendor kernel.
+
+Context BEFORE the conflict:
+```
+(not stored)
+```
+
+CONFLICT (hunk 2):
+OUR side (NXP vendor kernel):
+```
+
+```
+
+THEIR side (mainline stable):
+```
+	ret = ov5640_sensor_resume(dev);
+	if (ret) {
+		dev_err(dev, "failed to power on\n");
+		goto free_ctrls;
+	}
+
+	pm_runtime_set_active(dev);
+	pm_runtime_get_noresume(dev);
+	pm_runtime_enable(dev);
+
+	ret = ov5640_check_chip_id(sensor);
+	if (ret)
+		goto err_pm_runtime;
+
+
+```
+
+Context AFTER the conflict:
+```
+(not stored)
+```
+
+Resolve this conflict. Return ONLY the JSON object.

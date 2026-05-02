@@ -1,0 +1,34 @@
+# Conflict in drivers/pci/controller/dwc/pci-layerscape-ep.c, hunk 0
+# Approximate file location: lines 20-50
+# Confidence: 6/10
+
+<<<<<<< HEAD (linux-imx-6.1.80: NXP's vendor side)
+#define PCIE_LINK_CAP			0x7C	/* PCIe Link Capabilities*/
+#define MAX_LINK_SP_MASK		0x0F
+#define MAX_LINK_W_MASK			0x3F
+#define MAX_LINK_W_SHIFT		4
+
+/* PEX PFa PCIE pme and message interrupt registers*/
+#define PEX_PF0_PME_MES_DR             0xC0020
+#define PEX_PF0_PME_MES_DR_LUD         (1 << 7)
+#define PEX_PF0_PME_MES_DR_LDD         (1 << 9)
+#define PEX_PF0_PME_MES_DR_HRD         (1 << 10)
+
+#define PEX_PF0_PME_MES_IER            0xC0028
+#define PEX_PF0_PME_MES_IER_LUDIE      (1 << 7)
+#define PE
+=======
+#define PEX_PF0_CONFIG			0xC0014
+#define PEX_PF0_CFG_READY		BIT(0)
+
+/* PEX PFa PCIE PME and message interrupt registers*/
+#define PEX_PF0_PME_MES_DR		0xC0020
+#define PEX_PF0_PME_MES_DR_LUD		BIT(7)
+#define PEX_PF0_PME_MES_DR_LDD		BIT(9)
+#define PEX_PF0_PME_MES_DR_HRD		BIT(10)
+
+#define PEX_PF0_PME_MES_IER		0xC0028
+#define PEX_PF0_PME_MES_IER_LUDIE	BIT(7)
+#define PEX_PF0_PME_MES_IER_LDDIE	BIT(9)
+#define PEX_PF0_PME_MES_IER_HRDIE	BIT(10)
+>>>>>>> v6.1.81 (mainline-6.1.81: stable side)

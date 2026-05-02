@@ -3556,7 +3556,7 @@ static int tsn_multicast_to_user(unsigned long event,
 
 	(void)genlmsg_end(skb, nlh);
 
-	res = genlmsg_multicast_allns(&tsn_family, skb, 0,
+	res = genlmsg_multicast_allns(&tsn_family, skb,
 				      TSN_MCGRP_QBV, GFP_KERNEL);
 	skb = NULL;
 	if (res && res != -ESRCH) {
