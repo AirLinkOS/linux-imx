@@ -1,0 +1,195 @@
+{
+  "version": "6.1.120",
+  "timestamp": "2026-05-04T10:43:47.711521",
+  "conflicts_total": 11,
+  "conflicts_resolved": 11,
+  "build_success": null,
+  "merged_to_main": false,
+  "error": "Unexpected error: Command '['make', '-C', '/home/osaleem/repos/linux-imx', 'ARCH=arm64', 'CROSS_COMPILE=aarch64-linux-gnu-', '-j16']' timed out after 1800 seconds",
+  "build_fix_attempts": [],
+  "resolutions": [
+    {
+      "file": "drivers/clk/imx/clk-lpcg-scu.c",
+      "hunk_index": 0,
+      "confidence": 9,
+      "reasoning": "NXP vendor and mainline both implement the same e10858 errata workaround. Mainline uses cleaner naming (lpcg_e10858_writel), HZ_PER_MHZ macro, and drops unused reg1 variable. Adopting mainline's improved version since it's functionally equivalent and cleaner.",
+      "ours": "static void do_lpcg_workaround(u32 rate, void __iomem *reg, u32 val)\n{\n\twritel(val, reg);\n\n\tif (rate >= 24000000 || rate == 0) {\n\t\tu32 reg1;\n\n",
+      "theirs": "static void lpcg_e10858_writel(unsigned long rate, void __iomem *reg, u32 val)\n{\n\twritel(val, reg);\n\n\tif (rate >= 24 * HZ_PER_MHZ || rate == 0) {\n",
+      "resolved_code": "static void lpcg_e10858_writel(unsigned long rate, void __iomem *reg, u32 val)\n{\n\twritel(val, reg);\n\n\tif (rate >= 24 * HZ_PER_MHZ || rate == 0) {\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"NXP vendor and mainline both implement the same e10858 errata workaround. Mainline uses cleaner naming (lpcg_e10858_writel), HZ_PER_MHZ macro, and drops unused reg1 variable. Adopting mainline's improved version since it's functionally equivalent and cleaner.\",\n  \"brace_check\": \"1 open, 1 close\",\n  \"resolved_code\": \"static void lpcg_e10858_writel(unsigned long rate, void __iomem *reg, u32 val)\\n{\\n\\twritel(val, reg);\\n\\n\\tif (rate >= 24 * HZ_PER_MHZ || rate == 0) {\\n\"\n}",
+      "start_line": 46,
+      "end_line": 60,
+      "verification": null,
+      "superseded_attempts": []
+    },
+    {
+      "file": "drivers/clk/imx/clk-lpcg-scu.c",
+      "hunk_index": 1,
+      "confidence": 9,
+      "reasoning": "There are multiple conflicts. The mainline version renames do_lpcg_workaround to lpcg_e10858_writel, uses HZ_PER_MHZ macros, and removes the unused reg1 variable. NXP's version is functionally identical but with older naming. Taking mainline version as it's the upstream fix and NXP's version was likely the same patch with slight differences. The conflict shown is just the first hunk - I'll resolve only that hunk.",
+      "ours": "\t\treg1 = readl(reg);\n",
+      "theirs": "\t\treadl(reg);\n",
+      "resolved_code": "\t\treadl(reg);\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"There are multiple conflicts. The mainline version renames do_lpcg_workaround to lpcg_e10858_writel, uses HZ_PER_MHZ macros, and removes the unused reg1 variable. NXP's version is functionally identical but with older naming. Taking mainline version as it's the upstream fix and NXP's version was likely the same patch with slight differences. The conflict shown is just the first hunk - I'll resolve only that hunk.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\\t\\treadl(reg);\\n\"\n}",
+      "start_line": 68,
+      "end_line": 72,
+      "verification": null,
+      "superseded_attempts": []
+    },
+    {
+      "file": "drivers/clk/imx/clk-lpcg-scu.c",
+      "hunk_index": 2,
+      "confidence": 9,
+      "reasoning": "Mainline renamed do_lpcg_workaround to lpcg_e10858_writel, removed unused reg1 variable, and used HZ_PER_MHZ constant. NXP's version is functionally identical. Taking mainline's cleaner version for all three hunks.",
+      "ours": "\t\tndelay(4 * (DIV_ROUND_UP(1000000000, rate)));\n",
+      "theirs": "\t\tndelay(4 * (DIV_ROUND_UP(1000 * HZ_PER_MHZ, rate)));\n",
+      "resolved_code": "\t\tndelay(4 * (DIV_ROUND_UP(1000 * HZ_PER_MHZ, rate)));\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"Mainline renamed do_lpcg_workaround to lpcg_e10858_writel, removed unused reg1 variable, and used HZ_PER_MHZ constant. NXP's version is functionally identical. Taking mainline's cleaner version for all three hunks.\",\n  \"brace_check\": \"N/A - multiple separate hunks\",\n  \"resolved_code\": \"\\t\\tndelay(4 * (DIV_ROUND_UP(1000 * HZ_PER_MHZ, rate)));\\n\"\n}",
+      "start_line": 78,
+      "end_line": 82,
+      "verification": null,
+      "superseded_attempts": []
+    },
+    {
+      "file": "drivers/clk/imx/clk-lpcg-scu.c",
+      "hunk_index": 3,
+      "confidence": 9,
+      "reasoning": "Mainline renamed do_lpcg_workaround to lpcg_e10858_writel. Both hunks are simple function rename calls. Taking mainline version for consistency with the function definition rename above.",
+      "ours": "\tdo_lpcg_workaround(clk_hw_get_rate(hw), clk->reg, reg);\n",
+      "theirs": "\tlpcg_e10858_writel(clk_hw_get_rate(hw), clk->reg, reg);\n",
+      "resolved_code": "\tlpcg_e10858_writel(clk_hw_get_rate(hw), clk->reg, reg);\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"Mainline renamed do_lpcg_workaround to lpcg_e10858_writel. Both hunks are simple function rename calls. Taking mainline version for consistency with the function definition rename above.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\\tlpcg_e10858_writel(clk_hw_get_rate(hw), clk->reg, reg);\\n\"\n}",
+      "start_line": 103,
+      "end_line": 107,
+      "verification": null,
+      "superseded_attempts": []
+    },
+    {
+      "file": "drivers/clk/imx/clk-lpcg-scu.c",
+      "hunk_index": 4,
+      "confidence": 9,
+      "reasoning": "The conflict is just a function rename from do_lpcg_workaround to lpcg_e10858_writel. Use mainline's name for consistency with the earlier renamed function definition.",
+      "ours": "\tdo_lpcg_workaround(clk_hw_get_rate(hw), clk->reg, reg);\n",
+      "theirs": "\tlpcg_e10858_writel(clk_hw_get_rate(hw), clk->reg, reg);\n",
+      "resolved_code": "\tlpcg_e10858_writel(clk_hw_get_rate(hw), clk->reg, reg);\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"The conflict is just a function rename from do_lpcg_workaround to lpcg_e10858_writel. Use mainline's name for consistency with the earlier renamed function definition.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\\tlpcg_e10858_writel(clk_hw_get_rate(hw), clk->reg, reg);\\n\"\n}",
+      "start_line": 124,
+      "end_line": 128,
+      "verification": null,
+      "superseded_attempts": []
+    },
+    {
+      "file": "drivers/clk/imx/clk-lpcg-scu.c",
+      "hunk_index": 5,
+      "confidence": 8,
+      "reasoning": "NXP renamed the workaround function to do_lpcg_workaround and added an hdmi_lpcg check plus a FIXME comment. Mainline renamed it to lpcg_e10858_writel. Since these are the same workaround (errata e10858), I keep NXP's function name do_lpcg_workaround and preserve NXP's hdmi_lpcg check and FIXME comment.",
+      "ours": "\tif (!strncmp(\"hdmi_lpcg\", clk_hw_get_name(&clk->hw), strlen(\"hdmi_lpcg\")))\n\t\treturn 0;\n\n\t/*\n\t * FIXME: Sometimes writes don't work unless the CPU issues\n\t * them twice\n\t */\n\n\twritel(clk->state, clk->reg);\n\tdo_lpcg_workaround(0, clk->reg, clk->state);\n",
+      "theirs": "\twritel(clk->state, clk->reg);\n\tlpcg_e10858_writel(0, clk->reg, clk->state);\n",
+      "resolved_code": "\tif (!strncmp(\"hdmi_lpcg\", clk_hw_get_name(&clk->hw), strlen(\"hdmi_lpcg\")))\n\t\treturn 0;\n\n\t/*\n\t * FIXME: Sometimes writes don't work unless the CPU issues\n\t * them twice\n\t */\n\n\twritel(clk->state, clk->reg);\n\tdo_lpcg_workaround(0, clk->reg, clk->state);\n",
+      "api_response_raw": "{\n  \"confidence\": 8,\n  \"reasoning\": \"NXP renamed the workaround function to do_lpcg_workaround and added an hdmi_lpcg check plus a FIXME comment. Mainline renamed it to lpcg_e10858_writel. Since these are the same workaround (errata e10858), I keep NXP's function name do_lpcg_workaround and preserve NXP's hdmi_lpcg check and FIXME comment.\",\n  \"brace_check\": \"1 open, 1 close\",\n  \"resolved_code\": \"\\tif (!strncmp(\\\"hdmi_lpcg\\\", clk_hw_get_name(&clk->hw), strlen(\\\"hdmi_lpcg\\\")))\\n\\t\\treturn 0;\\n\\n\\t/*\\n\\t * FIXME: Sometimes writes don't work unless the CPU issues\\n\\t * them twice\\n\\t */\\n\\n\\twritel(clk->state, clk->reg);\\n\\tdo_lpcg_workaround(0, clk->reg, clk->state);\\n\"\n}",
+      "start_line": 202,
+      "end_line": 216,
+      "verification": null,
+      "superseded_attempts": []
+    },
+    {
+      "file": "drivers/clk/imx/clk-scu.c",
+      "hunk_index": 0,
+      "confidence": 9,
+      "reasoning": "The mainline stable fix changes clk_hw_is_enabled to clk_hw_is_prepared. This is the bug fix from commit 6786d623fb01. NXP's side just has the original code. Apply the stable fix.",
+      "ours": "\n\tclk->is_enabled = clk_hw_is_enabled(&clk->hw);\n",
+      "theirs": "\tclk->is_enabled = clk_hw_is_prepared(&clk->hw);\n",
+      "resolved_code": "\n\tclk->is_enabled = clk_hw_is_prepared(&clk->hw);\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"The mainline stable fix changes clk_hw_is_enabled to clk_hw_is_prepared. This is the bug fix from commit 6786d623fb01. NXP's side just has the original code. Apply the stable fix.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\\n\\tclk->is_enabled = clk_hw_is_prepared(&clk->hw);\\n\"\n}",
+      "start_line": 581,
+      "end_line": 586,
+      "verification": null,
+      "superseded_attempts": []
+    },
+    {
+      "file": "drivers/edac/fsl_ddr_edac.c",
+      "hunk_index": 0,
+      "confidence": 9,
+      "reasoning": "The mainline stable fix corrects bad bit shift operations by using 1ULL for 64-bit shifts and simplifies the logic. NXP's version has buggy shifts (1 << bad_data_bit can overflow for bits >=32, and the conditional logic is convoluted). The mainline fix is the proper resolution and there's no NXP-specific functionality being lost. The context already declares `cap` and `s` variables before the conflict.",
+      "ours": "\t\tif (bad_data_bit >= 0)\n\t\t\tfsl_mc_printk(mci, KERN_ERR,\n\t\t\t\t\"Faulty Data bit: %d\\n\", bad_data_bit);\n\t\tif (bad_ecc_bit >= 0)\n\t\t\tfsl_mc_printk(mci, KERN_ERR,\n\t\t\t\t\t\"Faulty ECC bit: %d\\n\", bad_ecc_bit);\n\t\tif ((bad_data_bit > 0 && bad_data_bit < 32) && bad_ecc_bit > 0) {\n\t\t\tfsl_mc_printk(mci, KERN_ERR,\n\t\t\t\t\"Expected Data / ECC:\\t%#8.8x_%08x / %#2.2x\\n\",\n\t\t\t\tcap_high, cap_low ^ (1 << bad_data_bit),\n\t\t\t\tsyndrome ^ (1 << bad_ecc_bit));\n\t\t}\n\t\tif (bad_data_bit >= 32 && bad_ecc_bit > 0) {\n\t\t\tfsl_mc_printk",
+      "theirs": "\t\tif (bad_data_bit >= 0) {\n\t\t\tfsl_mc_printk(mci, KERN_ERR, \"Faulty Data bit: %d\\n\", bad_data_bit);\n\t\t\tcap ^= 1ULL << bad_data_bit;\n\t\t}\n\n\t\tif (bad_ecc_bit >= 0) {\n\t\t\tfsl_mc_printk(mci, KERN_ERR, \"Faulty ECC bit: %d\\n\", bad_ecc_bit);\n\t\t\ts ^= 1 << bad_ecc_bit;\n\t\t}\n\n\t\tfsl_mc_printk(mci, KERN_ERR,\n\t\t\t\"Expected Data / ECC:\\t%#8.8x_%08x / %#2.2x\\n\",\n\t\t\tupper_32_bits(cap), lower_32_bits(cap), s);\n",
+      "resolved_code": "\t\tif (bad_data_bit >= 0) {\n\t\t\tfsl_mc_printk(mci, KERN_ERR, \"Faulty Data bit: %d\\n\", bad_data_bit);\n\t\t\tcap ^= 1ULL << bad_data_bit;\n\t\t}\n\n\t\tif (bad_ecc_bit >= 0) {\n\t\t\tfsl_mc_printk(mci, KERN_ERR, \"Faulty ECC bit: %d\\n\", bad_ecc_bit);\n\t\t\ts ^= 1 << bad_ecc_bit;\n\t\t}\n\n\t\tfsl_mc_printk(mci, KERN_ERR,\n\t\t\t\"Expected Data / ECC:\\t%#8.8x_%08x / %#2.2x\\n\",\n\t\t\tupper_32_bits(cap), lower_32_bits(cap), s);\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"The mainline stable fix corrects bad bit shift operations by using 1ULL for 64-bit shifts and simplifies the logic. NXP's version has buggy shifts (1 << bad_data_bit can overflow for bits >=32, and the conditional logic is convoluted). The mainline fix is the proper resolution and there's no NXP-specific functionality being lost. The context already declares `cap` and `s` variables before the conflict.\",\n  \"brace_check\": \"4 open, 4 close\",\n  \"resolved_code\": \"\\t\\tif (bad_data_bit >= 0) {\\n\\t\\t\\tfsl_mc_printk(mci, KERN_ERR, \\\"Faulty Data bit: %d\\\\n\\\", bad_data_bit);\\n\\t\\t\\tcap ^= 1ULL << bad_data_bit;\\n\\t\\t}\\n\\n\\t\\tif (bad_ecc_bit >= 0) {\\n\\t\\t\\tfsl_mc_printk(mci, KERN_ERR, \\\"Faulty ECC bit: %d\\\\n\\\", bad_ecc_bit);\\n\\t\\t\\ts ^= 1 << bad_ecc_bit;\\n\\t\\t}\\n\\n\\t\\tfsl_mc_printk(mci, KERN_ERR,\\n\\t\\t\\t\\\"Expected Data / ECC:\\\\t%#8.8x_%08x / %#2.2x\\\\n\\\",\\n\\t\\t\\tupper_32_bits(cap), lower_32_bits(cap), s);\\n\"\n}",
+      "start_line": 350,
+      "end_line": 383,
+      "verification": null,
+      "superseded_attempts": []
+    },
+    {
+      "file": "drivers/pwm/pwm-imx27.c",
+      "hunk_index": 0,
+      "confidence": 8,
+      "reasoning": "NXP's version declares variables (counter_check, flags) used in their workaround block that follows. Mainline stable adds period_us and tmp for their own workaround. Looking at the context_after, NXP already has 'unsigned long flags;' declared separately, and uses counter_check in their workaround. The NXP workaround appears to address the same issue as the mainline fix but differently (already in place). Keep NXP's version since their workaround is already present in the context_after.",
+      "ours": "\tunsigned long period_cycles, duty_cycles, prescale, counter_check, flags;\n",
+      "theirs": "\tunsigned long period_cycles, duty_cycles, prescale, period_us, tmp;\n",
+      "resolved_code": "\tunsigned long period_cycles, duty_cycles, prescale, counter_check, flags;",
+      "api_response_raw": "{\n  \"confidence\": 8,\n  \"reasoning\": \"NXP's version declares variables (counter_check, flags) used in their workaround block that follows. Mainline stable adds period_us and tmp for their own workaround. Looking at the context_after, NXP already has 'unsigned long flags;' declared separately, and uses counter_check in their workaround. The NXP workaround appears to address the same issue as the mainline fix but differently (already in place). Keep NXP's version since their workaround is already present in the context_after.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\\tunsigned long period_cycles, duty_cycles, prescale, counter_check, flags;\"\n}",
+      "start_line": 236,
+      "end_line": 240,
+      "verification": null,
+      "superseded_attempts": []
+    },
+    {
+      "file": "drivers/pwm/pwm-imx27.c",
+      "hunk_index": 1,
+      "confidence": 7,
+      "reasoning": "The mainline stable patch (ERR051198 workaround) supersedes the NXP workaround for the same hardware bug. Both address the same issue, so I'll take the mainline version as the canonical fix. I need to fix the variable declarations: replace NXP's 'counter_check' with mainline's 'period_us, tmp', and remove the duplicate 'flags' declaration. I'll keep the unified declaration line. Variables sar_last, sar_current, reg_sar, timeout from NXP are no longer needed since we're using mainline's approach. The first declaration line in context already has 'unsigned long flags;' below \u2014 I need to consolidate to avoid duplicate.",
+      "ours": "\t/*\n\t * This is a limited workaround. When the SAR FIFO is empty, the new\n\t * write value will be directly applied to SAR even the current period\n\t * is not over.\n\t * If the new SAR value is less than the old one, and the counter is\n\t * greater than the new SAR value, the current period will not filp\n\t * the level. This will result in a pulse with a duty cycle of 100%.\n\t * So, writing the current value of the SAR to SAR here before updating\n\t * the new SAR value can avoid this issue.\n\t *\n\t * Add",
+      "theirs": "\tval = readl(imx->mmio_base + MX3_PWMPR);\n\tval = val >= MX3_PWMPR_MAX ? MX3_PWMPR_MAX : val;\n\tcr = readl(imx->mmio_base + MX3_PWMCR);\n\ttmp = NSEC_PER_SEC * (u64)(val + 2) * MX3_PWMCR_PRESCALER_GET(cr);\n\ttmp = DIV_ROUND_UP_ULL(tmp, clkrate);\n\tperiod_us = DIV_ROUND_UP_ULL(tmp, 1000);\n\n\t/*\n\t * ERR051198:\n\t * PWM: PWM output may not function correctly if the FIFO is empty when\n\t * a new SAR value is programmed\n\t *\n\t * Description:\n\t * When the PWM FIFO is empty, a new value programmed to the PWM Sam",
+      "resolved_code": "\tunsigned long period_cycles, duty_cycles, prescale, period_us, tmp;\n\tstruct pwm_imx27_chip *imx = to_pwm_imx27_chip(chip);\n\tstruct pwm_state cstate;\n\tunsigned long long c;\n\tunsigned long long clkrate;\n\tunsigned long flags;\n\tint val;\n\tint ret;\n\tu32 cr;\n\n\tpwm_get_state(pwm, &cstate);\n\n\tclkrate = clk_get_rate(imx->clk_per);\n\tc = clkrate * state->period;\n\n\tdo_div(c, NSEC_PER_SEC);\n\tperiod_cycles = c;\n\n\tprescale = period_cycles / 0x10000 + 1;\n\n\tperiod_cycles /= prescale;\n\tc = clkrate * state->duty_c",
+      "api_response_raw": "{\n  \"confidence\": 7,\n  \"reasoning\": \"The mainline stable patch (ERR051198 workaround) supersedes the NXP workaround for the same hardware bug. Both address the same issue, so I'll take the mainline version as the canonical fix. I need to fix the variable declarations: replace NXP's 'counter_check' with mainline's 'period_us, tmp', and remove the duplicate 'flags' declaration. I'll keep the unified declaration line. Variables sar_last, sar_current, reg_sar, timeout from NXP are no longer needed since we're using mainline's approach. The first declaration line in context already has 'unsigned long flags;' below \\u2014 I need to consolidate to avoid duplicate.\",\n  \"brace_check\": \"needs to match - counting in resolved block: if/else if branches with their own braces\",\n  \"resolved_code\": \"\\tunsigned long period_cycles, duty_cycles, prescale, period_us, tmp;\\n\\tstruct pwm_imx27_chip *imx = to_pwm_imx27_chip(chip);\\n\\tstruct pwm_state cstate;\\n\\tunsigned long long c;\\n\\tunsigned long long clk",
+      "start_line": 291,
+      "end_line": 434,
+      "verification": {
+        "verdict": "critical",
+        "summary": "Merged file has duplicated function body and duplicate variable declarations causing compile failure",
+        "mainline_intent": "Replace prior workaround logic with the ERR051198 errata workaround in pwm_imx27_apply(), introducing period_us/tmp variables, val read of PWMPR, and using local_irq_save/writel_relaxed for SAR sequencing",
+        "concerns": [
+          "The pwm_imx27_apply() function body is duplicated: after the first 'pwm_imx27_sw_reset(chip);' block, the entire prologue (variable declarations, pwm_get_state, clkrate calc, period/duty calc, cstate handling) appears again \u2014 this will not compile (redeclared variables, statements after declarations, etc.)",
+          "The first declaration block contains both NXP variables (counter_check, sar_last, sar_current, reg_sar, timeout) and a duplicate 'unsigned long flags;' declared twice in the same scope",
+          "The NXP-specific workaround code (sar_last/sar_current spin_lock based) was supposed to be removed in favor of mainline's ERR051198 workaround but the surrounding declarations were kept, leaving unused variables and a duplicated function preamble",
+          "The spinlock 'imx->lock' field and spin_lock_init are still kept in the struct/probe but are no longer used since mainline uses local_irq_save() instead \u2014 dead code (minor)",
+          "NXP's modified pwm_imx27_wait_fifo_slot() (using FIFOAV_3WORDS threshold and msleep(period_ms * (fifoav - 2))) is preserved, which differs from mainline's simpler 4WORDS check; this appears intentional but should be confirmed"
+        ]
+      },
+      "superseded_attempts": [
+        {
+          "resolved_code": "\tval = readl(imx->mmio_base + MX3_PWMPR);\n\tval = val >= MX3_PWMPR_MAX ? MX3_PWMPR_MAX : val;\n\tcr = readl(imx->mmio_base + MX3_PWMCR);\n\ttmp = NSEC_PER_SEC * (u64)(val + 2) * MX3_PWMCR_PRESCALER_GET(cr);\n\ttmp = DIV_ROUND_UP_ULL(tmp, clkrate);\n\tperiod_us = DIV_ROUND_UP_ULL(tmp, 1000);\n\n\t/*\n\t * ERR051198:\n\t * PWM: PWM output may not function correctly if the FIFO is empty when\n\t * a new SAR value is programmed\n\t *\n\t * Description:\n\t * When the PWM FIFO is empty, a new value programmed to the PWM Sam",
+          "confidence": 6,
+          "reasoning": "Both NXP and mainline implement the same erratum workaround (ERR051198) but with different approaches. NXP uses spin_lock_irqsave with imx->lock and __raw_writel, while mainline uses local_irq_save and writel_relaxed with additional handling for high-frequency (>500kHz) cases and better counter rollover detection. The mainline version is more complete and is the official stable fix. However, NXP's vendor code uses spin_lock for SMP safety. Since the mainline stable patch is the canonical fix and addresses the same bug more thoroughly, I'll take mainline's version. The NXP code declared 'counter_check' which isn't needed in mainline. Also need to handle the variable declarations from hunk 1: NXP has 'counter_check' and 'flags' inline; mainline adds 'period_us, tmp' and 'val'. Looking at context after conflict, 'flags' is also declared separately. I'll use mainline's variable declarations. Note: the spin_lock in NXP's version protects against concurrent access, but since pwm_apply has chip-level serialization in the framework, local_irq_save should suffice. Going with mainline stable's version as it's the official fix.",
+          "verification": {
+            "verdict": "critical",
+            "summary": "Merged file has duplicate 'flags' declaration and undeclared variables (period_us, tmp); will not compile",
+            "mainline_intent": "Backport ERR051198 erratum workaround: properly handle case where new SAR < old SAR could produce 100% duty cycle pulse. Adds period_us/tmp/val/flags locals, computes period_us from PWMPR, uses local_irq_save and writel_relaxed, with special handling for >500kHz and counter rollover detection.",
+            "concerns": [
+              "Duplicate declaration of 'flags': declared once in the first line as 'unsigned long ... flags' and again later as 'unsigned long flags' \u2014 compile error.",
+              "Variables 'period_us' and 'tmp' are used (period_us = DIV_ROUND_UP_ULL(tmp, 1000); tmp = NSEC_PER_SEC * ...) but not declared in the merged file. The first declaration line still has the NXP version 'counter_check, flags' instead of mainline's 'period_us, tmp'. This will fail to compile.",
+              "Unused local 'counter_check' kept from NXP, and unused 'reg_sar', 'sar_last', 'sar_current', 'timeout' kept \u2014 leftovers from NXP version that mainline workaround doesn't use; at minimum produces warnings, but combined with above causes build failure.",
+              "Replaced mainline's local_irq_save/local_irq_restore with spin_lock_irqsave(&imx->lock,...). This is a deliberate NXP-style change but the imx->lock field is preserved in the struct, so semantically OK \u2014 however the resolver should have verified the lock is initialized (it is, in probe). This is acceptable but diverges from upstream.",
+              "pwm_imx27_wait_fifo_slot still uses NXP's '>= 3WORDS' variant rather than mainline's '== 4WORDS'; this is an intentional NXP retention but worth noting."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "file": "drivers/soc/imx/soc-imx8m.c",
+      "hunk_index": 0,
+      "confidence": 9,
+      "reasoning": "OUR side (NXP) appears empty for this hunk, meaning NXP doesn't have this code yet. The mainline stable adds platform driver registration. We should take the mainline stable version since it's a fix that NXP doesn't have.",
+      "ours": "",
+      "theirs": "static struct platform_driver imx8m_soc_driver = {\n\t.probe = imx8m_soc_probe,\n\t.driver = {\n\t\t.name = \"imx8m-soc\",\n\t},\n};\n\nstatic int __init imx8_soc_init(void)\n{\n\tstruct platform_device *pdev;\n\tint ret;\n\n\t/* No match means this is non-i.MX8M hardware, do nothing. */\n\tif (!of_match_node(imx8_soc_match, of_root))\n\t\treturn 0;\n\n\tret = platform_driver_register(&imx8m_soc_driver);\n\tif (ret) {\n\t\tpr_err(\"Failed to register imx8m-soc platform driver: %d\\n\", ret);\n\t\treturn ret;\n\t}\n\n\tpdev = platform_device",
+      "resolved_code": "static struct platform_driver imx8m_soc_driver = {\n\t.probe = imx8m_soc_probe,\n\t.driver = {\n\t\t.name = \"imx8m-soc\",\n\t},\n};\n\nstatic int __init imx8_soc_init(void)\n{\n\tstruct platform_device *pdev;\n\tint ret;\n\n\t/* No match means this is non-i.MX8M hardware, do nothing. */\n\tif (!of_match_node(imx8_soc_match, of_root))\n\t\treturn 0;\n\n\tret = platform_driver_register(&imx8m_soc_driver);\n\tif (ret) {\n\t\tpr_err(\"Failed to register imx8m-soc platform driver: %d\\n\", ret);\n\t\treturn ret;\n\t}\n\n\tpdev = platform_device",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"OUR side (NXP) appears empty for this hunk, meaning NXP doesn't have this code yet. The mainline stable adds platform driver registration. We should take the mainline stable version since it's a fix that NXP doesn't have.\",\n  \"brace_check\": \"8 open, 8 close\",\n  \"resolved_code\": \"static struct platform_driver imx8m_soc_driver = {\\n\\t.probe = imx8m_soc_probe,\\n\\t.driver = {\\n\\t\\t.name = \\\"imx8m-soc\\\",\\n\\t},\\n};\\n\\nstatic int __init imx8_soc_init(void)\\n{\\n\\tstruct platform_device *pdev;\\n\\tint ret;\\n\\n\\t/* No match means this is non-i.MX8M hardware, do nothing. */\\n\\tif (!of_match_node(imx8_soc_match, of_root))\\n\\t\\treturn 0;\\n\\n\\tret = platform_driver_register(&imx8m_soc_driver);\\n\\tif (ret) {\\n\\t\\tpr_err(\\\"Failed to register imx8m-soc platform driver: %d\\\\n\\\", ret);\\n\\t\\treturn ret;\\n\\t}\\n\\n\\tpdev = platform_device_register_simple(\\\"imx8m-soc\\\", -1, NULL, 0);\\n\\tif (IS_ERR(pdev)) {\\n\\t\\tpr_err(\\\"Failed to register imx8m-soc platform device: %ld\\\\n\\\"",
+      "start_line": 329,
+      "end_line": 362,
+      "verification": null,
+      "superseded_attempts": []
+    }
+  ]
+}

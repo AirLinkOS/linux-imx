@@ -1,0 +1,146 @@
+2026-05-04 10:43:37,892 [INFO] Run log file: /home/osaleem/repos/linux-imx/merge-logs/run_20260504_104337.log
+2026-05-04 10:43:37,892 [INFO] Kernel Stable Merge Tool started
+2026-05-04 10:43:37,892 [INFO] Repo: /home/osaleem/repos/linux-imx
+2026-05-04 10:43:37,892 [INFO] Target: v6.1.169
+2026-05-04 10:43:37,893 [INFO] Provider: claude
+2026-05-04 10:43:37,893 [INFO] Interactive: False
+2026-05-04 10:43:37,893 [INFO] Dry run: False
+2026-05-04 10:43:37,893 [INFO] Fetching stable tags...
+2026-05-04 10:43:47,711 [INFO] Using override start version: 6.1.119
+2026-05-04 10:43:47,711 [INFO] 
+============================================================
+Merge step: v6.1.119 -> v6.1.120
+Progress: 1/50
+============================================================
+2026-05-04 10:43:47,711 [INFO] Starting merge: v6.1.120
+2026-05-04 10:43:47,711 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.120_2026-05-04T10-43-47.711521.log
+2026-05-04 10:43:50,538 [INFO] Merge v6.1.120 has 5 conflicted files
+2026-05-04 10:43:50,538 [INFO]   drivers/clk/imx/clk-lpcg-scu.c: 6 conflict hunks
+2026-05-04 10:43:50,539 [INFO]   drivers/clk/imx/clk-scu.c: 1 conflict hunks
+2026-05-04 10:43:50,539 [INFO]   drivers/edac/fsl_ddr_edac.c: 1 conflict hunks
+2026-05-04 10:43:50,540 [INFO]   drivers/pwm/pwm-imx27.c: 2 conflict hunks
+2026-05-04 10:43:50,540 [INFO]   drivers/soc/imx/soc-imx8m.c: 1 conflict hunks
+2026-05-04 10:43:50,541 [INFO] Resolving drivers/clk/imx/clk-lpcg-scu.c hunk 1...
+2026-05-04 10:43:50,617 [DEBUG] Prompt for drivers/clk/imx/clk-lpcg-scu.c hunk 0
+2026-05-04 10:43:55,203 [INFO]   Resolved drivers/clk/imx/clk-lpcg-scu.c hunk 0: confidence=9/10 — NXP vendor and mainline both implement the same e10858 errata workaround. Mainline uses cleaner nami
+2026-05-04 10:43:55,204 [INFO] Resolving drivers/clk/imx/clk-lpcg-scu.c hunk 2...
+2026-05-04 10:43:55,277 [DEBUG] Prompt for drivers/clk/imx/clk-lpcg-scu.c hunk 1
+2026-05-04 10:44:00,409 [WARNING] Brace balance mismatch: ours=+0, theirs=+0, resolved=+2. Resolved code has 2 '{' and 0 '}'.
+2026-05-04 10:44:00,410 [INFO]   Retrying due to brace imbalance...
+2026-05-04 10:44:00,410 [DEBUG] Prompt for drivers/clk/imx/clk-lpcg-scu.c hunk 1
+2026-05-04 10:44:04,961 [INFO]   Resolved drivers/clk/imx/clk-lpcg-scu.c hunk 1: confidence=9/10 — There are multiple conflicts. The mainline version renames do_lpcg_workaround to lpcg_e10858_writel,
+2026-05-04 10:44:04,962 [INFO] Resolving drivers/clk/imx/clk-lpcg-scu.c hunk 3...
+2026-05-04 10:44:05,188 [DEBUG] Prompt for drivers/clk/imx/clk-lpcg-scu.c hunk 2
+2026-05-04 10:44:08,793 [INFO]   Resolved drivers/clk/imx/clk-lpcg-scu.c hunk 2: confidence=9/10 — Mainline renamed do_lpcg_workaround to lpcg_e10858_writel, removed unused reg1 variable, and used HZ
+2026-05-04 10:44:08,793 [INFO] Resolving drivers/clk/imx/clk-lpcg-scu.c hunk 4...
+2026-05-04 10:44:08,868 [DEBUG] Prompt for drivers/clk/imx/clk-lpcg-scu.c hunk 3
+2026-05-04 10:44:12,312 [INFO]   Resolved drivers/clk/imx/clk-lpcg-scu.c hunk 3: confidence=9/10 — Mainline renamed do_lpcg_workaround to lpcg_e10858_writel. Both hunks are simple function rename cal
+2026-05-04 10:44:12,313 [INFO] Resolving drivers/clk/imx/clk-lpcg-scu.c hunk 5...
+2026-05-04 10:44:12,390 [DEBUG] Prompt for drivers/clk/imx/clk-lpcg-scu.c hunk 4
+2026-05-04 10:44:15,624 [INFO]   Resolved drivers/clk/imx/clk-lpcg-scu.c hunk 4: confidence=9/10 — The conflict is just a function rename from do_lpcg_workaround to lpcg_e10858_writel. Use mainline's
+2026-05-04 10:44:15,625 [INFO] Resolving drivers/clk/imx/clk-lpcg-scu.c hunk 6...
+2026-05-04 10:44:15,701 [DEBUG] Prompt for drivers/clk/imx/clk-lpcg-scu.c hunk 5
+2026-05-04 10:44:21,038 [INFO]   Resolved drivers/clk/imx/clk-lpcg-scu.c hunk 5: confidence=8/10 — NXP renamed the workaround function to do_lpcg_workaround and added an hdmi_lpcg check plus a FIXME 
+2026-05-04 10:44:21,039 [INFO] Resolving drivers/clk/imx/clk-scu.c hunk 1...
+2026-05-04 10:44:21,112 [DEBUG] Prompt for drivers/clk/imx/clk-scu.c hunk 0
+2026-05-04 10:44:25,026 [INFO]   Resolved drivers/clk/imx/clk-scu.c hunk 0: confidence=9/10 — The mainline stable fix changes clk_hw_is_enabled to clk_hw_is_prepared. This is the bug fix from co
+2026-05-04 10:44:25,027 [INFO] Resolving drivers/edac/fsl_ddr_edac.c hunk 1...
+2026-05-04 10:44:25,103 [DEBUG] Prompt for drivers/edac/fsl_ddr_edac.c hunk 0
+2026-05-04 10:44:31,859 [INFO]   Resolved drivers/edac/fsl_ddr_edac.c hunk 0: confidence=9/10 — The mainline stable fix corrects bad bit shift operations by using 1ULL for 64-bit shifts and simpli
+2026-05-04 10:44:31,860 [INFO] Resolving drivers/pwm/pwm-imx27.c hunk 1...
+2026-05-04 10:44:31,945 [DEBUG] Prompt for drivers/pwm/pwm-imx27.c hunk 0
+2026-05-04 10:44:37,467 [INFO]   Resolved drivers/pwm/pwm-imx27.c hunk 0: confidence=8/10 — NXP's version declares variables (counter_check, flags) used in their workaround block that follows.
+2026-05-04 10:44:37,467 [INFO] Resolving drivers/pwm/pwm-imx27.c hunk 2...
+2026-05-04 10:44:37,551 [DEBUG] Prompt for drivers/pwm/pwm-imx27.c hunk 1
+2026-05-04 10:45:10,229 [INFO]   Resolved drivers/pwm/pwm-imx27.c hunk 1: confidence=6/10 — Both NXP and mainline implement the same erratum workaround (ERR051198) but with different approache
+2026-05-04 10:45:10,230 [INFO] Resolving drivers/soc/imx/soc-imx8m.c hunk 1...
+2026-05-04 10:45:10,315 [DEBUG] Prompt for drivers/soc/imx/soc-imx8m.c hunk 0
+2026-05-04 10:45:16,611 [INFO]   Resolved drivers/soc/imx/soc-imx8m.c hunk 0: confidence=9/10 — OUR side (NXP) appears empty for this hunk, meaning NXP doesn't have this code yet. The mainline sta
+2026-05-04 10:45:16,717 [INFO]   Running verification pass on drivers/pwm/pwm-imx27.c...
+2026-05-04 10:45:30,792 [WARNING]   ⚠️  VERIFICATION CRITICAL for drivers/pwm/pwm-imx27.c: Merged file has duplicate 'flags' declaration and undeclared variables (period_us, tmp); will not compile
+2026-05-04 10:45:30,793 [WARNING]     - Duplicate declaration of 'flags': declared once in the first line as 'unsigned long ... flags' and again later as 'unsigned long flags' — compile error.
+2026-05-04 10:45:30,793 [WARNING]     - Variables 'period_us' and 'tmp' are used (period_us = DIV_ROUND_UP_ULL(tmp, 1000); tmp = NSEC_PER_SEC * ...) but not declared in the merged file. The first declaration line still has the NXP version 'counter_check, flags' instead of mainline's 'period_us, tmp'. This will fail to compile.
+2026-05-04 10:45:30,793 [WARNING]     - Unused local 'counter_check' kept from NXP, and unused 'reg_sar', 'sar_last', 'sar_current', 'timeout' kept — leftovers from NXP version that mainline workaround doesn't use; at minimum produces warnings, but combined with above causes build failure.
+2026-05-04 10:45:30,793 [WARNING]     - Replaced mainline's local_irq_save/local_irq_restore with spin_lock_irqsave(&imx->lock,...). This is a deliberate NXP-style change but the imx->lock field is preserved in the struct, so semantically OK — however the resolver should have verified the lock is initialized (it is, in probe). This is acceptable but diverges from upstream.
+2026-05-04 10:45:30,793 [WARNING]     - pwm_imx27_wait_fifo_slot still uses NXP's '>= 3WORDS' variant rather than mainline's '== 4WORDS'; this is an intentional NXP retention but worth noting.
+2026-05-04 10:45:30,793 [WARNING]   Verification flagged drivers/pwm/pwm-imx27.c as critical — retrying resolution with verifier feedback
+2026-05-04 10:45:30,883 [DEBUG] Prompt for drivers/pwm/pwm-imx27.c hunk 1
+2026-05-04 10:46:12,134 [INFO]   Retry resolved drivers/pwm/pwm-imx27.c hunk 1: confidence=7/10 — The mainline stable patch (ERR051198 workaround) supersedes the NXP workaround for the same hardware
+2026-05-04 10:46:12,261 [INFO]   Running verification pass on drivers/pwm/pwm-imx27.c...
+2026-05-04 10:46:25,473 [WARNING]   ⚠️  VERIFICATION CRITICAL for drivers/pwm/pwm-imx27.c: Merged file has duplicated function body and duplicate variable declarations causing compile failure
+2026-05-04 10:46:25,473 [WARNING]     - The pwm_imx27_apply() function body is duplicated: after the first 'pwm_imx27_sw_reset(chip);' block, the entire prologue (variable declarations, pwm_get_state, clkrate calc, period/duty calc, cstate handling) appears again — this will not compile (redeclared variables, statements after declarations, etc.)
+2026-05-04 10:46:25,474 [WARNING]     - The first declaration block contains both NXP variables (counter_check, sar_last, sar_current, reg_sar, timeout) and a duplicate 'unsigned long flags;' declared twice in the same scope
+2026-05-04 10:46:25,474 [WARNING]     - The NXP-specific workaround code (sar_last/sar_current spin_lock based) was supposed to be removed in favor of mainline's ERR051198 workaround but the surrounding declarations were kept, leaving unused variables and a duplicated function preamble
+2026-05-04 10:46:25,474 [WARNING]     - The spinlock 'imx->lock' field and spin_lock_init are still kept in the struct/probe but are no longer used since mainline uses local_irq_save() instead — dead code (minor)
+2026-05-04 10:46:25,474 [WARNING]     - NXP's modified pwm_imx27_wait_fifo_slot() (using FIFOAV_3WORDS threshold and msleep(period_ms * (fifoav - 2))) is preserved, which differs from mainline's simpler 4WORDS check; this appears intentional but should be confirmed
+2026-05-04 10:46:25,475 [WARNING]   Retry STILL flagged critical for drivers/pwm/pwm-imx27.c. Letting the build step catch any compile errors. Hardware testing strongly recommended for this file.
+2026-05-04 10:46:27,046 [INFO] All conflicts resolved. Confidence: min=7, avg=8.6
+2026-05-04 10:46:30,184 [INFO] Build attempt 1/4...
+2026-05-04 11:17:15,472 [ERROR] Unexpected error: Command '['make', '-C', '/home/osaleem/repos/linux-imx', 'ARCH=arm64', 'CROSS_COMPILE=aarch64-linux-gnu-', '-j16']' timed out after 1800 seconds
+Traceback (most recent call last):
+  File "/home/osaleem/repos/kernel_merge.py", line 1611, in _do_single_merge_inner
+    build_ok, fix_attempts = run_build_with_fixes(
+                             ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/osaleem/repos/kernel_merge.py", line 1111, in run_build_with_fixes
+    result = run_make(repo)
+             ^^^^^^^^^^^^^^
+  File "/home/osaleem/repos/kernel_merge.py", line 1097, in run_make
+    return subprocess.run(cmd, capture_output=True, text=True, timeout=1800)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 550, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 1209, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 2116, in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+  File "/usr/lib/python3.12/subprocess.py", line 1253, in _check_timeout
+    raise TimeoutExpired(
+subprocess.TimeoutExpired: Command '['make', '-C', '/home/osaleem/repos/linux-imx', 'ARCH=arm64', 'CROSS_COMPILE=aarch64-linux-gnu-', '-j16']' timed out after 1800 seconds
+2026-05-04 11:27:02,834 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.120_2026-05-04T10-43-47.711521.json
+2026-05-04 11:27:02,852 [ERROR] Stopping due to error at v6.1.120. Fix manually and re-run.
+2026-05-04 11:27:03,010 [INFO] 
+======================================================================
+2026-05-04 11:27:03,010 [INFO] VERIFICATION SUMMARY — Files flagged for hardware testing review
+2026-05-04 11:27:03,010 [INFO] ======================================================================
+2026-05-04 11:27:03,010 [INFO] Total flagged: 5 resolutions across 4 subsystems
+
+2026-05-04 11:27:03,011 [INFO] 
+[arch/arm64]  (1 flag(s))
+2026-05-04 11:27:03,011 [INFO]   🟡 v6.1.64 arch/arm64/boot/dts/freescale/fsl-ls208xa.dtsi (conf 4/10)
+2026-05-04 11:27:03,012 [INFO]       Merge preserves NXP USB additions but skips mainline's bus wrapper that constrains USB DMA addressing
+2026-05-04 11:27:03,012 [INFO]       - The mainline DMA-range constraint fix (bus wrapper with dma-ranges 0x100 limit) was intentionally dropped. The resolver acknowledged this. USB on these SoCs may exhibit the DMA addressing bug the stable patch fixed.
+2026-05-04 11:27:03,012 [INFO]       - NXP-specific 'fsl,ls2088a-dwc3' compatible and 'snps,host-vbus-glitches' property are correctly preserved.
+2026-05-04 11:27:03,013 [INFO]       - Other unrelated NXP changes (watchdog clock div 32 vs mainline 4, PCIe interrupt-names 'aer' vs 'intr', i2c ls208xa-i2c compatible, scl-gpios) are vendor-intentional and properly kept.
+2026-05-04 11:27:03,013 [INFO] 
+[drivers/media]  (1 flag(s))
+2026-05-04 11:27:03,013 [INFO]   🟡 v6.1.63 drivers/media/i2c/ov5640.c (conf 4/10)
+2026-05-04 11:27:03,013 [INFO]       Mainline 6.1.62->6.1.63 only changed OV5640_DEFAULT_LINK_FREQ from 19 to 13; merge kept NXP value of 19 instead of taking mainline's bug fix.
+2026-05-04 11:27:03,013 [INFO]       - OV5640_DEFAULT_LINK_FREQ remains 19 in MERGED while mainline 6.1.63 changed it to 13. This stable bugfix appears to have been dropped during the merge.
+2026-05-04 11:27:03,013 [INFO]       - The resolution reasoning discusses a probe-restructure conflict, but FROM->TO has no such restructuring; the only mainline delta is the link-freq constant. The merger may have misidentified the conflict and discarded the actual intended fix.
+2026-05-04 11:27:03,013 [INFO]       - Runtime impact: incorrect default link frequency could cause MIPI CSI-2 link mis-configuration on first stream in default mode; not catastrophic but a regression vs. intended stable fix.
+2026-05-04 11:27:03,013 [INFO] 
+[drivers/pci]  (2 flag(s))
+2026-05-04 11:27:03,013 [INFO]   🔴 v6.1.81 drivers/pci/controller/dwc/pci-layerscape-ep.c (conf 6/10)
+2026-05-04 11:27:03,014 [INFO]       Macro definitions accidentally placed inside struct ls_pcie_ep, breaking the struct and removing required member fields
+2026-05-04 11:27:03,014 [INFO]       - Inside 'struct ls_pcie_ep' definition, mainline's #define block (PEX_PF0_CONFIG, PEX_PF0_PME_MES_DR/IER, etc.) was inserted instead of being placed at file scope. This will not compile cleanly and corrupts the struct.
+2026-05-04 11:27:03,014 [INFO]       - The struct ls_pcie_ep is missing required member declarations: 'int irq;', 'u32 lnkcap;', 'bool big_endian;', and NXP's 'u8 max_speed; u8 max_width;'. The code references pcie->irq, pcie->lnkcap, pcie->big_endian, pcie->max_speed, pcie->max_width — none of which are declared in the merged struct body.
+2026-05-04 11:27:03,014 [INFO]       - Duplicate macro definitions: PEX_PF0_CONFIG and PEX_PF0_CFG_READY are defined twice (once at file scope and once inside the struct).
+2026-05-04 11:27:03,014 [INFO]   🔴 v6.1.81 drivers/pci/controller/dwc/pci-layerscape-ep.c (conf 6/10)
+2026-05-04 11:27:03,014 [INFO]       struct ls_pcie_ep is corrupted by macro definitions inserted into the struct body, and required fields (irq, lnkcap, big_endian, max_speed, max_width) are missing.
+2026-05-04 11:27:03,014 [INFO]       - Inside `struct ls_pcie_ep { ... }` the merge inserted `#define PEX_PF0_CONFIG ...` and the PME_MES_DR/IER macros directly into the struct body, which is invalid C and will not compile.
+2026-05-04 11:27:03,014 [INFO]       - Struct fields used elsewhere are not declared: `irq`, `lnkcap`, `big_endian` (used in ls_lut_readl/writel and probe) are missing from the struct.
+2026-05-04 11:27:03,014 [INFO]       - NXP fields `max_speed` and `max_width` were dropped from the struct but probe still assigns `pcie->max_speed` and `pcie->max_width` -> compile error.
+2026-05-04 11:27:03,014 [INFO] 
+[drivers/pwm]  (1 flag(s))
+2026-05-04 11:27:03,015 [INFO]   🔴 v6.1.120 drivers/pwm/pwm-imx27.c (conf 7/10)
+2026-05-04 11:27:03,015 [INFO]       Merged file has duplicated function body and duplicate variable declarations causing compile failure
+2026-05-04 11:27:03,015 [INFO]       - The pwm_imx27_apply() function body is duplicated: after the first 'pwm_imx27_sw_reset(chip);' block, the entire prologue (variable declarations, pwm_get_state, clkrate calc, period/duty calc, cstate handling) appears again — this will not compile (redeclared variables, statements after declarations, etc.)
+2026-05-04 11:27:03,015 [INFO]       - The first declaration block contains both NXP variables (counter_check, sar_last, sar_current, reg_sar, timeout) and a duplicate 'unsigned long flags;' declared twice in the same scope
+2026-05-04 11:27:03,015 [INFO]       - The NXP-specific workaround code (sar_last/sar_current spin_lock based) was supposed to be removed in favor of mainline's ERR051198 workaround but the surrounding declarations were kept, leaving unused variables and a duplicated function preamble
+2026-05-04 11:27:03,015 [INFO] 
+======================================================================
+2026-05-04 11:27:03,015 [INFO] Recommendation: prioritize hardware testing of the subsystems above. Critical (🔴) flags warrant especially careful review.
+2026-05-04 11:27:03,015 [INFO] ======================================================================
+2026-05-04 11:27:03,016 [INFO] Done.
