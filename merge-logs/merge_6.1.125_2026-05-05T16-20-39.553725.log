@@ -1,0 +1,22 @@
+2026-05-05 16:20:39,554 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.125_2026-05-05T16-20-39.553725.log
+2026-05-05 16:20:41,303 [INFO] Merge v6.1.125 has 2 conflicted files
+2026-05-05 16:20:41,304 [INFO]   drivers/gpu/drm/bridge/adv7511/adv7511_drv.c: 1 conflict hunks
+2026-05-05 16:20:41,304 [INFO]   drivers/iio/gyro/fxas21002c_core.c: 1 conflict hunks
+2026-05-05 16:20:41,305 [INFO] Resolving drivers/gpu/drm/bridge/adv7511/adv7511_drv.c hunk 1...
+2026-05-05 16:20:41,324 [DEBUG] Prompt for drivers/gpu/drm/bridge/adv7511/adv7511_drv.c hunk 0
+2026-05-05 16:20:50,488 [INFO]   Resolved drivers/gpu/drm/bridge/adv7511/adv7511_drv.c hunk 0: confidence=7/10 — NXP added an OF dynamic block to handle probe failure by detaching the remote endpoint. Mainline sta
+2026-05-05 16:20:50,488 [INFO] Resolving drivers/iio/gyro/fxas21002c_core.c hunk 1...
+2026-05-05 16:20:50,507 [DEBUG] Prompt for drivers/iio/gyro/fxas21002c_core.c hunk 0
+2026-05-05 16:20:54,364 [INFO]   Resolved drivers/iio/gyro/fxas21002c_core.c hunk 0: confidence=9/10 — The context AFTER the conflict already contains the bulk_read, pm_put, and iio_push_to_buffers code 
+2026-05-05 16:20:55,351 [INFO] All conflicts resolved. Confidence: min=7, avg=8.0
+2026-05-05 16:20:59,932 [INFO] Build attempt 1/4...
+2026-05-05 16:26:10,794 [WARNING] Could not parse any errors from build output
+2026-05-05 16:26:10,794 [ERROR] AI couldn't propose a fix
+2026-05-05 16:26:10,794 [ERROR] Build failed for v6.1.125 after 0 fix attempts. Manual intervention needed on branch merge/v6.1.125.
+2026-05-05 16:26:10,795 [INFO] To fix manually:
+  cd /home/osaleem/repos/linux-imx
+  # fix the build errors
+  git add -A && git commit --amend
+  git checkout lf-6.1.y-semtech
+  git merge merge/v6.1.125
+  # then re-run this tool

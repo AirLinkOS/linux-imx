@@ -992,9 +992,6 @@ static int adv7511_bridge_attach(struct drm_bridge *bridge,
 			return ret;
 	}
 
-	if (adv->type == ADV7533 || adv->type == ADV7535)
-		ret = adv7533_attach_dsi(adv);
-
 	if (adv->i2c_main->irq)
 		regmap_write(adv->regmap, ADV7511_REG_INT_ENABLE(0),
 			     ADV7511_INT0_HPD);
@@ -1268,10 +1265,6 @@ static int adv7511_probe(struct i2c_client *i2c, const struct i2c_device_id *id)
 	struct adv7511_link_config link_config;
 	struct adv7511 *adv7511;
 	struct device *dev = &i2c->dev;
-#if IS_ENABLED(CONFIG_OF_DYNAMIC)
-	struct device_node *remote_node = NULL, *endpoint = NULL;
-	struct of_changeset ocs;
-#endif
 	unsigned int main_i2c_addr = i2c->addr << 1;
 	unsigned int edid_i2c_addr = main_i2c_addr + 4;
 	unsigned int cec_i2c_addr = main_i2c_addr - 2;
@@ -1306,8 +1299,8 @@ static int adv7511_probe(struct i2c_client *i2c, const struct i2c_device_id *id)
 
 	ret = adv7511_init_regulators(adv7511);
 	if (ret) {
-		dev_err(dev, "failed to init regulators\n");
-		return ret;
+		dev_err_probe(dev, ret, "failed to init regulators\n");
+		goto err_of_node_put;
 	}
 
 	if (adv7511->addr_cec != 0)
@@ -1424,8 +1417,18 @@ static int adv7511_probe(struct i2c_client *i2c, const struct i2c_device_id *id)
 	drm_bridge_add(&adv7511->bridge);
 
 	adv7511_audio_init(dev, adv7511);
+
+	if (adv7511->type == ADV7533 || adv7511->type == ADV7535) {
+		ret = adv7533_attach_dsi(adv7511);
+		if (ret)
+			goto err_unregister_audio;
+	}
+
 	return 0;
 
+err_unregister_audio:
+	adv7511_audio_exit(adv7511);
+	drm_bridge_remove(&adv7511->bridge);
 err_unregister_cec:
 	cec_unregister_adapter(adv7511->cec_adap);
 	i2c_unregister_device(adv7511->i2c_cec);
@@ -1436,40 +1439,8 @@ err_i2c_unregister_edid:
 	i2c_unregister_device(adv7511->i2c_edid);
 uninit_regulators:
 	adv7511_uninit_regulators(adv7511);
-#if IS_ENABLED(CONFIG_OF_DYNAMIC)
-	if (ret == -EPROBE_DEFER)
-		return ret;
-
-	endpoint = of_graph_get_next_endpoint(dev->of_node, NULL);
-	if (endpoint)
-		remote_node = of_graph_get_remote_port_parent(endpoint);
-
-	if (!remote_node)
-		return ret;
-
-	/* Find remote's endpoint connected to us and detach it */
-	endpoint = NULL;
-	while ((endpoint = of_graph_get_next_endpoint(remote_node,
-						      endpoint))) {
-		struct device_node *us;
-
-		us = of_graph_get_remote_port_parent(endpoint);
-		if (us == dev->of_node)
-			break;
-	}
-	of_node_put(remote_node);
-
-	if (!endpoint)
-		return ret;
-
-	of_changeset_init(&ocs);
-	of_changeset_detach_node(&ocs, endpoint);
-	ret = of_changeset_apply(&ocs);
-	if (!ret)
-		dev_warn(dev,
-			 "Probe failed. Remote port '%s' disabled\n",
-			 remote_node->full_name);
-#endif
+err_of_node_put:
+	of_node_put(adv7511->host_node);
 
 	return ret;
 }
@@ -1477,6 +1448,8 @@ uninit_regulators:
 static void adv7511_remove(struct i2c_client *i2c)
 {
 	struct adv7511 *adv7511 = i2c_get_clientdata(i2c);
+
+	of_node_put(adv7511->host_node);
 
 	adv7511_uninit_regulators(adv7511);
 

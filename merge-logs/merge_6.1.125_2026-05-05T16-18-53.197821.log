@@ -1,0 +1,12 @@
+2026-05-05 16:18:53,198 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.125_2026-05-05T16-18-53.197821.log
+2026-05-05 16:18:54,304 [INFO] Merge v6.1.125 has 2 conflicted files
+2026-05-05 16:18:54,305 [INFO]   drivers/gpu/drm/bridge/adv7511/adv7511_drv.c: 1 conflict hunks
+2026-05-05 16:18:54,305 [INFO]   drivers/iio/gyro/fxas21002c_core.c: 1 conflict hunks
+2026-05-05 16:18:54,305 [INFO] Resolving drivers/gpu/drm/bridge/adv7511/adv7511_drv.c hunk 1...
+2026-05-05 16:18:54,317 [DEBUG] Prompt for drivers/gpu/drm/bridge/adv7511/adv7511_drv.c hunk 0
+2026-05-05 16:19:03,325 [INFO]   Resolved drivers/gpu/drm/bridge/adv7511/adv7511_drv.c hunk 0: confidence=7/10 — NXP added a CONFIG_OF_DYNAMIC block that disables the remote port when probe fails. Mainline stable 
+2026-05-05 16:19:03,326 [INFO] Resolving drivers/iio/gyro/fxas21002c_core.c hunk 1...
+2026-05-05 16:19:03,346 [DEBUG] Prompt for drivers/iio/gyro/fxas21002c_core.c hunk 0
+2026-05-05 16:19:07,483 [INFO]   Resolved drivers/iio/gyro/fxas21002c_core.c hunk 0: confidence=9/10 — The mainline stable fix removes the duplicated bulk_read block (which was missing the actual data up
+2026-05-05 16:19:08,064 [INFO] All conflicts resolved. Confidence: min=7, avg=8.0
+2026-05-05 16:19:10,734 [INFO] Build attempt 1/4...

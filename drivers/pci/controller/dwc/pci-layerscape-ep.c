@@ -9,6 +9,7 @@
 
 #include <linux/kernel.h>
 #include <linux/init.h>
+#include <linux/dma-mapping.h>
 #include <linux/of_pci.h>
 #include <linux/of_platform.h>
 #include <linux/of_address.h>
@@ -18,37 +19,6 @@
 
 #include "pcie-designware.h"
 
-#define PCIE_LINK_CAP			0x7C	/* PCIe Link Capabilities*/
-#define MAX_LINK_SP_MASK		0x0F
-#define MAX_LINK_W_MASK			0x3F
-#define MAX_LINK_W_SHIFT		4
-
-#define PEX_PF0_CONFIG			0xC0014
-#define PEX_PF0_CFG_READY		BIT(0)
-
-/* PEX PFa PCIE pme and message interrupt registers*/
-#define PEX_PF0_PME_MES_DR             0xC0020
-#define PEX_PF0_PME_MES_DR_LUD         (1 << 7)
-#define PEX_PF0_PME_MES_DR_LDD         (1 << 9)
-#define PEX_PF0_PME_MES_DR_HRD         (1 << 10)
-
-#define PEX_PF0_PME_MES_IER            0xC0028
-#define PEX_PF0_PME_MES_IER_LUDIE      (1 << 7)
-#define PEX_PF0_PME_MES_IER_LDDIE      (1 << 9)
-#define PEX_PF0_PME_MES_IER_HRDIE      (1 << 10)
-
-#define to_ls_pcie_ep(x)	dev_get_drvdata((x)->dev)
-
-struct ls_pcie_ep_drvdata {
-	u32				func_offset;
-	const struct dw_pcie_ep_ops	*ops;
-	const struct dw_pcie_ops	*dw_pcie_ops;
-};
-
-struct ls_pcie_ep {
-	struct dw_pcie			*pci;
-	struct pci_epc_features		*ls_epc;
-	const struct ls_pcie_ep_drvdata *drvdata;
 #define PEX_PF0_CONFIG			0xC0014
 #define PEX_PF0_CFG_READY		BIT(0)
 
@@ -62,6 +32,22 @@ struct ls_pcie_ep {
 #define PEX_PF0_PME_MES_IER_LUDIE	BIT(7)
 #define PEX_PF0_PME_MES_IER_LDDIE	BIT(9)
 #define PEX_PF0_PME_MES_IER_HRDIE	BIT(10)
+
+#define to_ls_pcie_ep(x)	dev_get_drvdata((x)->dev)
+
+struct ls_pcie_ep_drvdata {
+	u32				func_offset;
+	const struct dw_pcie_ep_ops	*ops;
+	const struct dw_pcie_ops	*dw_pcie_ops;
+};
+
+struct ls_pcie_ep {
+	struct dw_pcie			*pci;
+	struct pci_epc_features		*ls_epc;
+	const struct ls_pcie_ep_drvdata *drvdata;
+	int				irq;
+	u32				lnkcap;
+	bool				big_endian;
 };
 
 static u32 ls_lut_readl(struct ls_pcie_ep *pcie, u32 offset)
@@ -133,16 +119,13 @@ static int ls_pcie_ep_interrupt_init(struct ls_pcie_ep *pcie,
 	int ret;
 
 	pcie->irq = platform_get_irq_byname(pdev, "pme");
-	if (pcie->irq < 0) {
-		dev_err(&pdev->dev, "Can't get 'pme' irq.\n");
+	if (pcie->irq < 0)
 		return pcie->irq;
-	}
 
-	ret = devm_request_irq(&pdev->dev, pcie->irq,
-			       ls_pcie_ep_event_handler, IRQF_SHARED,
-			       pdev->name, pcie);
+	ret = devm_request_irq(&pdev->dev, pcie->irq, ls_pcie_ep_event_handler,
+			       IRQF_SHARED, pdev->name, pcie);
 	if (ret) {
-		dev_err(&pdev->dev, "Can't register PCIe IRQ.\n");
+		dev_err(&pdev->dev, "Can't register PCIe IRQ\n");
 		return ret;
 	}
 
@@ -283,12 +266,7 @@ static int __init ls_pcie_ep_probe(struct platform_device *pdev)
 
 	pcie->big_endian = of_property_read_bool(dev->of_node, "big-endian");
 
-	pcie->max_speed = dw_pcie_readw_dbi(pci, PCIE_LINK_CAP) &
-			  MAX_LINK_SP_MASK;
-	pcie->max_width = (dw_pcie_readw_dbi(pci, PCIE_LINK_CAP) >>
-			  MAX_LINK_W_SHIFT) & MAX_LINK_W_MASK;
-
-	/* set 64-bit DMA mask and coherent DMA mask */
+	/* NXP: set 64-bit DMA mask and coherent DMA mask */
 	if (dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64)))
 		dev_warn(dev, "Failed to set 64-bit DMA mask.\n");
 
@@ -299,9 +277,9 @@ static int __init ls_pcie_ep_probe(struct platform_device *pdev)
 
 	ret = dw_pcie_ep_init(&pci->ep);
 	if (ret)
-		return  ret;
+		return ret;
 
-	return  ls_pcie_ep_interrupt_init(pcie, pdev);
+	return ls_pcie_ep_interrupt_init(pcie, pdev);
 }
 
 static struct platform_driver ls_pcie_ep_driver = {
