@@ -1,0 +1,79 @@
+2026-05-05 15:38:20,177 [INFO] Run log file: /home/osaleem/repos/linux-imx/merge-logs/run_20260505_153820.log
+2026-05-05 15:38:20,177 [INFO] Kernel Stable Merge Tool started
+2026-05-05 15:38:20,177 [INFO] Repo: /home/osaleem/repos/linux-imx
+2026-05-05 15:38:20,177 [INFO] Target: v6.1.169
+2026-05-05 15:38:20,177 [INFO] Provider: claude
+2026-05-05 15:38:20,177 [INFO] Interactive: False
+2026-05-05 15:38:20,177 [INFO] Dry run: False
+2026-05-05 15:38:20,177 [INFO] Fetching stable tags...
+2026-05-05 15:38:21,155 [INFO] Using override start version: 6.1.123
+2026-05-05 15:38:21,155 [INFO] 
+============================================================
+Merge step: v6.1.123 -> v6.1.124
+Progress: 1/46
+============================================================
+2026-05-05 15:38:21,155 [INFO] Starting merge: v6.1.124
+2026-05-05 15:38:21,155 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.124_2026-05-05T15-38-21.155606.log
+2026-05-05 15:38:22,259 [INFO] Merge v6.1.124 has 1 conflicted files
+2026-05-05 15:38:22,260 [INFO]   drivers/gpu/drm/bridge/adv7511/adv7533.c: 1 conflict hunks
+2026-05-05 15:38:22,260 [INFO] Resolving drivers/gpu/drm/bridge/adv7511/adv7533.c hunk 1...
+2026-05-05 15:38:22,279 [DEBUG] Prompt for drivers/gpu/drm/bridge/adv7511/adv7533.c hunk 0
+2026-05-05 15:38:26,382 [INFO]   Resolved drivers/gpu/drm/bridge/adv7511/adv7533.c hunk 0: confidence=9/10 — Mainline drops single lane DSI support (num_lanes < 2). NXP added a dev_err message and braces. I me
+2026-05-05 15:38:26,897 [INFO] All conflicts resolved. Confidence: min=9, avg=9.0
+2026-05-05 15:38:29,668 [INFO] Build attempt 1/4...
+2026-05-05 16:08:29,677 [WARNING] Could not parse any errors from build output
+2026-05-05 16:08:29,677 [ERROR] AI couldn't propose a fix
+2026-05-05 16:08:29,677 [ERROR] Build failed for v6.1.124 after 0 fix attempts. Manual intervention needed on branch merge/v6.1.124.
+2026-05-05 16:08:29,677 [INFO] To fix manually:
+  cd /home/osaleem/repos/linux-imx
+  # fix the build errors
+  git add -A && git commit --amend
+  git checkout lf-6.1.y-semtech
+  git merge merge/v6.1.124
+  # then re-run this tool
+2026-05-05 16:08:29,677 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.124_2026-05-05T15-38-21.155606.json
+2026-05-05 16:08:29,678 [ERROR] Stopping due to error at v6.1.124. Fix manually and re-run.
+2026-05-05 16:08:29,693 [INFO] 
+======================================================================
+2026-05-05 16:08:29,694 [INFO] VERIFICATION SUMMARY — Files flagged for hardware testing review
+2026-05-05 16:08:29,694 [INFO] ======================================================================
+2026-05-05 16:08:29,694 [INFO] Total flagged: 5 resolutions across 4 subsystems
+
+2026-05-05 16:08:29,694 [INFO] 
+[arch/arm64]  (1 flag(s))
+2026-05-05 16:08:29,694 [INFO]   🟡 v6.1.64 arch/arm64/boot/dts/freescale/fsl-ls208xa.dtsi (conf 4/10)
+2026-05-05 16:08:29,694 [INFO]       Merge preserves NXP USB additions but skips mainline's bus wrapper that constrains USB DMA addressing
+2026-05-05 16:08:29,694 [INFO]       - The mainline DMA-range constraint fix (bus wrapper with dma-ranges 0x100 limit) was intentionally dropped. The resolver acknowledged this. USB on these SoCs may exhibit the DMA addressing bug the stable patch fixed.
+2026-05-05 16:08:29,694 [INFO]       - NXP-specific 'fsl,ls2088a-dwc3' compatible and 'snps,host-vbus-glitches' property are correctly preserved.
+2026-05-05 16:08:29,694 [INFO]       - Other unrelated NXP changes (watchdog clock div 32 vs mainline 4, PCIe interrupt-names 'aer' vs 'intr', i2c ls208xa-i2c compatible, scl-gpios) are vendor-intentional and properly kept.
+2026-05-05 16:08:29,694 [INFO] 
+[drivers/media]  (1 flag(s))
+2026-05-05 16:08:29,694 [INFO]   🟡 v6.1.63 drivers/media/i2c/ov5640.c (conf 4/10)
+2026-05-05 16:08:29,694 [INFO]       Mainline 6.1.62->6.1.63 only changed OV5640_DEFAULT_LINK_FREQ from 19 to 13; merge kept NXP value of 19 instead of taking mainline's bug fix.
+2026-05-05 16:08:29,694 [INFO]       - OV5640_DEFAULT_LINK_FREQ remains 19 in MERGED while mainline 6.1.63 changed it to 13. This stable bugfix appears to have been dropped during the merge.
+2026-05-05 16:08:29,694 [INFO]       - The resolution reasoning discusses a probe-restructure conflict, but FROM->TO has no such restructuring; the only mainline delta is the link-freq constant. The merger may have misidentified the conflict and discarded the actual intended fix.
+2026-05-05 16:08:29,694 [INFO]       - Runtime impact: incorrect default link frequency could cause MIPI CSI-2 link mis-configuration on first stream in default mode; not catastrophic but a regression vs. intended stable fix.
+2026-05-05 16:08:29,694 [INFO] 
+[drivers/pci]  (2 flag(s))
+2026-05-05 16:08:29,694 [INFO]   🔴 v6.1.81 drivers/pci/controller/dwc/pci-layerscape-ep.c (conf 6/10)
+2026-05-05 16:08:29,694 [INFO]       Macro definitions accidentally placed inside struct ls_pcie_ep, breaking the struct and removing required member fields
+2026-05-05 16:08:29,694 [INFO]       - Inside 'struct ls_pcie_ep' definition, mainline's #define block (PEX_PF0_CONFIG, PEX_PF0_PME_MES_DR/IER, etc.) was inserted instead of being placed at file scope. This will not compile cleanly and corrupts the struct.
+2026-05-05 16:08:29,694 [INFO]       - The struct ls_pcie_ep is missing required member declarations: 'int irq;', 'u32 lnkcap;', 'bool big_endian;', and NXP's 'u8 max_speed; u8 max_width;'. The code references pcie->irq, pcie->lnkcap, pcie->big_endian, pcie->max_speed, pcie->max_width — none of which are declared in the merged struct body.
+2026-05-05 16:08:29,694 [INFO]       - Duplicate macro definitions: PEX_PF0_CONFIG and PEX_PF0_CFG_READY are defined twice (once at file scope and once inside the struct).
+2026-05-05 16:08:29,694 [INFO]   🔴 v6.1.81 drivers/pci/controller/dwc/pci-layerscape-ep.c (conf 6/10)
+2026-05-05 16:08:29,694 [INFO]       struct ls_pcie_ep is corrupted by macro definitions inserted into the struct body, and required fields (irq, lnkcap, big_endian, max_speed, max_width) are missing.
+2026-05-05 16:08:29,694 [INFO]       - Inside `struct ls_pcie_ep { ... }` the merge inserted `#define PEX_PF0_CONFIG ...` and the PME_MES_DR/IER macros directly into the struct body, which is invalid C and will not compile.
+2026-05-05 16:08:29,694 [INFO]       - Struct fields used elsewhere are not declared: `irq`, `lnkcap`, `big_endian` (used in ls_lut_readl/writel and probe) are missing from the struct.
+2026-05-05 16:08:29,694 [INFO]       - NXP fields `max_speed` and `max_width` were dropped from the struct but probe still assigns `pcie->max_speed` and `pcie->max_width` -> compile error.
+2026-05-05 16:08:29,694 [INFO] 
+[drivers/pwm]  (1 flag(s))
+2026-05-05 16:08:29,695 [INFO]   🔴 v6.1.120 drivers/pwm/pwm-imx27.c (conf 7/10)
+2026-05-05 16:08:29,695 [INFO]       Merged file has duplicated function body and duplicate variable declarations causing compile failure
+2026-05-05 16:08:29,695 [INFO]       - The pwm_imx27_apply() function body is duplicated: after the first 'pwm_imx27_sw_reset(chip);' block, the entire prologue (variable declarations, pwm_get_state, clkrate calc, period/duty calc, cstate handling) appears again — this will not compile (redeclared variables, statements after declarations, etc.)
+2026-05-05 16:08:29,695 [INFO]       - The first declaration block contains both NXP variables (counter_check, sar_last, sar_current, reg_sar, timeout) and a duplicate 'unsigned long flags;' declared twice in the same scope
+2026-05-05 16:08:29,695 [INFO]       - The NXP-specific workaround code (sar_last/sar_current spin_lock based) was supposed to be removed in favor of mainline's ERR051198 workaround but the surrounding declarations were kept, leaving unused variables and a duplicated function preamble
+2026-05-05 16:08:29,695 [INFO] 
+======================================================================
+2026-05-05 16:08:29,695 [INFO] Recommendation: prioritize hardware testing of the subsystems above. Critical (🔴) flags warrant especially careful review.
+2026-05-05 16:08:29,695 [INFO] ======================================================================
+2026-05-05 16:08:29,695 [INFO] Done.

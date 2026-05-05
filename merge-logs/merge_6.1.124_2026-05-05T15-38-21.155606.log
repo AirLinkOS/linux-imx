@@ -1,0 +1,18 @@
+2026-05-05 15:38:21,155 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.124_2026-05-05T15-38-21.155606.log
+2026-05-05 15:38:22,259 [INFO] Merge v6.1.124 has 1 conflicted files
+2026-05-05 15:38:22,260 [INFO]   drivers/gpu/drm/bridge/adv7511/adv7533.c: 1 conflict hunks
+2026-05-05 15:38:22,260 [INFO] Resolving drivers/gpu/drm/bridge/adv7511/adv7533.c hunk 1...
+2026-05-05 15:38:22,279 [DEBUG] Prompt for drivers/gpu/drm/bridge/adv7511/adv7533.c hunk 0
+2026-05-05 15:38:26,382 [INFO]   Resolved drivers/gpu/drm/bridge/adv7511/adv7533.c hunk 0: confidence=9/10 — Mainline drops single lane DSI support (num_lanes < 2). NXP added a dev_err message and braces. I me
+2026-05-05 15:38:26,897 [INFO] All conflicts resolved. Confidence: min=9, avg=9.0
+2026-05-05 15:38:29,668 [INFO] Build attempt 1/4...
+2026-05-05 16:08:29,677 [WARNING] Could not parse any errors from build output
+2026-05-05 16:08:29,677 [ERROR] AI couldn't propose a fix
+2026-05-05 16:08:29,677 [ERROR] Build failed for v6.1.124 after 0 fix attempts. Manual intervention needed on branch merge/v6.1.124.
+2026-05-05 16:08:29,677 [INFO] To fix manually:
+  cd /home/osaleem/repos/linux-imx
+  # fix the build errors
+  git add -A && git commit --amend
+  git checkout lf-6.1.y-semtech
+  git merge merge/v6.1.124
+  # then re-run this tool

@@ -1,0 +1,31 @@
+{
+  "version": "6.1.124",
+  "timestamp": "2026-05-05T15:38:21.155606",
+  "conflicts_total": 1,
+  "conflicts_resolved": 1,
+  "build_success": false,
+  "merged_to_main": false,
+  "error": "Build failed for v6.1.124 after 0 fix attempts. Manual intervention needed on branch merge/v6.1.124.",
+  "build_fix_attempts": [],
+  "parent_nxp_sha": "0fc677e3a08520ba95b487f8860ac3a5f82d49c1",
+  "merge_commit_sha": "bff1dc4d8aea42bd1d9ad350dd2d72f7438b2866",
+  "resolutions": [
+    {
+      "file": "drivers/gpu/drm/bridge/adv7511/adv7533.c",
+      "hunk_index": 0,
+      "confidence": 9,
+      "reasoning": "Mainline drops single lane DSI support (num_lanes < 2). NXP added a dev_err message and braces. I merge by applying the mainline fix (>= 2 lanes) while keeping NXP's error message and brace style.",
+      "ours": "\tif (num_lanes < 1 || num_lanes > 4) {\n\t\tdev_err(dev, \"Invalid dsi-lanes: %d\\n\", num_lanes);\n",
+      "theirs": "\tif (num_lanes < 2 || num_lanes > 4)\n",
+      "resolved_code": "\tif (num_lanes < 2 || num_lanes > 4) {\n\t\tdev_err(dev, \"Invalid dsi-lanes: %d\\n\", num_lanes);\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"Mainline drops single lane DSI support (num_lanes < 2). NXP added a dev_err message and braces. I merge by applying the mainline fix (>= 2 lanes) while keeping NXP's error message and brace style.\",\n  \"brace_check\": \"1 open, 1 close\",\n  \"resolved_code\": \"\\tif (num_lanes < 2 || num_lanes > 4) {\\n\\t\\tdev_err(dev, \\\"Invalid dsi-lanes: %d\\\\n\\\", num_lanes);\\n\"\n}",
+      "context_before": "\n\t/* 07-01 CEC Power Mode - Always Active */\n\tregmap_write(adv->regmap_cec, 0xbe, 0x3d);\n\n\t/* 04-03 HDMI Output Enable  */\n\tregmap_write(adv->regmap_cec, 0x03, 0x89);\n\t/* disable test mode */\n\tregmap_write(adv->regmap_cec, 0x55, 0x00);\n\n}\n\nvoid adv7533_dsi_power_off(struct adv7511 *adv)\n{\n\t/* disable hdmi */\n\tregmap_write(adv->regmap_cec, 0x03, 0x0b);\n\t/* disable internal timing generator */\n\tregmap_write(adv->regmap_cec, 0x27, 0x0b);\n}\n\nenum drm_mode_status adv7533_mode_valid(struct adv7511 *adv,\n\t\t\t\t\tconst struct drm_display_mode *mode)\n{\n\tunsigned long max_lane_freq;\n\tstruct mipi_dsi_device *dsi = adv->dsi;\n\tu8 bpp = mipi_dsi_pixel_format_to_bpp(dsi->format);\n\n\t/* Check max clock for either 7533 or 7535 */\n\tif (mode->clock > (adv->type == ADV7533 ? 80000 : 148500))\n\t\treturn MODE_CLOCK_HIGH;\n\n\t/* Check max clock for each lane */\n\tmax_lane_freq = (adv->type == ADV7533 ? 800000 : 891000);\n\n\tif (mode->clock * bpp > max_lane_freq * adv->num_dsi_lanes)\n\t\treturn MODE_CLOCK_HIGH;\n\n\treturn MODE_OK;\n}\n\nint adv7533_patch_registers(struct adv7511 *adv)\n{\n\treturn regmap_register_patch(adv->regmap,\n\t\t\t\t     adv7533_fixed_registers,\n\t\t\t\t     ARRAY_SIZE(adv7533_fixed_registers));\n}\n\nint adv7533_patch_cec_registers(struct adv7511 *adv)\n{\n\treturn regmap_register_patch(adv->regmap_cec,\n\t\t\t\t    adv7533_cec_fixed_registers,\n\t\t\t\t    ARRAY_SIZE(adv7533_cec_fixed_registers));\n}\n\nint adv7533_attach_dsi(struct adv7511 *adv)\n{\n\tstruct device *dev = &adv->i2c_main->dev;\n\tstruct mipi_dsi_host *host;\n\tstruct mipi_dsi_device *dsi;\n\tint ret = 0;\n\tconst struct mipi_dsi_device_info info = { .type = \"adv7533\",\n\t\t\t\t\t\t   .channel = adv->channel_id,\n\t\t\t\t\t\t   .node = NULL,\n\t\t\t\t\t\t };\n\n\thost = of_find_mipi_dsi_host_by_node(adv->host_node);\n\tif (!host) {\n\t\tdev_err(dev, \"failed to find dsi host\\n\");\n\t\treturn -EPROBE_DEFER;\n\t}\n\n\tdsi = devm_mipi_dsi_device_register_full(dev, host, &info);\n\tif (IS_ERR(dsi)) {\n\t\tdev_err(dev, \"failed to create dsi device\\n\");\n\t\treturn PTR_ERR(dsi);\n\t}\n\n\tadv->dsi = dsi;\n\n\tdsi->lanes = adv->num_dsi_lanes;\n\tdsi->format = MIPI_DSI_FMT_RGB888;\n\tdsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |\n\t\t\t  MIPI_DSI_MODE_NO_EOT_PACKET | MIPI_DSI_MODE_VIDEO_HSE;\n\n\tret = devm_mipi_dsi_attach(dev, dsi);\n\tif (ret < 0) {\n\t\tdev_err(dev, \"failed to attach dsi to host\\n\");\n\t\treturn ret;\n\t}\n\n\treturn 0;\n}\n\nint adv7533_parse_dt(struct device_node *np, struct adv7511 *adv)\n{\n\tstruct device *dev = &adv->i2c_main->dev;\n\tu32 num_lanes = 0, channel_id = 0;\n\n\tof_property_read_u32(np, \"adi,dsi-channel\", &channel_id);\n\tof_property_read_u32(np, \"adi,dsi-lanes\", &num_lanes);\n\n",
+      "context_after": "\t\treturn -EINVAL;\n\t}\n\n\tif (channel_id > 3) {\n\t\tdev_err(dev, \"Invalid dsi-channel: %d\\n\", channel_id);\n\t\treturn -EINVAL;\n\t}\n\n\tadv->num_dsi_lanes = num_lanes;\n\tadv->channel_id = channel_id;\n\n\tadv->host_node = of_graph_get_remote_node(np, 0, 0);\n\tif (!adv->host_node)\n\t\treturn -ENODEV;\n\n\tof_node_put(adv->host_node);\n\n\tadv->use_timing_gen = !of_property_read_bool(np,\n\t\t\t\t\t\t\"adi,disable-timing-generator\");\n\n\tof_property_read_u32(np, \"adi,addr-cec\", &adv->addr_cec);\n\tof_property_read_u32(np, \"adi,addr-edid\", &adv->addr_edid);\n\tof_property_read_u32(np, \"adi,addr-pkt\", &adv->addr_pkt);\n\n\t/* TODO: Check if these need to be parsed by DT or not */\n\tadv->rgb = true;\n\tadv->embedded_sync = false;\n\n\treturn 0;\n}\n",
+      "full_conflict": "<<<<<<< HEAD\n\tif (num_lanes < 1 || num_lanes > 4) {\n\t\tdev_err(dev, \"Invalid dsi-lanes: %d\\n\", num_lanes);\n=======\n\tif (num_lanes < 2 || num_lanes > 4)\n>>>>>>> v6.1.124\n",
+      "start_line": 213,
+      "end_line": 218,
+      "verification": null,
+      "superseded_attempts": []
+    }
+  ]
+}
