@@ -1,0 +1,18 @@
+2026-05-05 11:56:16,576 [INFO] Run log file: /home/osaleem/repos/linux-imx/merge-logs/run_20260505_115616.log
+2026-05-05 11:56:16,576 [INFO] Kernel Stable Merge Tool started
+2026-05-05 11:56:16,577 [INFO] Repo: /home/osaleem/repos/linux-imx
+2026-05-05 11:56:16,577 [INFO] Target: v6.1.169
+2026-05-05 11:56:16,577 [INFO] Provider: claude
+2026-05-05 11:56:16,577 [INFO] Interactive: False
+2026-05-05 11:56:16,578 [INFO] Dry run: False
+2026-05-05 11:56:16,578 [INFO] Fetching stable tags...
+2026-05-05 11:56:22,769 [INFO] Using override start version: 6.1.120
+2026-05-05 11:56:22,769 [INFO] 
+============================================================
+Merge step: v6.1.120 -> v6.1.121
+Progress: 1/49
+============================================================
+2026-05-05 11:56:22,770 [INFO] Starting merge: v6.1.121
+2026-05-05 11:56:22,770 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.121_2026-05-05T11-56-22.770197.log
+2026-05-05 11:56:27,544 [INFO] Merge v6.1.121 completed cleanly — no conflicts!
+2026-05-05 11:56:34,994 [INFO] Build attempt 1/4...

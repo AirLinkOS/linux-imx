@@ -1030,7 +1030,6 @@ struct ocelot_port {
 	phy_interface_t			phy_mode;
 	struct phy			*serdes;
 
-	unsigned int			ptp_skbs_in_flight;
 	struct sk_buff_head		tx_skbs;
 
 	unsigned int			trap_proto;
@@ -1038,7 +1037,6 @@ struct ocelot_port {
 	u16				mrp_ring_id;
 
 	u8				ptp_cmd;
-	u8				ts_id;
 
 	u8				index;
 
