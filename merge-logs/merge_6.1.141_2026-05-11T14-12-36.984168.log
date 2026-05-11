@@ -1,0 +1,28 @@
+2026-05-11 14:12:36,984 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.141_2026-05-11T14-12-36.984168.log
+2026-05-11 14:12:38,311 [INFO] Merge v6.1.141 has 4 conflicted files
+2026-05-11 14:12:38,311 [INFO]   drivers/clk/imx/clk-imx8mp.c: 1 conflict hunks
+2026-05-11 14:12:38,312 [INFO]   drivers/gpio/gpio-pca953x.c: 1 conflict hunks
+2026-05-11 14:12:38,313 [INFO]   drivers/net/phy/phylink.c: 1 conflict hunks
+2026-05-11 14:12:38,313 [INFO]   drivers/thermal/qoriq_thermal.c: 2 conflict hunks
+2026-05-11 14:12:38,313 [INFO] Resolving drivers/clk/imx/clk-imx8mp.c hunk 1...
+2026-05-11 14:12:38,336 [DEBUG] Prompt for drivers/clk/imx/clk-imx8mp.c hunk 0
+2026-05-11 14:13:17,952 [INFO]   Resolved drivers/clk/imx/clk-imx8mp.c hunk 0: confidence=9/10 — Both sides add independent functions. NXP adds imx_clk_init_on() helper, mainline adds clock constra
+2026-05-11 14:13:17,953 [INFO] Resolving drivers/gpio/gpio-pca953x.c hunk 1...
+2026-05-11 14:13:17,984 [DEBUG] Prompt for drivers/gpio/gpio-pca953x.c hunk 0
+2026-05-11 14:13:21,057 [INFO]   Resolved drivers/gpio/gpio-pca953x.c hunk 0: confidence=9/10 — Both sides add independent includes. Keep both, in alphabetical order (reset comes after seq_file).
+2026-05-11 14:13:21,058 [INFO] Resolving drivers/net/phy/phylink.c hunk 1...
+2026-05-11 14:13:21,087 [DEBUG] Prompt for drivers/net/phy/phylink.c hunk 0
+2026-05-11 14:13:26,003 [INFO]   Resolved drivers/net/phy/phylink.c hunk 0: confidence=6/10 — NXP added a phylink_pcs_handles_an() check using pl->link_config.interface. Mainline stable changed 
+2026-05-11 14:13:26,004 [INFO] Resolving drivers/thermal/qoriq_thermal.c hunk 1...
+2026-05-11 14:13:26,034 [DEBUG] Prompt for drivers/thermal/qoriq_thermal.c hunk 0
+2026-05-11 14:13:33,373 [INFO]   Resolved drivers/thermal/qoriq_thermal.c hunk 0: confidence=7/10 — NXP added TMU_VER93-specific suspend/resume power-down code. Mainline stable extended this same beha
+2026-05-11 14:13:33,374 [INFO] Resolving drivers/thermal/qoriq_thermal.c hunk 2...
+2026-05-11 14:13:33,404 [DEBUG] Prompt for drivers/thermal/qoriq_thermal.c hunk 1
+2026-05-11 14:13:38,033 [INFO]   Resolved drivers/thermal/qoriq_thermal.c hunk 1: confidence=7/10 — Both sides handle the resume path differently. NXP's version is specific to TMU_VER93 and uses regma
+2026-05-11 14:13:38,058 [INFO]   Running verification pass on drivers/net/phy/phylink.c...
+2026-05-11 14:13:44,606 [INFO]   Verification: verified for drivers/net/phy/phylink.c
+2026-05-11 14:13:45,377 [INFO] All conflicts resolved. Confidence: min=6, avg=7.6
+2026-05-11 14:13:48,247 [INFO] Build attempt 1/4...
+2026-05-11 14:25:17,946 [INFO] Build succeeded.
+2026-05-11 14:25:19,010 [INFO] Successfully merged v6.1.141 into lf-6.1.y-semtech
+2026-05-11 14:25:23,495 [INFO] Pushed lf-6.1.y-semtech to origin

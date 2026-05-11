@@ -1,0 +1,13 @@
+{
+  "version": "6.1.139",
+  "timestamp": "2026-05-11T13:49:13.148966",
+  "conflicts_total": 0,
+  "conflicts_resolved": 0,
+  "build_success": true,
+  "merged_to_main": true,
+  "error": null,
+  "build_fix_attempts": [],
+  "parent_nxp_sha": "da6db5b7b79e5e9bb6d9acf20549926475fe39d5",
+  "merge_commit_sha": "3bffeb599eb88da5f491fddd25d2b5a3ff176455",
+  "resolutions": []
+}

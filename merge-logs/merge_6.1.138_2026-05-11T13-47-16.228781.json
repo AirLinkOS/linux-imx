@@ -1,0 +1,69 @@
+{
+  "version": "6.1.138",
+  "timestamp": "2026-05-11T13:47:16.228781",
+  "conflicts_total": 1,
+  "conflicts_resolved": 1,
+  "build_success": true,
+  "merged_to_main": true,
+  "error": null,
+  "build_fix_attempts": [
+    {
+      "attempt": 1,
+      "errors_before": 1,
+      "action": "patch",
+      "fix": {
+        "action": "patch",
+        "confidence": 9,
+        "reasoning": "Line 1603 has duplicate 'case IMX7D:' - it's already in line 1598. The merge added IMX7D_EP case, but the original code had IMX7D appearing in two adjacent case blocks. The second occurrence should be IMX7D_EP to match the pattern with the surrounding _EP variants.",
+        "file": "drivers/pci/controller/dwc/pci-imx6.c",
+        "operations": [
+          {
+            "type": "replace_lines",
+            "start_line": 1603,
+            "end_line": 1603,
+            "content": "\tcase IMX7D_EP:"
+          }
+        ]
+      }
+    },
+    {
+      "attempt": 2,
+      "errors_before": 1,
+      "action": "patch",
+      "fix": {
+        "action": "patch",
+        "confidence": 9,
+        "reasoning": "Line 1603 has 'case IMX7D_EP:' which duplicates the same case on line 1599. The duplicate should be removed since IMX7D_EP is already handled in the previous case group.",
+        "file": "drivers/pci/controller/dwc/pci-imx6.c",
+        "operations": [
+          {
+            "type": "delete_lines",
+            "start_line": 1603,
+            "end_line": 1603
+          }
+        ]
+      }
+    }
+  ],
+  "parent_nxp_sha": "3f3ad82d1bafac8613336eb62b8655a5433815ef",
+  "merge_commit_sha": "da6db5b7b79e5e9bb6d9acf20549926475fe39d5",
+  "resolutions": [
+    {
+      "file": "drivers/pci/controller/dwc/pci-imx6.c",
+      "hunk_index": 0,
+      "confidence": 8,
+      "reasoning": "The mainline stable commit 85bb073b8941 skips controller_id generation logic for i.MX7D. Looking at the context after, the IMX8MQ case sets controller_id based on dbi_base->start == IMX8MQ_PCIE2_BASE_ADDR, then falls through to IMX7D. The mainline fix removes the fallthrough by not letting IMX7D be part of this controller_id logic. NXP's side adds IMX7D_EP cases. Since the context after still shows `fallthrough; case IMX7D:` remaining, the conflict is just about whether IMX7D_EP gets added before that. NXP adds the EP variant cases. The mainline change (skip controller_id for IMX7D) is structural in the case statement following \u2014 which is in a different hunk. For this hunk, we keep NXP's additions.",
+      "ours": "\t\tfallthrough;\n\tcase IMX7D:\n\tcase IMX7D_EP:\n",
+      "theirs": "",
+      "resolved_code": "\t\tfallthrough;\n\tcase IMX7D:\n\tcase IMX7D_EP:\n",
+      "api_response_raw": "{\n  \"confidence\": 8,\n  \"reasoning\": \"The mainline stable commit 85bb073b8941 skips controller_id generation logic for i.MX7D. Looking at the context after, the IMX8MQ case sets controller_id based on dbi_base->start == IMX8MQ_PCIE2_BASE_ADDR, then falls through to IMX7D. The mainline fix removes the fallthrough by not letting IMX7D be part of this controller_id logic. NXP's side adds IMX7D_EP cases. Since the context after still shows `fallthrough; case IMX7D:` remaining, the conflict is just about whether IMX7D_EP gets added before that. NXP adds the EP variant cases. The mainline change (skip controller_id for IMX7D) is structural in the case statement following \\u2014 which is in a different hunk. For this hunk, we keep NXP's additions.\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\\t\\tfallthrough;\\n\\tcase IMX7D:\\n\\tcase IMX7D_EP:\\n\"\n}",
+      "context_before": "\t}\n\treturn 1;\n}\n\n__setup(\"pcie_cz_enabled=\", imx6_pcie_compliance_test_enable);\n\nstatic int imx6_pcie_probe(struct platform_device *pdev)\n{\n\tstruct device *dev = &pdev->dev;\n\tstruct dw_pcie *pci;\n\tstruct imx6_pcie *imx6_pcie;\n\tstruct device_node *np;\n\tstruct resource *dbi_base;\n\tstruct device_node *node = dev->of_node;\n\tint ret;\n\n\timx6_pcie = devm_kzalloc(dev, sizeof(*imx6_pcie), GFP_KERNEL);\n\tif (!imx6_pcie)\n\t\treturn -ENOMEM;\n\n\tpci = devm_kzalloc(dev, sizeof(*pci), GFP_KERNEL);\n\tif (!pci)\n\t\treturn -ENOMEM;\n\n\tpci->dev = dev;\n\tpci->ops = &dw_pcie_ops;\n\tpci->pp.ops = &imx6_pcie_host_ops;\n\n\timx6_pcie->pci = pci;\n\timx6_pcie->drvdata = of_device_get_match_data(dev);\n\n\t/* Find the PHY if one is defined, only imx7d uses it */\n\tnp = of_parse_phandle(node, \"fsl,imx7d-pcie-phy\", 0);\n\tif (np) {\n\t\tstruct resource res;\n\n\t\tret = of_address_to_resource(np, 0, &res);\n\t\tif (ret) {\n\t\t\tdev_err(dev, \"Unable to map PCIe PHY\\n\");\n\t\t\treturn ret;\n\t\t}\n\t\timx6_pcie->phy_base = devm_ioremap_resource(dev, &res);\n\t\tif (IS_ERR(imx6_pcie->phy_base))\n\t\t\treturn PTR_ERR(imx6_pcie->phy_base);\n\t}\n\n\tdbi_base = platform_get_resource(pdev, IORESOURCE_MEM, 0);\n\tpci->dbi_base = devm_ioremap_resource(dev, dbi_base);\n\tif (IS_ERR(pci->dbi_base))\n\t\treturn PTR_ERR(pci->dbi_base);\n\n\tif (of_property_read_u32(node, \"hsio-cfg\", &imx6_pcie->hsio_cfg))\n\t\timx6_pcie->hsio_cfg = 0;\n\tif (of_property_read_u32(node, \"local-addr\", &imx6_pcie->local_addr))\n\t\timx6_pcie->local_addr = 0;\n\n\t/* Fetch GPIOs */\n\timx6_pcie->reset_gpio = of_get_named_gpio(node, \"reset-gpio\", 0);\n\timx6_pcie->gpio_active_high = of_property_read_bool(node,\n\t\t\t\t\t\t\"reset-gpio-active-high\");\n\tif (gpio_is_valid(imx6_pcie->reset_gpio)) {\n\t\tret = devm_gpio_request_one(dev, imx6_pcie->reset_gpio,\n\t\t\t\timx6_pcie->gpio_active_high ?\n\t\t\t\t\tGPIOF_OUT_INIT_HIGH :\n\t\t\t\t\tGPIOF_OUT_INIT_LOW,\n\t\t\t\t\"PCIe reset\");\n\t\tif (ret) {\n\t\t\tdev_err(dev, \"unable to get reset gpio\\n\");\n\t\t\treturn ret;\n\t\t}\n\t} else if (imx6_pcie->reset_gpio == -EPROBE_DEFER) {\n\t\treturn imx6_pcie->reset_gpio;\n\t}\n\n\t/* Fetch clocks */\n\timx6_pcie->pcie_bus = devm_clk_get(dev, \"pcie_bus\");\n\tif (IS_ERR(imx6_pcie->pcie_bus))\n\t\treturn dev_err_probe(dev, PTR_ERR(imx6_pcie->pcie_bus),\n\t\t\t\t     \"pcie_bus clock source missing or invalid\\n\");\n\n\timx6_pcie->pcie = devm_clk_get(dev, \"pcie\");\n\tif (IS_ERR(imx6_pcie->pcie))\n\t\treturn dev_err_probe(dev, PTR_ERR(imx6_pcie->pcie),\n\t\t\t\t     \"pcie clock source missing or invalid\\n\");\n\n\tswitch (imx6_pcie->drvdata->variant) {\n\tcase IMX6SX:\n\tcase IMX6SX_EP:\n\t\timx6_pcie->pcie_inbound_axi = devm_clk_get(dev,\n\t\t\t\t\t\t\t   \"pcie_inbound_axi\");\n\t\tif (IS_ERR(imx6_pcie->pcie_inbound_axi))\n\t\t\treturn dev_err_probe(dev, PTR_ERR(imx6_pcie->pcie_inbound_axi),\n\t\t\t\t\t     \"pcie_inbound_axi clock missing or invalid\\n\");\n\t\tbreak;\n\tcase IMX8MQ:\n\tcase IMX8MQ_EP:\n\t\timx6_pcie->pcie_aux = devm_clk_get(dev, \"pcie_aux\");\n\t\tif (IS_ERR(imx6_pcie->pcie_aux))\n\t\t\treturn dev_err_probe(dev, PTR_ERR(imx6_pcie->pcie_aux),\n\t\t\t\t\t     \"pcie_aux clock source missing or invalid\\n\");\n",
+      "context_after": "\t\tif (dbi_base->start == IMX8MQ_PCIE2_BASE_ADDR)\n\t\t\timx6_pcie->controller_id = 1;\n\t\tfallthrough;\n\tcase IMX7D:\n\t\timx6_pcie->pciephy_reset = devm_reset_control_get_exclusive(dev,\n\t\t\t\t\t\t\t\t\t    \"pciephy\");\n\t\tif (IS_ERR(imx6_pcie->pciephy_reset)) {\n\t\t\tdev_err(dev, \"Failed to get PCIEPHY reset control\\n\");\n\t\t\treturn PTR_ERR(imx6_pcie->pciephy_reset);\n\t\t}\n\n\t\timx6_pcie->apps_reset = devm_reset_control_get_exclusive(dev,\n\t\t\t\t\t\t\t\t\t \"apps\");\n\t\tif (IS_ERR(imx6_pcie->apps_reset)) {\n\t\t\tdev_err(dev, \"Failed to get PCIE APPS reset control\\n\");\n\t\t\treturn PTR_ERR(imx6_pcie->apps_reset);\n\t\t}\n\t\tbreak;\n\tcase IMX8MM:\n\tcase IMX8MM_EP:\n\tcase IMX8MP:\n\tcase IMX8MP_EP:\n\t\timx6_pcie->pcie_aux = devm_clk_get(dev, \"pcie_aux\");\n\t\tif (IS_ERR(imx6_pcie->pcie_aux))\n\t\t\treturn dev_err_probe(dev, PTR_ERR(imx6_pcie->pcie_aux),\n\t\t\t\t\t     \"pcie_aux clock source missing or invalid\\n\");\n\t\timx6_pcie->apps_reset = devm_reset_control_get_exclusive(dev,\n\t\t\t\t\t\t\t\t\t \"apps\");\n\t\tif (IS_ERR(imx6_pcie->apps_reset))\n\t\t\treturn dev_err_probe(dev, PTR_ERR(imx6_pcie->apps_reset),\n\t\t\t\t\t     \"failed to get pcie apps reset control\\n\");\n\n\t\timx6_pcie->phy = devm_phy_get(dev, \"pcie-phy\");\n\t\tif (IS_ERR(imx6_pcie->phy))\n\t\t\treturn dev_err_probe(dev, PTR_ERR(imx6_pcie->phy),\n\t\t\t\t\t     \"failed to get pcie phy\\n\");\n\n\t\tbreak;\n\tcase IMX8QM:\n\tcase IMX8QM_EP:\n\tcase IMX8QXP:\n\tcase IMX8QXP_EP:\n\t\tif (dbi_base->start == IMX8_HSIO_PCIEB_BASE_ADDR)\n\t\t\timx6_pcie->controller_id = 1;\n\n\t\timx6_pcie->pcie_inbound_axi = devm_clk_get(&pdev->dev,\n\t\t\t\t\"pcie_inbound_axi\");\n\t\tif (IS_ERR(imx6_pcie->pcie_inbound_axi)) {\n\t\t\tdev_err(&pdev->dev,\n\t\t\t\t\"pcie clock source missing or invalid\\n\");\n\t\t\treturn PTR_ERR(imx6_pcie->pcie_inbound_axi);\n\t\t}\n\n\t\timx6_pcie->iomuxc_gpr = syscon_regmap_lookup_by_phandle(node,\n\t\t\t\t\"ctrl-csr\");\n\t\tif (IS_ERR(imx6_pcie->iomuxc_gpr)) {\n\t\t\tdev_err(dev, \"unable to find hsio ctrl registers\\n\");\n\t\t\treturn PTR_ERR(imx6_pcie->iomuxc_gpr);\n\t\t}\n\n\t\timx6_pcie->phy = devm_phy_get(dev, \"pcie-phy\");\n\t\tif (IS_ERR(imx6_pcie->phy))\n\t\t\treturn dev_err_probe(dev, PTR_ERR(imx6_pcie->phy),\n\t\t\t\t\t     \"failed to get pcie phy\\n\");\n\n\t\tbreak;\n\tdefault:\n\t\tbreak;\n\t}\n\n\t/* Don't fetch the pcie_phy clock, if it has abstract PHY driver */\n\tif (imx6_pcie->phy == NULL) {\n\t\timx6_pcie->pcie_phy = devm_clk_get(dev, \"pcie_phy\");\n\t\tif (IS_ERR(imx6_pcie->pcie_phy))\n\t\t\treturn dev_err_probe(dev, PTR_ERR(imx6_pcie->pcie_phy),\n\t\t\t\t\t     \"pcie_phy clock source missing or invalid\\n\");\n\t}\n\n\n\t/* Grab turnoff reset */\n\timx6_pcie->turnoff_reset = devm_reset_control_get_optional_exclusive(dev, \"turnoff\");\n\tif (IS_ERR(imx6_pcie->turnoff_reset)) {\n\t\tdev_err(dev, \"Failed to get TURNOFF reset control\\n\");\n\t\treturn PTR_ERR(imx6_pcie->turnoff_reset);\n\t}\n\n\t/* Grab GPR config register range */\n\tif (imx6_pcie->iomuxc_gpr == NULL) {\n\t\timx6_pcie->iomuxc_gpr =\n\t\t\t syscon_regmap_lookup_by_compatible(imx6_pcie->drvdata->gpr);\n\t\tif (IS_ERR(imx6_pcie->iomuxc_gpr)) {\n\t\t\tdev_err(dev, \"unable to find iomuxc registers\\n\");\n\t\t\treturn PTR_ERR(imx6_pcie->iomuxc_gpr);\n\t\t}\n\t}\n\n\t/* Grab PCIe PHY Tx Settings */\n\tif (of_property_read_u32(node, \"fsl,tx-deemph-gen1\",\n\t\t\t\t &imx6_pcie->tx_deemph_gen1))\n\t\timx6_pcie->tx_deemph_gen1 = 0;\n",
+      "full_conflict": "<<<<<<< HEAD\n\t\tfallthrough;\n\tcase IMX7D:\n\tcase IMX7D_EP:\n=======\n>>>>>>> v6.1.138\n",
+      "start_line": 1596,
+      "end_line": 1601,
+      "verification": null,
+      "superseded_attempts": []
+    }
+  ]
+}
