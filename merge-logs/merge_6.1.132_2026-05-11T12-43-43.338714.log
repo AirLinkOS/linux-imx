@@ -1,0 +1,17 @@
+2026-05-11 12:43:43,338 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.132_2026-05-11T12-43-43.338714.log
+2026-05-11 12:43:44,493 [INFO] Merge v6.1.132 has 1 conflicted files
+2026-05-11 12:43:44,494 [INFO]   drivers/soc/imx/soc-imx8m.c: 3 conflict hunks
+2026-05-11 12:43:44,494 [INFO] Resolving drivers/soc/imx/soc-imx8m.c hunk 1...
+2026-05-11 12:43:44,513 [DEBUG] Prompt for drivers/soc/imx/soc-imx8m.c hunk 0
+2026-05-11 12:43:48,221 [INFO]   Resolved drivers/soc/imx/soc-imx8m.c hunk 0: confidence=8/10 — Mainline removed global soc_uid. NXP kept soc_uid but also added soc_uid_h for an additional high UI
+2026-05-11 12:43:48,222 [INFO] Resolving drivers/soc/imx/soc-imx8m.c hunk 2...
+2026-05-11 12:43:48,248 [DEBUG] Prompt for drivers/soc/imx/soc-imx8m.c hunk 1
+2026-05-11 12:43:55,673 [INFO]   Resolved drivers/soc/imx/soc-imx8m.c hunk 1: confidence=8/10 — Two conflicts to resolve. First: NXP adds imx8mq_noc_init() function before the imx8_revision macro,
+2026-05-11 12:43:55,674 [INFO] Resolving drivers/soc/imx/soc-imx8m.c hunk 3...
+2026-05-11 12:43:55,699 [DEBUG] Prompt for drivers/soc/imx/soc-imx8m.c hunk 2
+2026-05-11 12:44:00,373 [INFO]   Resolved drivers/soc/imx/soc-imx8m.c hunk 2: confidence=8/10 — NXP adds soc_uid_h support for high 64 bits of UID. Mainline converts to devm_kasprintf. I merge bot
+2026-05-11 12:44:00,904 [INFO] All conflicts resolved. Confidence: min=8, avg=8.0
+2026-05-11 12:44:03,673 [INFO] Build attempt 1/4...
+2026-05-11 12:55:15,673 [INFO] Build succeeded.
+2026-05-11 12:55:16,449 [INFO] Successfully merged v6.1.132 into lf-6.1.y-semtech
+2026-05-11 12:55:21,319 [INFO] Pushed lf-6.1.y-semtech to origin

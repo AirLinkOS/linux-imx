@@ -1,0 +1,11 @@
+2026-05-11 13:18:22,903 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.135_2026-05-11T13-18-22.902847.log
+2026-05-11 13:18:24,236 [INFO] Merge v6.1.135 has 1 conflicted files
+2026-05-11 13:18:24,237 [INFO]   drivers/crypto/caam/qi.c: 1 conflict hunks
+2026-05-11 13:18:24,237 [INFO] Resolving drivers/crypto/caam/qi.c hunk 1...
+2026-05-11 13:18:24,258 [DEBUG] Prompt for drivers/crypto/caam/qi.c hunk 0
+2026-05-11 13:18:28,921 [INFO]   Resolved drivers/crypto/caam/qi.c hunk 0: confidence=9/10 — The mainline fix moves refcount_inc before qman_enqueue to fix a refcount bug (avoid race where resp
+2026-05-11 13:18:29,447 [INFO] All conflicts resolved. Confidence: min=9, avg=9.0
+2026-05-11 13:18:32,317 [INFO] Build attempt 1/4...
+2026-05-11 13:30:08,339 [INFO] Build succeeded.
+2026-05-11 13:30:09,259 [INFO] Successfully merged v6.1.135 into lf-6.1.y-semtech
+2026-05-11 13:30:13,278 [INFO] Pushed lf-6.1.y-semtech to origin

@@ -1,0 +1,103 @@
+make: Entering directory '/home/osaleem/repos/linux-imx'
+  UPD     include/config/kernel.release
+  UPD     include/generated/utsrelease.h
+  CALL    scripts/checksyscalls.sh
+  CC      init/version.o
+  CC      kernel/sys.o
+  CC      net/ethtool/ioctl.o
+  AR      init/built-in.a
+  CC      drivers/pci/controller/dwc/pci-imx6.o
+  CC      drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.o
+  CC      drivers/base/core.o
+  CC      drivers/base/syscore.o
+drivers/pci/controller/dwc/pci-imx6.c: In function ‘imx6_pcie_probe’:
+drivers/pci/controller/dwc/pci-imx6.c:1603:9: error: duplicate case value
+ 1603 |         case IMX7D_EP:
+      |         ^~~~
+drivers/pci/controller/dwc/pci-imx6.c:1599:9: note: previously used here
+ 1599 |         case IMX7D_EP:
+      |         ^~~~
+In file included from ././include/linux/compiler_types.h:79,
+                 from <command-line>:
+./include/linux/compiler_attributes.h:229:41: warning: attribute ‘fallthrough’ not preceding a case label or default label
+  229 | # define fallthrough                    __attribute__((__fallthrough__))
+      |                                         ^~~~~~~~~~~~~
+drivers/pci/controller/dwc/pci-imx6.c:1602:17: note: in expansion of macro ‘fallthrough’
+ 1602 |                 fallthrough;
+      |                 ^~~~~~~~~~~
+make[5]: *** [scripts/Makefile.build:250: drivers/pci/controller/dwc/pci-imx6.o] Error 1
+make[4]: *** [scripts/Makefile.build:503: drivers/pci/controller/dwc] Error 2
+make[3]: *** [scripts/Makefile.build:503: drivers/pci/controller] Error 2
+make[2]: *** [scripts/Makefile.build:503: drivers/pci] Error 2
+make[2]: *** Waiting for unfinished jobs....
+  CC      kernel/module/main.o
+  CC      drivers/base/firmware_loader/fallback_table.o
+  CC [M]  drivers/net/phy/microchip.o
+  CC [M]  drivers/net/dsa/ocelot/felix.o
+  CC      drivers/base/power/qos.o
+  CC      drivers/base/firmware_loader/main.o
+  CC      drivers/base/firmware_loader/fallback.o
+  CC      drivers/net/ethernet/amd/xgbe/xgbe-main.o
+  CC      drivers/net/ethernet/amd/xgbe/xgbe-drv.o
+  CC [M]  drivers/net/dsa/ocelot/felix_vsc9959.o
+  CC      drivers/net/ethernet/amd/xgbe/xgbe-dev.o
+  CC      drivers/base/power/main.o
+  CC      drivers/base/firmware_loader/sysfs.o
+  CC      drivers/base/firmware_loader/builtin/main.o
+  CC      drivers/base/power/wakeup.o
+  CC      drivers/net/ethernet/amd/xgbe/xgbe-desc.o
+  CC      drivers/net/ethernet/amd/xgbe/xgbe-ethtool.o
+  CC      drivers/net/ethernet/amd/xgbe/xgbe-mdio.o
+  AR      drivers/base/firmware_loader/builtin/built-in.a
+  CC      drivers/net/ethernet/amd/xgbe/xgbe-ptp.o
+  AR      drivers/base/firmware_loader/built-in.a
+  AR      drivers/iommu/arm/arm-smmu-v3/built-in.a
+  AR      drivers/iommu/arm/built-in.a
+  AR      drivers/iommu/built-in.a
+  CC      drivers/net/ethernet/amd/xgbe/xgbe-i2c.o
+  CC      drivers/net/ethernet/amd/xgbe/xgbe-phy-v1.o
+  CC      drivers/net/ethernet/amd/xgbe/xgbe-phy-v2.o
+  AR      kernel/module/built-in.a
+  LD [M]  drivers/net/dsa/ocelot/mscc_felix.o
+  CC      drivers/base/arch_topology.o
+  CC      drivers/net/ethernet/amd/xgbe/xgbe-platform.o
+  AR      net/ethtool/built-in.a
+  AR      net/built-in.a
+  AR      kernel/built-in.a
+  CC      drivers/net/ethernet/amd/xgbe/xgbe-pci.o
+  CC      drivers/net/ethernet/amd/xgbe/xgbe-debugfs.o
+  CC      drivers/net/ethernet/freescale/fec_main.o
+  CC      drivers/net/ethernet/hisilicon/hns3/hns3_enet.o
+  AR      drivers/base/power/built-in.a
+  CC      drivers/net/ethernet/hisilicon/hns3/hns3_debugfs.o
+  CC      drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_ptp.o
+  CC      drivers/net/ethernet/mscc/ocelot.o
+  CC      drivers/net/ethernet/mscc/ocelot_devlink.o
+  CC      drivers/net/ethernet/mscc/ocelot_flower.o
+  CC      drivers/net/ethernet/mscc/ocelot_io.o
+  CC      drivers/net/ethernet/mscc/ocelot_police.o
+  CC      drivers/net/ethernet/mscc/ocelot_ptp.o
+  CC      drivers/net/ethernet/mscc/ocelot_stats.o
+  CC      drivers/net/ethernet/mscc/ocelot_vcap.o
+  CC [M]  drivers/net/ethernet/mellanox/mlx5/core/main.o
+  AR      drivers/base/built-in.a
+  AR      drivers/net/ethernet/amd/xgbe/built-in.a
+  AR      drivers/net/ethernet/amd/built-in.a
+  CC      drivers/net/ethernet/mscc/vsc7514_regs.o
+  CC      drivers/net/ethernet/mscc/ocelot_fdma.o
+  CC      drivers/net/ethernet/mscc/ocelot_net.o
+  CC      drivers/net/ethernet/mscc/ocelot_vsc7514.o
+  CC [M]  drivers/gpu/drm/nouveau/nouveau_fence.o
+  CC [M]  drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.o
+  CC [M]  drivers/net/ethernet/mellanox/mlx5/core/rdma.o
+  LD [M]  drivers/gpu/drm/nouveau/nouveau.o
+  AR      drivers/net/ethernet/freescale/built-in.a
+  AR      drivers/net/ethernet/mscc/built-in.a
+  AR      drivers/net/ethernet/hisilicon/hns3/built-in.a
+  AR      drivers/net/ethernet/hisilicon/built-in.a
+  LD [M]  drivers/net/ethernet/mellanox/mlx5/core/mlx5_core.o
+  AR      drivers/net/ethernet/built-in.a
+  AR      drivers/net/built-in.a
+make[1]: *** [scripts/Makefile.build:503: drivers] Error 2
+make: *** [Makefile:2013: .] Error 2
+make: Leaving directory '/home/osaleem/repos/linux-imx'

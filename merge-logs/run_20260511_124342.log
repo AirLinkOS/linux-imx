@@ -1,0 +1,154 @@
+2026-05-11 12:43:42,398 [INFO] Run log file: /home/osaleem/repos/linux-imx/merge-logs/run_20260511_124342.log
+2026-05-11 12:43:42,399 [INFO] Kernel Stable Merge Tool started
+2026-05-11 12:43:42,399 [INFO] Repo: /home/osaleem/repos/linux-imx
+2026-05-11 12:43:42,399 [INFO] Target: v6.1.169
+2026-05-11 12:43:42,399 [INFO] Provider: claude
+2026-05-11 12:43:42,399 [INFO] Interactive: False
+2026-05-11 12:43:42,399 [INFO] Dry run: False
+2026-05-11 12:43:42,399 [INFO] Fetching stable tags...
+2026-05-11 12:43:43,338 [INFO] Using override start version: 6.1.131
+2026-05-11 12:43:43,338 [INFO] 
+============================================================
+Merge step: v6.1.131 -> v6.1.132
+Progress: 1/38
+============================================================
+2026-05-11 12:43:43,338 [INFO] Starting merge: v6.1.132
+2026-05-11 12:43:43,338 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.132_2026-05-11T12-43-43.338714.log
+2026-05-11 12:43:44,493 [INFO] Merge v6.1.132 has 1 conflicted files
+2026-05-11 12:43:44,494 [INFO]   drivers/soc/imx/soc-imx8m.c: 3 conflict hunks
+2026-05-11 12:43:44,494 [INFO] Resolving drivers/soc/imx/soc-imx8m.c hunk 1...
+2026-05-11 12:43:44,513 [DEBUG] Prompt for drivers/soc/imx/soc-imx8m.c hunk 0
+2026-05-11 12:43:48,221 [INFO]   Resolved drivers/soc/imx/soc-imx8m.c hunk 0: confidence=8/10 — Mainline removed global soc_uid. NXP kept soc_uid but also added soc_uid_h for an additional high UI
+2026-05-11 12:43:48,222 [INFO] Resolving drivers/soc/imx/soc-imx8m.c hunk 2...
+2026-05-11 12:43:48,248 [DEBUG] Prompt for drivers/soc/imx/soc-imx8m.c hunk 1
+2026-05-11 12:43:55,673 [INFO]   Resolved drivers/soc/imx/soc-imx8m.c hunk 1: confidence=8/10 — Two conflicts to resolve. First: NXP adds imx8mq_noc_init() function before the imx8_revision macro,
+2026-05-11 12:43:55,674 [INFO] Resolving drivers/soc/imx/soc-imx8m.c hunk 3...
+2026-05-11 12:43:55,699 [DEBUG] Prompt for drivers/soc/imx/soc-imx8m.c hunk 2
+2026-05-11 12:44:00,373 [INFO]   Resolved drivers/soc/imx/soc-imx8m.c hunk 2: confidence=8/10 — NXP adds soc_uid_h support for high 64 bits of UID. Mainline converts to devm_kasprintf. I merge bot
+2026-05-11 12:44:00,904 [INFO] All conflicts resolved. Confidence: min=8, avg=8.0
+2026-05-11 12:44:03,673 [INFO] Build attempt 1/4...
+2026-05-11 12:55:15,673 [INFO] Build succeeded.
+2026-05-11 12:55:16,449 [INFO] Successfully merged v6.1.132 into lf-6.1.y-semtech
+2026-05-11 12:55:21,319 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-11 12:55:21,320 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.132_2026-05-11T12-43-43.338714.json
+2026-05-11 12:55:21,546 [INFO] Current kernel version: 6.1.132
+2026-05-11 12:55:21,546 [INFO] 
+============================================================
+Merge step: v6.1.132 -> v6.1.133
+Progress: 2/38
+============================================================
+2026-05-11 12:55:21,546 [INFO] Starting merge: v6.1.133
+2026-05-11 12:55:21,547 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.133_2026-05-11T12-55-21.546864.log
+2026-05-11 12:55:22,512 [INFO] Merge v6.1.133 completed cleanly — no conflicts!
+2026-05-11 12:55:25,486 [INFO] Build attempt 1/4...
+2026-05-11 13:06:41,014 [INFO] Build succeeded.
+2026-05-11 13:06:41,433 [INFO] Merged v6.1.133 into lf-6.1.y-semtech
+2026-05-11 13:06:44,180 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-11 13:06:44,181 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.133_2026-05-11T12-55-21.546864.json
+2026-05-11 13:06:44,371 [INFO] Current kernel version: 6.1.133
+2026-05-11 13:06:44,371 [INFO] 
+============================================================
+Merge step: v6.1.133 -> v6.1.134
+Progress: 3/38
+============================================================
+2026-05-11 13:06:44,371 [INFO] Starting merge: v6.1.134
+2026-05-11 13:06:44,371 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.134_2026-05-11T13-06-44.371472.log
+2026-05-11 13:06:45,640 [INFO] Merge v6.1.134 completed cleanly — no conflicts!
+2026-05-11 13:06:48,364 [INFO] Build attempt 1/4...
+2026-05-11 13:18:18,437 [INFO] Build succeeded.
+2026-05-11 13:18:19,271 [INFO] Merged v6.1.134 into lf-6.1.y-semtech
+2026-05-11 13:18:22,712 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-11 13:18:22,712 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.134_2026-05-11T13-06-44.371472.json
+2026-05-11 13:18:22,902 [INFO] Current kernel version: 6.1.134
+2026-05-11 13:18:22,902 [INFO] 
+============================================================
+Merge step: v6.1.134 -> v6.1.135
+Progress: 4/38
+============================================================
+2026-05-11 13:18:22,902 [INFO] Starting merge: v6.1.135
+2026-05-11 13:18:22,903 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.135_2026-05-11T13-18-22.902847.log
+2026-05-11 13:18:24,236 [INFO] Merge v6.1.135 has 1 conflicted files
+2026-05-11 13:18:24,237 [INFO]   drivers/crypto/caam/qi.c: 1 conflict hunks
+2026-05-11 13:18:24,237 [INFO] Resolving drivers/crypto/caam/qi.c hunk 1...
+2026-05-11 13:18:24,258 [DEBUG] Prompt for drivers/crypto/caam/qi.c hunk 0
+2026-05-11 13:18:28,921 [INFO]   Resolved drivers/crypto/caam/qi.c hunk 0: confidence=9/10 — The mainline fix moves refcount_inc before qman_enqueue to fix a refcount bug (avoid race where resp
+2026-05-11 13:18:29,447 [INFO] All conflicts resolved. Confidence: min=9, avg=9.0
+2026-05-11 13:18:32,317 [INFO] Build attempt 1/4...
+2026-05-11 13:30:08,339 [INFO] Build succeeded.
+2026-05-11 13:30:09,259 [INFO] Successfully merged v6.1.135 into lf-6.1.y-semtech
+2026-05-11 13:30:13,278 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-11 13:30:13,279 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.135_2026-05-11T13-18-22.902847.json
+2026-05-11 13:30:13,465 [INFO] Current kernel version: 6.1.135
+2026-05-11 13:30:13,465 [INFO] 
+============================================================
+Merge step: v6.1.135 -> v6.1.136
+Progress: 5/38
+============================================================
+2026-05-11 13:30:13,465 [INFO] Starting merge: v6.1.136
+2026-05-11 13:30:13,466 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.136_2026-05-11T13-30-13.465805.log
+2026-05-11 13:30:14,614 [INFO] Merge v6.1.136 has 4 conflicted files
+2026-05-11 13:30:14,617 [INFO]   drivers/net/dsa/mv88e6xxx/chip.c: 1 conflict hunks
+2026-05-11 13:30:14,618 [INFO]   drivers/phy/freescale/phy-fsl-imx8m-pcie.c: 2 conflict hunks
+2026-05-11 13:30:14,619 [INFO]   drivers/spi/spi-imx.c: 1 conflict hunks
+2026-05-11 13:30:14,620 [INFO]   drivers/usb/chipidea/ci_hdrc_imx.c: 1 conflict hunks
+2026-05-11 13:30:14,620 [INFO] Resolving drivers/net/dsa/mv88e6xxx/chip.c hunk 1...
+2026-05-11 13:30:14,635 [DEBUG] Prompt for drivers/net/dsa/mv88e6xxx/chip.c hunk 0
+2026-05-11 13:30:17,930 [INFO]   Resolved drivers/net/dsa/mv88e6xxx/chip.c hunk 0: confidence=10/10 — Mainline changed the signature of mv88e6xxx_phy_is_internal to accept chip instead of ds. Take mainl
+2026-05-11 13:30:17,932 [INFO] Resolving drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 1...
+2026-05-11 13:30:17,956 [DEBUG] Prompt for drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 0
+2026-05-11 13:30:34,394 [INFO]   Resolved drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 0: confidence=9/10 — NXP side adds i.MX8MP PHY fine-tuning code block. Mainline stable side is empty because the mainline
+2026-05-11 13:30:34,395 [INFO] Resolving drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 2...
+2026-05-11 13:30:34,420 [DEBUG] Prompt for drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 1
+2026-05-11 13:30:38,136 [INFO]   Resolved drivers/phy/freescale/phy-fsl-imx8m-pcie.c hunk 1: confidence=9/10 — Mainline adds the missing 'return' to properly propagate the error. NXP's version is missing the ret
+2026-05-11 13:30:38,137 [INFO] Resolving drivers/spi/spi-imx.c hunk 1...
+2026-05-11 13:30:38,159 [DEBUG] Prompt for drivers/spi/spi-imx.c hunk 0
+2026-05-11 13:30:43,086 [INFO]   Resolved drivers/spi/spi-imx.c hunk 0: confidence=9/10 — Mainline adds error check for spi_imx_setupxfer() return value and sets effective_speed_hz earlier. 
+2026-05-11 13:30:43,087 [INFO] Resolving drivers/usb/chipidea/ci_hdrc_imx.c hunk 1...
+2026-05-11 13:30:43,111 [DEBUG] Prompt for drivers/usb/chipidea/ci_hdrc_imx.c hunk 0
+2026-05-11 13:30:48,201 [INFO]   Resolved drivers/usb/chipidea/ci_hdrc_imx.c hunk 0: confidence=8/10 — NXP added a 'disable_hsic_regulator' label that handles HSIC regulator cleanup before falling throug
+2026-05-11 13:30:48,926 [INFO] All conflicts resolved. Confidence: min=8, avg=9.0
+2026-05-11 13:30:51,795 [INFO] Build attempt 1/4...
+2026-05-11 13:42:22,448 [INFO] Build succeeded.
+2026-05-11 13:42:23,125 [INFO] Successfully merged v6.1.136 into lf-6.1.y-semtech
+2026-05-11 13:42:26,389 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-11 13:42:26,390 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.136_2026-05-11T13-30-13.465805.json
+2026-05-11 13:42:26,575 [INFO] Current kernel version: 6.1.136
+2026-05-11 13:42:26,576 [INFO] 
+============================================================
+Merge step: v6.1.136 -> v6.1.137
+Progress: 6/38
+============================================================
+2026-05-11 13:42:26,576 [INFO] Starting merge: v6.1.137
+2026-05-11 13:42:26,576 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.137_2026-05-11T13-42-26.576334.log
+2026-05-11 13:42:27,513 [INFO] Merge v6.1.137 completed cleanly — no conflicts!
+2026-05-11 13:42:30,486 [INFO] Build attempt 1/4...
+2026-05-11 13:47:13,315 [INFO] Build succeeded.
+2026-05-11 13:47:13,622 [INFO] Merged v6.1.137 into lf-6.1.y-semtech
+2026-05-11 13:47:16,042 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-11 13:47:16,043 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.137_2026-05-11T13-42-26.576334.json
+2026-05-11 13:47:16,228 [INFO] Current kernel version: 6.1.137
+2026-05-11 13:47:16,228 [INFO] 
+============================================================
+Merge step: v6.1.137 -> v6.1.138
+Progress: 7/38
+============================================================
+2026-05-11 13:47:16,228 [INFO] Starting merge: v6.1.138
+2026-05-11 13:47:16,229 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.138_2026-05-11T13-47-16.228781.log
+2026-05-11 13:47:17,402 [INFO] Merge v6.1.138 has 1 conflicted files
+2026-05-11 13:47:17,403 [INFO]   drivers/pci/controller/dwc/pci-imx6.c: 1 conflict hunks
+2026-05-11 13:47:17,403 [INFO] Resolving drivers/pci/controller/dwc/pci-imx6.c hunk 1...
+2026-05-11 13:47:17,417 [DEBUG] Prompt for drivers/pci/controller/dwc/pci-imx6.c hunk 0
+2026-05-11 13:47:23,403 [INFO]   Resolved drivers/pci/controller/dwc/pci-imx6.c hunk 0: confidence=8/10 — The mainline stable commit 85bb073b8941 skips controller_id generation logic for i.MX7D. Looking at 
+2026-05-11 13:47:23,954 [INFO] All conflicts resolved. Confidence: min=8, avg=8.0
+2026-05-11 13:47:26,723 [INFO] Build attempt 1/4...
+2026-05-11 13:47:41,776 [INFO] Build fix attempt 1: found 1 errors
+2026-05-11 13:47:45,280 [INFO]   AI proposes: patch (confidence: 9)
+2026-05-11 13:47:45,280 [INFO]   Reasoning: Line 1603 has duplicate 'case IMX7D:' - it's already in line 1598. The merge added IMX7D_EP case, but the original code had IMX7D appearing in two adjacent case blocks. The second occurrence should be
+2026-05-11 13:47:45,281 [INFO]   Applied patch to drivers/pci/controller/dwc/pci-imx6.c: 1 operation(s)
+2026-05-11 13:48:00,047 [INFO] Build still failing: 1 -> 1 errors. Trying again...
+2026-05-11 13:48:00,047 [INFO] Build attempt 2/4...
+2026-05-11 13:48:09,944 [INFO] Build fix attempt 2: found 1 errors
+2026-05-11 13:48:13,106 [INFO]   AI proposes: patch (confidence: 9)
+2026-05-11 13:48:13,106 [INFO]   Reasoning: Line 1603 has 'case IMX7D_EP:' which duplicates the same case on line 1599. The duplicate should be removed since IMX7D_EP is already handled in the previous case group.
+2026-05-11 13:48:13,107 [INFO]   Applied patch to drivers/pci/controller/dwc/pci-imx6.c: 1 operation(s)
+2026-05-11 13:49:06,968 [INFO] Build succeeded after fix.

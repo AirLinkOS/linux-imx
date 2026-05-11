@@ -1,0 +1,15 @@
+2026-05-11 12:25:55,199 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.131_2026-05-11T12-25-55.199152.log
+2026-05-11 12:25:56,372 [INFO] Merge v6.1.131 has 2 conflicted files
+2026-05-11 12:25:56,373 [INFO]   drivers/usb/dwc3/core.c: 1 conflict hunks
+2026-05-11 12:25:56,374 [INFO]   drivers/usb/host/xhci.h: 1 conflict hunks
+2026-05-11 12:25:56,374 [INFO] Resolving drivers/usb/dwc3/core.c hunk 1...
+2026-05-11 12:25:56,387 [DEBUG] Prompt for drivers/usb/dwc3/core.c hunk 0
+2026-05-11 12:26:00,038 [INFO]   Resolved drivers/usb/dwc3/core.c hunk 0: confidence=9/10 — NXP added reg_mode variable for handling disconnect case. Mainline added hw_mode variable for SUSPEN
+2026-05-11 12:26:00,039 [INFO] Resolving drivers/usb/host/xhci.h hunk 1...
+2026-05-11 12:26:00,060 [DEBUG] Prompt for drivers/usb/host/xhci.h hunk 0
+2026-05-11 12:26:08,692 [INFO]   Resolved drivers/usb/host/xhci.h hunk 0: confidence=7/10 — NXP added XHCI_CDNS_HOST and XHCI_ZHAOXIN_TRB_FETCH both at BIT_ULL(45) (likely a bug - duplicate bi
+2026-05-11 12:26:09,287 [INFO] All conflicts resolved. Confidence: min=7, avg=8.0
+2026-05-11 12:26:12,158 [INFO] Build attempt 1/4...
+2026-05-11 12:36:25,947 [INFO] Build succeeded.
+2026-05-11 12:36:26,576 [INFO] Successfully merged v6.1.131 into lf-6.1.y-semtech
+2026-05-11 12:36:29,274 [INFO] Pushed lf-6.1.y-semtech to origin

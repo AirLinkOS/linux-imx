@@ -1,0 +1,19 @@
+2026-05-11 13:47:16,229 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.138_2026-05-11T13-47-16.228781.log
+2026-05-11 13:47:17,402 [INFO] Merge v6.1.138 has 1 conflicted files
+2026-05-11 13:47:17,403 [INFO]   drivers/pci/controller/dwc/pci-imx6.c: 1 conflict hunks
+2026-05-11 13:47:17,403 [INFO] Resolving drivers/pci/controller/dwc/pci-imx6.c hunk 1...
+2026-05-11 13:47:17,417 [DEBUG] Prompt for drivers/pci/controller/dwc/pci-imx6.c hunk 0
+2026-05-11 13:47:23,403 [INFO]   Resolved drivers/pci/controller/dwc/pci-imx6.c hunk 0: confidence=8/10 — The mainline stable commit 85bb073b8941 skips controller_id generation logic for i.MX7D. Looking at 
+2026-05-11 13:47:23,954 [INFO] All conflicts resolved. Confidence: min=8, avg=8.0
+2026-05-11 13:47:26,723 [INFO] Build attempt 1/4...
+2026-05-11 13:47:41,776 [INFO] Build fix attempt 1: found 1 errors
+2026-05-11 13:47:45,280 [INFO]   AI proposes: patch (confidence: 9)
+2026-05-11 13:47:45,280 [INFO]   Reasoning: Line 1603 has duplicate 'case IMX7D:' - it's already in line 1598. The merge added IMX7D_EP case, but the original code had IMX7D appearing in two adjacent case blocks. The second occurrence should be
+2026-05-11 13:47:45,281 [INFO]   Applied patch to drivers/pci/controller/dwc/pci-imx6.c: 1 operation(s)
+2026-05-11 13:48:00,047 [INFO] Build still failing: 1 -> 1 errors. Trying again...
+2026-05-11 13:48:00,047 [INFO] Build attempt 2/4...
+2026-05-11 13:48:09,944 [INFO] Build fix attempt 2: found 1 errors
+2026-05-11 13:48:13,106 [INFO]   AI proposes: patch (confidence: 9)
+2026-05-11 13:48:13,106 [INFO]   Reasoning: Line 1603 has 'case IMX7D_EP:' which duplicates the same case on line 1599. The duplicate should be removed since IMX7D_EP is already handled in the previous case group.
+2026-05-11 13:48:13,107 [INFO]   Applied patch to drivers/pci/controller/dwc/pci-imx6.c: 1 operation(s)
+2026-05-11 13:49:06,968 [INFO] Build succeeded after fix.

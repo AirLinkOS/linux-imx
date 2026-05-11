@@ -1,0 +1,104 @@
+make: Entering directory '/home/osaleem/repos/linux-imx'
+  SYNC    include/config/auto.conf.cmd
+  UPD     include/generated/uapi/linux/version.h
+  UPD     include/config/kernel.release
+  UPD     include/generated/utsrelease.h
+  CALL    scripts/checksyscalls.sh
+  AS      arch/arm64/kernel/vdso/note.o
+  LD      arch/arm64/kernel/vdso/vdso.so.dbg
+  VDSOSYM include/generated/vdso-offsets.h
+  OBJCOPY arch/arm64/kernel/vdso/vdso.so
+  CC      init/main.o
+  CC      drivers/irqchip/irq-gic-v2m.o
+  CC      arch/arm64/kernel/process.o
+  CC      kernel/cpu.o
+  CC      arch/arm64/xen/../../arm/xen/enlighten.o
+  CC [M]  sound/usb/format.o
+  CC      arch/arm64/kernel/signal.o
+  CC      net/ethtool/ioctl.o
+  CC      fs/proc/cpuinfo.o
+  CC      drivers/video/fbdev/mxc/mxc_epdc_v2_fb.o
+  CC      drivers/pci/controller/dwc/pci-imx6.o
+  CC      drivers/acpi/acpi_processor.o
+  CC      net/ipv4/udp_offload.o
+  AR      drivers/irqchip/built-in.a
+  CC      sound/soc/soc-core.o
+  CC      drivers/acpi/processor_core.o
+  AR      fs/proc/built-in.a
+  LD [M]  sound/usb/snd-usb-audio.o
+  CC      kernel/sys.o
+drivers/pci/controller/dwc/pci-imx6.c: In function ‘imx6_pcie_probe’:
+drivers/pci/controller/dwc/pci-imx6.c:1603:9: error: duplicate case value
+ 1603 |         case IMX7D:
+      |         ^~~~
+drivers/pci/controller/dwc/pci-imx6.c:1598:9: note: previously used here
+ 1598 |         case IMX7D:
+      |         ^~~~
+In file included from ././include/linux/compiler_types.h:79,
+                 from <command-line>:
+./include/linux/compiler_attributes.h:229:41: warning: attribute ‘fallthrough’ not preceding a case label or default label
+  229 | # define fallthrough                    __attribute__((__fallthrough__))
+      |                                         ^~~~~~~~~~~~~
+drivers/pci/controller/dwc/pci-imx6.c:1602:17: note: in expansion of macro ‘fallthrough’
+ 1602 |                 fallthrough;
+      |                 ^~~~~~~~~~~
+make[5]: *** [scripts/Makefile.build:250: drivers/pci/controller/dwc/pci-imx6.o] Error 1
+make[4]: *** [scripts/Makefile.build:503: drivers/pci/controller/dwc] Error 2
+make[3]: *** [scripts/Makefile.build:503: drivers/pci/controller] Error 2
+make[2]: *** [scripts/Makefile.build:503: drivers/pci] Error 2
+make[2]: *** Waiting for unfinished jobs....
+  AR      arch/arm64/xen/built-in.a
+  CC      sound/soc/soc-pcm.o
+  CC      arch/arm64/kernel/vdso.o
+  CC      init/version.o
+  CC      net/tsn/genl_tsn.o
+  CC [M]  sound/soc/codecs/ak4613.o
+  CC      arch/arm64/kernel/alternative.o
+  AR      fs/built-in.a
+  CC      arch/arm64/kernel/topology.o
+  CC      drivers/acpi/processor_driver.o
+  AR      init/built-in.a
+  CC      arch/arm64/kernel/proton-pack.o
+  CC      drivers/acpi/processor_thermal.o
+  CC      drivers/acpi/processor_idle.o
+  CC      drivers/acpi/processor_perflib.o
+  CC      arch/arm64/kernel/signal32.o
+  AR      net/ipv4/built-in.a
+  CC      kernel/sched/core.o
+  CC      kernel/sched/fair.o
+  LD [M]  sound/soc/codecs/snd-soc-ak4613.o
+  CC      kernel/sched/build_policy.o
+  CC      kernel/power/qos.o
+  AR      drivers/video/fbdev/mxc/built-in.a
+  AR      drivers/video/fbdev/built-in.a
+  AR      drivers/video/built-in.a
+  CC      kernel/sched/build_utility.o
+  CC      kernel/power/process.o
+  CC      drivers/acpi/cppc_acpi.o
+  CC      kernel/power/suspend.o
+  CC      drivers/acpi/pptt.o
+  CC      kernel/module/main.o
+  CC      arch/arm64/kernel/cpuidle.o
+  CC      kernel/power/energy_model.o
+  AR      sound/soc/built-in.a
+  AR      net/ethtool/built-in.a
+  AR      sound/built-in.a
+  CC      kernel/time/tick-common.o
+  UPD     kernel/config_data
+  AS      arch/arm64/kernel/vdso-wrap.o
+  GZIP    kernel/config_data.gz
+  CC      kernel/configs.o
+  AR      net/tsn/built-in.a
+  AR      net/built-in.a
+  AR      arch/arm64/kernel/built-in.a
+  AR      arch/arm64/built-in.a
+  AR      drivers/acpi/built-in.a
+make[1]: *** [scripts/Makefile.build:503: drivers] Error 2
+make[1]: *** Waiting for unfinished jobs....
+  AR      kernel/power/built-in.a
+  AR      kernel/time/built-in.a
+  AR      kernel/module/built-in.a
+  AR      kernel/sched/built-in.a
+  AR      kernel/built-in.a
+make: *** [Makefile:2013: .] Error 2
+make: Leaving directory '/home/osaleem/repos/linux-imx'

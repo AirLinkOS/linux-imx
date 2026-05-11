@@ -1,0 +1,88 @@
+make: Entering directory '/home/osaleem/repos/linux-imx'
+  CALL    scripts/checksyscalls.sh
+  CC      drivers/pci/controller/dwc/pci-imx6.o
+drivers/pci/controller/dwc/pci-imx6.c: In function ‘imx6_pcie_probe’:
+drivers/pci/controller/dwc/pci-imx6.c:1603:9: error: duplicate case value
+ 1603 |         case IMX7D_EP:
+      |         ^~~~
+drivers/pci/controller/dwc/pci-imx6.c:1599:9: note: previously used here
+ 1599 |         case IMX7D_EP:
+      |         ^~~~
+  CC      drivers/usb/dwc3/core.o
+  CC      drivers/usb/core/hcd.o
+In file included from ././include/linux/compiler_types.h:79,
+                 from <command-line>:
+./include/linux/compiler_attributes.h:229:41: warning: attribute ‘fallthrough’ not preceding a case label or default label
+  229 | # define fallthrough                    __attribute__((__fallthrough__))
+      |                                         ^~~~~~~~~~~~~
+drivers/pci/controller/dwc/pci-imx6.c:1602:17: note: in expansion of macro ‘fallthrough’
+ 1602 |                 fallthrough;
+      |                 ^~~~~~~~~~~
+make[5]: *** [scripts/Makefile.build:250: drivers/pci/controller/dwc/pci-imx6.o] Error 1
+make[4]: *** [scripts/Makefile.build:503: drivers/pci/controller/dwc] Error 2
+make[3]: *** [scripts/Makefile.build:503: drivers/pci/controller] Error 2
+make[2]: *** [scripts/Makefile.build:503: drivers/pci] Error 2
+make[2]: *** Waiting for unfinished jobs....
+  CC      drivers/usb/dwc2/gadget.o
+  CC      drivers/usb/dwc3/ep0.o
+  CC      drivers/input/touchscreen/vtl/vtl_ts.o
+  CC [M]  drivers/input/touchscreen/synaptics_dsx/synaptics_dsx_i2c.o
+  CC      drivers/usb/cdns3/cdns3-ep0.o
+  CC      drivers/usb/gadget/config.o
+  CC      drivers/usb/gadget/composite.o
+  CC      drivers/usb/gadget/functions.o
+  CC      drivers/usb/gadget/configfs.o
+  CC      drivers/usb/gadget/udc/bdc/bdc_ep.o
+  CC      drivers/usb/gadget/function/f_acm.o
+  CC [M]  drivers/usb/gadget/legacy/zero.o
+  AR      drivers/input/touchscreen/vtl/built-in.a
+  CC      drivers/usb/gadget/function/f_loopback.o
+  AR      drivers/usb/cdns3/built-in.a
+  CC      drivers/usb/gadget/function/f_sourcesink.o
+  CC [M]  drivers/usb/gadget/legacy/audio.o
+  CC      drivers/usb/gadget/function/u_serial.o
+  CC [M]  drivers/usb/gadget/legacy/ether.o
+  CC      drivers/usb/gadget/function/f_serial.o
+  CC      drivers/usb/gadget/function/f_obex.o
+  AR      drivers/usb/dwc3/built-in.a
+  CC [M]  drivers/usb/gadget/legacy/mass_storage.o
+  CC      drivers/usb/gadget/function/u_ether.o
+  AR      drivers/usb/gadget/udc/bdc/built-in.a
+  AR      drivers/usb/gadget/udc/built-in.a
+  CC [M]  drivers/usb/gadget/legacy/serial.o
+  LD [M]  drivers/usb/gadget/legacy/g_zero.o
+  CC      drivers/usb/gadget/function/f_ncm.o
+  LD [M]  drivers/usb/gadget/legacy/g_audio.o
+  CC      drivers/usb/gadget/function/f_ecm.o
+  CC      drivers/usb/gadget/function/f_eem.o
+  CC      drivers/usb/gadget/function/f_subset.o
+  CC      drivers/usb/gadget/function/f_rndis.o
+  AR      drivers/usb/core/built-in.a
+  CC      drivers/usb/gadget/function/rndis.o
+  CC      drivers/usb/gadget/function/f_mass_storage.o
+  LD [M]  drivers/usb/gadget/legacy/g_mass_storage.o
+  CC      drivers/usb/gadget/function/storage_common.o
+  LD [M]  drivers/usb/gadget/legacy/g_ether.o
+  CC      drivers/usb/gadget/function/f_fs.o
+  AR      drivers/input/touchscreen/built-in.a
+  AR      drivers/input/built-in.a
+  CC      drivers/usb/gadget/function/u_audio.o
+  CC      drivers/usb/gadget/function/f_uac1.o
+  LD [M]  drivers/usb/gadget/legacy/g_serial.o
+  CC      drivers/usb/gadget/function/f_uac1_legacy.o
+  AR      drivers/usb/dwc2/built-in.a
+  CC      drivers/usb/gadget/function/u_uac1_legacy.o
+  CC      drivers/usb/gadget/function/f_uac2.o
+  CC      drivers/usb/gadget/function/f_uvc.o
+  CC      drivers/usb/gadget/function/uvc_queue.o
+  CC      drivers/usb/gadget/function/uvc_v4l2.o
+  CC      drivers/usb/gadget/function/uvc_video.o
+  CC      drivers/usb/gadget/function/uvc_configfs.o
+  CC      drivers/usb/gadget/function/f_midi.o
+  CC      drivers/usb/gadget/function/f_hid.o
+  AR      drivers/usb/gadget/function/built-in.a
+  AR      drivers/usb/gadget/built-in.a
+  AR      drivers/usb/built-in.a
+make[1]: *** [scripts/Makefile.build:503: drivers] Error 2
+make: *** [Makefile:2013: .] Error 2
+make: Leaving directory '/home/osaleem/repos/linux-imx'
