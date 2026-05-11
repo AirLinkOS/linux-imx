@@ -1,0 +1,16 @@
+2026-05-11 12:13:53,126 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.130_2026-05-11T12-13-53.125774.log
+2026-05-11 12:13:54,306 [INFO] Merge v6.1.130 has 1 conflicted files
+2026-05-11 12:13:54,309 [INFO]   drivers/net/ethernet/freescale/enetc/enetc.c: 2 conflict hunks
+2026-05-11 12:13:54,309 [INFO] Resolving drivers/net/ethernet/freescale/enetc/enetc.c hunk 1...
+2026-05-11 12:13:54,337 [DEBUG] Prompt for drivers/net/ethernet/freescale/enetc/enetc.c hunk 0
+2026-05-11 12:14:00,111 [INFO]   Resolved drivers/net/ethernet/freescale/enetc/enetc.c hunk 0: confidence=8/10 — Mainline refactored the unwind loop into a helper function enetc_unwind_tx_frame(). The stable fix (
+2026-05-11 12:14:00,112 [INFO] Resolving drivers/net/ethernet/freescale/enetc/enetc.c hunk 2...
+2026-05-11 12:14:00,137 [DEBUG] Prompt for drivers/net/ethernet/freescale/enetc/enetc.c hunk 1
+2026-05-11 12:14:04,550 [INFO]   Resolved drivers/net/ethernet/freescale/enetc/enetc.c hunk 1: confidence=8/10 — Mainline refactored the error unwind logic into a helper function enetc_unwind_tx_frame(). Since the
+2026-05-11 12:14:05,084 [INFO] All conflicts resolved. Confidence: min=8, avg=8.0
+2026-05-11 12:14:09,966 [INFO] Build attempt 1/4...
+2026-05-11 12:23:54,026 [INFO] Build fix attempt 1: found 1 errors
+2026-05-11 12:23:57,222 [INFO]   AI proposes: patch (confidence: 8)
+2026-05-11 12:23:57,222 [INFO]   Reasoning: The function enetc_free_tx_frame is called but only enetc_free_tx_swbd exists. The compiler suggests enetc_free_tx_swbd which is the correct replacement - this appears to be a merge artifact where a r
+2026-05-11 12:23:57,224 [INFO]   Applied patch to drivers/net/ethernet/freescale/enetc/enetc.c: 1 operation(s)
+2026-05-11 12:25:49,183 [INFO] Build succeeded after fix.

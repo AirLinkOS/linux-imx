@@ -1,0 +1,11 @@
+2026-05-11 12:02:04,119 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.129_2026-05-11T12-02-04.119805.log
+2026-05-11 12:02:05,726 [INFO] Merge v6.1.129 has 1 conflicted files
+2026-05-11 12:02:05,727 [INFO]   drivers/gpu/drm/rockchip/cdn-dp-core.c: 1 conflict hunks
+2026-05-11 12:02:05,727 [INFO] Resolving drivers/gpu/drm/rockchip/cdn-dp-core.c hunk 1...
+2026-05-11 12:02:05,766 [DEBUG] Prompt for drivers/gpu/drm/rockchip/cdn-dp-core.c hunk 0
+2026-05-11 12:02:10,984 [INFO]   Resolved drivers/gpu/drm/rockchip/cdn-dp-core.c hunk 0: confidence=8/10 — NXP added local variables (connector, old_status, dev) at the top of cdn_dp_pd_event_work. The mainl
+2026-05-11 12:02:11,560 [INFO] All conflicts resolved. Confidence: min=8, avg=8.0
+2026-05-11 12:02:16,537 [INFO] Build attempt 1/4...
+2026-05-11 12:13:46,040 [INFO] Build succeeded.
+2026-05-11 12:13:47,256 [INFO] Successfully merged v6.1.129 into lf-6.1.y-semtech
+2026-05-11 12:13:52,937 [INFO] Pushed lf-6.1.y-semtech to origin

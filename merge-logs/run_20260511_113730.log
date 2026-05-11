@@ -1,0 +1,92 @@
+2026-05-11 11:37:30,763 [INFO] Run log file: /home/osaleem/repos/linux-imx/merge-logs/run_20260511_113730.log
+2026-05-11 11:37:30,763 [INFO] Kernel Stable Merge Tool started
+2026-05-11 11:37:30,763 [INFO] Repo: /home/osaleem/repos/linux-imx
+2026-05-11 11:37:30,763 [INFO] Target: v6.1.169
+2026-05-11 11:37:30,763 [INFO] Provider: claude
+2026-05-11 11:37:30,763 [INFO] Interactive: False
+2026-05-11 11:37:30,763 [INFO] Dry run: False
+2026-05-11 11:37:30,763 [INFO] Fetching stable tags...
+2026-05-11 11:37:43,034 [INFO] Using override start version: 6.1.125
+2026-05-11 11:37:43,034 [INFO] 
+============================================================
+Merge step: v6.1.125 -> v6.1.126
+Progress: 1/44
+============================================================
+2026-05-11 11:37:43,034 [INFO] Starting merge: v6.1.126
+2026-05-11 11:37:43,034 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.126_2026-05-11T11-37-43.034654.log
+2026-05-11 11:37:43,985 [INFO] Merge v6.1.126 completed cleanly — no conflicts!
+2026-05-11 11:37:47,057 [INFO] Build attempt 1/4...
+2026-05-11 11:38:51,203 [INFO] Build succeeded.
+2026-05-11 11:38:51,541 [INFO] Merged v6.1.126 into lf-6.1.y-semtech
+2026-05-11 11:38:54,983 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-11 11:38:54,983 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.126_2026-05-11T11-37-43.034654.json
+2026-05-11 11:38:55,165 [INFO] Current kernel version: 6.1.126
+2026-05-11 11:38:55,165 [INFO] 
+============================================================
+Merge step: v6.1.126 -> v6.1.127
+Progress: 2/44
+============================================================
+2026-05-11 11:38:55,165 [INFO] Starting merge: v6.1.127
+2026-05-11 11:38:55,166 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.127_2026-05-11T11-38-55.165964.log
+2026-05-11 11:38:56,268 [INFO] Merge v6.1.127 completed cleanly — no conflicts!
+2026-05-11 11:38:59,092 [INFO] Build attempt 1/4...
+2026-05-11 11:50:24,467 [INFO] Build succeeded.
+2026-05-11 11:50:25,041 [INFO] Merged v6.1.127 into lf-6.1.y-semtech
+2026-05-11 11:50:28,581 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-11 11:50:28,582 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.127_2026-05-11T11-38-55.165964.json
+2026-05-11 11:50:28,777 [INFO] Current kernel version: 6.1.127
+2026-05-11 11:50:28,777 [INFO] 
+============================================================
+Merge step: v6.1.127 -> v6.1.128
+Progress: 3/44
+============================================================
+2026-05-11 11:50:28,777 [INFO] Starting merge: v6.1.128
+2026-05-11 11:50:28,778 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.128_2026-05-11T11-50-28.777972.log
+2026-05-11 11:50:29,842 [INFO] Merge v6.1.128 completed cleanly — no conflicts!
+2026-05-11 11:50:32,715 [INFO] Build attempt 1/4...
+2026-05-11 12:02:00,512 [INFO] Build succeeded.
+2026-05-11 12:02:01,097 [INFO] Merged v6.1.128 into lf-6.1.y-semtech
+2026-05-11 12:02:03,935 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-11 12:02:03,936 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.128_2026-05-11T11-50-28.777972.json
+2026-05-11 12:02:04,119 [INFO] Current kernel version: 6.1.128
+2026-05-11 12:02:04,119 [INFO] 
+============================================================
+Merge step: v6.1.128 -> v6.1.129
+Progress: 4/44
+============================================================
+2026-05-11 12:02:04,119 [INFO] Starting merge: v6.1.129
+2026-05-11 12:02:04,119 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.129_2026-05-11T12-02-04.119805.log
+2026-05-11 12:02:05,726 [INFO] Merge v6.1.129 has 1 conflicted files
+2026-05-11 12:02:05,727 [INFO]   drivers/gpu/drm/rockchip/cdn-dp-core.c: 1 conflict hunks
+2026-05-11 12:02:05,727 [INFO] Resolving drivers/gpu/drm/rockchip/cdn-dp-core.c hunk 1...
+2026-05-11 12:02:05,766 [DEBUG] Prompt for drivers/gpu/drm/rockchip/cdn-dp-core.c hunk 0
+2026-05-11 12:02:10,984 [INFO]   Resolved drivers/gpu/drm/rockchip/cdn-dp-core.c hunk 0: confidence=8/10 — NXP added local variables (connector, old_status, dev) at the top of cdn_dp_pd_event_work. The mainl
+2026-05-11 12:02:11,560 [INFO] All conflicts resolved. Confidence: min=8, avg=8.0
+2026-05-11 12:02:16,537 [INFO] Build attempt 1/4...
+2026-05-11 12:13:46,040 [INFO] Build succeeded.
+2026-05-11 12:13:47,256 [INFO] Successfully merged v6.1.129 into lf-6.1.y-semtech
+2026-05-11 12:13:52,937 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-11 12:13:52,938 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.129_2026-05-11T12-02-04.119805.json
+2026-05-11 12:13:53,125 [INFO] Current kernel version: 6.1.129
+2026-05-11 12:13:53,125 [INFO] 
+============================================================
+Merge step: v6.1.129 -> v6.1.130
+Progress: 5/44
+============================================================
+2026-05-11 12:13:53,125 [INFO] Starting merge: v6.1.130
+2026-05-11 12:13:53,126 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.130_2026-05-11T12-13-53.125774.log
+2026-05-11 12:13:54,306 [INFO] Merge v6.1.130 has 1 conflicted files
+2026-05-11 12:13:54,309 [INFO]   drivers/net/ethernet/freescale/enetc/enetc.c: 2 conflict hunks
+2026-05-11 12:13:54,309 [INFO] Resolving drivers/net/ethernet/freescale/enetc/enetc.c hunk 1...
+2026-05-11 12:13:54,337 [DEBUG] Prompt for drivers/net/ethernet/freescale/enetc/enetc.c hunk 0
+2026-05-11 12:14:00,111 [INFO]   Resolved drivers/net/ethernet/freescale/enetc/enetc.c hunk 0: confidence=8/10 — Mainline refactored the unwind loop into a helper function enetc_unwind_tx_frame(). The stable fix (
+2026-05-11 12:14:00,112 [INFO] Resolving drivers/net/ethernet/freescale/enetc/enetc.c hunk 2...
+2026-05-11 12:14:00,137 [DEBUG] Prompt for drivers/net/ethernet/freescale/enetc/enetc.c hunk 1
+2026-05-11 12:14:04,550 [INFO]   Resolved drivers/net/ethernet/freescale/enetc/enetc.c hunk 1: confidence=8/10 — Mainline refactored the error unwind logic into a helper function enetc_unwind_tx_frame(). Since the
+2026-05-11 12:14:05,084 [INFO] All conflicts resolved. Confidence: min=8, avg=8.0
+2026-05-11 12:14:09,966 [INFO] Build attempt 1/4...
+2026-05-11 12:23:54,026 [INFO] Build fix attempt 1: found 1 errors
+2026-05-11 12:23:57,222 [INFO]   AI proposes: patch (confidence: 8)
+2026-05-11 12:23:57,222 [INFO]   Reasoning: The function enetc_free_tx_frame is called but only enetc_free_tx_swbd exists. The compiler suggests enetc_free_tx_swbd which is the correct replacement - this appears to be a merge artifact where a r
+2026-05-11 12:23:57,224 [INFO]   Applied patch to drivers/net/ethernet/freescale/enetc/enetc.c: 1 operation(s)
+2026-05-11 12:25:49,183 [INFO] Build succeeded after fix.
