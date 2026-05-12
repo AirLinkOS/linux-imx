@@ -1,0 +1,141 @@
+2026-05-12 08:43:36,589 [INFO] Run log file: /home/osaleem/repos/linux-imx/merge-logs/run_20260512_084336.log
+2026-05-12 08:43:36,589 [INFO] Kernel Stable Merge Tool started
+2026-05-12 08:43:36,589 [INFO] Repo: /home/osaleem/repos/linux-imx
+2026-05-12 08:43:36,589 [INFO] Target: v6.1.169
+2026-05-12 08:43:36,589 [INFO] Provider: claude
+2026-05-12 08:43:36,589 [INFO] Interactive: False
+2026-05-12 08:43:36,589 [INFO] Dry run: False
+2026-05-12 08:43:36,590 [INFO] Fetching stable tags...
+2026-05-12 08:43:37,594 [INFO] Using override start version: 6.1.161
+2026-05-12 08:43:37,594 [INFO] 
+============================================================
+Merge step: v6.1.161 -> v6.1.162
+Progress: 1/8
+============================================================
+2026-05-12 08:43:37,595 [INFO] Starting merge: v6.1.162
+2026-05-12 08:43:37,595 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.162_2026-05-12T08-43-37.595117.log
+2026-05-12 08:43:38,935 [INFO] Merge v6.1.162 has 1 conflicted files
+2026-05-12 08:43:38,935 [INFO]   drivers/firmware/imx/imx-scu-irq.c: 1 conflict hunks
+2026-05-12 08:43:38,935 [INFO] Resolving drivers/firmware/imx/imx-scu-irq.c hunk 1...
+2026-05-12 08:43:38,958 [DEBUG] Prompt for drivers/firmware/imx/imx-scu-irq.c hunk 0
+2026-05-12 08:43:45,810 [INFO]   Resolved drivers/firmware/imx/imx-scu-irq.c hunk 0: confidence=9/10 — The mainline stable fix moves the mu_resource_id assignment before imx_scu_get_handle call. The NXP 
+2026-05-12 08:43:46,439 [INFO] All conflicts resolved. Confidence: min=9, avg=9.0
+2026-05-12 08:43:49,258 [INFO] Build attempt 1/4...
+2026-05-12 08:53:45,300 [INFO] Build succeeded.
+2026-05-12 08:53:46,228 [INFO] Successfully merged v6.1.162 into lf-6.1.y-semtech
+2026-05-12 08:53:50,539 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-12 08:53:50,540 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.162_2026-05-12T08-43-37.595117.json
+2026-05-12 08:53:50,722 [INFO] Current kernel version: 6.1.162
+2026-05-12 08:53:50,722 [INFO] 
+============================================================
+Merge step: v6.1.162 -> v6.1.163
+Progress: 2/8
+============================================================
+2026-05-12 08:53:50,722 [INFO] Starting merge: v6.1.163
+2026-05-12 08:53:50,723 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.163_2026-05-12T08-53-50.722940.log
+2026-05-12 08:53:51,887 [INFO] Merge v6.1.163 has 1 conflicted files
+2026-05-12 08:53:51,888 [INFO]   drivers/soc/imx/imx8mp-blk-ctrl.c: 2 conflict hunks
+2026-05-12 08:53:51,888 [INFO] Resolving drivers/soc/imx/imx8mp-blk-ctrl.c hunk 1...
+2026-05-12 08:53:51,899 [DEBUG] Prompt for drivers/soc/imx/imx8mp-blk-ctrl.c hunk 0
+2026-05-12 08:53:55,447 [INFO]   Resolved drivers/soc/imx/imx8mp-blk-ctrl.c hunk 0: confidence=9/10 — NXP adds hurry_data and noc_data fields to the domain_data struct. Mainline side is empty for this h
+2026-05-12 08:53:55,448 [INFO] Resolving drivers/soc/imx/imx8mp-blk-ctrl.c hunk 2...
+2026-05-12 08:53:55,468 [DEBUG] Prompt for drivers/soc/imx/imx8mp-blk-ctrl.c hunk 1
+2026-05-12 08:53:59,800 [INFO]   Resolved drivers/soc/imx/imx8mp-blk-ctrl.c hunk 1: confidence=9/10 — The mainline stable side adds 'struct notifier_block power_nb' and 'int num_paths' fields to the imx
+2026-05-12 08:54:01,709 [INFO] All conflicts resolved. Confidence: min=9, avg=9.0
+2026-05-12 08:54:04,829 [INFO] Build attempt 1/4...
+2026-05-12 08:59:38,924 [INFO] Build succeeded.
+2026-05-12 08:59:39,478 [INFO] Successfully merged v6.1.163 into lf-6.1.y-semtech
+2026-05-12 08:59:41,873 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-12 08:59:41,874 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.163_2026-05-12T08-53-50.722940.json
+2026-05-12 08:59:42,065 [INFO] Current kernel version: 6.1.163
+2026-05-12 08:59:42,065 [INFO] 
+============================================================
+Merge step: v6.1.163 -> v6.1.164
+Progress: 3/8
+============================================================
+2026-05-12 08:59:42,065 [INFO] Starting merge: v6.1.164
+2026-05-12 08:59:42,065 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.164_2026-05-12T08-59-42.065347.log
+2026-05-12 08:59:43,243 [INFO] Merge v6.1.164 completed cleanly — no conflicts!
+2026-05-12 08:59:46,566 [INFO] Build attempt 1/4...
+2026-05-12 09:01:31,633 [INFO] Build succeeded.
+2026-05-12 09:01:32,180 [INFO] Merged v6.1.164 into lf-6.1.y-semtech
+2026-05-12 09:01:34,589 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-12 09:01:34,589 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.164_2026-05-12T08-59-42.065347.json
+2026-05-12 09:01:34,773 [INFO] Current kernel version: 6.1.164
+2026-05-12 09:01:34,774 [INFO] 
+============================================================
+Merge step: v6.1.164 -> v6.1.165
+Progress: 4/8
+============================================================
+2026-05-12 09:01:34,774 [INFO] Starting merge: v6.1.165
+2026-05-12 09:01:34,774 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.165_2026-05-12T09-01-34.774483.log
+2026-05-12 09:01:35,981 [INFO] Merge v6.1.165 has 1 conflicted files
+2026-05-12 09:01:35,982 [INFO]   drivers/mailbox/imx-mailbox.c: 1 conflict hunks
+2026-05-12 09:01:35,982 [INFO] Resolving drivers/mailbox/imx-mailbox.c hunk 1...
+2026-05-12 09:01:36,009 [DEBUG] Prompt for drivers/mailbox/imx-mailbox.c hunk 0
+2026-05-12 09:01:39,521 [INFO]   Resolved drivers/mailbox/imx-mailbox.c hunk 0: confidence=9/10 — Both sides add independent fields to the imx_mu_dcfg struct. NXP adds xBUF for MU Buffer Register, m
+2026-05-12 09:01:39,782 [INFO] All conflicts resolved. Confidence: min=9, avg=9.0
+2026-05-12 09:01:42,351 [INFO] Build attempt 1/4...
+2026-05-12 09:12:57,272 [INFO] Build succeeded.
+2026-05-12 09:12:58,431 [INFO] Successfully merged v6.1.165 into lf-6.1.y-semtech
+2026-05-12 09:13:02,913 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-12 09:13:02,914 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.165_2026-05-12T09-01-34.774483.json
+2026-05-12 09:13:03,146 [INFO] Current kernel version: 6.1.165
+2026-05-12 09:13:03,146 [INFO] 
+============================================================
+Merge step: v6.1.165 -> v6.1.166
+Progress: 5/8
+============================================================
+2026-05-12 09:13:03,146 [INFO] Starting merge: v6.1.166
+2026-05-12 09:13:03,147 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.166_2026-05-12T09-13-03.147091.log
+2026-05-12 09:13:03,821 [INFO] Merge v6.1.166 completed cleanly — no conflicts!
+2026-05-12 09:13:06,595 [INFO] Build attempt 1/4...
+2026-05-12 09:24:22,080 [INFO] Build succeeded.
+2026-05-12 09:24:22,405 [INFO] Merged v6.1.166 into lf-6.1.y-semtech
+2026-05-12 09:24:24,403 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-12 09:24:24,404 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.166_2026-05-12T09-13-03.147091.json
+2026-05-12 09:24:24,588 [INFO] Current kernel version: 6.1.166
+2026-05-12 09:24:24,589 [INFO] 
+============================================================
+Merge step: v6.1.166 -> v6.1.167
+Progress: 6/8
+============================================================
+2026-05-12 09:24:24,589 [INFO] Starting merge: v6.1.167
+2026-05-12 09:24:24,589 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.167_2026-05-12T09-24-24.589435.log
+2026-05-12 09:24:25,797 [INFO] Merge v6.1.167 has 5 conflicted files
+2026-05-12 09:24:25,798 [INFO]   drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.h: 1 conflict hunks
+2026-05-12 09:24:25,800 [INFO]   drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c: 3 conflict hunks
+2026-05-12 09:24:25,801 [INFO]   drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.h: 1 conflict hunks
+2026-05-12 09:24:25,804 [INFO]   drivers/net/ethernet/freescale/fec_main.c: 2 conflict hunks
+2026-05-12 09:24:25,809 [INFO]   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c: 1 conflict hunks
+2026-05-12 09:24:25,809 [INFO] Resolving drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.h hunk 1...
+2026-05-12 09:24:25,836 [DEBUG] Prompt for drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.h hunk 0
+2026-05-12 09:24:29,004 [INFO]   Resolved drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.h hunk 0: confidence=9/10 — NXP added a lockdep_assert_held call in dpaa2_eth_is_type_phy. Mainline only renamed the underlying 
+2026-05-12 09:24:29,005 [INFO] Resolving drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c hunk 1...
+2026-05-12 09:24:29,041 [DEBUG] Prompt for drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c hunk 0
+2026-05-12 09:24:33,378 [INFO]   Resolved drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c hunk 0: confidence=9/10 — NXP adds a dpaa2_mac_driver_attach() call to reattach the MAC driver on disconnect (paired with the 
+2026-05-12 09:24:33,379 [INFO] Resolving drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c hunk 2...
+2026-05-12 09:24:33,415 [DEBUG] Prompt for drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c hunk 1
+2026-05-12 09:24:37,113 [INFO]   Resolved drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c hunk 1: confidence=9/10 — Hunk 1: NXP adds dpaa2_mac_driver_attach() call after dpaa2_mac_close(). Mainline doesn't have this.
+2026-05-12 09:24:37,114 [INFO] Resolving drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c hunk 3...
+2026-05-12 09:24:37,150 [DEBUG] Prompt for drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c hunk 2
+2026-05-12 09:24:42,458 [INFO]   Resolved drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c hunk 2: confidence=7/10 — Hunk 1: NXP added dpaa2_mac_driver_attach call, mainline removed it - this is NXP-specific behavior,
+2026-05-12 09:24:42,459 [INFO] Resolving drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.h hunk 1...
+2026-05-12 09:24:42,495 [DEBUG] Prompt for drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.h hunk 0
+2026-05-12 09:24:46,980 [INFO]   Resolved drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.h hunk 0: confidence=9/10 — NXP added a lag field and mac_lock mutex. The mainline stable patch added mac_lock mutex (already in
+2026-05-12 09:24:46,981 [INFO] Resolving drivers/net/ethernet/freescale/fec_main.c hunk 1...
+2026-05-12 09:24:47,016 [DEBUG] Prompt for drivers/net/ethernet/freescale/fec_main.c hunk 0
+2026-05-12 09:24:53,110 [INFO]   Resolved drivers/net/ethernet/freescale/fec_main.c hunk 0: confidence=9/10 — NXP removed the legacy __maybe_unused helpers (fec_enet_new_rxbdp and fec_enet_copybreak) and change
+2026-05-12 09:24:53,111 [INFO] Resolving drivers/net/ethernet/freescale/fec_main.c hunk 2...
+2026-05-12 09:24:53,148 [DEBUG] Prompt for drivers/net/ethernet/freescale/fec_main.c hunk 1
+2026-05-12 09:24:57,722 [INFO]   Resolved drivers/net/ethernet/freescale/fec_main.c hunk 1: confidence=9/10 — NXP side declares sub_len and adjusts data_start/sub_len for RACC quirk. Mainline stable adds a __fe
+2026-05-12 09:24:57,731 [INFO] Resolving drivers/net/ethernet/stmicro/stmmac/stmmac_main.c hunk 1...
+2026-05-12 09:24:57,767 [DEBUG] Prompt for drivers/net/ethernet/stmicro/stmmac/stmmac_main.c hunk 0
+2026-05-12 09:25:03,262 [INFO]   Resolved drivers/net/ethernet/stmicro/stmmac/stmmac_main.c hunk 0: confidence=8/10 — NXP added phylink start/stop wrapping around the stmmac_del_hw_vlan_rx_fltr call. Mainline stable ad
+2026-05-12 09:25:03,807 [INFO] All conflicts resolved. Confidence: min=7, avg=8.6
+2026-05-12 09:25:06,576 [INFO] Build attempt 1/4...
+2026-05-12 09:34:24,423 [INFO] Build fix attempt 1: found 2 errors
+2026-05-12 09:34:30,120 [INFO]   AI proposes: patch (confidence: 9)
+2026-05-12 09:34:30,120 [INFO]   Reasoning: Line 1671 has a stray 'dpaa2_mac_driver_attach(mac->mc_dev);' call that was incorrectly inserted into the irq handler function. The function needs a 'u32 status;' declaration instead. Looking at the o
+2026-05-12 09:34:30,122 [INFO]   Applied patch to drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c: 1 operation(s)
+2026-05-12 09:36:26,799 [INFO] Build succeeded after fix.

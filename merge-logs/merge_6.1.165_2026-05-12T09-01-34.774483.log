@@ -1,0 +1,11 @@
+2026-05-12 09:01:34,774 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.165_2026-05-12T09-01-34.774483.log
+2026-05-12 09:01:35,981 [INFO] Merge v6.1.165 has 1 conflicted files
+2026-05-12 09:01:35,982 [INFO]   drivers/mailbox/imx-mailbox.c: 1 conflict hunks
+2026-05-12 09:01:35,982 [INFO] Resolving drivers/mailbox/imx-mailbox.c hunk 1...
+2026-05-12 09:01:36,009 [DEBUG] Prompt for drivers/mailbox/imx-mailbox.c hunk 0
+2026-05-12 09:01:39,521 [INFO]   Resolved drivers/mailbox/imx-mailbox.c hunk 0: confidence=9/10 — Both sides add independent fields to the imx_mu_dcfg struct. NXP adds xBUF for MU Buffer Register, m
+2026-05-12 09:01:39,782 [INFO] All conflicts resolved. Confidence: min=9, avg=9.0
+2026-05-12 09:01:42,351 [INFO] Build attempt 1/4...
+2026-05-12 09:12:57,272 [INFO] Build succeeded.
+2026-05-12 09:12:58,431 [INFO] Successfully merged v6.1.165 into lf-6.1.y-semtech
+2026-05-12 09:13:02,913 [INFO] Pushed lf-6.1.y-semtech to origin

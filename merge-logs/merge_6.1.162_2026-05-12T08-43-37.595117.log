@@ -1,0 +1,11 @@
+2026-05-12 08:43:37,595 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.162_2026-05-12T08-43-37.595117.log
+2026-05-12 08:43:38,935 [INFO] Merge v6.1.162 has 1 conflicted files
+2026-05-12 08:43:38,935 [INFO]   drivers/firmware/imx/imx-scu-irq.c: 1 conflict hunks
+2026-05-12 08:43:38,935 [INFO] Resolving drivers/firmware/imx/imx-scu-irq.c hunk 1...
+2026-05-12 08:43:38,958 [DEBUG] Prompt for drivers/firmware/imx/imx-scu-irq.c hunk 0
+2026-05-12 08:43:45,810 [INFO]   Resolved drivers/firmware/imx/imx-scu-irq.c hunk 0: confidence=9/10 — The mainline stable fix moves the mu_resource_id assignment before imx_scu_get_handle call. The NXP 
+2026-05-12 08:43:46,439 [INFO] All conflicts resolved. Confidence: min=9, avg=9.0
+2026-05-12 08:43:49,258 [INFO] Build attempt 1/4...
+2026-05-12 08:53:45,300 [INFO] Build succeeded.
+2026-05-12 08:53:46,228 [INFO] Successfully merged v6.1.162 into lf-6.1.y-semtech
+2026-05-12 08:53:50,539 [INFO] Pushed lf-6.1.y-semtech to origin

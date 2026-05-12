@@ -1,0 +1,14 @@
+2026-05-12 08:53:50,723 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.163_2026-05-12T08-53-50.722940.log
+2026-05-12 08:53:51,887 [INFO] Merge v6.1.163 has 1 conflicted files
+2026-05-12 08:53:51,888 [INFO]   drivers/soc/imx/imx8mp-blk-ctrl.c: 2 conflict hunks
+2026-05-12 08:53:51,888 [INFO] Resolving drivers/soc/imx/imx8mp-blk-ctrl.c hunk 1...
+2026-05-12 08:53:51,899 [DEBUG] Prompt for drivers/soc/imx/imx8mp-blk-ctrl.c hunk 0
+2026-05-12 08:53:55,447 [INFO]   Resolved drivers/soc/imx/imx8mp-blk-ctrl.c hunk 0: confidence=9/10 — NXP adds hurry_data and noc_data fields to the domain_data struct. Mainline side is empty for this h
+2026-05-12 08:53:55,448 [INFO] Resolving drivers/soc/imx/imx8mp-blk-ctrl.c hunk 2...
+2026-05-12 08:53:55,468 [DEBUG] Prompt for drivers/soc/imx/imx8mp-blk-ctrl.c hunk 1
+2026-05-12 08:53:59,800 [INFO]   Resolved drivers/soc/imx/imx8mp-blk-ctrl.c hunk 1: confidence=9/10 — The mainline stable side adds 'struct notifier_block power_nb' and 'int num_paths' fields to the imx
+2026-05-12 08:54:01,709 [INFO] All conflicts resolved. Confidence: min=9, avg=9.0
+2026-05-12 08:54:04,829 [INFO] Build attempt 1/4...
+2026-05-12 08:59:38,924 [INFO] Build succeeded.
+2026-05-12 08:59:39,478 [INFO] Successfully merged v6.1.163 into lf-6.1.y-semtech
+2026-05-12 08:59:41,873 [INFO] Pushed lf-6.1.y-semtech to origin
