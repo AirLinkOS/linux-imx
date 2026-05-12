@@ -1,0 +1,368 @@
+2026-05-11 15:22:27,805 [INFO] Run log file: /home/osaleem/repos/linux-imx/merge-logs/run_20260511_152227.log
+2026-05-11 15:22:27,805 [INFO] Kernel Stable Merge Tool started
+2026-05-11 15:22:27,805 [INFO] Repo: /home/osaleem/repos/linux-imx
+2026-05-11 15:22:27,805 [INFO] Target: v6.1.169
+2026-05-11 15:22:27,805 [INFO] Provider: claude
+2026-05-11 15:22:27,805 [INFO] Interactive: False
+2026-05-11 15:22:27,805 [INFO] Dry run: False
+2026-05-11 15:22:27,805 [INFO] Fetching stable tags...
+2026-05-11 15:22:28,760 [INFO] Using override start version: 6.1.143
+2026-05-11 15:22:28,760 [INFO] 
+============================================================
+Merge step: v6.1.143 -> v6.1.144
+Progress: 1/26
+============================================================
+2026-05-11 15:22:28,760 [INFO] Starting merge: v6.1.144
+2026-05-11 15:22:28,760 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.144_2026-05-11T15-22-28.760476.log
+2026-05-11 15:22:29,888 [INFO] Merge v6.1.144 has 1 conflicted files
+2026-05-11 15:22:29,890 [INFO]   drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c: 1 conflict hunks
+2026-05-11 15:22:29,890 [INFO] Resolving drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c hunk 1...
+2026-05-11 15:22:29,900 [DEBUG] Prompt for drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c hunk 0
+2026-05-11 15:22:33,426 [INFO]   Resolved drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c hunk 0: confidence=9/10 — NXP uses dpaa2_eth_free_dpbps (plural, vendor naming). Mainline adds dpaa2_eth_free_rx_xdp_rxq call 
+2026-05-11 15:22:33,979 [INFO] All conflicts resolved. Confidence: min=9, avg=9.0
+2026-05-11 15:22:36,700 [INFO] Build attempt 1/4...
+2026-05-11 15:29:07,786 [INFO] Build succeeded.
+2026-05-11 15:29:08,346 [INFO] Successfully merged v6.1.144 into lf-6.1.y-semtech
+2026-05-11 15:29:11,015 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-11 15:29:11,016 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.144_2026-05-11T15-22-28.760476.json
+2026-05-11 15:29:11,220 [INFO] Current kernel version: 6.1.144
+2026-05-11 15:29:11,220 [INFO] 
+============================================================
+Merge step: v6.1.144 -> v6.1.145
+Progress: 2/26
+============================================================
+2026-05-11 15:29:11,220 [INFO] Starting merge: v6.1.145
+2026-05-11 15:29:11,221 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.145_2026-05-11T15-29-11.220900.log
+2026-05-11 15:29:12,171 [INFO] Merge v6.1.145 completed cleanly — no conflicts!
+2026-05-11 15:29:15,244 [INFO] Build attempt 1/4...
+2026-05-11 15:34:57,172 [INFO] Build succeeded.
+2026-05-11 15:34:57,524 [INFO] Merged v6.1.145 into lf-6.1.y-semtech
+2026-05-11 15:34:59,370 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-11 15:34:59,370 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.145_2026-05-11T15-29-11.220900.json
+2026-05-11 15:34:59,555 [INFO] Current kernel version: 6.1.145
+2026-05-11 15:34:59,555 [INFO] 
+============================================================
+Merge step: v6.1.145 -> v6.1.146
+Progress: 3/26
+============================================================
+2026-05-11 15:34:59,555 [INFO] Starting merge: v6.1.146
+2026-05-11 15:34:59,555 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.146_2026-05-11T15-34-59.555801.log
+2026-05-11 15:35:00,726 [INFO] Merge v6.1.146 completed cleanly — no conflicts!
+2026-05-11 15:35:03,751 [INFO] Build attempt 1/4...
+2026-05-11 15:46:31,738 [INFO] Build succeeded.
+2026-05-11 15:46:32,369 [INFO] Merged v6.1.146 into lf-6.1.y-semtech
+2026-05-11 15:46:35,275 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-11 15:46:35,276 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.146_2026-05-11T15-34-59.555801.json
+2026-05-11 15:46:35,478 [INFO] Current kernel version: 6.1.146
+2026-05-11 15:46:35,478 [INFO] 
+============================================================
+Merge step: v6.1.146 -> v6.1.147
+Progress: 4/26
+============================================================
+2026-05-11 15:46:35,478 [INFO] Starting merge: v6.1.147
+2026-05-11 15:46:35,479 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.147_2026-05-11T15-46-35.478882.log
+2026-05-11 15:46:36,616 [INFO] Merge v6.1.147 has 1 conflicted files
+2026-05-11 15:46:36,617 [INFO]   sound/soc/fsl/fsl_sai.c: 1 conflict hunks
+2026-05-11 15:46:36,617 [INFO] Resolving sound/soc/fsl/fsl_sai.c hunk 1...
+2026-05-11 15:46:36,627 [DEBUG] Prompt for sound/soc/fsl/fsl_sai.c hunk 0
+2026-05-11 15:46:41,579 [INFO]   Resolved sound/soc/fsl/fsl_sai.c hunk 0: confidence=8/10 — NXP's version conditionally does software reset only in master mode (when !is_consumer_mode[tx]). Th
+2026-05-11 15:46:42,125 [INFO] All conflicts resolved. Confidence: min=8, avg=8.0
+2026-05-11 15:46:45,096 [INFO] Build attempt 1/4...
+2026-05-11 15:58:02,750 [INFO] Build succeeded.
+2026-05-11 15:58:03,338 [INFO] Successfully merged v6.1.147 into lf-6.1.y-semtech
+2026-05-11 15:58:05,810 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-11 15:58:05,811 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.147_2026-05-11T15-46-35.478882.json
+2026-05-11 15:58:06,013 [INFO] Current kernel version: 6.1.147
+2026-05-11 15:58:06,013 [INFO] 
+============================================================
+Merge step: v6.1.147 -> v6.1.148
+Progress: 5/26
+============================================================
+2026-05-11 15:58:06,013 [INFO] Starting merge: v6.1.148
+2026-05-11 15:58:06,014 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.148_2026-05-11T15-58-06.013893.log
+2026-05-11 15:58:07,340 [INFO] Merge v6.1.148 has 4 conflicted files
+2026-05-11 15:58:07,342 [INFO]   drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c: 1 conflict hunks
+2026-05-11 15:58:07,343 [INFO]   drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c: 1 conflict hunks
+2026-05-11 15:58:07,343 [INFO]   drivers/usb/chipidea/ci.h: 2 conflict hunks
+2026-05-11 15:58:07,344 [INFO]   drivers/usb/phy/phy-mxs-usb.c: 1 conflict hunks
+2026-05-11 15:58:07,344 [INFO] Resolving drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c hunk 1...
+2026-05-11 15:58:07,363 [DEBUG] Prompt for drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c hunk 0
+2026-05-11 15:58:11,419 [INFO]   Resolved drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c hunk 0: confidence=8/10 — NXP added a dpaa2_mac_driver_detach() call (vendor-specific MAC handling). Mainline stable added a t
+2026-05-11 15:58:11,420 [INFO] Resolving drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c hunk 1...
+2026-05-11 15:58:11,448 [DEBUG] Prompt for drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c hunk 0
+2026-05-11 15:58:16,720 [INFO]   Resolved drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c hunk 0: confidence=8/10 — NXP side adds dpaa2_mac_driver_detach() call (vendor-specific MAC driver handling). Mainline stable 
+2026-05-11 15:58:16,721 [INFO] Resolving drivers/usb/chipidea/ci.h hunk 1...
+2026-05-11 15:58:16,746 [DEBUG] Prompt for drivers/usb/chipidea/ci.h hunk 0
+2026-05-11 15:58:21,677 [INFO]   Resolved drivers/usb/chipidea/ci.h hunk 0: confidence=9/10 — NXP uses usb_phy_set_mode() with CUR_USB_MODE_* (their custom API for setting PHY mode), while mainl
+2026-05-11 15:58:21,678 [INFO] Resolving drivers/usb/chipidea/ci.h hunk 2...
+2026-05-11 15:58:21,706 [DEBUG] Prompt for drivers/usb/chipidea/ci.h hunk 1
+2026-05-11 15:58:24,860 [INFO]   Resolved drivers/usb/chipidea/ci.h hunk 1: confidence=9/10 — NXP uses usb_phy_set_mode() API with CUR_USB_MODE_* values (their custom extension), while mainline 
+2026-05-11 15:58:24,861 [INFO] Resolving drivers/usb/phy/phy-mxs-usb.c hunk 1...
+2026-05-11 15:58:24,889 [DEBUG] Prompt for drivers/usb/phy/phy-mxs-usb.c hunk 0
+2026-05-11 15:58:28,723 [INFO]   Resolved drivers/usb/phy/phy-mxs-usb.c hunk 0: confidence=8/10 — NXP uses mxs_phy->mode != CUR_USB_MODE_HOST to check if not in host mode, while mainline stable uses
+2026-05-11 15:58:29,515 [INFO] All conflicts resolved. Confidence: min=8, avg=8.4
+2026-05-11 15:58:32,184 [INFO] Build attempt 1/4...
+2026-05-11 16:09:47,740 [INFO] Build succeeded.
+2026-05-11 16:09:48,620 [INFO] Successfully merged v6.1.148 into lf-6.1.y-semtech
+2026-05-11 16:09:53,285 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-11 16:09:53,287 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.148_2026-05-11T15-58-06.013893.json
+2026-05-11 16:09:53,526 [INFO] Current kernel version: 6.1.148
+2026-05-11 16:09:53,526 [INFO] 
+============================================================
+Merge step: v6.1.148 -> v6.1.149
+Progress: 6/26
+============================================================
+2026-05-11 16:09:53,526 [INFO] Starting merge: v6.1.149
+2026-05-11 16:09:53,527 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.149_2026-05-11T16-09-53.526899.log
+2026-05-11 16:09:55,063 [INFO] Merge v6.1.149 has 1 conflicted files
+2026-05-11 16:09:55,064 [INFO]   sound/soc/fsl/fsl_esai.c: 1 conflict hunks
+2026-05-11 16:09:55,064 [INFO] Resolving sound/soc/fsl/fsl_esai.c hunk 1...
+2026-05-11 16:09:55,100 [DEBUG] Prompt for sound/soc/fsl/fsl_esai.c hunk 0
+2026-05-11 16:10:00,420 [INFO]   Resolved sound/soc/fsl/fsl_esai.c hunk 0: confidence=9/10 — OUR side defines fsl_esai_dai_ops with .shutdown callback. THEIR side is empty because mainline move
+2026-05-11 16:10:01,035 [INFO] All conflicts resolved. Confidence: min=9, avg=9.0
+2026-05-11 16:10:03,906 [INFO] Build attempt 1/4...
+2026-05-11 16:21:37,922 [INFO] Build succeeded.
+2026-05-11 16:21:39,257 [INFO] Successfully merged v6.1.149 into lf-6.1.y-semtech
+2026-05-11 16:21:44,334 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-11 16:21:44,335 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.149_2026-05-11T16-09-53.526899.json
+2026-05-11 16:21:44,616 [INFO] Current kernel version: 6.1.149
+2026-05-11 16:21:44,616 [INFO] 
+============================================================
+Merge step: v6.1.149 -> v6.1.150
+Progress: 7/26
+============================================================
+2026-05-11 16:21:44,616 [INFO] Starting merge: v6.1.150
+2026-05-11 16:21:44,616 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.150_2026-05-11T16-21-44.616736.log
+2026-05-11 16:21:45,716 [INFO] Merge v6.1.150 completed cleanly — no conflicts!
+2026-05-11 16:21:48,539 [INFO] Build attempt 1/4...
+2026-05-11 16:33:22,949 [INFO] Build succeeded.
+2026-05-11 16:33:23,525 [INFO] Merged v6.1.150 into lf-6.1.y-semtech
+2026-05-11 16:33:25,919 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-11 16:33:25,920 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.150_2026-05-11T16-21-44.616736.json
+2026-05-11 16:33:26,114 [INFO] Current kernel version: 6.1.150
+2026-05-11 16:33:26,115 [INFO] 
+============================================================
+Merge step: v6.1.150 -> v6.1.151
+Progress: 8/26
+============================================================
+2026-05-11 16:33:26,115 [INFO] Starting merge: v6.1.151
+2026-05-11 16:33:26,115 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.151_2026-05-11T16-33-26.115478.log
+2026-05-11 16:33:27,299 [INFO] Merge v6.1.151 completed cleanly — no conflicts!
+2026-05-11 16:33:30,271 [INFO] Build attempt 1/4...
+2026-05-11 16:44:10,606 [INFO] Build succeeded.
+2026-05-11 16:44:11,239 [INFO] Merged v6.1.151 into lf-6.1.y-semtech
+2026-05-11 16:44:13,895 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-11 16:44:13,896 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.151_2026-05-11T16-33-26.115478.json
+2026-05-11 16:44:14,099 [INFO] Current kernel version: 6.1.151
+2026-05-11 16:44:14,099 [INFO] 
+============================================================
+Merge step: v6.1.151 -> v6.1.152
+Progress: 9/26
+============================================================
+2026-05-11 16:44:14,099 [INFO] Starting merge: v6.1.152
+2026-05-11 16:44:14,100 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.152_2026-05-11T16-44-14.100093.log
+2026-05-11 16:44:15,124 [INFO] Merge v6.1.152 completed cleanly — no conflicts!
+2026-05-11 16:44:18,149 [INFO] Build attempt 1/4...
+2026-05-11 16:55:05,702 [INFO] Build succeeded.
+2026-05-11 16:55:06,155 [INFO] Merged v6.1.152 into lf-6.1.y-semtech
+2026-05-11 16:55:08,150 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-11 16:55:08,150 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.152_2026-05-11T16-44-14.100093.json
+2026-05-11 16:55:08,340 [INFO] Current kernel version: 6.1.152
+2026-05-11 16:55:08,340 [INFO] 
+============================================================
+Merge step: v6.1.152 -> v6.1.153
+Progress: 10/26
+============================================================
+2026-05-11 16:55:08,340 [INFO] Starting merge: v6.1.153
+2026-05-11 16:55:08,340 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.153_2026-05-11T16-55-08.340635.log
+2026-05-11 16:55:09,461 [INFO] Merge v6.1.153 completed cleanly — no conflicts!
+2026-05-11 16:55:12,386 [INFO] Build attempt 1/4...
+2026-05-11 17:05:57,463 [INFO] Build succeeded.
+2026-05-11 17:05:58,041 [INFO] Merged v6.1.153 into lf-6.1.y-semtech
+2026-05-11 17:06:00,722 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-11 17:06:00,722 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.153_2026-05-11T16-55-08.340635.json
+2026-05-11 17:06:00,920 [INFO] Current kernel version: 6.1.153
+2026-05-11 17:06:00,920 [INFO] 
+============================================================
+Merge step: v6.1.153 -> v6.1.154
+Progress: 11/26
+============================================================
+2026-05-11 17:06:00,920 [INFO] Starting merge: v6.1.154
+2026-05-11 17:06:00,921 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.154_2026-05-11T17-06-00.920976.log
+2026-05-11 17:06:02,024 [INFO] Merge v6.1.154 completed cleanly — no conflicts!
+2026-05-11 17:06:04,899 [INFO] Build attempt 1/4...
+2026-05-11 17:16:43,717 [INFO] Build succeeded.
+2026-05-11 17:16:44,272 [INFO] Merged v6.1.154 into lf-6.1.y-semtech
+2026-05-11 17:16:46,547 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-11 17:16:46,548 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.154_2026-05-11T17-06-00.920976.json
+2026-05-11 17:16:46,754 [INFO] Current kernel version: 6.1.154
+2026-05-11 17:16:46,754 [INFO] 
+============================================================
+Merge step: v6.1.154 -> v6.1.155
+Progress: 12/26
+============================================================
+2026-05-11 17:16:46,754 [INFO] Starting merge: v6.1.155
+2026-05-11 17:16:46,754 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.155_2026-05-11T17-16-46.754629.log
+2026-05-11 17:16:47,942 [INFO] Merge v6.1.155 completed cleanly — no conflicts!
+2026-05-11 17:16:50,717 [INFO] Build attempt 1/4...
+2026-05-11 17:28:05,153 [INFO] Build succeeded.
+2026-05-11 17:28:05,797 [INFO] Merged v6.1.155 into lf-6.1.y-semtech
+2026-05-11 17:28:08,721 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-11 17:28:08,722 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.155_2026-05-11T17-16-46.754629.json
+2026-05-11 17:28:08,928 [INFO] Current kernel version: 6.1.155
+2026-05-11 17:28:08,928 [INFO] 
+============================================================
+Merge step: v6.1.155 -> v6.1.156
+Progress: 13/26
+============================================================
+2026-05-11 17:28:08,928 [INFO] Starting merge: v6.1.156
+2026-05-11 17:28:08,929 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.156_2026-05-11T17-28-08.929017.log
+2026-05-11 17:28:10,174 [INFO] Merge v6.1.156 completed cleanly — no conflicts!
+2026-05-11 17:28:12,998 [INFO] Build attempt 1/4...
+2026-05-11 17:39:25,507 [INFO] Build succeeded.
+2026-05-11 17:39:26,280 [INFO] Merged v6.1.156 into lf-6.1.y-semtech
+2026-05-11 17:39:29,327 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-11 17:39:29,328 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.156_2026-05-11T17-28-08.929017.json
+2026-05-11 17:39:29,540 [INFO] Current kernel version: 6.1.156
+2026-05-11 17:39:29,540 [INFO] 
+============================================================
+Merge step: v6.1.156 -> v6.1.157
+Progress: 14/26
+============================================================
+2026-05-11 17:39:29,540 [INFO] Starting merge: v6.1.157
+2026-05-11 17:39:29,541 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.157_2026-05-11T17-39-29.540736.log
+2026-05-11 17:39:30,811 [INFO] Merge v6.1.157 completed cleanly — no conflicts!
+2026-05-11 17:39:33,734 [INFO] Build attempt 1/4...
+2026-05-11 17:50:51,953 [INFO] Build succeeded.
+2026-05-11 17:50:52,716 [INFO] Merged v6.1.157 into lf-6.1.y-semtech
+2026-05-11 17:50:55,768 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-11 17:50:55,768 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.157_2026-05-11T17-39-29.540736.json
+2026-05-11 17:50:55,982 [INFO] Current kernel version: 6.1.157
+2026-05-11 17:50:55,982 [INFO] 
+============================================================
+Merge step: v6.1.157 -> v6.1.158
+Progress: 15/26
+============================================================
+2026-05-11 17:50:55,982 [INFO] Starting merge: v6.1.158
+2026-05-11 17:50:55,983 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.158_2026-05-11T17-50-55.983014.log
+2026-05-11 17:50:57,223 [INFO] Merge v6.1.158 completed cleanly — no conflicts!
+2026-05-11 17:51:00,047 [INFO] Build attempt 1/4...
+2026-05-11 18:02:15,470 [INFO] Build succeeded.
+2026-05-11 18:02:16,185 [INFO] Merged v6.1.158 into lf-6.1.y-semtech
+2026-05-11 18:02:19,348 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-11 18:02:19,349 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.158_2026-05-11T17-50-55.983014.json
+2026-05-11 18:02:19,527 [INFO] Current kernel version: 6.1.158
+2026-05-11 18:02:19,528 [INFO] 
+============================================================
+Merge step: v6.1.158 -> v6.1.159
+Progress: 16/26
+============================================================
+2026-05-11 18:02:19,528 [INFO] Starting merge: v6.1.159
+2026-05-11 18:02:19,528 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.159_2026-05-11T18-02-19.528258.log
+2026-05-11 18:02:21,260 [INFO] Merge v6.1.159 completed cleanly — no conflicts!
+2026-05-11 18:02:24,184 [INFO] Build attempt 1/4...
+2026-05-11 18:13:43,338 [INFO] Build succeeded.
+2026-05-11 18:13:44,848 [INFO] Merged v6.1.159 into lf-6.1.y-semtech
+2026-05-11 18:13:49,737 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-11 18:13:49,737 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.159_2026-05-11T18-02-19.528258.json
+2026-05-11 18:13:50,024 [INFO] Current kernel version: 6.1.159
+2026-05-11 18:13:50,024 [INFO] 
+============================================================
+Merge step: v6.1.159 -> v6.1.160
+Progress: 17/26
+============================================================
+2026-05-11 18:13:50,025 [INFO] Starting merge: v6.1.160
+2026-05-11 18:13:50,025 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.160_2026-05-11T18-13-50.025089.log
+2026-05-11 18:13:51,668 [INFO] Merge v6.1.160 has 3 conflicted files
+2026-05-11 18:13:51,670 [INFO]   drivers/mmc/host/Kconfig: 2 conflict hunks
+2026-05-11 18:13:51,671 [INFO]   drivers/spi/spi-imx.c: 1 conflict hunks
+2026-05-11 18:13:51,672 [INFO]   sound/soc/fsl/fsl_xcvr.c: 5 conflict hunks
+2026-05-11 18:13:51,672 [INFO] Resolving drivers/mmc/host/Kconfig hunk 1...
+2026-05-11 18:13:51,713 [DEBUG] Prompt for drivers/mmc/host/Kconfig hunk 0
+2026-05-11 18:13:55,543 [INFO]   Resolved drivers/mmc/host/Kconfig hunk 0: confidence=9/10 — NXP added SOC_S32V234, mainline added ARCH_S32. Combine both to preserve NXP's S32V234 support and a
+2026-05-11 18:13:55,544 [INFO] Resolving drivers/mmc/host/Kconfig hunk 2...
+2026-05-11 18:13:55,582 [DEBUG] Prompt for drivers/mmc/host/Kconfig hunk 1
+2026-05-11 18:13:59,270 [INFO]   Resolved drivers/mmc/host/Kconfig hunk 1: confidence=8/10 — Hunk 1 (depends line): NXP added SOC_S32V234, mainline added ARCH_S32. Keep both. Hunk 2 (this hunk)
+2026-05-11 18:13:59,271 [INFO] Resolving drivers/spi/spi-imx.c hunk 1...
+2026-05-11 18:13:59,311 [DEBUG] Prompt for drivers/spi/spi-imx.c hunk 0
+2026-05-11 18:14:04,635 [INFO]   Resolved drivers/spi/spi-imx.c hunk 0: confidence=8/10 — NXP added slave_mode handling with an if/else block around the trigger and wait. Mainline stable com
+2026-05-11 18:14:04,636 [INFO] Resolving sound/soc/fsl/fsl_xcvr.c hunk 1...
+2026-05-11 18:14:04,672 [DEBUG] Prompt for sound/soc/fsl/fsl_xcvr.c hunk 0
+2026-05-11 18:14:08,814 [INFO]   Resolved sound/soc/fsl/fsl_xcvr.c hunk 0: confidence=9/10 — NXP vendor kernel has these struct definitions in a header file (fsl_xcvr.h), while mainline stable 
+2026-05-11 18:14:08,815 [INFO] Resolving sound/soc/fsl/fsl_xcvr.c hunk 2...
+2026-05-11 18:14:08,851 [DEBUG] Prompt for sound/soc/fsl/fsl_xcvr.c hunk 1
+2026-05-11 18:14:12,915 [INFO]   Resolved sound/soc/fsl/fsl_xcvr.c hunk 1: confidence=10/10 — This hunk is only a whitespace/indentation change (spaces vs tabs alignment). Both sides are functio
+2026-05-11 18:14:12,916 [INFO] Resolving sound/soc/fsl/fsl_xcvr.c hunk 3...
+2026-05-11 18:14:12,952 [DEBUG] Prompt for sound/soc/fsl/fsl_xcvr.c hunk 2
+2026-05-11 18:14:16,623 [INFO]   Resolved sound/soc/fsl/fsl_xcvr.c hunk 2: confidence=9/10 — This hunk is just a whitespace/indentation difference for the continuation line of memcpy_fromio. Bo
+2026-05-11 18:14:16,624 [INFO] Resolving sound/soc/fsl/fsl_xcvr.c hunk 4...
+2026-05-11 18:14:16,659 [DEBUG] Prompt for sound/soc/fsl/fsl_xcvr.c hunk 3
+2026-05-11 18:14:25,160 [INFO]   Resolved sound/soc/fsl/fsl_xcvr.c hunk 3: confidence=9/10 — Two conflicts in this hunk. First: NXP uses memset_io while mainline uses writel_relaxed - functiona
+2026-05-11 18:14:25,161 [INFO] Resolving sound/soc/fsl/fsl_xcvr.c hunk 5...
+2026-05-11 18:14:25,197 [DEBUG] Prompt for sound/soc/fsl/fsl_xcvr.c hunk 4
+2026-05-11 18:14:31,682 [INFO]   Resolved sound/soc/fsl/fsl_xcvr.c hunk 4: confidence=9/10 — NXP adds .use_edma = true to the imx93 soc_data struct; mainline has nothing extra. Keep NXP's addit
+2026-05-11 18:14:32,482 [INFO] All conflicts resolved. Confidence: min=8, avg=8.9
+2026-05-11 18:14:35,152 [INFO] Build attempt 1/4...
+2026-05-11 18:25:53,539 [INFO] Build succeeded.
+2026-05-11 18:25:54,938 [INFO] Successfully merged v6.1.160 into lf-6.1.y-semtech
+2026-05-11 18:26:06,532 [INFO] Pushed lf-6.1.y-semtech to origin
+2026-05-11 18:26:06,534 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.160_2026-05-11T18-13-50.025089.json
+2026-05-11 18:26:06,840 [INFO] Current kernel version: 6.1.160
+2026-05-11 18:26:06,840 [INFO] 
+============================================================
+Merge step: v6.1.160 -> v6.1.161
+Progress: 18/26
+============================================================
+2026-05-11 18:26:06,840 [INFO] Starting merge: v6.1.161
+2026-05-11 18:26:06,840 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.161_2026-05-11T18-26-06.840568.log
+2026-05-11 18:26:08,135 [INFO] Merge v6.1.161 completed cleanly — no conflicts!
+2026-05-11 18:26:11,060 [INFO] Build attempt 1/4...
+2026-05-11 18:26:17,391 [WARNING] Could not parse any errors from build output
+2026-05-11 18:26:17,391 [ERROR] AI couldn't propose a fix
+2026-05-11 18:26:17,391 [ERROR] Build failed after clean merge
+2026-05-11 18:26:17,392 [INFO] Merge result saved to /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.161_2026-05-11T18-26-06.840568.json
+2026-05-11 18:26:17,392 [ERROR] Stopping due to error at v6.1.161. Fix manually and re-run.
+2026-05-11 18:26:17,410 [INFO] 
+======================================================================
+2026-05-11 18:26:17,410 [INFO] VERIFICATION SUMMARY — Files flagged for hardware testing review
+2026-05-11 18:26:17,410 [INFO] ======================================================================
+2026-05-11 18:26:17,410 [INFO] Total flagged: 5 resolutions across 4 subsystems
+
+2026-05-11 18:26:17,410 [INFO] 
+[arch/arm64]  (1 flag(s))
+2026-05-11 18:26:17,410 [INFO]   🟡 v6.1.64 arch/arm64/boot/dts/freescale/fsl-ls208xa.dtsi (conf 4/10)
+2026-05-11 18:26:17,410 [INFO]       Merge preserves NXP USB additions but skips mainline's bus wrapper that constrains USB DMA addressing
+2026-05-11 18:26:17,410 [INFO]       - The mainline DMA-range constraint fix (bus wrapper with dma-ranges 0x100 limit) was intentionally dropped. The resolver acknowledged this. USB on these SoCs may exhibit the DMA addressing bug the stable patch fixed.
+2026-05-11 18:26:17,410 [INFO]       - NXP-specific 'fsl,ls2088a-dwc3' compatible and 'snps,host-vbus-glitches' property are correctly preserved.
+2026-05-11 18:26:17,410 [INFO]       - Other unrelated NXP changes (watchdog clock div 32 vs mainline 4, PCIe interrupt-names 'aer' vs 'intr', i2c ls208xa-i2c compatible, scl-gpios) are vendor-intentional and properly kept.
+2026-05-11 18:26:17,410 [INFO] 
+[drivers/media]  (1 flag(s))
+2026-05-11 18:26:17,410 [INFO]   🟡 v6.1.63 drivers/media/i2c/ov5640.c (conf 4/10)
+2026-05-11 18:26:17,410 [INFO]       Mainline 6.1.62->6.1.63 only changed OV5640_DEFAULT_LINK_FREQ from 19 to 13; merge kept NXP value of 19 instead of taking mainline's bug fix.
+2026-05-11 18:26:17,410 [INFO]       - OV5640_DEFAULT_LINK_FREQ remains 19 in MERGED while mainline 6.1.63 changed it to 13. This stable bugfix appears to have been dropped during the merge.
+2026-05-11 18:26:17,410 [INFO]       - The resolution reasoning discusses a probe-restructure conflict, but FROM->TO has no such restructuring; the only mainline delta is the link-freq constant. The merger may have misidentified the conflict and discarded the actual intended fix.
+2026-05-11 18:26:17,410 [INFO]       - Runtime impact: incorrect default link frequency could cause MIPI CSI-2 link mis-configuration on first stream in default mode; not catastrophic but a regression vs. intended stable fix.
+2026-05-11 18:26:17,411 [INFO] 
+[drivers/pci]  (2 flag(s))
+2026-05-11 18:26:17,411 [INFO]   🔴 v6.1.81 drivers/pci/controller/dwc/pci-layerscape-ep.c (conf 6/10)
+2026-05-11 18:26:17,411 [INFO]       Macro definitions accidentally placed inside struct ls_pcie_ep, breaking the struct and removing required member fields
+2026-05-11 18:26:17,411 [INFO]       - Inside 'struct ls_pcie_ep' definition, mainline's #define block (PEX_PF0_CONFIG, PEX_PF0_PME_MES_DR/IER, etc.) was inserted instead of being placed at file scope. This will not compile cleanly and corrupts the struct.
+2026-05-11 18:26:17,411 [INFO]       - The struct ls_pcie_ep is missing required member declarations: 'int irq;', 'u32 lnkcap;', 'bool big_endian;', and NXP's 'u8 max_speed; u8 max_width;'. The code references pcie->irq, pcie->lnkcap, pcie->big_endian, pcie->max_speed, pcie->max_width — none of which are declared in the merged struct body.
+2026-05-11 18:26:17,411 [INFO]       - Duplicate macro definitions: PEX_PF0_CONFIG and PEX_PF0_CFG_READY are defined twice (once at file scope and once inside the struct).
+2026-05-11 18:26:17,411 [INFO]   🔴 v6.1.81 drivers/pci/controller/dwc/pci-layerscape-ep.c (conf 6/10)
+2026-05-11 18:26:17,411 [INFO]       struct ls_pcie_ep is corrupted by macro definitions inserted into the struct body, and required fields (irq, lnkcap, big_endian, max_speed, max_width) are missing.
+2026-05-11 18:26:17,411 [INFO]       - Inside `struct ls_pcie_ep { ... }` the merge inserted `#define PEX_PF0_CONFIG ...` and the PME_MES_DR/IER macros directly into the struct body, which is invalid C and will not compile.
+2026-05-11 18:26:17,411 [INFO]       - Struct fields used elsewhere are not declared: `irq`, `lnkcap`, `big_endian` (used in ls_lut_readl/writel and probe) are missing from the struct.
+2026-05-11 18:26:17,411 [INFO]       - NXP fields `max_speed` and `max_width` were dropped from the struct but probe still assigns `pcie->max_speed` and `pcie->max_width` -> compile error.
+2026-05-11 18:26:17,411 [INFO] 
+[drivers/pwm]  (1 flag(s))
+2026-05-11 18:26:17,411 [INFO]   🔴 v6.1.120 drivers/pwm/pwm-imx27.c (conf 7/10)
+2026-05-11 18:26:17,411 [INFO]       Merged file has duplicated function body and duplicate variable declarations causing compile failure
+2026-05-11 18:26:17,411 [INFO]       - The pwm_imx27_apply() function body is duplicated: after the first 'pwm_imx27_sw_reset(chip);' block, the entire prologue (variable declarations, pwm_get_state, clkrate calc, period/duty calc, cstate handling) appears again — this will not compile (redeclared variables, statements after declarations, etc.)
+2026-05-11 18:26:17,411 [INFO]       - The first declaration block contains both NXP variables (counter_check, sar_last, sar_current, reg_sar, timeout) and a duplicate 'unsigned long flags;' declared twice in the same scope
+2026-05-11 18:26:17,411 [INFO]       - The NXP-specific workaround code (sar_last/sar_current spin_lock based) was supposed to be removed in favor of mainline's ERR051198 workaround but the surrounding declarations were kept, leaving unused variables and a duplicated function preamble
+2026-05-11 18:26:17,411 [INFO] 
+======================================================================
+2026-05-11 18:26:17,411 [INFO] Recommendation: prioritize hardware testing of the subsystems above. Critical (🔴) flags warrant especially careful review.
+2026-05-11 18:26:17,411 [INFO] ======================================================================
+2026-05-11 18:26:17,411 [INFO] Done.

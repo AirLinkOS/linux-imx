@@ -1,0 +1,13 @@
+{
+  "version": "6.1.161",
+  "timestamp": "2026-05-11T18:26:06.840568",
+  "conflicts_total": 0,
+  "conflicts_resolved": 0,
+  "build_success": false,
+  "merged_to_main": false,
+  "error": "Build failed after clean merge",
+  "build_fix_attempts": [],
+  "parent_nxp_sha": "2513608319631a7ab704a5d8c61dd6f1fac2fe04",
+  "merge_commit_sha": "3698f3d97d21c486778a5f24f5d06acf59901064",
+  "resolutions": []
+}

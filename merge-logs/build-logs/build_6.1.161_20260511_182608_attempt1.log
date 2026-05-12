@@ -1,0 +1,72 @@
+make: Entering directory '/home/osaleem/repos/linux-imx'
+  SYNC    include/config/auto.conf.cmd
+  UPD     include/generated/uapi/linux/version.h
+  UPD     include/config/kernel.release
+  UPD     include/generated/utsrelease.h
+  CC      scripts/mod/empty.o
+  CC      scripts/mod/devicetable-offsets.s
+  MKELF   scripts/mod/elfconfig.h
+  HOSTCC  scripts/mod/modpost.o
+  HOSTCC  scripts/mod/sumversion.o
+  HOSTCC  scripts/mod/file2alias.o
+  DTC     arch/arm64/boot/dts/freescale/imx8qm-mek.dtb
+  DTC     arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640.dtb
+  DTC     arch/arm64/boot/dts/freescale/imx8qm-mek-enet2-tja1100.dtb
+  DTC     arch/arm64/boot/dts/freescale/imx8qm-mek-rpmsg.dtb
+  DTC     arch/arm64/boot/dts/freescale/imx8qm-mek-hdmi.dtb
+  DTC     arch/arm64/boot/dts/freescale/imx8qm-mek-jdi-wuxga-lvds1-panel.dtb
+  DTC     arch/arm64/boot/dts/freescale/imx8qm-mek-jdi-wuxga-lvds1-panel-rpmsg.dtb
+  DTC     arch/arm64/boot/dts/freescale/imx8qm-mek-pcie-ep.dtb
+  DTC     arch/arm64/boot/dts/freescale/imx8qm-mek-usdhc3-m2.dtb
+  DTC     arch/arm64/boot/dts/freescale/imx8qm-mek-usd-wifi.dtb
+  DTC     arch/arm64/boot/dts/freescale/imx8qm-mek-hdmi-rx.dtb
+  DTC     arch/arm64/boot/dts/freescale/imx8qm-mek-hdmi-rx-ov5640.dtb
+  DTC     arch/arm64/boot/dts/freescale/imx8qm-mek-ca53.dtb
+arch/arm64/boot/dts/freescale/imx8qm-mek.dts:190.3-28: ERROR (duplicate_property_names): /usdhc2-vmmc:off-on-delay-us: Duplicate property name
+ERROR: Input tree has errors, aborting (use -f to force output)
+make[2]: *** [scripts/Makefile.lib:410: arch/arm64/boot/dts/freescale/imx8qm-mek.dtb] Error 2
+make[2]: *** Waiting for unfinished jobs....
+arch/arm64/boot/dts/freescale/imx8qm-mek.dts:190.3-28: ERROR (duplicate_property_names): /usdhc2-vmmc:off-on-delay-us: Duplicate property name
+ERROR: Input tree has errors, aborting (use -f to force output)
+arch/arm64/boot/dts/freescale/imx8qm-mek.dts:190.3-28: ERROR (duplicate_property_names): /usdhc2-vmmc:off-on-delay-us: Duplicate property name
+ERROR: Input tree has errors, aborting (use -f to force output)
+make[2]: *** [scripts/Makefile.lib:410: arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640.dtb] Error 2
+make[2]: *** [scripts/Makefile.lib:410: arch/arm64/boot/dts/freescale/imx8qm-mek-enet2-tja1100.dtb] Error 2
+arch/arm64/boot/dts/freescale/imx8qm-mek.dts:190.3-28: ERROR (duplicate_property_names): /usdhc2-vmmc:off-on-delay-us: Duplicate property name
+ERROR: Input tree has errors, aborting (use -f to force output)
+arch/arm64/boot/dts/freescale/imx8qm-mek.dts:190.3-28: ERROR (duplicate_property_names): /usdhc2-vmmc:off-on-delay-us: Duplicate property name
+ERROR: Input tree has errors, aborting (use -f to force output)
+make[2]: *** [scripts/Makefile.lib:410: arch/arm64/boot/dts/freescale/imx8qm-mek-rpmsg.dtb] Error 2
+make[2]: *** [scripts/Makefile.lib:410: arch/arm64/boot/dts/freescale/imx8qm-mek-hdmi.dtb] Error 2
+arch/arm64/boot/dts/freescale/imx8qm-mek.dts:190.3-28: ERROR (duplicate_property_names): /usdhc2-vmmc:off-on-delay-us: Duplicate property name
+ERROR: Input tree has errors, aborting (use -f to force output)
+arch/arm64/boot/dts/freescale/imx8qm-mek.dts:190.3-28: ERROR (duplicate_property_names): /usdhc2-vmmc:off-on-delay-us: Duplicate property name
+ERROR: Input tree has errors, aborting (use -f to force output)
+make[2]: *** [scripts/Makefile.lib:410: arch/arm64/boot/dts/freescale/imx8qm-mek-jdi-wuxga-lvds1-panel-rpmsg.dtb] Error 2
+make[2]: *** [scripts/Makefile.lib:410: arch/arm64/boot/dts/freescale/imx8qm-mek-jdi-wuxga-lvds1-panel.dtb] Error 2
+arch/arm64/boot/dts/freescale/imx8qm-mek.dts:190.3-28: ERROR (duplicate_property_names): /usdhc2-vmmc:off-on-delay-us: Duplicate property name
+ERROR: Input tree has errors, aborting (use -f to force output)
+make[2]: *** [scripts/Makefile.lib:410: arch/arm64/boot/dts/freescale/imx8qm-mek-pcie-ep.dtb] Error 2
+arch/arm64/boot/dts/freescale/imx8qm-mek.dts:190.3-28: ERROR (duplicate_property_names): /usdhc2-vmmc:off-on-delay-us: Duplicate property name
+ERROR: Input tree has errors, aborting (use -f to force output)
+make[2]: *** [scripts/Makefile.lib:410: arch/arm64/boot/dts/freescale/imx8qm-mek-usd-wifi.dtb] Error 2
+arch/arm64/boot/dts/freescale/imx8qm-mek.dts:190.3-28: ERROR (duplicate_property_names): /usdhc2-vmmc:off-on-delay-us: Duplicate property name
+ERROR: Input tree has errors, aborting (use -f to force output)
+make[2]: *** [scripts/Makefile.lib:410: arch/arm64/boot/dts/freescale/imx8qm-mek-usdhc3-m2.dtb] Error 2
+arch/arm64/boot/dts/freescale/imx8qm-mek.dts:190.3-28: ERROR (duplicate_property_names): /usdhc2-vmmc:off-on-delay-us: Duplicate property name
+ERROR: Input tree has errors, aborting (use -f to force output)
+arch/arm64/boot/dts/freescale/imx8qm-mek.dts:190.3-28: ERROR (duplicate_property_names): /usdhc2-vmmc:off-on-delay-us: Duplicate property name
+ERROR: Input tree has errors, aborting (use -f to force output)
+arch/arm64/boot/dts/freescale/imx8qm-mek.dts:190.3-28: ERROR (duplicate_property_names): /usdhc2-vmmc:off-on-delay-us: Duplicate property name
+ERROR: Input tree has errors, aborting (use -f to force output)
+make[2]: *** [scripts/Makefile.lib:410: arch/arm64/boot/dts/freescale/imx8qm-mek-hdmi-rx-ov5640.dtb] Error 2
+make[2]: *** [scripts/Makefile.lib:410: arch/arm64/boot/dts/freescale/imx8qm-mek-ca53.dtb] Error 2
+make[2]: *** [scripts/Makefile.lib:410: arch/arm64/boot/dts/freescale/imx8qm-mek-hdmi-rx.dtb] Error 2
+make[1]: *** [scripts/Makefile.build:503: arch/arm64/boot/dts/freescale] Error 2
+make: *** [Makefile:1493: dtbs] Error 2
+make: *** Waiting for unfinished jobs....
+  HOSTLD  scripts/mod/modpost
+  CC      kernel/bounds.s
+  CC      arch/arm64/kernel/asm-offsets.s
+  CALL    scripts/checksyscalls.sh
+make: Leaving directory '/home/osaleem/repos/linux-imx'

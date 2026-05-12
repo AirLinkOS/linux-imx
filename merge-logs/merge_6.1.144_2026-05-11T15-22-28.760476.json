@@ -1,0 +1,31 @@
+{
+  "version": "6.1.144",
+  "timestamp": "2026-05-11T15:22:28.760476",
+  "conflicts_total": 1,
+  "conflicts_resolved": 1,
+  "build_success": true,
+  "merged_to_main": true,
+  "error": null,
+  "build_fix_attempts": [],
+  "parent_nxp_sha": "29562640dde4d7dbc69a297cadef3ec88497c36e",
+  "merge_commit_sha": "da1090ba0cf7a3bc8d9fef573f4ffa473729646c",
+  "resolutions": [
+    {
+      "file": "drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c",
+      "hunk_index": 0,
+      "confidence": 9,
+      "reasoning": "NXP uses dpaa2_eth_free_dpbps (plural, vendor naming). Mainline adds dpaa2_eth_free_rx_xdp_rxq call to fix the xdp_rxq_info leak. Keep NXP's function name and add the new xdp_rxq cleanup call before it, matching the order shown in the error path (free_rx_xdp_rxq then free_dpbps).",
+      "ours": "\tdpaa2_eth_free_dpbps(priv);\n",
+      "theirs": "\tdpaa2_eth_free_rx_xdp_rxq(priv);\n\tdpaa2_eth_free_dpbp(priv);\n",
+      "resolved_code": "\tdpaa2_eth_free_rx_xdp_rxq(priv);\n\tdpaa2_eth_free_dpbps(priv);\n",
+      "api_response_raw": "{\n  \"confidence\": 9,\n  \"reasoning\": \"NXP uses dpaa2_eth_free_dpbps (plural, vendor naming). Mainline adds dpaa2_eth_free_rx_xdp_rxq call to fix the xdp_rxq_info leak. Keep NXP's function name and add the new xdp_rxq cleanup call before it, matching the order shown in the error path (free_rx_xdp_rxq then free_dpbps).\",\n  \"brace_check\": \"0 open, 0 close\",\n  \"resolved_code\": \"\\tdpaa2_eth_free_rx_xdp_rxq(priv);\\n\\tdpaa2_eth_free_dpbps(priv);\\n\"\n}",
+      "context_before": "\terr = dpaa2_eth_dl_port_add(priv);\n\tif (err)\n\t\tgoto err_dl_port_add;\n\n\tnet_dev->needed_headroom = DPAA2_ETH_SWA_SIZE + DPAA2_ETH_TX_BUF_ALIGN;\n\n\terr = register_netdev(net_dev);\n\tif (err < 0) {\n\t\tdev_err(dev, \"register_netdev() failed\\n\");\n\t\tgoto err_netdev_reg;\n\t}\n\n#ifdef CONFIG_DEBUG_FS\n\tdpaa2_dbg_add(priv);\n#endif\n\n\tdpaa2_eth_dl_register(priv);\n\tdev_info(dev, \"Probed interface %s\\n\", net_dev->name);\n\treturn 0;\n\nerr_netdev_reg:\n\tdpaa2_eth_dl_port_del(priv);\nerr_dl_port_add:\n\tdpaa2_eth_dl_traps_unregister(priv);\nerr_dl_trap_register:\n\tdpaa2_eth_dl_free(priv);\nerr_dl_register:\n\tif (priv->do_link_poll)\n\t\tkthread_stop(priv->poll_thread);\n\telse\n\t\tfsl_mc_free_irqs(dpni_dev);\nerr_poll_thread:\n\tdpaa2_eth_disconnect_mac(priv);\nerr_connect_mac:\n\tdpaa2_eth_free_rings(priv);\nerr_alloc_rings:\nerr_csum:\nerr_netdev_init:\n\tfree_percpu(priv->fd);\nerr_alloc_fds:\n\tfree_percpu(priv->sgt_cache);\nerr_alloc_sgt_cache:\n\tfree_percpu(priv->percpu_extras);\nerr_alloc_percpu_extras:\n\tfree_percpu(priv->percpu_stats);\nerr_alloc_percpu_stats:\n\tdpaa2_eth_del_ch_napi(priv);\n\tdpaa2_eth_free_rx_xdp_rxq(priv);\nerr_bind:\n\tdpaa2_eth_free_dpbps(priv);\nerr_dpbp_setup:\n\tdpaa2_eth_free_dpio(priv);\nerr_dpio_setup:\n\tdpaa2_eth_free_dpni(priv);\nerr_dpni_setup:\n\tfsl_mc_portal_free(priv->mc_io);\nerr_portal_alloc:\n\tdestroy_workqueue(priv->dpaa2_ptp_wq);\nerr_wq_alloc:\n\tdev_set_drvdata(dev, NULL);\n\tfree_netdev(net_dev);\n\n\treturn err;\n}\n\nstatic int dpaa2_eth_remove(struct fsl_mc_device *ls_dev)\n{\n\tstruct device *dev;\n\tstruct net_device *net_dev;\n\tstruct dpaa2_eth_priv *priv;\n\n\tdev = &ls_dev->dev;\n\tnet_dev = dev_get_drvdata(dev);\n\tpriv = netdev_priv(net_dev);\n\n\tdpaa2_eth_dl_unregister(priv);\n\n#ifdef CONFIG_DEBUG_FS\n\tdpaa2_dbg_remove(priv);\n#endif\n\n\tunregister_netdev(net_dev);\n\n\tdpaa2_eth_dl_port_del(priv);\n\tdpaa2_eth_dl_traps_unregister(priv);\n\tdpaa2_eth_dl_free(priv);\n\n\tif (priv->do_link_poll)\n\t\tkthread_stop(priv->poll_thread);\n\telse\n\t\tfsl_mc_free_irqs(ls_dev);\n\n\tdpaa2_eth_disconnect_mac(priv);\n\tdpaa2_eth_free_rings(priv);\n\tfree_percpu(priv->fd);\n\tfree_percpu(priv->sgt_cache);\n\tfree_percpu(priv->percpu_stats);\n\tfree_percpu(priv->percpu_extras);\n\n\tdpaa2_eth_del_ch_napi(priv);\n",
+      "context_after": "\tdpaa2_eth_free_dpio(priv);\n\tdpaa2_eth_free_dpni(priv);\n\tif (priv->onestep_reg_base)\n\t\tiounmap(priv->onestep_reg_base);\n\n\tfsl_mc_portal_free(priv->mc_io);\n\n\tdestroy_workqueue(priv->dpaa2_ptp_wq);\n\n\tdev_dbg(net_dev->dev.parent, \"Removed interface %s\\n\", net_dev->name);\n\n\tfree_netdev(net_dev);\n\n\treturn 0;\n}\n\nstatic const struct fsl_mc_device_id dpaa2_eth_match_id_table[] = {\n\t{\n\t\t.vendor = FSL_MC_VENDOR_FREESCALE,\n\t\t.obj_type = \"dpni\",\n\t},\n\t{ .vendor = 0x0 }\n};\nMODULE_DEVICE_TABLE(fslmc, dpaa2_eth_match_id_table);\n\nstatic struct fsl_mc_driver dpaa2_eth_driver = {\n\t.driver = {\n\t\t.name = KBUILD_MODNAME,\n\t\t.owner = THIS_MODULE,\n\t},\n\t.probe = dpaa2_eth_probe,\n\t.remove = dpaa2_eth_remove,\n\t.match_id_table = dpaa2_eth_match_id_table\n};\n\nstatic int __init dpaa2_eth_driver_init(void)\n{\n\tint err;\n\n\tdpaa2_eth_dbg_init();\n\terr = fsl_mc_driver_register(&dpaa2_eth_driver);\n\tif (err)\n\t\tgoto out_debugfs_err;\n\n\terr = dpaa2_ceetm_register();\n\tif (err)\n\t\tgoto out_ceetm_err;\n\n\treturn 0;\n\nout_ceetm_err:\n\tfsl_mc_driver_unregister(&dpaa2_eth_driver);\nout_debugfs_err:\n\tdpaa2_eth_dbg_exit();\n\treturn err;\n}\n\nstatic void __exit dpaa2_eth_driver_exit(void)\n{\n\tdpaa2_ceetm_unregister();\n\tfsl_mc_driver_unregister(&dpaa2_eth_driver);\n\tdpaa2_eth_dbg_exit();\n}\n\nmodule_init(dpaa2_eth_driver_init);\nmodule_exit(dpaa2_eth_driver_exit);\n",
+      "full_conflict": "<<<<<<< HEAD\n\tdpaa2_eth_free_dpbps(priv);\n=======\n\tdpaa2_eth_free_rx_xdp_rxq(priv);\n\tdpaa2_eth_free_dpbp(priv);\n>>>>>>> v6.1.144\n",
+      "start_line": 5146,
+      "end_line": 5151,
+      "verification": null,
+      "superseded_attempts": []
+    }
+  ]
+}

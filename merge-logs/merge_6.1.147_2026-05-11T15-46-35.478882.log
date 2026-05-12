@@ -1,0 +1,11 @@
+2026-05-11 15:46:35,479 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.147_2026-05-11T15-46-35.478882.log
+2026-05-11 15:46:36,616 [INFO] Merge v6.1.147 has 1 conflicted files
+2026-05-11 15:46:36,617 [INFO]   sound/soc/fsl/fsl_sai.c: 1 conflict hunks
+2026-05-11 15:46:36,617 [INFO] Resolving sound/soc/fsl/fsl_sai.c hunk 1...
+2026-05-11 15:46:36,627 [DEBUG] Prompt for sound/soc/fsl/fsl_sai.c hunk 0
+2026-05-11 15:46:41,579 [INFO]   Resolved sound/soc/fsl/fsl_sai.c hunk 0: confidence=8/10 — NXP's version conditionally does software reset only in master mode (when !is_consumer_mode[tx]). Th
+2026-05-11 15:46:42,125 [INFO] All conflicts resolved. Confidence: min=8, avg=8.0
+2026-05-11 15:46:45,096 [INFO] Build attempt 1/4...
+2026-05-11 15:58:02,750 [INFO] Build succeeded.
+2026-05-11 15:58:03,338 [INFO] Successfully merged v6.1.147 into lf-6.1.y-semtech
+2026-05-11 15:58:05,810 [INFO] Pushed lf-6.1.y-semtech to origin

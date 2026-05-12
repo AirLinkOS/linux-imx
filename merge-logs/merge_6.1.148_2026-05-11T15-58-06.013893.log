@@ -1,0 +1,26 @@
+2026-05-11 15:58:06,014 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.148_2026-05-11T15-58-06.013893.log
+2026-05-11 15:58:07,340 [INFO] Merge v6.1.148 has 4 conflicted files
+2026-05-11 15:58:07,342 [INFO]   drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c: 1 conflict hunks
+2026-05-11 15:58:07,343 [INFO]   drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c: 1 conflict hunks
+2026-05-11 15:58:07,343 [INFO]   drivers/usb/chipidea/ci.h: 2 conflict hunks
+2026-05-11 15:58:07,344 [INFO]   drivers/usb/phy/phy-mxs-usb.c: 1 conflict hunks
+2026-05-11 15:58:07,344 [INFO] Resolving drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c hunk 1...
+2026-05-11 15:58:07,363 [DEBUG] Prompt for drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c hunk 0
+2026-05-11 15:58:11,419 [INFO]   Resolved drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c hunk 0: confidence=8/10 — NXP added a dpaa2_mac_driver_detach() call (vendor-specific MAC handling). Mainline stable added a t
+2026-05-11 15:58:11,420 [INFO] Resolving drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c hunk 1...
+2026-05-11 15:58:11,448 [DEBUG] Prompt for drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c hunk 0
+2026-05-11 15:58:16,720 [INFO]   Resolved drivers/net/ethernet/freescale/dpaa2/dpaa2-switch.c hunk 0: confidence=8/10 — NXP side adds dpaa2_mac_driver_detach() call (vendor-specific MAC driver handling). Mainline stable 
+2026-05-11 15:58:16,721 [INFO] Resolving drivers/usb/chipidea/ci.h hunk 1...
+2026-05-11 15:58:16,746 [DEBUG] Prompt for drivers/usb/chipidea/ci.h hunk 0
+2026-05-11 15:58:21,677 [INFO]   Resolved drivers/usb/chipidea/ci.h hunk 0: confidence=9/10 — NXP uses usb_phy_set_mode() with CUR_USB_MODE_* (their custom API for setting PHY mode), while mainl
+2026-05-11 15:58:21,678 [INFO] Resolving drivers/usb/chipidea/ci.h hunk 2...
+2026-05-11 15:58:21,706 [DEBUG] Prompt for drivers/usb/chipidea/ci.h hunk 1
+2026-05-11 15:58:24,860 [INFO]   Resolved drivers/usb/chipidea/ci.h hunk 1: confidence=9/10 — NXP uses usb_phy_set_mode() API with CUR_USB_MODE_* values (their custom extension), while mainline 
+2026-05-11 15:58:24,861 [INFO] Resolving drivers/usb/phy/phy-mxs-usb.c hunk 1...
+2026-05-11 15:58:24,889 [DEBUG] Prompt for drivers/usb/phy/phy-mxs-usb.c hunk 0
+2026-05-11 15:58:28,723 [INFO]   Resolved drivers/usb/phy/phy-mxs-usb.c hunk 0: confidence=8/10 — NXP uses mxs_phy->mode != CUR_USB_MODE_HOST to check if not in host mode, while mainline stable uses
+2026-05-11 15:58:29,515 [INFO] All conflicts resolved. Confidence: min=8, avg=8.4
+2026-05-11 15:58:32,184 [INFO] Build attempt 1/4...
+2026-05-11 16:09:47,740 [INFO] Build succeeded.
+2026-05-11 16:09:48,620 [INFO] Successfully merged v6.1.148 into lf-6.1.y-semtech
+2026-05-11 16:09:53,285 [INFO] Pushed lf-6.1.y-semtech to origin

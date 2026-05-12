@@ -1,0 +1,11 @@
+2026-05-11 16:09:53,527 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.149_2026-05-11T16-09-53.526899.log
+2026-05-11 16:09:55,063 [INFO] Merge v6.1.149 has 1 conflicted files
+2026-05-11 16:09:55,064 [INFO]   sound/soc/fsl/fsl_esai.c: 1 conflict hunks
+2026-05-11 16:09:55,064 [INFO] Resolving sound/soc/fsl/fsl_esai.c hunk 1...
+2026-05-11 16:09:55,100 [DEBUG] Prompt for sound/soc/fsl/fsl_esai.c hunk 0
+2026-05-11 16:10:00,420 [INFO]   Resolved sound/soc/fsl/fsl_esai.c hunk 0: confidence=9/10 — OUR side defines fsl_esai_dai_ops with .shutdown callback. THEIR side is empty because mainline move
+2026-05-11 16:10:01,035 [INFO] All conflicts resolved. Confidence: min=9, avg=9.0
+2026-05-11 16:10:03,906 [INFO] Build attempt 1/4...
+2026-05-11 16:21:37,922 [INFO] Build succeeded.
+2026-05-11 16:21:39,257 [INFO] Successfully merged v6.1.149 into lf-6.1.y-semtech
+2026-05-11 16:21:44,334 [INFO] Pushed lf-6.1.y-semtech to origin

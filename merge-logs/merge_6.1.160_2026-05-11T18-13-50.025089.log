@@ -1,0 +1,34 @@
+2026-05-11 18:13:50,025 [INFO] Per-merge log: /home/osaleem/repos/linux-imx/merge-logs/merge_6.1.160_2026-05-11T18-13-50.025089.log
+2026-05-11 18:13:51,668 [INFO] Merge v6.1.160 has 3 conflicted files
+2026-05-11 18:13:51,670 [INFO]   drivers/mmc/host/Kconfig: 2 conflict hunks
+2026-05-11 18:13:51,671 [INFO]   drivers/spi/spi-imx.c: 1 conflict hunks
+2026-05-11 18:13:51,672 [INFO]   sound/soc/fsl/fsl_xcvr.c: 5 conflict hunks
+2026-05-11 18:13:51,672 [INFO] Resolving drivers/mmc/host/Kconfig hunk 1...
+2026-05-11 18:13:51,713 [DEBUG] Prompt for drivers/mmc/host/Kconfig hunk 0
+2026-05-11 18:13:55,543 [INFO]   Resolved drivers/mmc/host/Kconfig hunk 0: confidence=9/10 — NXP added SOC_S32V234, mainline added ARCH_S32. Combine both to preserve NXP's S32V234 support and a
+2026-05-11 18:13:55,544 [INFO] Resolving drivers/mmc/host/Kconfig hunk 2...
+2026-05-11 18:13:55,582 [DEBUG] Prompt for drivers/mmc/host/Kconfig hunk 1
+2026-05-11 18:13:59,270 [INFO]   Resolved drivers/mmc/host/Kconfig hunk 1: confidence=8/10 — Hunk 1 (depends line): NXP added SOC_S32V234, mainline added ARCH_S32. Keep both. Hunk 2 (this hunk)
+2026-05-11 18:13:59,271 [INFO] Resolving drivers/spi/spi-imx.c hunk 1...
+2026-05-11 18:13:59,311 [DEBUG] Prompt for drivers/spi/spi-imx.c hunk 0
+2026-05-11 18:14:04,635 [INFO]   Resolved drivers/spi/spi-imx.c hunk 0: confidence=8/10 — NXP added slave_mode handling with an if/else block around the trigger and wait. Mainline stable com
+2026-05-11 18:14:04,636 [INFO] Resolving sound/soc/fsl/fsl_xcvr.c hunk 1...
+2026-05-11 18:14:04,672 [DEBUG] Prompt for sound/soc/fsl/fsl_xcvr.c hunk 0
+2026-05-11 18:14:08,814 [INFO]   Resolved sound/soc/fsl/fsl_xcvr.c hunk 0: confidence=9/10 — NXP vendor kernel has these struct definitions in a header file (fsl_xcvr.h), while mainline stable 
+2026-05-11 18:14:08,815 [INFO] Resolving sound/soc/fsl/fsl_xcvr.c hunk 2...
+2026-05-11 18:14:08,851 [DEBUG] Prompt for sound/soc/fsl/fsl_xcvr.c hunk 1
+2026-05-11 18:14:12,915 [INFO]   Resolved sound/soc/fsl/fsl_xcvr.c hunk 1: confidence=10/10 — This hunk is only a whitespace/indentation change (spaces vs tabs alignment). Both sides are functio
+2026-05-11 18:14:12,916 [INFO] Resolving sound/soc/fsl/fsl_xcvr.c hunk 3...
+2026-05-11 18:14:12,952 [DEBUG] Prompt for sound/soc/fsl/fsl_xcvr.c hunk 2
+2026-05-11 18:14:16,623 [INFO]   Resolved sound/soc/fsl/fsl_xcvr.c hunk 2: confidence=9/10 — This hunk is just a whitespace/indentation difference for the continuation line of memcpy_fromio. Bo
+2026-05-11 18:14:16,624 [INFO] Resolving sound/soc/fsl/fsl_xcvr.c hunk 4...
+2026-05-11 18:14:16,659 [DEBUG] Prompt for sound/soc/fsl/fsl_xcvr.c hunk 3
+2026-05-11 18:14:25,160 [INFO]   Resolved sound/soc/fsl/fsl_xcvr.c hunk 3: confidence=9/10 — Two conflicts in this hunk. First: NXP uses memset_io while mainline uses writel_relaxed - functiona
+2026-05-11 18:14:25,161 [INFO] Resolving sound/soc/fsl/fsl_xcvr.c hunk 5...
+2026-05-11 18:14:25,197 [DEBUG] Prompt for sound/soc/fsl/fsl_xcvr.c hunk 4
+2026-05-11 18:14:31,682 [INFO]   Resolved sound/soc/fsl/fsl_xcvr.c hunk 4: confidence=9/10 — NXP adds .use_edma = true to the imx93 soc_data struct; mainline has nothing extra. Keep NXP's addit
+2026-05-11 18:14:32,482 [INFO] All conflicts resolved. Confidence: min=8, avg=8.9
+2026-05-11 18:14:35,152 [INFO] Build attempt 1/4...
+2026-05-11 18:25:53,539 [INFO] Build succeeded.
+2026-05-11 18:25:54,938 [INFO] Successfully merged v6.1.160 into lf-6.1.y-semtech
+2026-05-11 18:26:06,532 [INFO] Pushed lf-6.1.y-semtech to origin
